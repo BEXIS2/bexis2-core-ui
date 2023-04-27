@@ -1,6 +1,7 @@
 {
-  "name": "@bexis2/BEXIS2-core-ui",
-  "version": "0.0.1",
+  "name": "@bexis2/bexis2-core-ui",
+  "version": "0.0.3",
+  "private": false,
   "scripts": {
     "dev": "vite dev",
     "build": "svelte-kit sync && svelte-package --watch",
@@ -11,7 +12,8 @@
     "lint": "prettier --plugin-search-dir . --check . && eslint .",
     "format": "prettier --plugin-search-dir . --write .",
     "init": "npm init --scope bexis2",
-    "link": "npm link"
+    "link": "npm link",
+    "publish": "npm publish ./package/ --access public"
   },
   "devDependencies": {
     "@playwright/test": "^1.28.1",
@@ -183,6 +185,18 @@
     "yallist": "^4.0.0",
     "yocto-queue": "^0.1.0"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "David Schöne",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BEXIS2/bexis2-core-ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/BEXIS2/bexis2-core-ui/issues"
+  },
+  "homepage": "https://github.com/BEXIS2/bexis2-core-ui#readme",
+  "keywords": [
+    "bexis2",
+    "libary"
+  ]
 }
