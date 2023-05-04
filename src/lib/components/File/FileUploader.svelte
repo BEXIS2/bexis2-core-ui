@@ -1,12 +1,12 @@
-<script lang="ts" >
+<script type="ts">
 
 import type { FileUploaderModel, FileInfo, Files} from '../../models/Models.js'
 
 
-import DropZone from "svelte-file-dropzone/src/index";
-import {Fa} from 'svelte-fa/src/index.js'
+import DropZone from "svelte-file-dropzone/Dropzone.svelte";
+import {Fa} from 'svelte-fa'
 
-import { Spinner, Button, Row,Col, Input } from 'sveltestrap';
+import Spinner from '../Spinner/Spinner.svelte';
 import { createEventDispatcher } from 'svelte';
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { faSave } from '@fortawesome/free-regular-svg-icons'
@@ -183,7 +183,7 @@ async function handleSubmit() {
 <form on:submit|preventDefault={handleSubmit}>
     {#if model}
       <!--if model exist  -->
-      <Row>
+      <div>
 
         <DropZone 
           on:drop={handleFilesSelect} 
@@ -203,13 +203,13 @@ async function handleSubmit() {
           </p>
         </DropZone>
 
-      </Row> 
+      </div>
 
-      <Button id="{submitBt}" color="primary" style="display:none" ><Fa icon={faSave}/></Button>      
+      <button id="{submitBt}" color="primary" style="display:none" ><Fa icon={faSave}/></button>
 
     {:else} <!-- while data is not loaded show a loading information -->
 
-    <Spinner color="info" size="sm" type ="grow" />
+      <Spinner/>
     {/if}
 
 </form> 
