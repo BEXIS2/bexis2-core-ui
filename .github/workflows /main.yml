@@ -1,0 +1,48 @@
+name: GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # Set a branch name to trigger deployment
+  pull_request:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-20.04 # Set platform for runner
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Cache pnpm modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.20.1
+          run_install: true
+
+      - run: pnpm i # Run install
+      - run: |
+          sed -i '/2\.11\.6/a \ \ "type": "module",' node_modules/@popperjs/core/package.json  # Add a line to package.json in Popper lib to enable a successful build
+      - run: |
+          cat node_modules/@popperjs/core/package.json
+      - run: pnpm run build # Run build
+      - run: dir
+      - run: cp -a static/. ./build/ # Copy missing files to build folder
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        if: ${{ github.ref == 'refs/heads/main' }}
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build # Copy all files from the build folder to the gh-page branch
