@@ -2,7 +2,7 @@
 export interface FileInfo {
  name:string,
  type:string,
- lenght:number,
+ length:number,
  description:string,
  validationHash:string,
 
