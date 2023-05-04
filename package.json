@@ -56,10 +56,12 @@
     "@fortawesome/fontawesome-svg-core": "^6.2.1",
     "@fortawesome/free-regular-svg-icons": "^6.2.1",
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
+    "@sveltejs/adapter-static": "^2.0.1",
     "axios": "^1.2.1",
     "svelte": "^3.54.0",
     "svelte-fa": "^3.0.3",
     "svelte-file-dropzone": "^2.0.1"
+
   },
   "author": "David Schöne",
   "license": "ISC",
