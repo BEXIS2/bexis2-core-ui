@@ -32,10 +32,6 @@ jobs:
           run_install: true
 
       - run: pnpm i # Run install
-      - run: |
-          sed -i '/2\.11\.6/a \ \ "type": "module",' node_modules/@popperjs/core/package.json  # Add a line to package.json in Popper lib to enable a successful build
-      - run: |
-          cat node_modules/@popperjs/core/package.json
       - run: pnpm run build # Run build
       - run: dir
       - run: cp -a static/. ./build/ # Copy missing files to build folder
