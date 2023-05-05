@@ -1,10 +1,10 @@
-<script type="ts">
+<script lang="ts">
 
 import type { FileUploaderModel, FileInfo, Files} from '../../models/Models.js'
 
 
 import DropZone from "svelte-file-dropzone/Dropzone.svelte";
-import {Fa} from 'svelte-fa'
+import Fa from 'svelte-fa/src/fa.svelte'
 
 import Spinner from '../Spinner/Spinner.svelte';
 import { createEventDispatcher } from 'svelte';
@@ -73,7 +73,7 @@ async function load()
   
   // load menu froms server
   const res = await Api.get(url);
-  model = await res.json();
+  model = await res.data();
 
   console.log("fileupload",model);
   
