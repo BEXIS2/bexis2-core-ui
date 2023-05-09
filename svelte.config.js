@@ -1,4 +1,5 @@
 import adapter from '@sveltejs/adapter-static';
+import path from 'path';
 import { vitePreprocess } from '@sveltejs/kit/vite';
 
 /** @type {import('@sveltejs/kit').Config} */
@@ -15,7 +16,10 @@ const config = {
 			precompress: false,
 			ssr: true
 		}
-		)
+		),
+		alias: {
+			 $docs: path.resolve('./src/docs')
+		}
 
 	}
 };
