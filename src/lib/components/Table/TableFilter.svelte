@@ -33,11 +33,11 @@
 </script>
 
 <form class="" on:submit|preventDefault={filter}>
-	<button class="btn btn-icon variant-ghost-primary" on:click={() => (isOpen = !isOpen)} type="button">
+	<button class="btn variant-filled-primary w-min p-2" on:click={() => (isOpen = !isOpen)} type="button">
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
-			width="16"
-			height="16"
+			width="12"
+			height="12"
 			fill="currentColor"
 			class="bi bi-funnel-fill"
 			viewBox="0 0 16 16"

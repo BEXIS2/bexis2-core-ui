@@ -9,12 +9,13 @@
 		addTableFilter
 	} from 'svelte-headless-table/plugins';
 
-	import filter, {searchFilter} from './filter';
+	import filter, { searchFilter } from './filter';
 	import TableFilter from './TableFilter.svelte';
 
 	export let data;
 	export let component;
 	export let excluded: AccessorType[] = [];
+	export let pageSizes = [5, 10, 15, 20];
 
 	type AccessorType = keyof (typeof data)[0];
 
@@ -35,8 +36,8 @@
 	const table = createTable(filteredData, {
 		colFilter: addColumnFilters(),
 		tableFilter: addTableFilter({
-            fn: searchFilter
-        }),
+			fn: searchFilter
+		}),
 		sort: addSortBy({ disableMultiSort: true }),
 		page: addPagination({ initialPageSize: 10 }),
 		expand: addExpandedRows()
@@ -73,7 +74,7 @@
 	const { filterValue } = pluginStates.tableFilter;
 </script>
 
-<div class="grid gap-5">
+<div class="grid gap-2">
 	<div class="table-container">
 		<input
 			class="input p-2 mb-2 border border-primary-500"
@@ -81,7 +82,7 @@
 			bind:value={$filterValue}
 			placeholder="Search rows..."
 		/>
-		<table {...$tableAttrs} class="table table-hover bg-primary-50">
+		<table {...$tableAttrs} class="table table-compact bg-primary-50">
 			<thead>
 				{#each $headerRows as headerRow (headerRow.id)}
 					<Subscribe
@@ -93,7 +94,7 @@
 						<tr {...rowAttrs} class="bg-primary-300">
 							{#each headerRow.cells as cell (cell.id)}
 								<Subscribe attrs={cell.attrs()} props={cell.props()} let:props let:attrs>
-									<th scope="col" {...attrs} class="">
+									<th scope="col" class="!p-2" {...attrs}>
 										<div class="flex w-full justify-between items-center">
 											<div class="flex gap-1">
 												<span
@@ -133,7 +134,7 @@
 						<tr {...rowAttrs}>
 							{#each row.cells as cell (cell?.id)}
 								<Subscribe attrs={cell.attrs()} let:attrs>
-									<td {...attrs}>
+									<td {...attrs} class="!p-2">
 										<div class="flex items-center w-full h-full">
 											<Render of={cell.render()} />
 										</div>
@@ -162,13 +163,12 @@
 		<select
 			name=""
 			id=""
-			class="select btn variant-filled-primary w-min px-2 font-bold"
+			class="select btn btn-sm variant-filled-primary w-min font-bold"
 			bind:value={$pageSize}
 		>
-			<option value={5}>5</option>
-			<option value={10}>10</option>
-			<option value={15}>15</option>
-			<option value={20}>20</option>
+			{#each pageSizes as size}
+				<option value={size}>{size}</option>
+			{/each}
 		</select>
 
 		<button
