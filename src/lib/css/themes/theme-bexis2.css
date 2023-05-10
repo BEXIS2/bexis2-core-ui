@@ -2,7 +2,7 @@
 	/* =~= Theme Properties =~= */
 	--theme-font-family-base: system-ui;
 	--theme-font-family-heading: system-ui;
-	--theme-font-color-base: 0 0 0;
+	--theme-font-color-base: var(--color-surface-900);
 	--theme-font-color-dark: 255 255 255;
 	--theme-rounded-base: 4px;
 	--theme-rounded-container: 4px;
@@ -82,17 +82,16 @@
 	--color-error-700: 191 0 0; /* ⬅ #bf0000 */
 	--color-error-800: 153 0 0; /* ⬅ #990000 */
 	--color-error-900: 125 0 0; /* ⬅ #7d0000 */
-	/* surface | #FFFFFF */
-	--color-surface-50: 255 255 255; /* ⬅ #ffffff */
-	--color-surface-100: 255 255 255; /* ⬅ #ffffff */
-	--color-surface-200: 255 255 255; /* ⬅ #ffffff */
-	--color-surface-300: 255 255 255; /* ⬅ #ffffff */
-	--color-surface-400: 255 255 255; /* ⬅ #ffffff */
-	--color-surface-500: 255 255 255; /* ⬅ #FFFFFF */
-	--color-surface-600: 230 230 230; /* ⬅ #e6e6e6 */
-	--color-surface-700: 191 191 191; /* ⬅ #bfbfbf */
-    /* dark mode surface | #1f2937 */
-	--color-surface-800: 19 25 33; /* ⬅ #131921 */
-	--color-surface-900: 15 20 27; /* ⬅ #0f141b */
-	
+/* surface | #dddddd */
+--color-surface-50: 250 250 250; /* ⬅ #fafafa */
+--color-surface-100: 248 248 248; /* ⬅ #f8f8f8 */
+--color-surface-200: 247 247 247; /* ⬅ #f7f7f7 */
+--color-surface-300: 241 241 241; /* ⬅ #f1f1f1 */
+--color-surface-400: 231 231 231; /* ⬅ #e7e7e7 */
+--color-surface-500: 221 221 221; /* ⬅ #dddddd */
+--color-surface-600: 199 199 199; /* ⬅ #c7c7c7 */
+--color-surface-700: 166 166 166; /* ⬅ #a6a6a6 */
+--color-surface-800: 133 133 133; /* ⬅ #858585 */
+--color-surface-900: 108 108 108; /* ⬅ #6c6c6c */
+
 }
