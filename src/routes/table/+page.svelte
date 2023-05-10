@@ -1,4 +1,6 @@
 <script lang="ts">
+    import "$lib/css/themes/theme-bexis2.css";
+
 	import Table from '$lib/components/Table/Table.svelte';
 	import { userGroups, users } from '$lib/components/Table/data';
 	import TableOptions from '$lib/components/Table/TableOptions.svelte';

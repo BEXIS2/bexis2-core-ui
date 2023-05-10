@@ -33,7 +33,7 @@
 </script>
 
 <form class="" on:submit|preventDefault={filter}>
-	<button class="btn btn-icon variant-soft" on:click={() => (isOpen = !isOpen)} type="button">
+	<button class="btn btn-icon variant-ghost-primary" on:click={() => (isOpen = !isOpen)} type="button">
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
 			width="16"
@@ -53,6 +53,6 @@
 		<Filter bind:filterOption={firstFilter} bind:filterValue={firstInput} {type} />
 		<label for="" class="label normal-case">And</label>
 		<Filter bind:filterOption={secondFilter} bind:filterValue={secondInput} {type} />
-		<button class="btn variant-filled" type="submit">Submit</button>
+		<button class="btn variant-filled-primary" type="submit">Submit</button>
 	</div>
 </form>
