@@ -9,7 +9,7 @@
 		addTableFilter
 	} from 'svelte-headless-table/plugins';
 
-	import filter from './filter';
+	import filter, {searchFilter} from './filter';
 	import TableFilter from './TableFilter.svelte';
 
 	export let data;
@@ -34,7 +34,9 @@
 
 	const table = createTable(filteredData, {
 		colFilter: addColumnFilters(),
-		tableFilter: addTableFilter(),
+		tableFilter: addTableFilter({
+            fn: searchFilter
+        }),
 		sort: addSortBy({ disableMultiSort: true }),
 		page: addPagination({ initialPageSize: 10 }),
 		expand: addExpandedRows()

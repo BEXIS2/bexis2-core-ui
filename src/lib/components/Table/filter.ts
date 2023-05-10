@@ -1,3 +1,5 @@
+import type { TableFilterFn } from 'svelte-headless-table/lib/plugins/addTableFilter';
+
 const filter = (filter, column, items) => {
 	if (!filter.value.length) return items;
 
@@ -25,6 +27,13 @@ const filter = (filter, column, items) => {
 		default:
 			return items;
 	}
+};
+
+export const searchFilter: TableFilterFn = ({ filterValue, value }) => {
+	if (value.toLowerCase().includes(filterValue.toLowerCase())) {
+		return true;
+	}
+	return false;
 };
 
 export default filter;
