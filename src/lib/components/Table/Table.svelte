@@ -154,7 +154,14 @@
 		on:click={() => $pageIndex--}
 		disabled={!$hasPreviousPage}>{'<'}</button
 	>
-	<!-- TODO: Add page size dropdown -->
+
+	<select name="" id="" class="select btn variant-filled w-min px-2" bind:value={$pageSize}>
+		<option value={5}>5</option>
+		<option value={10}>10</option>
+		<option value={15}>15</option>
+		<option value={20}>20</option>
+	</select>
+
 	<button class="btn btn-sm variant-filled" on:click={() => $pageIndex++} disabled={!$hasNextPage}
 		>{'>'}</button
 	>
