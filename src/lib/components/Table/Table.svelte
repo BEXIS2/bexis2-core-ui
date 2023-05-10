@@ -34,10 +34,8 @@
 	};
 
 	const table = createTable(filteredData, {
-		filter: addColumnFilters(),
-		tableFilter: addTableFilter({
-			includeHiddenColumns: true
-		}),
+		colFilter: addColumnFilters(),
+		tableFilter: addTableFilter(),
 		sort: addSortBy({ disableMultiSort: true }),
 		page: addPagination({ initialPageSize: 10 }),
 		expand: addExpandedRows()
@@ -71,9 +69,16 @@
 	const { headerRows, pageRows, tableAttrs, tableBodyAttrs, pluginStates } =
 		table.createViewModel(columns);
 	const { pageIndex, pageCount, pageSize, hasNextPage, hasPreviousPage } = pluginStates.page;
+	const { filterValue } = pluginStates.tableFilter;
 </script>
 
 <div class="table-container">
+	<input
+		class="input p-2 mb-2"
+		type="text"
+		bind:value={$filterValue}
+		placeholder="Search rows..."
+	/>
 	<table {...$tableAttrs} class="table table-hover">
 		<thead>
 			{#each $headerRows as headerRow (headerRow.id)}
