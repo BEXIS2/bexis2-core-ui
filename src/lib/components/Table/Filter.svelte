@@ -60,10 +60,10 @@
 </script>
 
 <div class="grid w-max gap-2">
-	<select class="select border border-primary-500" aria-label="Show rows with value that" bind:value={filterOption}>
+	<select class="select border border-primary-500 text-sm p-1" aria-label="Show rows with value that" bind:value={filterOption}>
 		{#each options[type] as option (option)}
 			<option value={option.value}>{option.label}</option>
 		{/each}
 	</select>
-	<input type="text" class="input p-2 border border-primary-500" bind:value={filterValue} />
+	<input type="text" class="input p-1 border border-primary-500" bind:value={filterValue} />
 </div>

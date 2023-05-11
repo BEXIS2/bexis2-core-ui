@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
+	import { popup } from '@skeletonlabs/skeleton';
+	import type { PopupSettings } from '@skeletonlabs/skeleton';
 
 	import Filter from './Filter.svelte';
 
@@ -30,10 +32,16 @@
 
 		isOpen = false;
 	};
+
+	const popupFeatured: PopupSettings = {
+		event: 'click',
+		target: `filter-${column}`,
+		placement: 'bottom'
+	};
 </script>
 
 <form class="" on:submit|preventDefault={filter}>
-	<button class="btn variant-filled-primary w-min p-2" on:click={() => (isOpen = !isOpen)} type="button">
+	<button class="btn variant-filled-primary w-min p-2" type="button" use:popup={popupFeatured}>
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
 			width="12"
@@ -47,12 +55,13 @@
 			/>
 		</svg>
 	</button>
-
-	<div class="card p-3 absolute grid gap-2 shadow-lg z-10" class:hidden={!isOpen}>
-		<label for="" class="label normal-case">Show rows with value that</label>
-		<Filter bind:filterOption={firstFilter} bind:filterValue={firstInput} {type} />
-		<label for="" class="label normal-case">And</label>
-		<Filter bind:filterOption={secondFilter} bind:filterValue={secondInput} {type} />
-		<button class="btn variant-filled-primary" type="submit">Submit</button>
+	<div data-popup={`filter-${column}`}>
+		<div class="card p-3 absolute grid gap-2 shadow-lg z-10 w-min">
+			<label for="" class="label normal-case text-sm">Show rows with value that</label>
+			<Filter bind:filterOption={firstFilter} bind:filterValue={firstInput} {type} />
+			<label for="" class="label normal-case">And</label>
+			<Filter bind:filterOption={secondFilter} bind:filterValue={secondInput} {type} />
+			<button class="btn variant-filled-primary btn-sm" type="submit">Submit</button>
+		</div>
 	</div>
 </form>

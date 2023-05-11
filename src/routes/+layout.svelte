@@ -5,8 +5,12 @@
 	import '@skeletonlabs/skeleton/styles/all.css';
 	// Most of your app wide CSS should be put in this file
 	import '../app.postcss';
+	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
+	import { storePopup } from '@skeletonlabs/skeleton';
 	import { AppShell, TableOfContents } from '@skeletonlabs/skeleton';
 	import Navigation from '$docs/Navigation.svelte';
+
+	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 </script>
 
 
