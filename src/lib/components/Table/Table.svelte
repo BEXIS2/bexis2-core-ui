@@ -11,6 +11,7 @@
 
 	import filter, { searchFilter } from './filter';
 	import TableFilter from './TableFilter.svelte';
+	import TablePagination from './TablePagination.svelte';
 
 	export let data;
 	export let component;
@@ -71,7 +72,6 @@
 
 	const { headerRows, pageRows, tableAttrs, tableBodyAttrs, pluginStates } =
 		table.createViewModel(columns);
-	const { pageIndex, pageCount, pageSize, hasNextPage, hasPreviousPage } = pluginStates.page;
 	const { filterValue } = pluginStates.tableFilter;
 </script>
 
@@ -149,38 +149,5 @@
 		</table>
 	</div>
 
-	<div class="flex justify-center gap-1">
-		<button
-			class="btn btn-sm variant-filled-primary"
-			on:click={() => ($pageIndex = 0)}
-			disabled={!$pageIndex}>{'<<'}</button
-		>
-		<button
-			class="btn btn-sm variant-filled-primary"
-			on:click={() => $pageIndex--}
-			disabled={!$hasPreviousPage}>{'<'}</button
-		>
-
-		<select
-			name=""
-			id=""
-			class="select btn btn-sm variant-filled-primary w-min font-bold"
-			bind:value={$pageSize}
-		>
-			{#each pageSizes as size}
-				<option value={size}>{size}</option>
-			{/each}
-		</select>
-
-		<button
-			class="btn btn-sm variant-filled-primary"
-			on:click={() => $pageIndex++}
-			disabled={!$hasNextPage}>{'>'}</button
-		>
-		<button
-			class="btn btn-sm variant-filled-primary"
-			on:click={() => ($pageIndex = $pageCount - 1)}
-			disabled={$pageIndex == $pageCount - 1}>{'>>'}</button
-		>
-	</div>
+	<TablePagination pageConfig={pluginStates.page} {pageSizes} />
 </div>
