@@ -11,5 +11,5 @@
 	<Table data={userGroups} component={TableOptions} />
 
 	<h1>Users <span class="text-xl">IDs excluded</span></h1>
-	<Table data={users} component={TableOptions} excluded={['id']} />
+	<Table data={users} component={TableOptions} excluded={['id']} pageSizes={[1, 2, 3]} defaultPageSize={2} />
 </div>

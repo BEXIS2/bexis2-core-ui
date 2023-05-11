@@ -15,6 +15,7 @@
 	export let data;
 	export let component;
 	export let excluded: AccessorType[] = [];
+	export let defaultPageSize = 10;
 	export let pageSizes = [5, 10, 15, 20];
 
 	type AccessorType = keyof (typeof data)[0];
@@ -39,7 +40,7 @@
 			fn: searchFilter
 		}),
 		sort: addSortBy({ disableMultiSort: true }),
-		page: addPagination({ initialPageSize: 10 }),
+		page: addPagination({ initialPageSize: defaultPageSize }),
 		expand: addExpandedRows()
 	});
 
@@ -82,7 +83,7 @@
 			bind:value={$filterValue}
 			placeholder="Search rows..."
 		/>
-		<table {...$tableAttrs} class="table table-compact bg-primary-50">
+		<table {...$tableAttrs} class="table table-compact bg-tertiary-200">
 			<thead>
 				{#each $headerRows as headerRow (headerRow.id)}
 					<Subscribe
@@ -135,7 +136,7 @@
 							{#each row.cells as cell (cell?.id)}
 								<Subscribe attrs={cell.attrs()} let:attrs>
 									<td {...attrs} class="!p-2">
-										<div class="flex items-center w-full h-full">
+										<div class="flex items-center w-full h-full table-cell-fit">
 											<Render of={cell.render()} />
 										</div>
 									</td>
