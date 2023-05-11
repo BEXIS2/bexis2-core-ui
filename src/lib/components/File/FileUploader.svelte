@@ -6,7 +6,7 @@ import type { FileUploaderModel, FileInfo, Files} from '../../models/Models.js'
 import DropZone from "svelte-file-dropzone/Dropzone.svelte";
 import Fa from 'svelte-fa/src/fa.svelte'
 
-import Spinner from '../Spinner/Spinner.svelte';
+import Spinner from '../spinner/Spinner.svelte';
 import { createEventDispatcher } from 'svelte';
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { faSave } from '@fortawesome/free-regular-svg-icons'

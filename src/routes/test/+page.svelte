@@ -1,5 +1,5 @@
 <script>
-import Spinner from '../../lib/components/Spinner/Spinner.svelte' 
+import Spinner from '../../lib/components/spinner/Spinner.svelte' 
 
 </script>
 
