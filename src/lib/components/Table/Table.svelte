@@ -9,12 +9,12 @@
 		addTableFilter
 	} from 'svelte-headless-table/plugins';
 
-	import filter, { searchFilter } from './filter';
-	import TableFilter from './TableFilter.svelte';
+	import { columnFilter, searchFilter } from './filter';
 	import TablePagination from './TablePagination.svelte';
 
 	export let data;
-	export let component;
+	export let optionsComponent;
+	export let filterComponent;
 	export let excluded: AccessorType[] = [];
 	export let defaultPageSize = 10;
 	export let pageSizes = [5, 10, 15, 20];
@@ -27,13 +27,6 @@
 		description: 'text'
 	};
 	const filteredData = writable(data);
-
-	const handleFiltering = (e) => {
-		const { column, firstFilter, secondFilter } = e.detail;
-		const firstFiltered = filter(firstFilter, column, data);
-		const secondFiltered = filter(secondFilter, column, firstFiltered);
-		filteredData.set(secondFiltered);
-	};
 
 	const table = createTable(filteredData, {
 		colFilter: addColumnFilters(),
@@ -55,7 +48,12 @@
 					header: item,
 					accessor: item,
 					plugins: {
-						sort: { invert: true }
+						sort: { invert: true },
+						colFilter: {
+							fn: columnFilter,
+							render: ({ filterValue, values }) =>
+								createRender(filterComponent, { filterValue, values })
+						}
 					}
 				} as any);
 			}),
@@ -63,7 +61,7 @@
 			id: 'options',
 			header: '',
 			cell: ({ row }, _) => {
-				return createRender(component, {
+				return createRender(optionsComponent, {
 					row: row.isData() ? row.original : null
 				});
 			}
@@ -114,11 +112,11 @@
 												</div>
 											</div>
 											{#if cell.isData()}
-												<TableFilter
-													column={cell.id}
-													type={types[cell.id]}
-													on:submit={handleFiltering}
-												/>
+												{#if props.colFilter?.render}
+													<div>
+														<Render of={props.colFilter.render} />
+													</div>
+												{/if}
 											{/if}
 										</div>
 									</th>

@@ -1,67 +1,152 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
+	import Fa from 'svelte-fa/src/fa.svelte';
+	import { faFilter } from '@fortawesome/free-solid-svg-icons';
 	import { popup } from '@skeletonlabs/skeleton';
 	import type { PopupSettings } from '@skeletonlabs/skeleton';
 
-	import Filter from './Filter.svelte';
+	export let filterValue;
+	export let values;
 
-	export let column;
-	export let type;
+	let firstOption;
+	let firstValue;
+	let secondOption;
+	let secondValue;
 
-	let isOpen = false;
-	let firstFilter = 'isequal';
-	let firstInput = '';
-	let secondFilter = 'isequal';
-	let secondInput = '';
-
-	const dispatch = createEventDispatcher();
-
-	const filter = () => {
-		dispatch('submit', {
-			column: column,
-			type: type,
-			firstFilter: {
-				option: firstFilter,
-				value: firstInput
+	const options = {
+		number: [
+			{
+				value: 'isequal',
+				label: 'Is equal to'
 			},
-			secondFilter: {
-				option: secondFilter,
-				value: secondInput
+			{
+				value: 'isgreaterorequal',
+				label: 'Is greater than or equal to'
+			},
+			{
+				value: 'isgreater',
+				label: 'Is greater than'
+			},
+			{
+				value: 'islessorequal',
+				label: 'Is less than or equal to'
+			},
+			{
+				value: 'isless',
+				label: 'Is less than'
+			},
+			{
+				value: 'isnotequal',
+				label: 'Is not equal to'
 			}
-		});
-
-		isOpen = false;
+		],
+		string: [
+			{
+				value: 'isequal',
+				label: 'Is equal to'
+			},
+			{
+				value: 'isnotequal',
+				label: 'Is not equal to'
+			},
+			{
+				value: 'starts',
+				label: 'Starts with'
+			},
+			{
+				value: 'contains',
+				label: 'Contains'
+			},
+			{
+				value: 'notcontains',
+				label: 'Does not contain'
+			},
+			{
+				value: 'ends',
+				label: 'Ends with'
+			}
+		]
 	};
 
+	const popupID = +new Date();
 	const popupFeatured: PopupSettings = {
 		event: 'click',
-		target: `filter-${column}`,
+		target: `${popupID}`,
 		placement: 'bottom'
 	};
+
+	const type = typeof $values[0];
 </script>
 
-<form class="" on:submit|preventDefault={filter}>
-	<button class="btn variant-filled-primary w-min p-2" type="button" use:popup={popupFeatured}>
-		<svg
-			xmlns="http://www.w3.org/2000/svg"
-			width="12"
-			height="12"
-			fill="currentColor"
-			class="bi bi-funnel-fill"
-			viewBox="0 0 16 16"
-		>
-			<path
-				d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2z"
-			/>
-		</svg>
+<form class="">
+	<button class="btn variant-filled-primary w-max p-2" type="button" use:popup={popupFeatured}>
+		<Fa icon={faFilter} size="12" />
 	</button>
-	<div data-popup={`filter-${column}`}>
+
+	<div data-popup={`${popupID}`}>
 		<div class="card p-3 absolute grid gap-2 shadow-lg z-10 w-min">
 			<label for="" class="label normal-case text-sm">Show rows with value that</label>
-			<Filter bind:filterOption={firstFilter} bind:filterValue={firstInput} {type} />
+			<div class="grid gap-2 w-full">
+				<select
+					class="select border border-primary-500 text-sm p-1"
+					aria-label="Show rows with value that"
+					bind:value={firstOption}
+					on:click|stopPropagation
+				>
+					{#each options[type] as option (option)}
+						<option value={option.value}>{option.label}</option>
+					{/each}
+				</select>
+				{#if type === 'number'}
+					<input
+						type="number"
+						class="input p-1 border border-primary-500"
+						bind:value={firstValue}
+						on:click|stopPropagation
+					/>
+				{:else}
+					<input
+						type="text"
+						class="input p-1 border border-primary-500"
+						bind:value={firstValue}
+						on:click|stopPropagation
+					/>
+				{/if}
+			</div>
 			<label for="" class="label normal-case">And</label>
-			<Filter bind:filterOption={secondFilter} bind:filterValue={secondInput} {type} />
-			<button class="btn variant-filled-primary btn-sm" type="submit">Submit</button>
+			<div class="grid gap-2 w-max">
+				<select
+					class="select border border-primary-500 text-sm p-1"
+					aria-label="Show rows with value that"
+					bind:value={secondOption}
+					on:click|stopPropagation
+				>
+					{#each options[type] as option (option)}
+						<option value={option.value}>{option.label}</option>
+					{/each}
+				</select>
+				{#if type === 'number'}
+					<input
+						type="number"
+						class="input p-1 border border-primary-500"
+						bind:value={secondValue}
+						on:click|stopPropagation
+					/>
+				{:else}
+					<input
+						type="text"
+						class="input p-1 border border-primary-500"
+						bind:value={secondValue}
+						on:click|stopPropagation
+					/>
+				{/if}
+			</div>
+			<button
+				class="btn variant-filled-primary btn-sm"
+				type="submit"
+				on:click={() => {
+					$filterValue = [firstOption, firstValue, secondOption, secondValue];
+				}}>Submit</button
+			>
 		</div>
 	</div>
 </form>
