@@ -9,12 +9,14 @@
 		addTableFilter
 	} from 'svelte-headless-table/plugins';
 
-	import { columnFilter, searchFilter } from './filter';
+	import TableFilter from './TableFilter.svelte';
 	import TablePagination from './TablePagination.svelte';
+	import { columnFilter, searchFilter } from './filter';
 
 	export let data;
 	export let optionsComponent;
-	export let filterComponent;
+	export let filterComponent = TableFilter;
+	export let columnFilterFn = columnFilter;
 	export let excluded: AccessorType[] = [];
 	export let defaultPageSize = 10;
 	export let pageSizes = [5, 10, 15, 20];
@@ -50,7 +52,7 @@
 					plugins: {
 						sort: { invert: true },
 						colFilter: {
-							fn: columnFilter,
+							fn: columnFilterFn,
 							render: ({ filterValue, values }) =>
 								createRender(filterComponent, { filterValue, values })
 						}
