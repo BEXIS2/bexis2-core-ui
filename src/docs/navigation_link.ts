@@ -6,8 +6,10 @@ export const menuNavLinks: any = [
 	{
 		id: 'general',
 		title: 'General',
-		list: [{ href: base + '/', label: 'Home', keywords: '' },
-		{ href: base + '/test', label: 'Test', keywords: '' }]
+		list: [
+			{ href: base + '/', label: 'Home', keywords: '' },
+			{ href: base + '/test', label: 'Test', keywords: '' }
+		]
 	},
 	{
 		id: 'theme',
@@ -20,7 +22,10 @@ export const menuNavLinks: any = [
 	{
 		id: 'components',
 		title: 'Components',
-		list: [{ href: base + '/components', label: 'Example Components', keywords: '' }]
+		list: [
+			{ href: base + '/components', label: 'Example Components', keywords: '' },
+			{ href: base + '/components/table', label: 'Example Table Components', keywords: '' }
+		]
 	}
 
 	// Tailwind ---
