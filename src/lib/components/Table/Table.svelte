@@ -1,6 +1,12 @@
 <script lang="ts">
 	import { writable } from 'svelte/store';
-	import { createTable, Subscribe, Render, createRender } from 'svelte-headless-table';
+	import {
+		createTable,
+		Subscribe,
+		Render,
+		createRender,
+		type Constructor
+	} from 'svelte-headless-table';
 	import {
 		addSortBy,
 		addPagination,
@@ -12,9 +18,10 @@
 	import TableFilter from './TableFilter.svelte';
 	import TablePagination from './TablePagination.svelte';
 	import { columnFilter, searchFilter } from './filter';
+	import type { SvelteComponentDev } from 'svelte/internal';
 
 	export let data;
-	export let optionsComponent;
+	export let optionsComponent: Constructor<SvelteComponentDev> | null = null;
 	export let filterComponent = TableFilter;
 	export let columnFilterFn = columnFilter;
 	export let excluded: AccessorType[] = [];
@@ -42,7 +49,7 @@
 
 	const accessors: AccessorType[] = Object.keys(data[0]) as AccessorType[];
 
-	const columns = table.createColumns([
+	const tableColumns = [
 		...accessors
 			.filter((key) => !excluded.includes(key as string))
 			.map((item) => {
@@ -58,17 +65,23 @@
 						}
 					}
 				} as any);
-			}),
-		table.display({
-			id: 'options',
-			header: '',
-			cell: ({ row }, _) => {
-				return createRender(optionsComponent, {
-					row: row.isData() ? row.original : null
-				});
-			}
-		})
-	]);
+			})
+	];
+
+	if (optionsComponent !== null) {
+		tableColumns.push(
+			table.display({
+				id: 'options',
+				header: '',
+				cell: ({ row }, _) => {
+					return createRender(optionsComponent!, {
+						row: row.isData() ? row.original : null
+					});
+				}
+			}) as any
+		);
+	}
+	const columns = table.createColumns(tableColumns);
 
 	const { headerRows, pageRows, tableAttrs, tableBodyAttrs, pluginStates } =
 		table.createViewModel(columns);
