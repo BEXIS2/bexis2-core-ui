@@ -71,7 +71,7 @@
 	const popupFeatured: PopupSettings = {
 		event: 'click',
 		target: `${popupID}`,
-		placement: 'bottom'
+		placement: 'bottom-start'
 	};
 
 	const type = typeof $values[0];
@@ -84,6 +84,19 @@
 
 	<div data-popup={`${popupID}`}>
 		<div class="card p-3 absolute grid gap-2 shadow-lg z-10 w-min">
+			<button
+				class="btn variant-filled-primary btn-sm"
+				type="submit"
+				on:click={() => {
+					firstOption = 'isequal';
+					firstValue = undefined;
+					secondOption = 'isequal';
+					secondValue = undefined;
+
+					$filterValue = [firstOption, firstValue, secondOption, secondValue];
+				}}>Clear Filter</button
+			>
+
 			<label for="" class="label normal-case text-sm">Show rows with value that</label>
 			<div class="grid gap-2 w-full">
 				<select
