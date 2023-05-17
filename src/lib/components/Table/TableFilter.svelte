@@ -6,11 +6,14 @@
 
 	export let filterValue;
 	export let values;
+	export let id;
+	export let tableId;
 
 	let firstOption;
 	let firstValue;
 	let secondOption;
 	let secondValue;
+	let active = false;
 
 	const options = {
 		number: [
@@ -67,10 +70,11 @@
 		]
 	};
 
-	const popupID = +new Date();
+	const popupId = `${tableId}-${id}`;
+
 	const popupFeatured: PopupSettings = {
 		event: 'click',
-		target: `${popupID}`,
+		target: popupId,
 		placement: 'bottom-start'
 	};
 
@@ -78,11 +82,16 @@
 </script>
 
 <form class="">
-	<button class="btn variant-filled-primary w-max p-2" type="button" use:popup={popupFeatured}>
+	<button
+		class:variant-filled-primary={active}
+		class="btn w-max p-2"
+		type="button"
+		use:popup={popupFeatured}
+	>
 		<Fa icon={faFilter} size="12" />
 	</button>
 
-	<div data-popup={`${popupID}`}>
+	<div data-popup={`${popupId}`}>
 		<div class="card p-3 absolute grid gap-2 shadow-lg z-10 w-min">
 			<button
 				class="btn variant-filled-primary btn-sm"
@@ -94,6 +103,7 @@
 					secondValue = undefined;
 
 					$filterValue = [firstOption, firstValue, secondOption, secondValue];
+					active = false;
 				}}>Clear Filter</button
 			>
 
@@ -157,6 +167,7 @@
 				class="btn variant-filled-primary btn-sm"
 				type="submit"
 				on:click={() => {
+					active = firstValue?.toString().length > 0 || secondValue?.toString().length > 0;
 					$filterValue = [firstOption, firstValue, secondOption, secondValue];
 				}}>Submit</button
 			>
