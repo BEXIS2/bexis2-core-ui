@@ -1,12 +1,5 @@
 <script lang="ts">
-	import { writable } from 'svelte/store';
-	import {
-		createTable,
-		Subscribe,
-		Render,
-		createRender,
-		type Constructor
-	} from 'svelte-headless-table';
+	import { createTable, Subscribe, Render, createRender } from 'svelte-headless-table';
 	import {
 		addSortBy,
 		addPagination,
@@ -18,26 +11,21 @@
 	import TableFilter from './TableFilter.svelte';
 	import TablePagination from './TablePagination.svelte';
 	import { columnFilter, searchFilter } from './filter';
-	import type { SvelteComponentDev } from 'svelte/internal';
+	import type { TableConfig } from '$lib/models/Models';
 
-	export let data;
-	export let optionsComponent: Constructor<SvelteComponentDev> | null = null;
-	export let filterComponent = TableFilter;
-	export let columnFilterFn = columnFilter;
-	export let excluded: AccessorType[] = [];
-	export let defaultPageSize = 10;
-	export let pageSizes = [5, 10, 15, 20];
+	export let config: TableConfig<any>;
+	let {
+		id: tableId,
+		data,
+		columns,
+		optionsComponent,
+		defaultPageSize = 10,
+		pageSizes = [5, 10, 15, 20]
+	} = config;
 
-	type AccessorType = keyof (typeof data)[0];
+	type AccessorType = keyof (typeof $data)[0];
 
-	const types = {
-		id: 'numeric',
-		name: 'text',
-		description: 'text'
-	};
-	const filteredData = writable(data);
-
-	const table = createTable(filteredData, {
+	const table = createTable(data, {
 		colFilter: addColumnFilters(),
 		tableFilter: addTableFilter({
 			fn: searchFilter
@@ -47,28 +35,56 @@
 		expand: addExpandedRows()
 	});
 
-	const accessors: AccessorType[] = Object.keys(data[0]) as AccessorType[];
+	const accessors: AccessorType[] = Object.keys($data[0]) as AccessorType[];
 
 	const tableColumns = [
 		...accessors
-			.filter((key) => !excluded.includes(key as string))
-			.map((item) => {
-				return table.column({
-					header: item,
-					accessor: item,
-					plugins: {
-						sort: { invert: true },
-						colFilter: {
-							fn: columnFilterFn,
-							render: ({ filterValue, values }) =>
-								createRender(filterComponent, { filterValue, values })
+			.filter((accessor) => {
+				const key = accessor as string;
+				if (columns !== undefined && key in columns && columns[key].exclude === true) {
+					return false;
+				}
+				return true;
+			})
+			.map((accessor) => {
+				const key = accessor as string;
+				if (columns !== undefined && key in columns) {
+					const { header, colFilterFn, colFilterComponent } = columns[key];
+					return table.column({
+						header: header ?? key,
+						accessor: accessor,
+						plugins: {
+							sort: { invert: true },
+							colFilter: {
+								fn: colFilterFn ?? columnFilter,
+								render: ({ filterValue, values, id }) =>
+									createRender(colFilterComponent ?? TableFilter, {
+										filterValue,
+										values,
+										id,
+										tableId
+									})
+							}
 						}
-					}
-				} as any);
+					});
+				} else {
+					return table.column({
+						header: key,
+						accessor: accessor,
+						plugins: {
+							sort: { invert: true },
+							colFilter: {
+								fn: columnFilter,
+								render: ({ filterValue, values, id }) =>
+									createRender(TableFilter, { filterValue, values, id, tableId })
+							}
+						}
+					});
+				}
 			})
 	];
 
-	if (optionsComponent !== null) {
+	if (optionsComponent !== undefined) {
 		tableColumns.push(
 			table.display({
 				id: 'options',
@@ -81,10 +97,11 @@
 			}) as any
 		);
 	}
-	const columns = table.createColumns(tableColumns);
+
+	const createdTableColumns = table.createColumns(tableColumns);
 
 	const { headerRows, pageRows, tableAttrs, tableBodyAttrs, pluginStates } =
-		table.createViewModel(columns);
+		table.createViewModel(createdTableColumns);
 	const { filterValue } = pluginStates.tableFilter;
 </script>
 
@@ -113,6 +130,7 @@
 											<div class="flex gap-1">
 												<span
 													class:underline={props.sort.order}
+													class:normal-case={cell.id !== cell.label}
 													on:click={props.sort.toggle}
 													on:keydown={props.sort.toggle}
 												>
