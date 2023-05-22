@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { writable } from 'svelte/store';
 	import { createTable, Subscribe, Render, createRender } from 'svelte-headless-table';
 	import {
 		addSortBy,
@@ -9,32 +8,24 @@
 		addTableFilter
 	} from 'svelte-headless-table/plugins';
 
-	import filter, { searchFilter } from './filter';
 	import TableFilter from './TableFilter.svelte';
+	import TablePagination from './TablePagination.svelte';
+	import { columnFilter, searchFilter } from './filter';
+	import type { TableConfig } from '$lib/models/Models';
 
-	export let data;
-	export let component;
-	export let excluded: AccessorType[] = [];
-	export let defaultPageSize = 10;
-	export let pageSizes = [5, 10, 15, 20];
+	export let config: TableConfig<any>;
+	let {
+		id: tableId,
+		data,
+		columns,
+		optionsComponent,
+		defaultPageSize = 10,
+		pageSizes = [5, 10, 15, 20]
+	} = config;
 
-	type AccessorType = keyof (typeof data)[0];
+	type AccessorType = keyof (typeof $data)[0];
 
-	const types = {
-		id: 'numeric',
-		name: 'text',
-		description: 'text'
-	};
-	const filteredData = writable(data);
-
-	const handleFiltering = (e) => {
-		const { column, firstFilter, secondFilter } = e.detail;
-		const firstFiltered = filter(firstFilter, column, data);
-		const secondFiltered = filter(secondFilter, column, firstFiltered);
-		filteredData.set(secondFiltered);
-	};
-
-	const table = createTable(filteredData, {
+	const table = createTable(data, {
 		colFilter: addColumnFilters(),
 		tableFilter: addTableFilter({
 			fn: searchFilter
@@ -44,34 +35,73 @@
 		expand: addExpandedRows()
 	});
 
-	const accessors: AccessorType[] = Object.keys(data[0]) as AccessorType[];
+	const accessors: AccessorType[] = Object.keys($data[0]) as AccessorType[];
 
-	const columns = table.createColumns([
+	const tableColumns = [
 		...accessors
-			.filter((key) => !excluded.includes(key as string))
-			.map((item) => {
-				return table.column({
-					header: item,
-					accessor: item,
-					plugins: {
-						sort: { invert: true }
-					}
-				} as any);
-			}),
-		table.display({
-			id: 'options',
-			header: '',
-			cell: ({ row }, _) => {
-				return createRender(component, {
-					row: row.isData() ? row.original : null
-				});
-			}
-		})
-	]);
+			.filter((accessor) => {
+				const key = accessor as string;
+				if (columns !== undefined && key in columns && columns[key].exclude === true) {
+					return false;
+				}
+				return true;
+			})
+			.map((accessor) => {
+				const key = accessor as string;
+				if (columns !== undefined && key in columns) {
+					const { header, colFilterFn, colFilterComponent } = columns[key];
+					return table.column({
+						header: header ?? key,
+						accessor: accessor,
+						plugins: {
+							sort: { invert: true },
+							colFilter: {
+								fn: colFilterFn ?? columnFilter,
+								render: ({ filterValue, values, id }) =>
+									createRender(colFilterComponent ?? TableFilter, {
+										filterValue,
+										values,
+										id,
+										tableId
+									})
+							}
+						}
+					});
+				} else {
+					return table.column({
+						header: key,
+						accessor: accessor,
+						plugins: {
+							sort: { invert: true },
+							colFilter: {
+								fn: columnFilter,
+								render: ({ filterValue, values, id }) =>
+									createRender(TableFilter, { filterValue, values, id, tableId })
+							}
+						}
+					});
+				}
+			})
+	];
+
+	if (optionsComponent !== undefined) {
+		tableColumns.push(
+			table.display({
+				id: 'options',
+				header: '',
+				cell: ({ row }, _) => {
+					return createRender(optionsComponent!, {
+						row: row.isData() ? row.original : null
+					});
+				}
+			}) as any
+		);
+	}
+
+	const createdTableColumns = table.createColumns(tableColumns);
 
 	const { headerRows, pageRows, tableAttrs, tableBodyAttrs, pluginStates } =
-		table.createViewModel(columns);
-	const { pageIndex, pageCount, pageSize, hasNextPage, hasPreviousPage } = pluginStates.page;
+		table.createViewModel(createdTableColumns);
 	const { filterValue } = pluginStates.tableFilter;
 </script>
 
@@ -100,6 +130,7 @@
 											<div class="flex gap-1">
 												<span
 													class:underline={props.sort.order}
+													class:normal-case={cell.id !== cell.label}
 													on:click={props.sort.toggle}
 													on:keydown={props.sort.toggle}
 												>
@@ -114,11 +145,11 @@
 												</div>
 											</div>
 											{#if cell.isData()}
-												<TableFilter
-													column={cell.id}
-													type={types[cell.id]}
-													on:submit={handleFiltering}
-												/>
+												{#if props.colFilter?.render}
+													<div>
+														<Render of={props.colFilter.render} />
+													</div>
+												{/if}
 											{/if}
 										</div>
 									</th>
@@ -149,38 +180,5 @@
 		</table>
 	</div>
 
-	<div class="flex justify-center gap-1">
-		<button
-			class="btn btn-sm variant-filled-primary"
-			on:click={() => ($pageIndex = 0)}
-			disabled={!$pageIndex}>{'<<'}</button
-		>
-		<button
-			class="btn btn-sm variant-filled-primary"
-			on:click={() => $pageIndex--}
-			disabled={!$hasPreviousPage}>{'<'}</button
-		>
-
-		<select
-			name=""
-			id=""
-			class="select btn btn-sm variant-filled-primary w-min font-bold"
-			bind:value={$pageSize}
-		>
-			{#each pageSizes as size}
-				<option value={size}>{size}</option>
-			{/each}
-		</select>
-
-		<button
-			class="btn btn-sm variant-filled-primary"
-			on:click={() => $pageIndex++}
-			disabled={!$hasNextPage}>{'>'}</button
-		>
-		<button
-			class="btn btn-sm variant-filled-primary"
-			on:click={() => ($pageIndex = $pageCount - 1)}
-			disabled={$pageIndex == $pageCount - 1}>{'>>'}</button
-		>
-	</div>
+	<TablePagination pageConfig={pluginStates.page} {pageSizes} />
 </div>
