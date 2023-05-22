@@ -23,7 +23,8 @@ export const menuNavLinks: any = [
 		id: 'components',
 		title: 'Components',
 		list: [
-			{ href: base + '/components', label: 'Example Components', keywords: '' },
+			// { href: base + '/components', label: 'Example Components', keywords: '' },
+			{ href: base + '/components/form', label: 'Form Components', keywords: '' },
 			{ href: base + '/components/table', label: 'Example Table Components', keywords: '' }
 		]
 	}

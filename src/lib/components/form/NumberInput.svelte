@@ -10,8 +10,7 @@
  export let valid:boolean;
  export let invalid:boolean;
  export let required:boolean;
- export let feedback:[];
- 
+ export let feedback:string[];
  
  
  </script>

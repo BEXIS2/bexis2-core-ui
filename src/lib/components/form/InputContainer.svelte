@@ -2,7 +2,7 @@
 
  export let label:string = "";
  export let required:boolean;
- export let feedback:[];
+ export let feedback:string[];
  
  
  </script>
