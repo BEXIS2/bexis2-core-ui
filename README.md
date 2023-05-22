@@ -3,16 +3,17 @@
 ## new in version 0.0.23
 
 ## Updates
+
 - update bexis 2 theme
 
-## Adds 
+## Adds
+
 - Checkbox
-- CheckboxKVPList 
-- CheckboxList 
-- DateInput 
-- DropdownKVP 
-- MultiSelect 
+- CheckboxKVPList
+- CheckboxList
+- DateInput
+- DropdownKVP
+- MultiSelect
 - NumberInput
 - TextArea
 - TextInput
-

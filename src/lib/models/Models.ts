@@ -3,14 +3,13 @@ import type { ColumnFilterFn } from 'svelte-headless-table/lib/plugins';
 import type { Writable } from 'svelte/store';
 
 export interface Input {
- id:string,
- label:string,
- feedback:string[],
- invalid: boolean,
- valid: boolean,
- required: boolean
+	id: string;
+	label: string;
+	feedback: string[];
+	invalid: boolean;
+	valid: boolean;
+	required: boolean;
 }
-
 
 export interface FileInfo {
 	name: string;

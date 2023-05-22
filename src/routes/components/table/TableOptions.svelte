@@ -2,4 +2,6 @@
 	export let row;
 </script>
 
-<button class="btn btn-sm variant-filled-secondary" on:click={() => alert(JSON.stringify(row))}>See row info</button>
+<button class="btn btn-sm variant-filled-secondary" on:click={() => alert(JSON.stringify(row))}
+	>See row info</button
+>

@@ -1,52 +1,44 @@
 <script>
+	import InputContainer from './InputContainer.svelte';
 
-import InputContainer from "./InputContainer.svelte";
+	export let id;
+	export let source;
+	export let target;
+	export let title;
+	export let valid;
+	export let invalid;
+	export let feedback;
+	export let required;
 
+	$: selected = null;
 
- export let id;
- export let source;
- export let target;
- export let title;
- export let valid;
- export let invalid;
- export let feedback;
- export let required;
+	$: updatedSelectedValue(target);
+	$: updatedTarget(selected);
 
-$:selected = null;
+	function updatedSelectedValue(selection) {
+		if (selection != null) {
+			selected = selection.id;
+		}
+	}
 
-$:updatedSelectedValue(target);
-$:updatedTarget(selected);
-
-function updatedSelectedValue(selection)
-{
-  if(selection!=null)
-  {
-    selected = selection.id
-  }
-}
-
-function updatedTarget(id)
-{
-  target = source.find(opt => opt.id === id)
-}
-
+	function updatedTarget(id) {
+		target = source.find((opt) => opt.id === id);
+	}
 </script>
 
-
 <InputContainer label={title} {feedback} {required}>
- <select 
-  {id} 
-  class="select variant-form-material"
-  class:input-success="{valid}" 
-  class:input-error="{invalid}" 
-  bind:value={selected}
-  on:change
-  on:select
- >
-  <option value={null}>-- Please select --</option>
-  {#each source as e}
-      <option value={e.id} >{e.text}</option>
-   {/each}
- </select>
+	<select
+		{id}
+		class="select variant-form-material"
+		class:input-success={valid}
+		class:input-error={invalid}
+		bind:value={selected}
+		on:change
+		on:select
+	>
+		<option value={null}>-- Please select --</option>
+		{#each source as e}
+			<option value={e.id}>{e.text}</option>
+		{/each}
+	</select>
 </InputContainer>
-

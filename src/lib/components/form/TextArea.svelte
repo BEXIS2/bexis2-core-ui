@@ -1,28 +1,23 @@
 <script lang="ts">
+	import InputContainer from './InputContainer.svelte';
 
-import InputContainer from "./InputContainer.svelte";
+	export let id: string = '';
+	export let label: string = '';
+	export let value: string = '';
 
-export let id:string = "";
-export let label:string = "";
-export let value:string = "";
-export let type:string = "";
-
-export let valid:boolean;
-export let invalid:boolean;
-export let required:boolean;
-export let feedback:string[];
-
-
+	export let valid: boolean = false;
+	export let invalid: boolean = false;
+	export let required: boolean = false;
+	export let feedback: string[] = [''];
 </script>
 
 <InputContainer {label} {feedback} {required}>
 	<textarea
-  {id}
-  class="textarea variant-form-material" 
-  class:input-success="{valid}" 
-  class:input-error="{invalid}" 
-  bind:value={value} 
-  on:input/>
+		{id}
+		class="textarea variant-form-material"
+		class:input-success={valid}
+		class:input-error={invalid}
+		bind:value
+		on:input
+	/>
 </InputContainer>
-
-

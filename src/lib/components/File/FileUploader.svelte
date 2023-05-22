@@ -1,217 +1,184 @@
 <script lang="ts">
+	import type { FileUploaderModel, FileInfo, Files } from '../../models/Models.js';
 
-import type { FileUploaderModel, FileInfo, Files} from '../../models/Models.js'
+	import DropZone from 'svelte-file-dropzone/Dropzone.svelte';
+	import Fa from 'svelte-fa/src/fa.svelte';
 
+	import Spinner from '../spinner/Spinner.svelte';
+	import { createEventDispatcher } from 'svelte';
+	import { faTrash } from '@fortawesome/free-solid-svg-icons';
+	import { faSave } from '@fortawesome/free-regular-svg-icons';
+	import { faFileUpload } from '@fortawesome/free-solid-svg-icons';
 
-import DropZone from "svelte-file-dropzone/Dropzone.svelte";
-import Fa from 'svelte-fa/src/fa.svelte'
+	import { Api } from '../../services/Api.js';
 
-import Spinner from '../spinner/Spinner.svelte';
-import { createEventDispatcher } from 'svelte';
-import { faTrash } from '@fortawesome/free-solid-svg-icons'
-import { faSave } from '@fortawesome/free-regular-svg-icons'
-import { faFileUpload } from '@fortawesome/free-solid-svg-icons'
+	export let id = 0;
+	export let version = 1;
 
-import { Api } from '../../services/Api.js'
+	import { onMount } from 'svelte';
 
-export let id=0;
-export let version=1;
+	// export let description="";
+	// export let status=0;
 
-import { onMount } from 'svelte'
+	//action to load fileupload model
+	export let start = '';
+	//action to save selected file
+	export let submit = '';
 
-// export let description="";
-// export let status=0;
+	export let context = '';
 
+	export let data: FileUploaderModel | undefined;
 
-//action to load fileupload model
-export let start="";
-//action to save selected file 
-export let submit="";
+	$: model = data;
+	$: submitBt = 'submit';
 
-export let context="";
+	let maxSize = 0;
 
-export let data:FileUploaderModel | undefined;
+	const dispatch = createEventDispatcher();
 
-$:model= data;
-$:submitBt ="submit";
+	let fx: FileInfo[];
 
-let maxSize=0;
+	let files: Files = { accepted: [], rejected: [] };
+	$: files;
 
-const dispatch = createEventDispatcher();
+	onMount(async () => {
+		console.log('fileupload - OnMount', data);
 
-let fx:FileInfo[]
+		if (!data) {
+			load();
+		} else {
+			model = data;
+		}
 
-let files:Files = {accepted:[], rejected:[]};
-$:files;
+		if (model) {
+			submitBt += context;
+			maxSize = model.maxSize * 1024 * 1024;
+		}
+	});
 
-onMount(async () => {
+	// load modal from server
+	async function load() {
+		let url = start + '?id=' + id + '&version=' + version;
 
-  console.log("fileupload - OnMount", data);
+		// load menu froms server
+		const res = await Api.get(url);
+		model = await res.data();
 
+		console.log('fileupload', model);
+	}
 
-  if(!data)
-  {
-    load();
-  }
-  else
-  {
-    model = data;  
-  }
+	function handleFilesSelect(e: any) {
+		console.log('handleFilesSelect', e);
+		console.log('files', files);
 
-  if(model)
-  {
-    submitBt += context;   
-    maxSize = (model.maxSize*1024)*1024
-  }
+		const { acceptedFiles, fileRejections } = e.detail;
 
-})
+		files.accepted = [...files.accepted, ...acceptedFiles];
+		files.rejected = [...files.rejected, ...fileRejections];
 
-// load modal from server 
-async function load()
-{
-  let url = start+"?id="+id+"&version="+version;
-  
-  // load menu froms server
-  const res = await Api.get(url);
-  model = await res.data();
+		console.log('acceptedFiles', acceptedFiles);
+		console.log('files.accepted', files.accepted);
 
-  console.log("fileupload",model);
-  
+		if (fileRejections.length > 0) {
+			//alert("the dropped file is not supported");
+			console.log('the dropped file is not supported.');
+			console.log(files.rejected);
 
-}
+			let messages = [''];
 
-function handleFilesSelect(e:any) {
+			for (let index = 0; index < fileRejections.length; index++) {
+				const element = fileRejections[index];
+				messages.push(getErrorMessage(element));
+			}
 
-  console.log("handleFilesSelect", e);
-  console.log("files", files);
+			console.log(messages);
 
+			dispatch('error', { messages });
+			//list up the errors somewhere
+			files.rejected = [];
+		}
 
-  const { acceptedFiles, fileRejections } = e.detail;
+		if (acceptedFiles.length > 0) {
+			document.getElementById(submitBt)?.click();
+		}
+	}
 
- 
-  files.accepted = [...files.accepted, ...acceptedFiles];
-  files.rejected = [...files.rejected, ...fileRejections];
+	function getErrorMessage(rejected) {
+		let message = '';
+		message = rejected.file.path + ' : ';
+		let errors = rejected.errors;
+		for (let index = 0; index < errors.length; index++) {
+			const error = errors[index];
+			message += error.message;
+		}
 
+		return message;
+	}
 
-  console.log("acceptedFiles", acceptedFiles);
-  console.log("files.accepted", files.accepted);
+	async function handleSubmit() {
+		console.log('SUBMIT');
 
+		dispatch('submit');
 
-  if(fileRejections.length>0)
-  {
-    //alert("the dropped file is not supported");
-    console.log("the dropped file is not supported.");
-    console.log(files.rejected);
+		let url = submit + '?id=' + id;
 
-    let messages = [""];
-    
-    for (let index = 0; index < fileRejections.length; index++) {
-      const element = fileRejections[index];
-      messages.push(getErrorMessage(element))
-    }
+		// console.log(model);
+		// console.log(url);
+		console.log('SUBMIT');
 
-    console.log(messages);
-    
-    dispatch("error", {messages})
-    //list up the errors somewhere
-    files.rejected = []
-  }
+		if (files.accepted.length > 0) {
+			console.log(files);
 
-  if(acceptedFiles.length>0)
-  {
-      document.getElementById(submitBt)?.click(); 
-  }
+			const formData = new FormData();
+			formData.append('files', '123');
+			// Looping over all files and add it to FormData object
+			for (var i = 0; i < files.accepted.length; i++) {
+				formData.append(files.accepted[i].name, files.accepted[i]);
+			}
 
-}
+			const response = await Api.post(url, formData);
 
-function getErrorMessage(rejected)
-{
-  let message = "";
-  message = rejected.file.path+" : ";
-  let errors = rejected.errors;
-  for (let index = 0; index < errors.length; index++) {
-    const error = errors[index];
-    message+=error.message
-  }
+			if (response.status == 200) {
+				dispatch('submited');
 
-  return message;
-}
+				let message = files.accepted.length + ' is/are uploaded';
+				dispatch('success', { text: message });
 
-async function handleSubmit() {
-
-    console.log("SUBMIT");
-
-    dispatch('submit')
-
-    let url = submit+"?id="+id;
-
-    // console.log(model);
-    // console.log(url);
-    console.log("SUBMIT");
-
-    if (files.accepted.length > 0) {
-
-      console.log(files);
-
-      const formData = new FormData();
-      formData.append("files","123"); 
-      // Looping over all files and add it to FormData object  
-      for (var i = 0; i < files.accepted.length; i++) {  
-           
- 
-          formData.append(files.accepted[i].name, files.accepted[i]);  
-      }  
-      
-
-      const response = await Api.post(url, formData);
-
-      if(response.status==200)
-      {
-        dispatch('submited');
-
-        let message = files.accepted.length +" is/are uploaded";
-        dispatch('success', {text:message})
-
-        files.accepted = [];
-
-      }
-    }
-  }
-
+				files.accepted = [];
+			}
+		}
+	}
 </script>
 
 <form on:submit|preventDefault={handleSubmit}>
-    {#if model}
-      <!--if model exist  -->
-      <div>
+	{#if model}
+		<!--if model exist  -->
+		<div>
+			<DropZone
+				on:drop={handleFilesSelect}
+				accept={model.accept}
+				multiple={model.multiple}
+				{maxSize}
+			>
+				<b style="font-size:xx-large"><Fa icon={faFileUpload} /></b>
+				<span
+					><b>Drag 'n' drop some files here, or click to select files</b>
+					<b>max file : {model.maxSize} mb</b></span
+				>
+				<p>
+					{#if model.accept}
+						{#each model.accept as ext}
+							{ext} ,
+						{/each}
+					{/if}
+				</p>
+			</DropZone>
+		</div>
 
-        <DropZone 
-          on:drop={handleFilesSelect} 
-          accept={model.accept}
-          multiple={model.multiple}
-          {maxSize}>
+		<button id={submitBt} color="primary" style="display:none"><Fa icon={faSave} /></button>
+	{:else}
+		<!-- while data is not loaded show a loading information -->
 
-          <b style="font-size:xx-large"><Fa icon={faFileUpload}/></b>
-          <span><b>Drag 'n' drop some files here, or click to select files</b>
-          <b>max file : {model.maxSize} mb</b></span>
-          <p>
-            {#if model.accept}
-              {#each model.accept as ext}
-              {ext} ,   
-              {/each}
-            {/if}
-          </p>
-        </DropZone>
-
-      </div>
-
-      <button id="{submitBt}" color="primary" style="display:none" ><Fa icon={faSave}/></button>
-
-    {:else} <!-- while data is not loaded show a loading information -->
-
-      <Spinner/>
-    {/if}
-
-</form> 
-
-
+		<Spinner />
+	{/if}
+</form>

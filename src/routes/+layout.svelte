@@ -11,16 +11,17 @@
 	import { storePopup } from '@skeletonlabs/skeleton';
 	// Highlight.js for syntax highlighting in code blocks
 	import hljs from 'highlight.js';
+	// import hljs2 from 'highlightjs-svelte';
 	import 'highlight.js/styles/github-dark.css';
 	import { storeHighlightJs } from '@skeletonlabs/skeleton';
 	import { AppShell, TableOfContents } from '@skeletonlabs/skeleton';
 	import Navigation from '$docs/Navigation.svelte';
 
-
 	// Config for the floating UI elements
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 	// Config for the syntax highlighting
 	storeHighlightJs.set(hljs);
+	// storeHighlightJs.set(hljs2);
 </script>
 
 <AppShell
@@ -32,6 +33,7 @@
 	</svelte:fragment>
 	<svelte:fragment slot="sidebarRight">
 		<TableOfContents target="#toc-target" />
+		<b>test</b>
 	</svelte:fragment>
 	<!-- (pageHeader) -->
 	<!-- Router Slot -->

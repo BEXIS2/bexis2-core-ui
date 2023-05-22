@@ -1,68 +1,61 @@
 <script lang="ts">
+	import CodeContainer from '$docs/components/CodeContainer.svelte';
 
+	// example 1
+	import InputExamples from './examples/InputExamples.svelte';
+	import InputExamplesRaw from './examples/InputExamplesRaw.svelte?raw';
 
-	import TextInputExample from './TextInputExample.svelte';
-	import TextInputExampleRaw from './TextInputExample.svelte?raw';
+	// example 2
+	import InputExampleWithType from './examples/InputExampleWithType.svelte';
+	import InputExampleWithTypeRaw from './examples/InputExampleWithTypeRaw.svelte?raw';
+	import InputRaw from './Input?raw';
 
-	import TextArea from '../../../lib/components/form/TextArea.svelte';
-	import NumberInput from '../../../lib/components/form/NumberInput.svelte';
-	import Date from '../../../lib/components/form/DateInput.svelte';
+	// example 3 - validation
+	import InputValidation from './examples/InputValidation.svelte';
+	import InputValidationRaw from './examples/InputValidation.svelte?raw';
+	import InputValidationJsRaw from './examples/inputvalidation?raw';
+</script>
 
- import type {Input} from '../../../lib/models/Models'
+<div id="toc-target" class="p-5 grid gap-5">
+	<CodeContainer title={'Simple input types overview'} svelte={InputExamplesRaw}>
+		<div slot="info">
+			we start with an overview of the simple input types and the easiest set up.
+		</div>
+		<InputExamples />
+	</CodeContainer>
 
-	import CodeContainer from '../../../docs/components/CodeContainer.svelte';
-	
-	// interface input {
-	// 		id:string,
-	// 		label:string,
-	// 		feedback:string[],
-	// 		invalid: boolean,
-	// 		valid: boolean,
-	// 		required: boolean
-	// }
-	
+	<CodeContainer
+		title={'Input with Typescript'}
+		svelte={InputExampleWithTypeRaw}
+		typescript={InputRaw}
+	>
+		<div slot="info">
+			In this example, the different input fields are shown. All fields use the same typescript type
+			input
+		</div>
+		<InputExampleWithType />
+	</CodeContainer>
 
-	let textAreaData:Input = {
-			id:"description",
-			label:"Description",
-			feedback:["error"],
-			invalid: true,
-			valid: false,
-			required: false
-	}
-
-	let numberData:Input = {
-			id:"number",
-			label:"number",
-			feedback:["error"],
-			invalid: true,
-			valid: false,
-			required: false
-	}
-
-	let dateData:Input = {
-			id:"dateInput",
-			label:"dateInput",
-			feedback:[],
-			invalid: false,
-			valid: true,
-			required: false
-	}
-
-
-	</script>
-	
-	<div class="p-5 grid gap-5">
-
-<CodeContainer title={"Test"} 
-		svelte={TextInputExampleRaw}
-		json={"testdata{ id:'1'}"}>
-	<TextInputExample/>
-</CodeContainer>
-	
-
- <TextArea  {...textAreaData} />
- <NumberInput  {...numberData} />
- <Date  {...dateData} />
-
+	<CodeContainer title={'Validation'} svelte={InputValidationRaw} javascript={InputValidationJsRaw}>
+		<div slot="info">
+			In this example, a small form is shown. <br />
+			Validation rules are set on the input fields and the selected input field is validated again after
+			each input. The defined rules are stored in a separate javascript file for a better overview.<br
+			/>
+		</div>
+		<div slot="external" class="px-5">
+			<h3>For the validation rules we use the npm <b>Vest</b> library</h3>
+			<ul>
+				<li>
+					<a href="https://vestjs.dev/docs/get_started" target="_blank"> vestjs </a>
+				</li>
+				<li>
+					<a href="https://vestjs.dev/docs/enforce/enforce_rules" target="_blank">
+						List of Enforce rules</a
+					>
+				</li>
+			</ul>
+		</div>
+		<InputValidation />
+	</CodeContainer>
 </div>
