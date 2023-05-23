@@ -3,10 +3,9 @@
 
 	import { CodeBlock } from '@skeletonlabs/skeleton';
 
-	
 	$: target = { id: 2, text: 'gbif' };
 
-	import {Metadatastructures} from './exampleData'
+	import { Metadatastructures } from './exampleData';
 
 	function onChangeHandler() {
 		console.log(target);

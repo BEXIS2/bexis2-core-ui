@@ -29,7 +29,6 @@
 </div>
 
 <div class="flex">
-
 	<div class="w-1/2 px-5">
 		<slot />
 	</div>
@@ -77,10 +76,9 @@
 					<CodeBlock language="javascript" code={javascript} />
 				{:else if tabSet === 6}
 					<CodeBlock language="javascript" code={json} />
-					{:else if tabSet === 7}
+				{:else if tabSet === 7}
 					<CodeBlock language="javascript" code={data} />
 				{/if}
-
 			</svelte:fragment>
 		</TabGroup>
 	</div>

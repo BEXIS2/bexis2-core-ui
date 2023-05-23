@@ -14,7 +14,13 @@
 <InputContainer label={title} {feedback} {required}>
 	{#each source as item}
 		<label class="flex items-center space-x-2" for={key}>
-			<input class="checkbox" type="checkbox" bind:group={target} checked={item.key} value={item.key} />
+			<input
+				class="checkbox"
+				type="checkbox"
+				bind:group={target}
+				checked={item.key}
+				value={item.key}
+			/>
 			<p>{item.value}</p>
 		</label>
 	{/each}

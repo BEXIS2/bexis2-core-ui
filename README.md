@@ -1,19 +1,9 @@
 # bexis-core-ui
 
-## new in version 0.0.23
+## new in version 0.0.26
 
 ## Updates
 
-- update bexis 2 theme
+- fix bugs in checkbox list
+- fix bugs in multi select
 
-## Adds
-
-- Checkbox
-- CheckboxKVPList
-- CheckboxList
-- DateInput
-- DropdownKVP
-- MultiSelect
-- NumberInput
-- TextArea
-- TextInput

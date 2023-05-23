@@ -22,11 +22,11 @@
 
 	function updateTarget(selection) {
 		//diffrent cases
-		console.log("------");
+		console.log('------');
 
 		//a) source is complex model is simple
 		if (isComplex && !isTargetComplex && isLoaded) {
-		console.log("a) source is complex model is simple");
+			console.log('a) source is complex model is simple');
 
 			target = [];
 			for (let i in selection) {
@@ -41,8 +41,8 @@
 				target.push(selection[i].value);
 			}
 		}
-		console.log("selection "+title,selection);
-		console.log("target "+title,target);
+		console.log('selection ' + title, selection);
+		console.log('target ' + title, target);
 	}
 
 	onMount(async () => {
