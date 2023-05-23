@@ -7,8 +7,7 @@ export const menuNavLinks: any = [
 		id: 'general',
 		title: 'General',
 		list: [
-			{ href: base + '/', label: 'Home', keywords: '' },
-			{ href: base + '/test', label: 'Test', keywords: '' }
+			{ href: base + '/', label: 'Home', keywords: '' }
 		]
 	},
 	{
