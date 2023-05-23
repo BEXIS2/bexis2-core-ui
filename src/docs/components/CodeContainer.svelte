@@ -1,7 +1,11 @@
 <script lang="ts">
-	import { faExternalLinkSquare } from '@fortawesome/free-solid-svg-icons';
+
 	import { CodeBlock, Tab, TabGroup } from '@skeletonlabs/skeleton';
-	import { each } from 'svelte/internal';
+
+	import { writable } from 'svelte/store';
+ import Table from '$lib/components/Table/Table.svelte';
+	import type { TableConfig } from '$lib/models/Models';
+
 
 interface link
 {
@@ -11,7 +15,7 @@ interface link
 
 interface prop
 {
-	label:string,
+	name:string,
 	description:string
 }
 
@@ -30,6 +34,13 @@ interface prop
 	export let title;
 
 	let tabSet: number = 0;
+
+	const propertiesStore = writable<prop[]>(properties);
+	const propertiesTableConfig: TableConfig<prop> = {
+			id: 'properties',
+			data: propertiesStore
+		};
+
 </script>
 <div>
 <div class="py-5">
@@ -51,10 +62,9 @@ interface prop
 
 
 {#if properties.length>0}
-<div>
-		{#each	properties as p}
-				<p>{p.label} - {p.description}</p>
-		{/each}
+<div class="py-5 grid gap-5">
+	 <h4>Properties</h4>
+		<Table config={propertiesTableConfig} />
 </div>
 {/if}
 

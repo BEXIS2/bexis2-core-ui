@@ -2,6 +2,9 @@
 	import CodeContainer from '$docs/components/CodeContainer.svelte';
 
 	import { CodeBlock } from '@skeletonlabs/skeleton';
+
+ const c = "import { NameOfUIComp } from 'bexis2/bexis2-core-ui'";
+
 	// example 1
 	import InputExamples from './examples/InputExamples.svelte';
 	import InputExamplesRaw from './examples/InputExamples.svelte?raw';
@@ -18,8 +21,9 @@
 
 	// example 4 - validation
 	import { Metadatastructures } from './examples/exampleData';
+	import DropdownKvpExample from './examples/DropdownKVPExample.svelte';
 	import DropdownKVPExampleRaw from './examples/DropdownKVPExample.svelte?raw';
-	import DropdownKvpExample from './examples/MultiSelectKVPExample.svelte';
+	
 
 	// example 5 - checkboxlist
 	import CheckboxKVPExample from './examples/CheckboxKVPExample.svelte';
@@ -29,14 +33,34 @@
 	import MultiSelectExample from './examples/MultiSelectExample.svelte';
 	import MultiSelectExampleRaw from './examples/MultiSelectExample.svelte?raw';
 
-	// example 6 - multiselect kvp
+	// example 7 - multiselect kvp
 	import MultiSelectKVPExample from './examples/MultiSelectKVPExample.svelte';
 	import MultiSelectKVPExampleRaw from './examples/MultiSelectKVPExample.svelte?raw';
-	import { Datastructures } from './examples/exampleData';
-	import { v } from './examples/properties';
+	import { Datastructures, Countries, CountrieNames } from './examples/exampleData';
+	import { MultiSelectProperties } from './examples/properties';
+
+		// example 8 - toggle
+		import ToggleExample from './examples/ToggleExample.svelte';
+	import ToggleExampleRaw from './examples/ToggleExample.svelte?raw';
+
+		// example 9 - radiobutton group
+		import RadioGroupExample from './examples/RadioGroupExample.svelte';
+	import RadioGroupExampleRaw from './examples/RadioGroupExample.svelte?raw';
 </script>
 
 <div id="toc-target" class="p-5 grid gap-5">
+
+	<div class="p-5 bg-warning-500 text-white gap-5 grid">
+
+		<p>
+			Attention all bexis2 ui components are referenced internally in the examples.
+			You would have to adjust the import for your use.
+		</p>
+
+	 <CodeBlock language="javascript" code="{c}" />
+
+	</div>
+
 	<h2>Inputs</h2>
 
 	<!-- Simple Input Examples -->
@@ -88,9 +112,38 @@
 		<CheckboxKVPExample />
 	</CodeContainer>
 
+	<!-- Toggle Examples -->
+
+	<CodeContainer 
+	title={'Toggle'} 
+	svelte={ToggleExampleRaw}
+	external={[
+		{label:"skeleton ui - toggle",url:"https://www.skeleton.dev/components/slide-toggles"},
+	]}>
+		<div slot="info">
+			This example shows a slide toggle from skeleton ui
+		</div>
+		<ToggleExample />
+	</CodeContainer>
+
+		<!-- Radiogroup Examples -->
+
+		<CodeContainer 
+		title={'Radiogroup'} 
+		svelte={RadioGroupExampleRaw}
+		external={[
+			{label:"skeleton ui - radio groups",url:"https://www.skeleton.dev/components/radio-groups"},
+		]}
+			>
+			<div slot="info">
+				This example shows a radiogroup from skeleton ui
+			</div>
+			<RadioGroupExample />
+		</CodeContainer>
+
 	<!-- Multiselect Examples -->
 
-	<CodeContainer title={'Multiselect'} svelte={MultiSelectExampleRaw}>
+	<CodeContainer title={'Multiselect'} svelte={MultiSelectExampleRaw} data={JSON.stringify(CountrieNames, undefined, 2)}>
 		<div slot="info">
 			This example shows a simple multi select. the <b>source</b> is a json array with simple
 			content like strings.<br />
@@ -100,12 +153,13 @@
 		<MultiSelectExample />
 	</CodeContainer>
 
-	<CodeContainer title={'Multiselect with KeyValuePair'} svelte={MultiSelectKVPExampleRaw}>
+	<CodeContainer title={'Multiselect with KeyValuePair'} 
+		svelte={MultiSelectKVPExampleRaw} 
+		data={JSON.stringify(Countries, undefined, 2)}
+		properties={MultiSelectProperties}>
 		<div slot="info">
-			This example shows a multi select where the source is a list of complex objects. the <b
-				>source</b
-			>
-			is a json array with complex content like key value pairs.<br />
+			This example shows a multi select where the source is a list of complex objects. the <b>source</b>
+			is a json array with complex content like key value pairs.<br/>
 			Source needs the assignment of the data to be selected and target is the array containing the selected
 			values.<br />
 
@@ -137,7 +191,7 @@
 			{label:"vestjs",url:"https://vestjs.dev/docs/get_started"},
 			{label:"List of Enforce rules",url:"https://vestjs.dev/docs/enforce/enforce_rules"}
 			]}
-			properties={v}>
+			>
 		<div slot="info">
 			In this example, a small form is shown. <br />
 			Validation rules are set on the input fields and the selected input field is validated again after
