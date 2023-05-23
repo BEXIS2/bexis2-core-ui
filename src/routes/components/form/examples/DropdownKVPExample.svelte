@@ -3,8 +3,7 @@
 
 	import { CodeBlock } from '@skeletonlabs/skeleton';
 
-	import type { Input } from '$lib/models/Models';
-
+	
 	$: target = { id: 2, text: 'gbif' };
 
 	import {Metadatastructures} from './exampleData'

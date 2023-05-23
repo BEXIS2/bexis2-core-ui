@@ -17,7 +17,7 @@
 
 <div class="py-3">
 	{#if title}
-		<h2>{title}</h2>
+		<h3>{title}</h3>
 	{/if}
 	<div class="p-5">
 		<slot name="info" />
@@ -29,6 +29,7 @@
 </div>
 
 <div class="flex">
+
 	<div class="w-1/2 px-5">
 		<slot />
 	</div>
