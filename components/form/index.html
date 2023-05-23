@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="../../favicon.png" />
+		<script src="https://kit.fontawesome.com/76b174a5e9.js" crossorigin="anonymous"></script>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta http-equiv="content-security-policy" content="">
+		<link rel="modulepreload" href="../../_app/immutable/entry/start.ea7f417f.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.fc2521d4.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/singletons.9844493a.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.ff4efe22.js">
+		<link rel="modulepreload" href="../../_app/immutable/entry/app.2f25b1da.js">
+	</head>
+	<body>
+		<div>
+			<script>
+				{
+					__sveltekit_1bw4rlo = {
+						base: new URL("../..", location).pathname.slice(0, -1),
+						env: {}
+					};
+
+					const element = document.currentScript.parentElement;
+
+					Promise.all([
+						import("../../_app/immutable/entry/start.ea7f417f.js"),
+						import("../../_app/immutable/entry/app.2f25b1da.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element);
+					});
+				}
+			</script>
+		</div>
+	</body>
+</html>
