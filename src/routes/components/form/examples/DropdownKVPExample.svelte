@@ -1,5 +1,5 @@
 <script lang="ts">
-	import DropdownKVP from '$lib/components/form/DropdownKVP.svelte';
+	import DropdownKvP from '$lib/components/form/DropdownKvP.svelte';
 
 	import { CodeBlock } from '@skeletonlabs/skeleton';
 
@@ -13,7 +13,7 @@
 </script>
 
 <div class="grid gap-10">
-	<DropdownKVP
+	<DropdownKvP
 		id="metadataStructure"
 		title="Structure"
 		bind:target
