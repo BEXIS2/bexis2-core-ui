@@ -14,12 +14,12 @@
 
 	let tabSet: number = 0;
 </script>
-
-<div class="py-3">
+<div>
+<div class="py-5">
 	{#if title}
 		<h3>{title}</h3>
 	{/if}
-	<div class="p-5">
+	<div>
 		<slot name="info" />
 	</div>
 </div>
@@ -28,12 +28,14 @@
 	<slot name="external" />
 </div>
 
-<div class="flex">
-	<div class="w-1/2 px-5">
+<div>
+
+<div class="card flex p-5 gap-10">
+	<div class="w-1/2">
 		<slot />
 	</div>
 
-	<div class="w-1/2 px-5">
+	<div class="w-1/2">
 		<TabGroup>
 			{#if svelte}
 				<Tab bind:group={tabSet} name="html" value={0}>(Svelte)</Tab>
@@ -82,4 +84,6 @@
 			</svelte:fragment>
 		</TabGroup>
 	</div>
+</div>
+</div>
 </div>
