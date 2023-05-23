@@ -33,6 +33,7 @@
 	import MultiSelectKVPExample from './examples/MultiSelectKVPExample.svelte';
 	import MultiSelectKVPExampleRaw from './examples/MultiSelectKVPExample.svelte?raw';
 	import { Datastructures } from './examples/exampleData';
+	import { v } from './examples/properties';
 </script>
 
 <div id="toc-target" class="p-5 grid gap-5">
@@ -129,25 +130,19 @@
 
 	<h2>Validation</h2>
 
-	<CodeContainer title={'Example'} svelte={InputValidationRaw} javascript={InputValidationJsRaw}>
+	<CodeContainer title={'Example'} 
+		svelte={InputValidationRaw} 
+		javascript={InputValidationJsRaw}
+		external={[
+			{label:"vestjs",url:"https://vestjs.dev/docs/get_started"},
+			{label:"List of Enforce rules",url:"https://vestjs.dev/docs/enforce/enforce_rules"}
+			]}
+			properties={v}>
 		<div slot="info">
 			In this example, a small form is shown. <br />
 			Validation rules are set on the input fields and the selected input field is validated again after
 			each input. The defined rules are stored in a separate javascript file for a better overview.<br
 			/>
-		</div>
-		<div slot="external" class="px-5">
-			<h3>For the validation rules we use the npm <b>Vest</b> library</h3>
-			<ul>
-				<li>
-					<a href="https://vestjs.dev/docs/get_started" target="_blank"> vestjs </a>
-				</li>
-				<li>
-					<a href="https://vestjs.dev/docs/enforce/enforce_rules" target="_blank">
-						List of Enforce rules</a
-					>
-				</li>
-			</ul>
 		</div>
 		<InputValidation />
 	</CodeContainer>

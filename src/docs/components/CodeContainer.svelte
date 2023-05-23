@@ -1,5 +1,19 @@
 <script lang="ts">
+	import { faExternalLinkSquare } from '@fortawesome/free-solid-svg-icons';
 	import { CodeBlock, Tab, TabGroup } from '@skeletonlabs/skeleton';
+	import { each } from 'svelte/internal';
+
+interface link
+{
+	label:string,
+	url:string
+}
+
+interface prop
+{
+	label:string,
+	description:string
+}
 
 	export let svelte = '';
 	export let csharp = '';
@@ -9,6 +23,9 @@
 	export let javascript = '';
 	export let typescript = '';
 	export let data = '';
+
+	export let external:link[]=[];
+	export let properties:prop[]=[];
 
 	export let title;
 
@@ -24,9 +41,22 @@
 	</div>
 </div>
 
-<div>
-	<slot name="external" />
+{#if external.length>0}
+<div class="py-5">
+		{#each	external as link}
+			<a class="chip variant-ringed" href={link.url}>{link.label}</a>
+		{/each}
 </div>
+{/if}
+
+
+{#if properties.length>0}
+<div>
+		{#each	properties as p}
+				<p>{p.label} - {p.description}</p>
+		{/each}
+</div>
+{/if}
 
 <div>
 
