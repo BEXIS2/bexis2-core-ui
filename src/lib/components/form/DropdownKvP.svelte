@@ -5,10 +5,10 @@
 	export let source;
 	export let target;
 	export let title;
-	export let valid;
-	export let invalid;
-	export let feedback;
-	export let required;
+	export let valid = false;
+	export let invalid = false;
+	export let feedback = [''];
+	export let required = false;
 
 	$: selected = null;
 

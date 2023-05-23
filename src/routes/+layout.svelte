@@ -33,7 +33,6 @@
 	</svelte:fragment>
 	<svelte:fragment slot="sidebarRight">
 		<TableOfContents target="#toc-target" />
-		<b>test</b>
 	</svelte:fragment>
 	<!-- (pageHeader) -->
 	<!-- Router Slot -->

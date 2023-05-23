@@ -8,6 +8,7 @@
 	export let xml = '';
 	export let javascript = '';
 	export let typescript = '';
+	export let data = '';
 
 	export let title;
 
@@ -53,7 +54,10 @@
 				<Tab bind:group={tabSet} name="javascript" value={5}>(javascript)</Tab>
 			{/if}
 			{#if json}
-				<Tab bind:group={tabSet} name="javascript" value={5}>(json)</Tab>
+				<Tab bind:group={tabSet} name="javascript" value={6}>(json)</Tab>
+			{/if}
+			{#if data}
+				<Tab bind:group={tabSet} name="javascript" value={7}>(data)</Tab>
 			{/if}
 
 			<!-- Tab Panels --->
@@ -72,7 +76,10 @@
 					<CodeBlock language="javascript" code={javascript} />
 				{:else if tabSet === 6}
 					<CodeBlock language="javascript" code={json} />
+					{:else if tabSet === 7}
+					<CodeBlock language="javascript" code={data} />
 				{/if}
+
 			</svelte:fragment>
 		</TabGroup>
 	</div>

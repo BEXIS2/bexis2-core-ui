@@ -16,11 +16,9 @@
 		"format": "prettier --plugin-search-dir . --write .",
 		"init": "npm init --scope bexis2",
 		"link": "npm link",
-		"publish": "npm publish --access public",
-		"install bexis2-core-ui localy": "npm install ../bexis2-core-ui"
+		"publish": "npm publish --access public"
 	},
 	"devDependencies": {
-		"@bexis2/bexis2-core-ui": "file:../bexis2-core-ui/dist",
 		"@playwright/test": "^1.28.1",
 		"@skeletonlabs/skeleton": "^1.2.5",
 		"@sveltejs/adapter-auto": "^2.0.0",
