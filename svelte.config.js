@@ -15,12 +15,10 @@ const config = {
 			fallback: null,
 			precompress: false,
 			ssr: true
-		}
-		),
+		}),
 		alias: {
-			 $docs: path.resolve('./src/docs')
+			$docs: path.resolve('./src/docs')
 		}
-
 	}
 };
 

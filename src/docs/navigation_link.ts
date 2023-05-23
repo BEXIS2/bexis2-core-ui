@@ -7,8 +7,7 @@ export const menuNavLinks: any = [
 		id: 'general',
 		title: 'General',
 		list: [
-			{ href: base + '/', label: 'Home', keywords: '' },
-			{ href: base + '/test', label: 'Test', keywords: '' }
+			{ href: base + '/', label: 'Home', keywords: '' }
 		]
 	},
 	{
@@ -23,8 +22,9 @@ export const menuNavLinks: any = [
 		id: 'components',
 		title: 'Components',
 		list: [
-			{ href: base + '/components', label: 'Example Components', keywords: '' },
-			{ href: base + '/components/table', label: 'Example Table Components', keywords: '' }
+			// { href: base + '/components', label: 'Example Components', keywords: '' },
+			{ href: base + '/components/form', label: 'Form', keywords: '' },
+			{ href: base + '/components/table', label: 'Table', keywords: '' }
 		]
 	}
 

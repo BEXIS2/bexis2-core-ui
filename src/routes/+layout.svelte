@@ -1,6 +1,7 @@
 <script lang="ts">
 	// The ordering of these imports is critical to your app working properly
-	import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
+	// import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
+	import '$lib/css/themes/theme-bexis2.css';
 	// If you have source.organizeImports set to true in VSCode, then it will auto change this ordering
 	import '@skeletonlabs/skeleton/styles/all.css';
 	// Most of your app wide CSS should be put in this file
@@ -10,6 +11,7 @@
 	import { storePopup } from '@skeletonlabs/skeleton';
 	// Highlight.js for syntax highlighting in code blocks
 	import hljs from 'highlight.js';
+	// import hljs2 from 'highlightjs-svelte';
 	import 'highlight.js/styles/github-dark.css';
 	import { storeHighlightJs } from '@skeletonlabs/skeleton';
 	import { AppShell, TableOfContents } from '@skeletonlabs/skeleton';
@@ -19,6 +21,7 @@
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 	// Config for the syntax highlighting
 	storeHighlightJs.set(hljs);
+	// storeHighlightJs.set(hljs2);
 </script>
 
 <AppShell
