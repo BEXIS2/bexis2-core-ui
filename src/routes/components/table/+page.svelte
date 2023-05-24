@@ -1,21 +1,14 @@
 <script lang="ts">
 	import '$lib/css/themes/theme-bexis2.css';
 	import { writable } from 'svelte/store';
-	import { CodeBlock } from '@skeletonlabs/skeleton';
+	import { CodeBlock, Tab, TabGroup, type PopupSettings, popup } from '@skeletonlabs/skeleton';
 
 	import Table from '$lib/components/Table/Table.svelte';
 	import TableOptions from './TableOptions.svelte';
 	import TableFilter from '$lib/components/Table/TableFilter.svelte';
-	import { userGroups, users } from './data';
 	import { columnFilter } from '$lib/components/Table/filter';
-	import {
-		tableImportCode,
-		groupTypeCode,
-		groupStoreCode,
-		usersTableConfigCode,
-		usersNoIDTableConfigCode,
-		groupsTableConfigCode
-	} from './codeBlocks';
+	import { userGroups, users } from './data';
+	import * as cb from './codeBlocks';
 	import type { TableConfig } from '$lib/models/Models';
 
 	type Group = { id: number; name: string; description: string };
@@ -36,29 +29,47 @@
 		id: 'users',
 		data: usersStore
 	};
-	const usersNoIDConfig: TableConfig<User> = {
-		id: 'usersNoID',
+	const usersNoRolesConfig: TableConfig<User> = {
+		id: 'usersNoRoles',
 		data: usersStore,
 		optionsComponent: TableOptions,
 		columns: {
 			id: {
-				// Your custom filter function
 				colFilterFn: columnFilter,
-				// Your custom filter component
 				colFilterComponent: TableFilter
 			},
 			role: {
-				// Exclude this column from the table
 				exclude: true
 			},
 			group: {
-				// Your custom header
 				header: 'Group name'
 			}
 		},
 		pageSizes: [1, 3, 5],
 		defaultPageSize: 5
 	};
+
+	const popupHoverTableConfig: PopupSettings = {
+		event: 'hover',
+		target: 'popupHoverTableConfig',
+		placement: 'right'
+	};
+
+	const popupHoverColumns: PopupSettings = {
+		event: 'hover',
+		target: 'popupHoverColumns',
+		placement: 'right'
+	};
+
+	const popupHoverColumn: PopupSettings = {
+		event: 'hover',
+		target: 'popupHoverColumn',
+		placement: 'right'
+	};
+
+	let groupCodeBlocks: number = 0;
+	let usersCodeBlocks: number = 0;
+	let usersNoRolesCodeBlocks: number = 0;
 </script>
 
 <div class="grid gap-5 p-10">
@@ -66,7 +77,7 @@
 	<div class="grid gap-10 px-10">
 		<div class="grid gap-2">
 			<p class="text-xl">Importing the Table component:</p>
-			<CodeBlock language="ts" code={tableImportCode} />
+			<CodeBlock language="ts" code={cb.tableImportCode} />
 		</div>
 		<div class="grid gap-20">
 			<p class="text-xl">
@@ -75,9 +86,14 @@
 				the following structure:
 			</p>
 			<div class="grid gap-5">
-				<div class="grid-gap-1">
-					<h2 class="font-semibold">{`TableConfig <T>`}</h2>
+				<div class="grid-gap-1" id="tableConfig">
+					<h2 class="font-semibold relative w-max" use:popup={popupHoverTableConfig}>
+						{`TableConfig <T>`}
+					</h2>
 					<h4 class="italic">Underlined attributes are <strong>required</strong>.</h4>
+					<div class="variant-filled-secondary" data-popup="popupHoverTableConfig">
+						<CodeBlock language="ts" code={cb.tableConfigTypeCode} />
+					</div>
 				</div>
 
 				<div class="items-center">
@@ -153,8 +169,11 @@
 			</div>
 
 			<div class="grid gap-5">
-				<div class="grid-gap-1">
-					<h2 class="font-semibold items-center">Columns</h2>
+				<div class="grid-gap-1" id="columns">
+					<h2 class="font-semibold items-center w-max" use:popup={popupHoverColumns}>Columns</h2>
+					<div data-popup="popupHoverColumns">
+						<CodeBlock language="ts" code={cb.columnsTypeCode} />
+					</div>
 				</div>
 
 				<div class="items-center">
@@ -172,8 +191,11 @@
 			</div>
 
 			<div class="grid gap-5">
-				<div class="grid-gap-1">
-					<h2 class="font-semibold items-center">Column</h2>
+				<div class="grid-gap-1" id="column">
+					<h2 class="font-semibold items-center w-max" use:popup={popupHoverColumn}>Column</h2>
+					<div data-popup="popupHoverColumn">
+						<CodeBlock language="ts" code={cb.columnTypeCode} />
+					</div>
 				</div>
 
 				<div class="items-center">
@@ -235,7 +257,7 @@
 </div>
 
 <div class="grid gap-20 p-10 relative">
-	<div class="grid grid-cols-2 gap-5 w-full items-start">
+	<div class="grid grid-cols-2 gap-5 w-full items-start" id="groups">
 		<div class="grid gap-5">
 			<h1>Groups</h1>
 			<Table config={groupConfig} />
@@ -243,41 +265,109 @@
 
 		<div class="grid gap-5">
 			<div class="grid gap-10">
-				<div class="grid gap-1 grow">
-					<p class="text-lg">Your data object type:</p>
-					<CodeBlock language="ts" code={groupTypeCode} />
-				</div>
-				<div class="grid gap-1 grow">
-					<p class="text-lg">Your data and store:</p>
-					<CodeBlock language="ts" code={groupStoreCode} />
-				</div>
-				<div class="grid gap-1 grow">
-					<p class="text-lg">Creating the table:</p>
-					<CodeBlock language="ts" code={groupsTableConfigCode} />
-				</div>
+				<TabGroup>
+					<Tab bind:group={groupCodeBlocks} name="group-tab1" value={0}>Usage</Tab>
+					<Tab bind:group={groupCodeBlocks} name="group-tab2" value={1}>Config</Tab>
+					<Tab bind:group={groupCodeBlocks} name="group-tab3" value={2}>Data</Tab>
+					<Tab bind:group={groupCodeBlocks} name="group-tab4" value={3}>Type</Tab>
+					<svelte:fragment slot="panel">
+						{#if groupCodeBlocks === 0}
+							<div class="grid gap-1 grow">
+								<CodeBlock language="html" code={cb.groupHTML} />
+							</div>
+						{:else if groupCodeBlocks === 1}
+							<div class="grid gap-1 grow">
+								<CodeBlock language="ts" code={cb.groupsTableConfigCode} />
+							</div>
+						{:else if groupCodeBlocks === 2}
+							<div class="grid gap-1 grow">
+								<CodeBlock language="ts" code={cb.groupStoreCode} />
+							</div>
+						{:else if groupCodeBlocks === 3}
+							<div class="grid gap-1 grow">
+								<CodeBlock language="ts" code={cb.groupTypeCode} />
+							</div>
+						{/if}
+					</svelte:fragment>
+				</TabGroup>
 			</div>
 		</div>
 	</div>
 
-	<div class="grid grid-cols-2 items-start gap-5">
+	<div class="grid grid-cols-2 items-start gap-5" id="users">
 		<div class="grid gap-5 grow">
 			<h1>Users</h1>
 			<Table config={usersConfig} />
 		</div>
 		<div class="grid gap-1 w-full grow">
 			<p class="text-lg">With only required props:</p>
-			<CodeBlock language="ts" code={usersTableConfigCode} />
+			<TabGroup>
+				<Tab bind:group={usersCodeBlocks} name="users-tab1" value={0}>Usage</Tab>
+				<Tab bind:group={usersCodeBlocks} name="users-tab2" value={1}>Config</Tab>
+				<Tab bind:group={usersCodeBlocks} name="users-tab3" value={2}>Data</Tab>
+				<Tab bind:group={usersCodeBlocks} name="users-tab4" value={3}>Type</Tab>
+				<svelte:fragment slot="panel">
+					{#if usersCodeBlocks === 0}
+						<div class="grid gap-1 grow">
+							<CodeBlock language="html" code={cb.usersHTML} />
+						</div>
+					{:else if usersCodeBlocks === 1}
+						<div class="grid gap-1 grow">
+							<CodeBlock language="ts" code={cb.usersTableConfigCode} />
+						</div>
+					{:else if usersCodeBlocks === 2}
+						<div class="grid gap-1 grow">
+							<CodeBlock language="ts" code={cb.usersStoreCode} />
+						</div>
+					{:else if usersCodeBlocks === 3}
+						<div class="grid gap-1 grow">
+							<CodeBlock language="ts" code={cb.userTypeCode} />
+						</div>
+					{/if}
+				</svelte:fragment>
+			</TabGroup>
 		</div>
 	</div>
 
-	<div class="grid grid-cols-2 items-start gap-5 w-full">
+	<div class="grid grid-cols-2 items-start gap-5 w-full" id="usersNoRoles">
 		<div class="grid gap-5 grow">
 			<h1>Users <span class="text-xl">Roles excluded</span></h1>
-			<Table config={usersNoIDConfig} />
+			<Table config={usersNoRolesConfig} />
 		</div>
 		<div class="grid gap-1 w-full">
 			<p class="text-lg">With all possible props:</p>
-			<CodeBlock language="ts" code={usersNoIDTableConfigCode} />
+			<TabGroup>
+				<Tab bind:group={usersNoRolesCodeBlocks} name="users-noRoles-tab1" value={0}>Usage</Tab>
+				<Tab bind:group={usersNoRolesCodeBlocks} name="users-noRoles-tab2" value={1}>Config</Tab>
+				<Tab bind:group={usersNoRolesCodeBlocks} name="users-noRoles-tab3" value={2}>Data</Tab>
+				<Tab bind:group={usersNoRolesCodeBlocks} name="users-noRoles-tab4" value={3}>Type</Tab>
+				<Tab bind:group={usersNoRolesCodeBlocks} name="users-noRoles-tab5" value={4}
+					>Options Component</Tab
+				>
+				<svelte:fragment slot="panel">
+					{#if usersNoRolesCodeBlocks === 0}
+						<div class="grid gap-1 grow">
+							<CodeBlock language="html" code={cb.usersNoRolesHTML} />
+						</div>
+					{:else if usersNoRolesCodeBlocks === 1}
+						<div class="grid gap-1 grow">
+							<CodeBlock language="ts" code={cb.usersNoRolesTableConfigCode} />
+						</div>
+					{:else if usersNoRolesCodeBlocks === 2}
+						<div class="grid gap-1 grow">
+							<CodeBlock language="ts" code={cb.usersStoreCode} />
+						</div>
+					{:else if usersNoRolesCodeBlocks === 3}
+						<div class="grid gap-1 grow">
+							<CodeBlock language="ts" code={cb.userTypeCode} />
+						</div>
+					{:else if usersNoRolesCodeBlocks === 4}
+						<div class="grid gap-1 grow">
+							<CodeBlock language="html" code={cb.tableOptionsHTML} />
+						</div>
+					{/if}
+				</svelte:fragment>
+			</TabGroup>
 		</div>
 	</div>
 </div>
