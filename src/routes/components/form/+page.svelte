@@ -1,10 +1,11 @@
 <script lang="ts">
 	import CodeContainer from '$docs/components/CodeContainer.svelte';
 
-	import { CodeBlock } from '@skeletonlabs/skeleton';
+	import { CodeBlock, TableOfContents } from '@skeletonlabs/skeleton';
 
- const c = "import { NameOfUIComp } from 'bexis2/bexis2-core-ui'";
-
+ const c = "import { NameOfUIComp, NameOfUIComp2 } from 'bexis2/bexis2-core-ui' ";
+ const t = "import type { NameOfType, NameOfType2 } from 'bexis2/bexis2-core-ui' ";
+	let y
 	// example 1
 	import InputExamples from './examples/InputExamples.svelte';
 	import InputExamplesRaw from './examples/InputExamples.svelte?raw';
@@ -45,10 +46,19 @@
 
 		// example 9 - radiobutton group
 		import RadioGroupExample from './examples/RadioGroupExample.svelte';
-	import RadioGroupExampleRaw from './examples/RadioGroupExample.svelte?raw';
+	 import RadioGroupExampleRaw from './examples/RadioGroupExample.svelte?raw';
+
+
+	// page components
+	import BackToTop from '$lib/components/page/BackToTop.svelte';
+	import Page from '$lib/components/page/Page.svelte';
+
 </script>
 
-<div id="toc-target" class="p-5 grid gap-5">
+
+<Page>
+	
+<div id="toc-target">
 
 	<div class="p-5 bg-warning-500 text-white gap-5 grid">
 
@@ -58,6 +68,7 @@
 		</p>
 
 	 <CodeBlock language="javascript" code="{c}" />
+	 <CodeBlock language="typescript" code="{t}" />
 
 	</div>
 
@@ -132,7 +143,7 @@
 		title={'Radiogroup'} 
 		svelte={RadioGroupExampleRaw}
 		external={[
-			{label:"skeleton ui - radio groups",url:"https://www.skeleton.dev/components/radio-groups"},
+			{label:"skeleton ui - radio groups",url:"https://www.skeleton.dev/components/radio-groups"}
 		]}
 			>
 			<div slot="info">
@@ -201,3 +212,8 @@
 		<InputValidation />
 	</CodeContainer>
 </div>
+
+<BackToTop/>
+</Page>
+<svelte:window bind:scrollY={y} />
+
