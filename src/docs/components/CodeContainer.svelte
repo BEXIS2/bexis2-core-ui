@@ -27,19 +27,27 @@ interface prop
 	export let javascript = '';
 	export let typescript = '';
 	export let data = '';
+	export let codeOnly = false;
+	export let activetab = 0;
 
 	export let external:link[]=[];
 	export let properties:prop[]=[];
 
 	export let title;
 
-	let tabSet: number = 0;
+	let tabSet: number = activetab;
 
 	const propertiesStore = writable<prop[]>(properties);
 	const propertiesTableConfig: TableConfig<prop> = {
 			id: 'properties',
 			data: propertiesStore
 		};
+
+		let codeClass = "w-1/2"
+		if(codeOnly)
+		{
+			codeClass="w-full"
+		}
 
 </script>
 <div>
@@ -71,35 +79,39 @@ interface prop
 <div>
 
 <div class="card flex p-5 gap-10">
+	{#if codeOnly==false}
 	<div class="w-1/2">
 		<slot />
 	</div>
+	{/if}
 
-	<div class="w-1/2">
+
+		<div class="{codeClass}">
+
 		<TabGroup>
 			{#if svelte}
-				<Tab bind:group={tabSet} name="html" value={0}>(Svelte)</Tab>
+				<Tab bind:group={tabSet} name="html" value={0}>Svelte</Tab>
 			{/if}
 			{#if typescript}
-				<Tab bind:group={tabSet} name="typescript" value={1}>(Typescript)</Tab>
+				<Tab bind:group={tabSet} name="typescript" value={1}>Typescript</Tab>
 			{/if}
 			{#if csharp}
-				<Tab bind:group={tabSet} name="csharp" value={2}>(csharp)</Tab>
+				<Tab bind:group={tabSet} name="csharp" value={2}>CSharp</Tab>
 			{/if}
 			{#if model}
-				<Tab bind:group={tabSet} name="model" value={3}>(model)</Tab>
+				<Tab bind:group={tabSet} name="model" value={3}>Model</Tab>
 			{/if}
 			{#if xml}
-				<Tab bind:group={tabSet} name="xml" value={4}>(xml)</Tab>
+				<Tab bind:group={tabSet} name="xml" value={4}>Xml</Tab>
 			{/if}
 			{#if javascript}
-				<Tab bind:group={tabSet} name="javascript" value={5}>(javascript)</Tab>
+				<Tab bind:group={tabSet} name="javascript" value={5}>Javascript</Tab>
 			{/if}
 			{#if json}
-				<Tab bind:group={tabSet} name="javascript" value={6}>(json)</Tab>
+				<Tab bind:group={tabSet} name="javascript" value={6}>Json</Tab>
 			{/if}
 			{#if data}
-				<Tab bind:group={tabSet} name="javascript" value={7}>(data)</Tab>
+				<Tab bind:group={tabSet} name="javascript" value={7}>Data</Tab>
 			{/if}
 
 			<!-- Tab Panels --->
@@ -113,7 +125,7 @@ interface prop
 				{:else if tabSet === 3}
 					<CodeBlock language="csharp" code={model} />
 				{:else if tabSet === 4}
-					<CodeBlock language="xml" code={model} />
+					<CodeBlock language="xml" code={xml} />
 				{:else if tabSet === 5}
 					<CodeBlock language="javascript" code={javascript} />
 				{:else if tabSet === 6}

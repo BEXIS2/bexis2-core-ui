@@ -22,6 +22,7 @@
 	// Config for the syntax highlighting
 	storeHighlightJs.set(hljs);
 	// storeHighlightJs.set(hljs2);
+
 </script>
 
 <AppShell
@@ -30,9 +31,6 @@
 	<svelte:fragment slot="header">Header</svelte:fragment>
 	<svelte:fragment slot="sidebarLeft">
 		<Navigation />
-	</svelte:fragment>
-	<svelte:fragment slot="sidebarRight">
-		<TableOfContents target="#toc-target" />
 	</svelte:fragment>
 	<!-- (pageHeader) -->
 	<!-- Router Slot -->

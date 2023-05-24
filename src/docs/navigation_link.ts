@@ -19,10 +19,17 @@ export const menuNavLinks: any = [
 		]
 	},
 	{
+		id: 'backend',
+		title: 'Backend',
+		list: [
+			{ href: base + '/backend/hooks', label: 'Hooks', keywords: '' }
+		]
+	},
+	{
 		id: 'components',
 		title: 'Components',
 		list: [
-			// { href: base + '/components', label: 'Example Components', keywords: '' },
+			{ href: base + '/components/icon', label: 'Icons', keywords: '' },
 			{ href: base + '/components/form', label: 'Form', keywords: '' },
 			{ href: base + '/components/table', label: 'Table', keywords: '' }
 		]
