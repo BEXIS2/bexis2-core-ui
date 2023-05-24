@@ -26,14 +26,14 @@
 <div class="flex justify-center gap-1">
 	<button
 		class="btn btn-sm variant-filled-primary"
-		on:click={goToFirstPage}
+		on:click|preventDefault={goToFirstPage}
 		disabled={goToFirstPageDisabled}
 	>
 		<Fa icon={faAnglesLeft} /></button
 	>
 	<button
 		class="btn btn-sm variant-filled-primary"
-		on:click={goToPreviousPage}
+		on:click|preventDefault={goToPreviousPage}
 		disabled={goToPreviousPageDisabled}><Fa icon={faAngleLeft} /></button
 	>
 
@@ -50,12 +50,12 @@
 
 	<button
 		class="btn btn-sm variant-filled-primary"
-		on:click={goToNextPage}
+		on:click|preventDefault={goToNextPage}
 		disabled={goToNextPageDisabled}><Fa icon={faAngleRight} /></button
 	>
 	<button
 		class="btn btn-sm variant-filled-primary"
-		on:click={goToLastPage}
+		on:click|preventDefault={goToLastPage}
 		disabled={goToLastPageDisabled}><Fa icon={faAnglesRight} /></button
 	>
 </div>

@@ -18,6 +18,11 @@ import NumberInput from './components/form/NumberInput.svelte';
 import TextInput from './components/form/TextInput.svelte';
 import TextArea from './components/form/TextArea.svelte';
 
+import Table from './components/Table/Table.svelte';
+import TableFilter from './components/Table/TableFilter.svelte';
+import { columnFilter, searchFilter } from './components/Table/filter';
+import type { TableConfig, Columns, Column } from './models/Models';
+
 //Form
 export {
 	Checkbox,
@@ -43,3 +48,7 @@ export { host, username, password, setApiConfig } from './stores/apistore.js';
 
 //Type
 export type { user, FileUploaderModel } from './models/Models.js';
+
+// Table
+export { Table, TableFilter, columnFilter, searchFilter };
+export type { TableConfig, Columns, Column };
