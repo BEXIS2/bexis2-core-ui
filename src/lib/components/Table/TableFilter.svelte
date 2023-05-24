@@ -96,7 +96,7 @@
 			<button
 				class="btn variant-filled-primary btn-sm"
 				type="submit"
-				on:click={() => {
+				on:click|preventDefault={() => {
 					firstOption = 'isequal';
 					firstValue = undefined;
 					secondOption = 'isequal';
@@ -166,7 +166,7 @@
 			<button
 				class="btn variant-filled-primary btn-sm"
 				type="submit"
-				on:click={() => {
+				on:click|preventDefault={() => {
 					active = firstValue?.toString().length > 0 || secondValue?.toString().length > 0;
 					$filterValue = [firstOption, firstValue, secondOption, secondValue];
 				}}>Submit</button
