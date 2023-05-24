@@ -17,7 +17,7 @@ type hookPlaces={
   description:string
 }
 
-const hookplacesStore = writable<prop[]>(Hookplaces);
+const hookplacesStore = writable<hookPlaces[]>(Hookplaces);
 	const hookplacesTableConfig: TableConfig<hookPlaces> = {
 			id: 'hookplaces',
 			data: hookplacesStore

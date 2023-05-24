@@ -47,7 +47,11 @@ export { Api } from './services/Api.js';
 export { host, username, password, setApiConfig } from './stores/apistore.js';
 
 //Type
-export type { user, FileUploaderModel } from './models/Models.js';
+export type { 
+	user, 
+	Input,
+	FileUploaderModel
+	 } from './models/Models.js';
 
 // Table
 export { Table, TableFilter, columnFilter, searchFilter };
