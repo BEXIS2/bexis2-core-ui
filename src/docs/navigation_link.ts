@@ -14,7 +14,7 @@ export const menuNavLinks: any = [
 		id: 'theme',
 		title: 'Theme',
 		list: [
-			{ href: base + '/theme', label: 'Theme/Layout', keywords: '' }
+			{ href: base + '/components/theme', label: 'Theme/Layout', keywords: '' }
 			//	{ href: '/compare', label: 'Fields', keywords: '' }
 		]
 	},
@@ -22,9 +22,16 @@ export const menuNavLinks: any = [
 		id: 'components',
 		title: 'Components',
 		list: [
-			// { href: base + '/components', label: 'Example Components', keywords: '' },
+			{ href: base + '/components/icon', label: 'Icons', keywords: '' },
 			{ href: base + '/components/form', label: 'Form', keywords: '' },
 			{ href: base + '/components/table', label: 'Table', keywords: '' }
+		]
+	},
+	{
+		id: 'backend',
+		title: 'Backend',
+		list: [
+			{ href: base + '/backend/hooks', label: 'Hooks', keywords: '' }
 		]
 	}
 
