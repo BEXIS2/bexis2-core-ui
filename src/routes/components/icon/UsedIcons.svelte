@@ -11,9 +11,9 @@
 
 </script>
 <div>
-<table class="table table-hover">
+<table class="table table-compact bg-tertiary-200">
  <thead>
-   <tr>
+   <tr class="bg-primary-300">
      <th>Icon</th>
      <th>Id</th>
      <th>Case</th>

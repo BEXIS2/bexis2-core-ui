@@ -1,7 +1,7 @@
 <script lang="ts">
 	import CodeContainer from '$docs/components/CodeContainer.svelte';
 
-	import { CodeBlock, TableOfContents } from '@skeletonlabs/skeleton';
+	import { CodeBlock } from '@skeletonlabs/skeleton';
 
  const c = "import { NameOfUIComp, NameOfUIComp2 } from 'bexis2/bexis2-core-ui' ";
  const t = "import type { NameOfType, NameOfType2 } from 'bexis2/bexis2-core-ui' ";
@@ -55,10 +55,10 @@
 
 </script>
 
-
+<div id="toc-target">
 <Page>
 	
-<div id="toc-target">
+
 
 	<div class="p-5 bg-warning-500 text-white gap-5 grid">
 
@@ -211,9 +211,8 @@
 		</div>
 		<InputValidation />
 	</CodeContainer>
-</div>
-
 <BackToTop/>
 </Page>
+</div>
 <svelte:window bind:scrollY={y} />
 
