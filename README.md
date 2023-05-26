@@ -1,5 +1,12 @@
 # bexis-core-ui
 
+## v0.0.28
+#### components
+- Page
+  
+#### types
+- Link
+
 ## v0.0.27
 
 ### add
