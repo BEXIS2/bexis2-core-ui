@@ -53,7 +53,8 @@ export { host, username, password, setApiConfig } from './stores/apistore.js';
 export type { 
 	user, 
 	Input,
-	FileUploaderModel
+	FileUploaderModel,
+	Link
 	 } from './models/Models.js';
 
 // Table
