@@ -17,14 +17,13 @@
 	storeHighlightJs.set(hljs);
 	// storeHighlightJs.set(hljs2);
 
-// import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
-import '$lib/css/themes/theme-bexis2.css';
+ // import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
+ import '$lib/css/themes/theme-bexis2.css';
 	// If you have source.organizeImports set to true in VSCode, then it will auto change this ordering
 	import '@skeletonlabs/skeleton/styles/all.css';
 	// Most of your app wide CSS should be put in this file
 	import '../app.postcss';
 	
-
 </script>
 
 <AppShell
