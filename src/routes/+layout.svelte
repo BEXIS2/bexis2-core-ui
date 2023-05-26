@@ -1,11 +1,5 @@
 <script lang="ts">
 	// The ordering of these imports is critical to your app working properly
-	// import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
-	import '$lib/css/themes/theme-bexis2.css';
-	// If you have source.organizeImports set to true in VSCode, then it will auto change this ordering
-	import '@skeletonlabs/skeleton/styles/all.css';
-	// Most of your app wide CSS should be put in this file
-	import '../app.postcss';
 	// For the floating UI elements such as column filters
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
 	import { storePopup } from '@skeletonlabs/skeleton';
@@ -22,6 +16,14 @@
 	// Config for the syntax highlighting
 	storeHighlightJs.set(hljs);
 	// storeHighlightJs.set(hljs2);
+
+// import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
+import '$lib/css/themes/theme-bexis2.css';
+	// If you have source.organizeImports set to true in VSCode, then it will auto change this ordering
+	import '@skeletonlabs/skeleton/styles/all.css';
+	// Most of your app wide CSS should be put in this file
+	import '../app.postcss';
+	
 
 </script>
 

@@ -2,6 +2,14 @@ import type { SvelteComponent } from 'svelte';
 import type { ColumnFilterFn } from 'svelte-headless-table/lib/plugins';
 import type { Writable } from 'svelte/store';
 
+// page
+export interface Link
+{
+	label:string,
+	url:string
+}
+
+// Form
 export interface Input {
 	id: string;
 	label: string;

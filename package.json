@@ -3,7 +3,7 @@
   "version": "0.0.27",
   "private": false,
   "scripts": {
-    "dev": "vite dev --host",
+    "dev": "vite dev",
     "package": "svelte-package --watch",
     "build": "vite build",
     "build package": "svelte-kit sync && svelte-package --watch",
@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.28.1",
-    "@skeletonlabs/skeleton": "^1.2.5",
+    "@skeletonlabs/skeleton": "^1.6.0",
     "@sveltejs/adapter-auto": "^2.0.0",
     "@sveltejs/adapter-static": "^2.0.2",
     "@sveltejs/kit": "^1.5.0",
