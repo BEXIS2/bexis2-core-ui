@@ -50,7 +50,15 @@ export interface FileObj {
 // Table column type
 export interface Column {
 	header?: string;
-	exclude?: boolean;
+	exclude?: boolean; // false by default
+	instructions?: {
+		toStringFn?: (value: any) => string;
+		toSortableValueFn?: (value: any) => string | number;
+		toFilterableValueFn?: (value: any) => string | number;
+		sortable?: boolean; // true by default
+		filterable?: boolean; // true by default
+	};
+	disableFilter?: boolean; // false by default
 	colFilterFn?: ColumnFilterFn;
 	colFilterComponent?: typeof SvelteComponent;
 }

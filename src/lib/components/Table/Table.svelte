@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { createEventDispatcher } from 'svelte';
 	import { createTable, Subscribe, Render, createRender } from 'svelte-headless-table';
 	import {
 		addSortBy,
@@ -25,6 +26,9 @@
 
 	type AccessorType = keyof (typeof $data)[0];
 
+	const dispatch = createEventDispatcher();
+	const actionDispatcher = (obj) => dispatch('action', obj);
+
 	const table = createTable(data, {
 		colFilter: addColumnFilters(),
 		tableFilter: addTableFilter({
@@ -49,21 +53,52 @@
 			.map((accessor) => {
 				const key = accessor as string;
 				if (columns !== undefined && key in columns) {
-					const { header, colFilterFn, colFilterComponent } = columns[key];
+					const { header, colFilterFn, colFilterComponent, instructions } = columns[key];
+
+					const {
+						toSortableValueFn,
+						filterable = true,
+						sortable = true,
+						toFilterableValueFn,
+						toStringFn
+					} = instructions ?? {};
+
 					return table.column({
 						header: header ?? key,
 						accessor: accessor,
+						cell: ({ value }) => {
+							return toStringFn ? toStringFn(value) : value;
+						},
 						plugins: {
-							sort: { invert: true },
-							colFilter: {
-								fn: colFilterFn ?? columnFilter,
-								render: ({ filterValue, values, id }) =>
-									createRender(colFilterComponent ?? TableFilter, {
-										filterValue,
-										values,
-										id,
-										tableId
-									})
+							sort: {
+								disable: sortable !== true ?? false,
+								invert: true,
+								getSortValue: (row) => {
+									return sortable && toSortableValueFn ? toSortableValueFn(row) : row;
+								}
+							},
+							colFilter: filterable
+								? {
+										fn: ({ filterValue, value }) => {
+											const val = toFilterableValueFn ? toFilterableValueFn(value) : value;
+
+											return colFilterFn
+												? colFilterFn({ filterValue, value: val })
+												: columnFilter({ filterValue, value: val });
+										},
+										render: ({ filterValue, values, id }) =>
+											createRender(colFilterComponent ?? TableFilter, {
+												filterValue,
+												values,
+												id,
+												tableId
+											})
+								  }
+								: undefined,
+							tableFilter: {
+								getFilterValue: (row) => {
+									return filterable && toFilterableValueFn ? toFilterableValueFn(row) : row;
+								}
 							}
 						}
 					});
@@ -72,7 +107,9 @@
 						header: key,
 						accessor: accessor,
 						plugins: {
-							sort: { invert: true },
+							sort: {
+								invert: true
+							},
 							colFilter: {
 								fn: columnFilter,
 								render: ({ filterValue, values, id }) =>
@@ -91,7 +128,8 @@
 				header: '',
 				cell: ({ row }, _) => {
 					return createRender(optionsComponent!, {
-						row: row.isData() ? row.original : null
+						row: row.isData() ? row.original : null,
+						dispatchFn: actionDispatcher
 					});
 				}
 			}) as any
