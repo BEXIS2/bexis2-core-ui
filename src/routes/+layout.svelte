@@ -22,7 +22,6 @@
 	// Config for the syntax highlighting
 	storeHighlightJs.set(hljs);
 	// storeHighlightJs.set(hljs2);
-
 </script>
 
 <AppShell
