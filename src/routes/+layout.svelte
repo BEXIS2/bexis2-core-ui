@@ -20,7 +20,7 @@
  // import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
  import '$lib/css/themes/theme-bexis2.css';
 	// If you have source.organizeImports set to true in VSCode, then it will auto change this ordering
-	import '@skeletonlabs/skeleton/styles/all.css';
+	import '@skeletonlabs/skeleton/styles/skeleton.css';
 	// Most of your app wide CSS should be put in this file
 	import '../app.postcss';
 	
@@ -29,7 +29,7 @@
 <AppShell
 	slotSidebarLeft="flex-none overflow-x-hidden overflow-y-auto bg-surface-50-900-token lg:w-auto"
 >
-	<svelte:fragment slot="header">Header</svelte:fragment>
+	<!-- <svelte:fragment slot="header">Header</svelte:fragment> -->
 	<svelte:fragment slot="sidebarLeft">
 		<Navigation />
 	</svelte:fragment>
@@ -38,5 +38,5 @@
 	<slot />
 	<!-- ---- / ---- -->
 	<!-- (pageFooter) -->
-	<svelte:fragment slot="footer">Footer</svelte:fragment>
+	<!-- <svelte:fragment slot="footer">Footer</svelte:fragment> -->
 </AppShell>

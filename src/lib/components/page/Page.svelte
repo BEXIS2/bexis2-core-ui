@@ -9,7 +9,7 @@
  </script>
  
  <div class="px-5 grid gap-5" >
-  <h1>{title}</h1>
+  <h1 class="h1">{title}</h1>
   {#if note}
     <blockquote class="blockquote">{note}</blockquote>
   {/if}
