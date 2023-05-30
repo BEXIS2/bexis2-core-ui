@@ -1,3 +1,29 @@
+export const simpleTableHTML = `
+<script lang="ts">
+	import { usersStore } from './data';
+</script>
+
+<div class="table-container">
+	<table class="table table-compact bg-tertiary-200">
+		<thead>
+			<tr class="bg-primary-300">
+				<th class="!p-2">Group</th>
+				<th class="!p-2">Description</th>
+			</tr>
+		</thead>
+		<tbody>
+			{#each $usersStore as user}
+				<tr>
+					<td>{user.name}</td>
+					<td>
+						<div>{user.group}</div>
+					</td>
+				</tr>
+			{/each}
+		</tbody>
+	</table>
+</div>`;
+
 export const groupHTML = `
 <script lang="ts">
 	import { Table } from 'bexis2-core-ui';
@@ -97,7 +123,73 @@ export const usersNoRolesHTML = `
 	};
 </script>
 
-<Table config={usersNoRolesConfig} />`;
+<Table 
+	config={usersNoRolesConfig} 
+	on:action={(obj) => alert(obj.detail.type)} 
+/>`;
+
+export const usersBDHTML = `
+<script lang="ts">
+	import { Table } from 'bexis2-core-ui';
+	import type { TableConfig } from 'bexis2-core-ui';
+
+	import { usersBDStore } from './data';
+	import type { UserBD } from './data';
+
+	const usersBDConfig: TableConfig<UserBD> = {
+		id: 'usersBD',
+		data: usersBDStore,
+		columns: {
+			dateOfBirth: {
+				header: 'Date of birth',
+				instructions: {
+					toStringFn: 
+						(date: Date) =>
+							date.toLocaleString('en-US', { 
+								month: 'short', 
+								day: 'numeric', 
+								year: 'numeric' 
+							}
+						),
+					toSortableValueFn: 
+						(date: Date) => date.getTime(),
+					toFilterableValueFn: 
+						(date: Date) => date
+				}
+			}
+		}
+	};
+</script>
+
+<Table config={usersBDConfig} />`;
+
+export const usersBDStoreCode = `
+type UserBD = { 
+	id: number; 
+	name: string; 
+	dateOfBirth: Date 
+};
+
+export const usersBD = [
+	{
+		id: 1,
+		name: 'John Doe',
+		dateOfBirth: new Date('1990-05-10')
+	},
+	{
+		id: 2,
+		name: 'Jane Smith',
+		dateOfBirth: new Date('1985-12-15')
+	},
+	{
+		id: 3,
+		name: 'David Johnson',
+		dateOfBirth: new Date('1992-07-22')
+	},
+	...
+];
+
+const usersBDStore = writable<UserBD[]>(usersBD);`;
 
 export const tableOptionsHTML = `
 <script lang="ts">
@@ -134,3 +226,81 @@ export interface Column {
 	colFilterFn?: ColumnFilterFn;
 	colFilterComponent?: typeof SvelteComponent;
 }`;
+
+export const usersMissingIDsHTML = `
+<script lang="ts">
+	import { Table } from 'bexis2-core-ui';
+	import type { TableConfig } from 'bexis2-core-ui';
+
+	import { usersMissingIDsStore } from './data';
+	import type { UserMissingID } from './data';
+
+	const missingValues: { [key: number]: string } = {
+		32655: 'NA',
+		32654: 'NM',
+		32653: 'ND'
+	};
+
+	const usersMissingIDsConfig: TableConfig<UserMissingID> = {
+		id: 'usersMissingIDs',
+		data: usersMissingIDsStore,
+		columns: {
+			id: {
+				header: 'ID',
+				instructions: {
+					toStringFn: (key: number) => {
+						if (key in missingValues) {
+							return missingValues[key];
+						}
+						return key.toString();
+					}
+				}
+			}
+		}
+	};
+</script>
+
+<Table config={usersMissingIDsConfig} />`;
+
+export const usersMissingIDsStoreCode = `
+type UserMissingID = { 
+	id: number;
+	name: string; 
+	group: string; 
+	role: string 
+};
+	
+export const usersMissingIDs = [
+	{
+		id: 1,
+		name: 'User 1',
+		group: 'Group 1',
+		role: 'Role 1'
+	},
+	{
+		id: 32655,
+		name: 'User 2',
+		group: 'Group 2',
+		role: 'Role 2'
+	},
+	{
+		id: 3,
+		name: 'User 3',
+		group: 'Group 3',
+		role: 'Role 3'
+	},
+	{
+		id: 32653,
+		name: 'User 4',
+		group: 'Group 4',
+		role: 'Role 4'
+	},
+	{
+		id: 5,
+		name: 'User 5',
+		group: 'Group 5',
+		role: 'Role 5'
+	}
+];
+
+const usersMissingIDsStore = writable<UserMissingID[]>(usersMissingIDs);`;
