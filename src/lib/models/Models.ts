@@ -54,7 +54,7 @@ export interface Column {
 	instructions?: {
 		toStringFn?: (value: any) => string;
 		toSortableValueFn?: (value: any) => string | number;
-		toFilterableValueFn?: (value: any) => string | number;
+		toFilterableValueFn?: (value: any) => string | number | Date;
 		sortable?: boolean; // true by default
 		filterable?: boolean; // true by default
 	};
