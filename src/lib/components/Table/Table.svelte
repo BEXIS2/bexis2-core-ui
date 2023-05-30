@@ -86,18 +86,19 @@
 												? colFilterFn({ filterValue, value: val })
 												: columnFilter({ filterValue, value: val });
 										},
-										render: ({ filterValue, values, id }) =>
-											createRender(colFilterComponent ?? TableFilter, {
+										render: ({ filterValue, values, id }) => {
+											return createRender(colFilterComponent ?? TableFilter, {
 												filterValue,
-												values,
 												id,
-												tableId
-											})
+												tableId,
+												values
+											});
+										}
 								  }
 								: undefined,
 							tableFilter: {
 								getFilterValue: (row) => {
-									return filterable && toFilterableValueFn ? toFilterableValueFn(row) : row;
+									return toStringFn ? toStringFn(row) : row;
 								}
 							}
 						}
@@ -113,7 +114,12 @@
 							colFilter: {
 								fn: columnFilter,
 								render: ({ filterValue, values, id }) =>
-									createRender(TableFilter, { filterValue, values, id, tableId })
+									createRender(TableFilter, {
+										filterValue,
+										id,
+										tableId,
+										values
+									})
 							}
 						}
 					});
