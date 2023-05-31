@@ -39,7 +39,8 @@
 		expand: addExpandedRows()
 	});
 
-	const accessors: AccessorType[] = Object.keys($data[0]) as AccessorType[];
+	const accessors: AccessorType[] =
+		$data.length > 0 ? (Object.keys($data[0]) as AccessorType[]) : [];
 
 	const tableColumns = [
 		...accessors
@@ -58,16 +59,11 @@
 						colFilterFn,
 						colFilterComponent,
 						instructions,
-						disableFilter = false
+						disableFiltering = false,
+						disableSorting = false
 					} = columns[key];
 
-					const {
-						toSortableValueFn,
-						filterable = true,
-						sortable = true,
-						toFilterableValueFn,
-						toStringFn
-					} = instructions ?? {};
+					const { toSortableValueFn, toFilterableValueFn, toStringFn } = instructions ?? {};
 
 					return table.column({
 						header: header ?? key,
@@ -77,32 +73,31 @@
 						},
 						plugins: {
 							sort: {
-								disable: sortable !== true ?? false,
+								disable: disableSorting,
 								invert: true,
 								getSortValue: (row) => {
-									return sortable && toSortableValueFn ? toSortableValueFn(row) : row;
+									return toSortableValueFn ? toSortableValueFn(row) : row;
 								}
 							},
-							colFilter:
-								filterable && !disableFilter
-									? {
-											fn: ({ filterValue, value }) => {
-												const val = toFilterableValueFn ? toFilterableValueFn(value) : value;
+							colFilter: !disableFiltering
+								? {
+										fn: ({ filterValue, value }) => {
+											const val = toFilterableValueFn ? toFilterableValueFn(value) : value;
 
-												return colFilterFn
-													? colFilterFn({ filterValue, value: val })
-													: columnFilter({ filterValue, value: val });
-											},
-											render: ({ filterValue, values, id }) => {
-												return createRender(colFilterComponent ?? TableFilter, {
-													filterValue,
-													id,
-													tableId,
-													values
-												});
-											}
-									  }
-									: undefined,
+											return colFilterFn
+												? colFilterFn({ filterValue, value: val })
+												: columnFilter({ filterValue, value: val });
+										},
+										render: ({ filterValue, values, id }) => {
+											return createRender(colFilterComponent ?? TableFilter, {
+												filterValue,
+												id,
+												tableId,
+												values
+											});
+										}
+								  }
+								: undefined,
 							tableFilter: {
 								getFilterValue: (row) => {
 									return toStringFn ? toStringFn(row) : row;
