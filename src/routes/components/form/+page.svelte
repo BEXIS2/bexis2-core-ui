@@ -56,9 +56,7 @@
 </script>
 
 <div id="toc-target">
-<Page>
-	
-
+<Page title="Form components" note="This page lists all the form components and shows how to develop a validation.">
 
 	<div class="p-5 bg-warning-500 text-white gap-5 grid">
 

@@ -6,8 +6,11 @@ import FileIcon from './components/file/FileIcon.svelte';
 import FileInfo from './components/file/FileInfo.svelte';
 import FileUploader from './components/file/FileUploader.svelte';
 
+//page
 import Spinner from './components/spinner/Spinner.svelte';
+import Page from './components/page/Page.svelte';
 
+// input 
 import Checkbox from './components/form/Checkbox.svelte';
 import CheckboxKVPList from './components/form/CheckboxKvPList.svelte';
 import CheckboxList from './components/form/CheckboxList.svelte';
@@ -40,7 +43,7 @@ export {
 export { FileInfo, FileIcon, FileUploader };
 
 //others
-export { ListView, TableView, Spinner };
+export { ListView, TableView, Spinner, Page };
 
 //Api
 export { Api } from './services/Api.js';
@@ -50,7 +53,8 @@ export { host, username, password, setApiConfig } from './stores/apistore.js';
 export type { 
 	user, 
 	Input,
-	FileUploaderModel
+	FileUploaderModel,
+	Link
 	 } from './models/Models.js';
 
 // Table

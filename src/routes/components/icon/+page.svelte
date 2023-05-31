@@ -8,10 +8,10 @@
 	import Page from '$lib/components/page/Page.svelte';
 
 </script>
+<div id="toc-target">
 
-<Page >
-	<div id="toc-target">
-<h2>Icon Overview</h2>
+<Page title="Icon Overview" note="this page shows how to use icons in bexis 2. you will also find an overview of all icons and the usecases for them. ">
+
 	<CodeContainer title="SetIcon" 
 	svelte={SetRaw}
 	external={[
@@ -37,6 +37,5 @@
 		</span>
 	<UsedIcons/>
 	</CodeContainer>
-
-</div>
 </Page>
+</div>

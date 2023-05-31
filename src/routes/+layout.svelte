@@ -27,7 +27,7 @@
 <AppShell
 	slotSidebarLeft="flex-none overflow-x-hidden overflow-y-auto bg-surface-50-900-token lg:w-auto"
 >
-	<svelte:fragment slot="header">Header</svelte:fragment>
+	<!-- <svelte:fragment slot="header">Header</svelte:fragment> -->
 	<svelte:fragment slot="sidebarLeft">
 		<Navigation />
 	</svelte:fragment>
@@ -36,5 +36,5 @@
 	<slot />
 	<!-- ---- / ---- -->
 	<!-- (pageFooter) -->
-	<svelte:fragment slot="footer">Footer</svelte:fragment>
+	<!-- <svelte:fragment slot="footer">Footer</svelte:fragment> -->
 </AppShell>

@@ -22,6 +22,7 @@ export const menuNavLinks: any = [
 		id: 'components',
 		title: 'Components',
 		list: [
+			{ href: base + '/components/core', label: 'Core', keywords: '' },
 			{ href: base + '/components/icon', label: 'Icons', keywords: '' },
 			{ href: base + '/components/form', label: 'Form', keywords: '' },
 			{ href: base + '/components/table', label: 'Table', keywords: '' }
