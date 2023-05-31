@@ -26,8 +26,8 @@ export const simpleTableHTML = `
 
 export const groupHTML = `
 <script lang="ts">
-	import { Table } from 'bexis2-core-ui';
-	import type { TableConfig } from 'bexis2-core-ui';
+	import { Table } from '@bexis2/bexis2-core-ui';
+	import type { TableConfig } from '@bexis2/bexis2-core-ui';
 
 	import { groupsStore } from './data';
 	import type { Group } from './data';
@@ -62,8 +62,8 @@ const groupsStore = writable<Group[]>(userGroups);`;
 
 export const usersHTML = `
 <script lang="ts">
-	import { Table } from 'bexis2-core-ui';
-	import type { TableConfig } from 'bexis2-core-ui';
+	import { Table } from '@bexis2/bexis2-core-ui';
+	import type { TableConfig } from '@bexis2/bexis2-core-ui';
 	
 	import { usersStore } from './data';
 	import type { User } from './data';
@@ -93,8 +93,8 @@ const users: User[] = [
 export const usersStore = writable<User[]>(users);`;
 export const usersNoRolesHTML = `
 <script lang="ts">
-	import { Table } from 'bexis2-core-ui';
-	import type { TableConfig } from 'bexis2-core-ui';
+	import { Table } from '@bexis2/bexis2-core-ui';
+	import type { TableConfig } from '@bexis2/bexis2-core-ui';
 
 	import TableFilter from './TableFilter.svelte';
 	import TableOptions from './TableOptions.svelte';
@@ -130,8 +130,8 @@ export const usersNoRolesHTML = `
 
 export const usersBDHTML = `
 <script lang="ts">
-	import { Table } from 'bexis2-core-ui';
-	import type { TableConfig } from 'bexis2-core-ui';
+	import { Table } from '@bexis2/bexis2-core-ui';
+	import type { TableConfig } from '@bexis2/bexis2-core-ui';
 
 	import { usersBDStore } from './data';
 	import type { UserBD } from './data';
@@ -229,8 +229,8 @@ export interface Column {
 
 export const usersMissingIDsHTML = `
 <script lang="ts">
-	import { Table } from 'bexis2-core-ui';
-	import type { TableConfig } from 'bexis2-core-ui';
+	import { Table } from '@bexis2/bexis2-core-ui';
+	import type { TableConfig } from '@bexis2/bexis2-core-ui';
 
 	import { usersMissingIDsStore } from './data';
 	import type { UserMissingID } from './data';
