@@ -222,9 +222,19 @@ export interface Columns {
 export const columnTypeCode = `
 export interface Column {
 	header?: string;
-	exclude?: boolean;
+	exclude?: boolean; // false by default
+	instructions?: ColumnInstructions;
+	disableFiltering?: boolean; // false by default
+	disableSorting?: boolean; // false by default
 	colFilterFn?: ColumnFilterFn;
 	colFilterComponent?: typeof SvelteComponent;
+}`;
+
+export const columnInstructionsTypeCode = `
+export interface ColumnInstructions {
+	toStringFn?: (value: any) => string;
+	toSortableValueFn?: (value: any) => string | number;
+	toFilterableValueFn?: (value: any) => string | number | Date;
 }`;
 
 export const usersMissingIDsHTML = `
