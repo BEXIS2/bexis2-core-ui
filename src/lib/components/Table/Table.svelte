@@ -53,7 +53,13 @@
 			.map((accessor) => {
 				const key = accessor as string;
 				if (columns !== undefined && key in columns) {
-					const { header, colFilterFn, colFilterComponent, instructions } = columns[key];
+					const {
+						header,
+						colFilterFn,
+						colFilterComponent,
+						instructions,
+						disableFilter = false
+					} = columns[key];
 
 					const {
 						toSortableValueFn,
@@ -77,25 +83,26 @@
 									return sortable && toSortableValueFn ? toSortableValueFn(row) : row;
 								}
 							},
-							colFilter: filterable
-								? {
-										fn: ({ filterValue, value }) => {
-											const val = toFilterableValueFn ? toFilterableValueFn(value) : value;
+							colFilter:
+								filterable && !disableFilter
+									? {
+											fn: ({ filterValue, value }) => {
+												const val = toFilterableValueFn ? toFilterableValueFn(value) : value;
 
-											return colFilterFn
-												? colFilterFn({ filterValue, value: val })
-												: columnFilter({ filterValue, value: val });
-										},
-										render: ({ filterValue, values, id }) => {
-											return createRender(colFilterComponent ?? TableFilter, {
-												filterValue,
-												id,
-												tableId,
-												values
-											});
-										}
-								  }
-								: undefined,
+												return colFilterFn
+													? colFilterFn({ filterValue, value: val })
+													: columnFilter({ filterValue, value: val });
+											},
+											render: ({ filterValue, values, id }) => {
+												return createRender(colFilterComponent ?? TableFilter, {
+													filterValue,
+													id,
+													tableId,
+													values
+												});
+											}
+									  }
+									: undefined,
 							tableFilter: {
 								getFilterValue: (row) => {
 									return toStringFn ? toStringFn(row) : row;
