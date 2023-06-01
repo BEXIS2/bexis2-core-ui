@@ -9,6 +9,7 @@ import FileUploader from './components/file/FileUploader.svelte';
 //page
 import Spinner from './components/spinner/Spinner.svelte';
 import Page from './components/page/Page.svelte';
+import Alert from './components/page/Alert.svelte';
 
 // input 
 import Checkbox from './components/form/Checkbox.svelte';
@@ -43,7 +44,7 @@ export {
 export { FileInfo, FileIcon, FileUploader };
 
 //others
-export { ListView, TableView, Spinner, Page };
+export { ListView, TableView, Spinner, Page, Alert };
 
 //Api
 export { Api } from './services/Api.js';

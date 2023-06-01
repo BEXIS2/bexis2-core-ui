@@ -9,6 +9,7 @@ export interface Link
 	url:string
 }
 
+
 // Form
 export interface Input {
 	id: string;
