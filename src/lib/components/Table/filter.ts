@@ -39,13 +39,42 @@ const numberFilter = (filterOption, filterValue, value) => {
 	}
 };
 
+const dateFilter = (filterOption, filterValue, value) => {
+	const filter = new Date(filterValue);
+
+	switch (filterOption) {
+		case 'ison':
+			return value === filter;
+		case 'isstartingfrom':
+			return value >= filter;
+		case 'isafter':
+			return value > filter;
+		case 'isuntil':
+			return value <= filter;
+		case 'isbefore':
+			return value < filter;
+		case 'isnoton':
+			return value !== filter;
+		default:
+			return false;
+	}
+};
+
 const numericFilter: ColumnFilterFn = ({ filterValue, value }) => {
 	const [firstFilterOption, firstFilterValue, secondFilterOption, secondFilterValue] = filterValue;
-	if (!firstFilterValue && !secondFilterValue) {
+	if (firstFilterValue == null && !secondFilterValue == null) {
 		return true;
-	} else if ((!firstFilterOption || !firstFilterValue) && secondFilterOption && secondFilterValue) {
+	} else if (
+		(firstFilterOption == null || firstFilterValue == null) &&
+		secondFilterOption != null &&
+		secondFilterValue != null
+	) {
 		return numberFilter(secondFilterOption, secondFilterValue, value);
-	} else if ((!secondFilterOption || !secondFilterValue) && firstFilterOption && firstFilterValue) {
+	} else if (
+		(secondFilterOption == null || secondFilterValue == null) &&
+		firstFilterOption != null &&
+		firstFilterValue != null
+	) {
 		return numberFilter(firstFilterOption, firstFilterValue, value);
 	}
 	return (
@@ -77,11 +106,29 @@ const stringFilter: ColumnFilterFn = ({ filterValue, value }) => {
 	);
 };
 
+const dateTypeFilter: ColumnFilterFn = ({ filterValue, value }) => {
+	const [firstFilterOption, firstFilterValue, secondFilterOption, secondFilterValue] = filterValue;
+	if (!firstFilterValue && !secondFilterValue) {
+		return true;
+	} else if ((!firstFilterOption || !firstFilterValue) && secondFilterOption && secondFilterValue) {
+		return dateFilter(secondFilterOption, secondFilterValue, value);
+	} else if ((!secondFilterOption || !secondFilterValue) && firstFilterOption && firstFilterValue) {
+		return dateFilter(firstFilterOption, firstFilterValue, value);
+	}
+
+	return (
+		dateFilter(firstFilterOption, firstFilterValue, value) &&
+		dateFilter(secondFilterOption, secondFilterValue, value)
+	);
+};
+
 export const columnFilter: ColumnFilterFn = ({ filterValue, value }) => {
 	if (typeof value === 'string') {
 		return stringFilter({ filterValue, value });
 	} else if (typeof value === 'number') {
 		return numericFilter({ filterValue, value });
+	} else if (typeof value === 'object' && value instanceof Date) {
+		return dateTypeFilter({ filterValue, value });
 	}
 	return false;
 };

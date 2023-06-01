@@ -40,7 +40,7 @@
 	<select
 		name="pageSize"
 		id="pageSize"
-		class="select btn btn-sm variant-filled-primary w-min font-bold"
+		class="select variant-filled-primary w-min font-bold"
 		bind:value={$pageSize}
 	>
 		{#each pageSizes as size}

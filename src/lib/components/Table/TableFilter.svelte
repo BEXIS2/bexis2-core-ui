@@ -67,6 +67,32 @@
 				value: 'ends',
 				label: 'Ends with'
 			}
+		],
+		date: [
+			{
+				value: 'ison',
+				label: 'Is on'
+			},
+			{
+				value: 'isstartingfrom',
+				label: 'Is starting from'
+			},
+			{
+				value: 'isafter',
+				label: 'Is after'
+			},
+			{
+				value: 'isuntil',
+				label: 'Is until'
+			},
+			{
+				value: 'isbefore',
+				label: 'Is before'
+			},
+			{
+				value: 'isnoton',
+				label: 'Is not on'
+			}
 		]
 	};
 
@@ -78,7 +104,12 @@
 		placement: 'bottom-start'
 	};
 
-	const type = typeof $values[0];
+	let type: string = typeof $values[0];
+	if (type === 'object') {
+		if ($values[0] instanceof Date) {
+			type = 'date';
+		}
+	}
 </script>
 
 <form class="">
@@ -95,7 +126,7 @@
 		<div class="card p-3 absolute grid gap-2 shadow-lg z-10 w-min">
 			<button
 				class="btn variant-filled-primary btn-sm"
-				type="submit"
+				type="button"
 				on:click|preventDefault={() => {
 					firstOption = 'isequal';
 					firstValue = undefined;
@@ -126,9 +157,16 @@
 						bind:value={firstValue}
 						on:click|stopPropagation
 					/>
-				{:else}
+				{:else if type === 'string'}
 					<input
 						type="text"
+						class="input p-1 border border-primary-500"
+						bind:value={firstValue}
+						on:click|stopPropagation
+					/>
+				{:else}
+					<input
+						type="date"
 						class="input p-1 border border-primary-500"
 						bind:value={firstValue}
 						on:click|stopPropagation
@@ -154,9 +192,16 @@
 						bind:value={secondValue}
 						on:click|stopPropagation
 					/>
-				{:else}
+				{:else if type === 'string'}
 					<input
 						type="text"
+						class="input p-1 border border-primary-500"
+						bind:value={secondValue}
+						on:click|stopPropagation
+					/>
+				{:else}
+					<input
+						type="date"
 						class="input p-1 border border-primary-500"
 						bind:value={secondValue}
 						on:click|stopPropagation
@@ -165,7 +210,7 @@
 			</div>
 			<button
 				class="btn variant-filled-primary btn-sm"
-				type="submit"
+				type="button"
 				on:click|preventDefault={() => {
 					active = firstValue?.toString().length > 0 || secondValue?.toString().length > 0;
 					$filterValue = [firstOption, firstValue, secondOption, secondValue];
