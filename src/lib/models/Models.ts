@@ -56,10 +56,19 @@ export interface FileObj {
 	webkitRelativePath: string;
 }
 
+export interface ColumnInstructions {
+	toStringFn?: (value: any) => string;
+	toSortableValueFn?: (value: any) => string | number;
+	toFilterableValueFn?: (value: any) => string | number | Date;
+}
+
 // Table column type
 export interface Column {
 	header?: string;
-	exclude?: boolean;
+	exclude?: boolean; // false by default
+	instructions?: ColumnInstructions;
+	disableFiltering?: boolean; // false by default
+	disableSorting?: boolean; // false by default
 	colFilterFn?: ColumnFilterFn;
 	colFilterComponent?: typeof SvelteComponent;
 }
