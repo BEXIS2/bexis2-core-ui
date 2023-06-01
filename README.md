@@ -1,5 +1,31 @@
 # bexis-core-ui
 
+## v0.0.31
+### add
+#### components
+- Alert
+
+### updates
+#### components
+- Spinner
+  - label
+  - color
+  - position
+  
+- Table 
+  - Date filters
+  - Configuration for complex types
+  - Custom event dispatcher
+  - Updated docs.
+  - Disabling of filters
+  - Disabling of sorting
+
+### fixes:
+#### table
+- Arrow in pageSize dropdown.
+- Bug with number filter not working on zero values.
+- Table of Contents on the right sidebar.
+  
 ## v0.0.29
 
 ### add
