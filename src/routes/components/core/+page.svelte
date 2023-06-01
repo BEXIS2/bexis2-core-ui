@@ -2,6 +2,7 @@
 
 	import CodeContainer from "$docs/components/CodeContainer.svelte";
 	import Page from '$lib/components/page/Page.svelte';
+	import Alert from "$lib/components/page/Alert.svelte";
 
  import PageExample from "./PageExample.svelte";
  import PageExampleRaw from "./PageExample.svelte?raw";
@@ -26,7 +27,10 @@
 	</CodeContainer>
 
 	<CodeContainer title="Spinner" svelte={SpinnerExampleRaw}	>
-		<div slot="info"><p>every time there is a change that a user has to wait for, a spinner should be used. this component can be customized by <b>color, size and position.</b></p></div>
+		<div slot="info">
+			<p>every time there is a change that a user has to wait for, a spinner should be used. this component can be customized by <b>color, size and position.</b></p>
+			<Alert cssClass="variant-filled-warning" message="For coloring the spinner you can use all tailwind text color" deleteBtn={false}></Alert> 
+		</div>
  	<SpinnerExample/>
 	</CodeContainer>
 </Page>

@@ -20,10 +20,6 @@
  <Spinner textCss="text-secondary-500" position={Position.center} />
 </div>
 
-<div>
- <h4 class="h4">change size</h4>
- <Spinner textCss="text-error-500" position={Position.start} size={16} />
-</div>
 
 <div>
  <h4 class="h4">add text</h4>
