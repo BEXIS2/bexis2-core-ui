@@ -18,6 +18,7 @@ export interface Input {
 	invalid: boolean;
 	valid: boolean;
 	required: boolean;
+	placeholder:string;
 }
 
 export interface FileInfo {
@@ -85,4 +86,17 @@ export interface TableConfig<T> {
 	pageSizes?: number[];
 	defaultPageSize?: number;
 	optionsComponent?: typeof SvelteComponent;
+}
+
+
+// lists
+export interface KvP {
+ id: number;
+ text: string;
+}
+
+export interface ListItem {
+ id: number;
+ text: string;
+ group: string;
 }

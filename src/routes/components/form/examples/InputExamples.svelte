@@ -6,15 +6,6 @@
 
 	import type { Input } from '$lib/models/Models';
 
-	let textInputData: Input = {
-		id: 'name',
-		label: 'Name',
-		feedback: [''],
-		invalid: false,
-		valid: false,
-		required: false
-	};
-
 	$: textInputValue = 'David';
 </script>
 
@@ -23,11 +14,11 @@
 	<div class="pt-3"><b>Value:</b> {textInputValue}</div>
 </div>
 <div class="pb-10">
-	<TextArea id="description" label="Description" required={true} />
+	<TextArea id="description" label="Description" required={true} placeholder="more details here, please" />
 </div>
 <div class="pb-10">
-	<NumberInput id="numberOf" label="NumberOf" required={true} />
+	<NumberInput id="numberOf" label="NumberOf" required={true} placeholder="add a random number here"/>
 </div>
 <div class="pb-10">
-	<DateInput id="date" label="Creation date" required={true} />
+	<DateInput id="date" label="Creation date" required={true}/>
 </div>

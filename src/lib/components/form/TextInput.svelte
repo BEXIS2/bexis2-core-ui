@@ -9,6 +9,8 @@
 	export let invalid: boolean = false;
 	export let required: boolean = false;
 	export let feedback: string[] = [''];
+	export let placeholder: string ="";
+
 </script>
 
 <InputContainer {label} {feedback} {required}>
@@ -20,5 +22,6 @@
 		class:input-error={invalid}
 		bind:value
 		on:input
+		{placeholder}
 	/>
 </InputContainer>

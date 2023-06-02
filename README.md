@@ -1,4 +1,19 @@
 # bexis-core-ui
+## v.0.0.32
+### add
+#### types
+- ListItem
+- KvP
+
+#### enum
+- Position
+
+### update
+#### components
+- DropdownKVP
+  - return of the target to complex or id only 
+- TextInput, TextArea, Number
+  - add placeholder
 
 ## v0.0.31
 ### add
