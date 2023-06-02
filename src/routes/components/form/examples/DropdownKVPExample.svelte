@@ -4,6 +4,7 @@
 	import { CodeBlock } from '@skeletonlabs/skeleton';
 
 	$: target = { id: 2, text: 'gbif' };
+	$: simpleTarget = 2;
 
 	import { Metadatastructures } from './exampleData';
 
@@ -12,7 +13,23 @@
 	}
 </script>
 
+
+
 <div class="grid gap-10">
+
+	<h4 class="h4">Target is simple</h4>
+	<DropdownKvP
+		id="metadataStructure"
+		title="Metadata Structure"
+		bind:target={simpleTarget}
+		source={Metadatastructures}
+		on:change={onChangeHandler}
+		targetIsComplex = {false}
+	/>
+
+	<CodeBlock language="ts" code={JSON.stringify(simpleTarget, undefined, 2)} />
+
+	<h4 class="h4">Target is complex</h4>
 	<DropdownKvP
 		id="metadataStructure"
 		title="Structure"
@@ -22,4 +39,5 @@
 	/>
 
 	<CodeBlock language="ts" code={JSON.stringify(target, undefined, 2)} />
+
 </div>

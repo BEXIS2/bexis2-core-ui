@@ -55,8 +55,13 @@ export type {
 	user, 
 	Input,
 	FileUploaderModel,
-	Link
-	 } from './models/Models.js';
+	Link,
+	ListItem,
+	KvP
+	} from './models/Models.js';
+
+//enum
+export { Position	} from './models/Enums';
 
 // Table
 export { Table, TableFilter, columnFilter, searchFilter };

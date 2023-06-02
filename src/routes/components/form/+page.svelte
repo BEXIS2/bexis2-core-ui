@@ -21,7 +21,7 @@
 	import InputValidationJsRaw from './examples/inputvalidation?raw';
 
 	// example 4 - validation
-	import { Metadatastructures } from './examples/exampleData';
+	import { Metadatastructures, Decimals } from './examples/exampleData';
 	import DropdownKvpExample from './examples/DropdownKVPExample.svelte';
 	import DropdownKVPExampleRaw from './examples/DropdownKVPExample.svelte?raw';
 	
