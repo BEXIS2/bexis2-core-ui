@@ -7,7 +7,7 @@ import FileInfo from './components/file/FileInfo.svelte';
 import FileUploader from './components/file/FileUploader.svelte';
 
 //page
-import Spinner from './components/spinner/Spinner.svelte';
+import Spinner from './components/page/Spinner.svelte';
 import Page from './components/page/Page.svelte';
 import Alert from './components/page/Alert.svelte';
 
