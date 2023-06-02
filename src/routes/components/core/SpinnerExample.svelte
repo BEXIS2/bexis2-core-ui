@@ -1,5 +1,5 @@
 <script>
- import Spinner from "$lib/components/spinner/Spinner.svelte";
+ import Spinner from "../../../lib/components/spinner/Spinner.svelte";
  import { Position } from "$lib/models/Enums";
 
 </script>

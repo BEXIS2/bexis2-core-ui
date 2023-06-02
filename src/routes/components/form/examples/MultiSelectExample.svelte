@@ -3,7 +3,8 @@
 
 	import { CodeBlock } from '@skeletonlabs/skeleton';
 
-	$: target = [];
+	let target;
+	$: target;
 
 	import { CountrieNames } from './exampleData';
 </script>
