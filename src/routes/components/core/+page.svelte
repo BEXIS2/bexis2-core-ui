@@ -25,13 +25,13 @@
 		<div slot="info">The alerts are used to pass on messages to the user.</div>
 	 <AlertExample/>
 	</CodeContainer>
-<!-- 
+
 	<CodeContainer title="Spinner" svelte={SpinnerExampleRaw}	>
 		<div slot="info">
 			<p>every time there is a change that a user has to wait for, a spinner should be used. this component can be customized by <b>color, size and position.</b></p>
 			<Alert cssClass="variant-filled-warning" message="For coloring the spinner you can use all tailwind text color" deleteBtn={false}></Alert> 
 		</div>
  	<SpinnerExample/>
-	</CodeContainer> -->
+	</CodeContainer>
 </Page>
 </div>
