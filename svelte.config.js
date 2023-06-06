@@ -17,7 +17,10 @@ const config = {
 			ssr: true
 		}),
 		alias: {
-			$docs: path.resolve('./src/docs')
+			$docs: path.resolve('./src/docs'),
+			$store: './src/lib/stores',
+			$models: path.resolve('./src/lib/models'),
+			$services: path.resolve('./src/lib/services'),
 		}
 	}
 };
