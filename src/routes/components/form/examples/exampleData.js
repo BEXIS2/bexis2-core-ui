@@ -28,6 +28,18 @@ export const Datastructures = [
 	}
 ];
 
+export const Decimals = [
+	{
+		id: 44,
+		text: 'comma'
+	},
+	{
+		id: 46,
+		text: 'point'
+	}
+];
+
+
 export const CountrieNames = [
 	'United States',
 	'Canada',
@@ -515,3 +527,5 @@ export const Countries = [
 	{ name: 'Zambia', code: 'ZM' },
 	{ name: 'Zimbabwe', code: 'ZW' }
 ];
+
+

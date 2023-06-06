@@ -53,7 +53,7 @@ interface prop
 <div>
 <div class="py-5">
 	{#if title}
-		<h3>{title}</h3>
+		<h3 class="h3">{title}</h3>
 	{/if}
 	<div>
 		<slot name="info" />

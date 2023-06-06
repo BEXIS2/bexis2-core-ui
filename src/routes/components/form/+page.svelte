@@ -21,7 +21,7 @@
 	import InputValidationJsRaw from './examples/inputvalidation?raw';
 
 	// example 4 - validation
-	import { Metadatastructures } from './examples/exampleData';
+	import { Metadatastructures, Decimals } from './examples/exampleData';
 	import DropdownKvpExample from './examples/DropdownKVPExample.svelte';
 	import DropdownKVPExampleRaw from './examples/DropdownKVPExample.svelte?raw';
 	
@@ -70,7 +70,7 @@
 
 	</div>
 
-	<h2>Inputs</h2>
+	<h2 class="h2">Inputs</h2>
 
 	<!-- Simple Input Examples -->
 
@@ -95,7 +95,7 @@
 		<InputExampleWithType />
 	</CodeContainer>
 
-	<h2>Selections</h2>
+	<h2 class="h2">Selections</h2>
 
 	<!-- Dropdown KVP Example -->
 
@@ -191,7 +191,7 @@
 
 	<!-- Validation Example -->
 
-	<h2>Validation</h2>
+	<h2 class="h2">Validation</h2>
 
 	<CodeContainer title={'Example'} 
 		svelte={InputValidationRaw} 

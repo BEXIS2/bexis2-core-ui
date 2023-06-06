@@ -9,7 +9,8 @@
 		feedback: [''],
 		invalid: false,
 		valid: false,
-		required: false
+		required: false,
+		placeholder:"please enter a name of a very important people"
 	};
 </script>
 
