@@ -1,4 +1,10 @@
 # bexis-core-ui
+## v0.1.1
+### update
+- Page 
+  - add menu (beta)
+
+
 ## v.0.1.0
 ### add
 #### types
