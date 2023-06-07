@@ -13,7 +13,6 @@
 
  $:show = true;
 
-
 </script>
 {#if show}
 

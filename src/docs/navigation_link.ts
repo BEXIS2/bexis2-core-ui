@@ -14,7 +14,8 @@ export const menuNavLinks: any = [
 		id: 'theme',
 		title: 'Theme',
 		list: [
-			{ href: base + '/components/theme', label: 'Theme/Layout', keywords: '' }
+			{ href: base + '/components/theme', label: 'Theme/Layout', keywords: '' },
+			{ href: base + '/components/page', label: 'Page', keywords: '' }
 			//	{ href: '/compare', label: 'Fields', keywords: '' }
 		]
 	},
