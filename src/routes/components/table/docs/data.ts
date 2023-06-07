@@ -254,3 +254,59 @@ export const usersMissingIDs = [
 		role: 'Role 5'
 	}
 ];
+
+export const websites: { label: string; URL: URL }[] = [
+	{
+		label: 'Google',
+		URL: new URL('https://www.google.com')
+	},
+	{
+		label: 'GitHub',
+		URL: new URL('https://www.github.com')
+	},
+	{
+		label: 'YouTube',
+		URL: new URL('https://www.youtube.com')
+	},
+	{
+		label: 'Yahoo',
+		URL: new URL('https://www.yahoo.com')
+	},
+	{
+		label: 'Bing',
+		URL: new URL('https://www.bing.com')
+	}
+];
+
+export type UserOrAdmin = {
+	name: string;
+	username: string;
+	isAdmin: boolean;
+};
+export const usersAndAdmins: UserOrAdmin[] = [
+	{
+		name: 'John Doe',
+		username: 'johndoe',
+		isAdmin: true
+	},
+	{
+		name: 'Jane Smith',
+		username: 'janesmith',
+		isAdmin: false
+	},
+	{
+		name: 'Robert Johnson',
+		username: 'robertjohnson',
+		isAdmin: false
+	},
+	{
+		name: 'Emily Davis',
+		username: 'emilydavis',
+		isAdmin: true
+	},
+	{
+		name: 'Michael Wilson',
+		username: 'michaelwilson',
+		isAdmin: false
+	}
+];
