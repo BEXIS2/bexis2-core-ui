@@ -4,8 +4,8 @@
 	import Page from '$lib/components/page/Page.svelte';
 	import Alert from "$lib/components/page/Alert.svelte";
 
- import PageExample from "./PageExample.svelte";
- import PageExampleRaw from "./PageExample.svelte?raw";
+ // import PageExample from "./PageExample.svelte";
+ // import PageExampleRaw from "./PageExample.svelte?raw";
 
  import AlertExample from "./AlertExample.svelte";
  import AlertExampleRaw from "./AlertExample.svelte?raw";
@@ -15,7 +15,7 @@
 </script>
 
 <div id="toc-target">
-<Page title="Core" note="here are listed all basic components for a unified design of the pages.  ">
+<Page title="Core" note="here are listed all basic components for a unified design of the pages.  " menu="{false}">
 	<CodeContainer title="Page" svelte={PageExampleRaw}	>
 		<div slot="info">by using these components a unified border is displayed on the page, furthermore, there are props for title, notes and links, as well as a slot for description</div>
 	 <PageExample/>

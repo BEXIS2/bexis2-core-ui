@@ -23,6 +23,9 @@
 	function updateTarget(selection) {
 		//diffrent cases
 		console.log('------');
+		console.log('isComplex',isComplex);
+		console.log('isTargetComplex',isTargetComplex);
+		console.log('selection',selection);
 
 		//a) source is complex model is simple
 		if (isComplex && !isTargetComplex && isLoaded) {
@@ -41,8 +44,16 @@
 				target.push(selection[i].value);
 			}
 		}
-		console.log('selection ' + title, selection);
-		console.log('target ' + title, target);
+
+		if (isComplex && isTargetComplex && isLoaded)
+		{
+			 console.log("both complex",selection);
+			 target = selection;
+			
+		}
+
+		// console.log('selection ' + title, selection);
+		// console.log('target ' + title, target);
 	}
 
 	onMount(async () => {
@@ -55,7 +66,7 @@
 			// event.detail will be null unless isMulti is true and user has removed a single item
 			for (let i in target) {
 				let t = target[i];
-				items.push(source.find((item) => item.key === t));
+				items.push(source.find((item) => item[itemId] === t));
 			}
 
 			isLoaded = true;
@@ -63,6 +74,12 @@
 				value = items;
 			}
 			//console.log(value);
+		}
+
+		if (isComplex && isTargetComplex)
+		{
+				value = target
+				isLoaded = true;
 		}
 
 		//b) simple liust and simple model

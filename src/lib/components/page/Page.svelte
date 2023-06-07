@@ -1,14 +1,24 @@
 <script lang="ts">
 
   import type { Link } from "$lib/models/Models";
+
+  import Menu from './menu/Menu.svelte'
  
   export let title = "";
   export let note = "";
   export let links:Link[]=[];
+
+  // active or hide menu
+  export let menu:boolean = true;
+  export let footer:boolean = true;
  
  </script>
  
- <div class="px-5 grid gap-5" >
+ {#if menu}
+  <Menu/>
+ {/if}
+
+ <div class="px-5 grid gap-5 content-center" >
   <h1 class="h1">{title}</h1>
   {#if note}
     <blockquote class="blockquote">{note}</blockquote>
@@ -25,4 +35,8 @@
   {/if}
   <slot/>
  </div>
+
+ {#if menu}
+   <!-- footer -->
+ {/if}
  
