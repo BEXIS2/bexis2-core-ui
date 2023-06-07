@@ -123,7 +123,7 @@
 	</button>
 
 	<div data-popup={`${popupId}`}>
-		<div class="card p-3 absolute grid gap-2 shadow-lg z-10 w-min">
+		<div class="card p-3 absolute grid gap-2 shadow-lg z-10 w-min bg-base-100">
 			<button
 				class="btn variant-filled-primary btn-sm"
 				type="button"

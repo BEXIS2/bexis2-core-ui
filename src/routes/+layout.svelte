@@ -1,8 +1,8 @@
 <script lang="ts">
 	// The ordering of these imports is critical to your app working properly
 	// For the floating UI elements such as column filters
-	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
-	import { storePopup } from '@skeletonlabs/skeleton';
+	// import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
+	// import { storePopup } from '@skeletonlabs/skeleton';
 	// Highlight.js for syntax highlighting in code blocks
 	import hljs from 'highlight.js';
 	// import hljs2 from 'highlightjs-svelte';
@@ -16,9 +16,9 @@
 	import '@skeletonlabs/skeleton/styles/all.css';
 	// Most of your app wide CSS should be put in this file
 	import '../app.postcss';
-	
+
 	// Config for the floating UI elements
-	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
+	// storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 	// Config for the syntax highlighting
 	storeHighlightJs.set(hljs);
 	// storeHighlightJs.set(hljs2);
