@@ -6,12 +6,12 @@
 	import TableOptions from './TableOptions.svelte';
 	import TableFilter from '$lib/components/Table/TableFilter.svelte';
 	import { columnFilter } from '$lib/components/Table/filter';
-	import { userGroups, users, usersBD, usersMissingIDs, websites } from './data';
+	import * as data from './data';
 	import * as cb from './codeBlocks';
 	import type { TableConfig } from '$lib/models/Models';
 
 	type Group = { id: number; name: string; description: string };
-	const groupsStore = writable<Group[]>(userGroups);
+	const groupsStore = writable<Group[]>(data.userGroups);
 	const groupConfig: TableConfig<Group> = {
 		id: 'userGroups',
 		data: groupsStore,
@@ -24,7 +24,7 @@
 
 	type User = { id: number; name: string; group: string; role: string };
 
-	const usersStore = writable<User[]>(users);
+	const usersStore = writable<User[]>(data.users);
 
 	const usersConfig: TableConfig<User> = {
 		id: 'users',
@@ -51,7 +51,7 @@
 	};
 
 	type UserBD = { id: number; name: string; dateOfBirth: Date };
-	const usersBDStore = writable<UserBD[]>(usersBD);
+	const usersBDStore = writable<UserBD[]>(data.usersBD);
 	const usersBDConfig: TableConfig<UserBD> = {
 		id: 'usersBD',
 		data: usersBDStore,
@@ -75,7 +75,7 @@
 	};
 
 	type UserMissingID = { id: number | undefined; name: string; group: string; role: string };
-	const usersMissingIDsStore = writable<UserMissingID[]>(usersMissingIDs);
+	const usersMissingIDsStore = writable<UserMissingID[]>(data.usersMissingIDs);
 	const usersMissingIDsConfig: TableConfig<UserMissingID> = {
 		id: 'usersMissingIDs',
 		data: usersMissingIDsStore,
@@ -90,7 +90,7 @@
 	};
 
 	type Website = { label: string; URL: URL };
-	const websitesStore = writable<Website[]>(websites);
+	const websitesStore = writable<Website[]>(data.websites);
 	const websitesConfig: TableConfig<Website> = {
 		id: 'websites',
 		data: websitesStore,
@@ -102,6 +102,21 @@
 					toFilterableValueFn: (url: URL) => url.toString()
 				},
 				disableSorting: true
+			}
+		}
+	};
+
+	const usersAndAdminsStore = writable<data.UserOrAdmin[]>(data.usersAndAdmins);
+	const usersAndAdminsConfig: TableConfig<data.UserOrAdmin> = {
+		id: 'usersAndAdmins',
+		data: usersAndAdminsStore,
+		columns: {
+			isAdmin: {
+				header: 'Admin',
+				instructions: {
+					toStringFn: (isAdmin: boolean) => (isAdmin ? '✓' : '')
+				},
+				disableFiltering: true
 			}
 		}
 	};
@@ -186,6 +201,16 @@
 		<div id="URLs">
 			<CodeContainer title="URLs" svelte={cb.websitesHTML} data={cb.websitesStoreCode}>
 				<Table config={websitesConfig} />
+			</CodeContainer>
+		</div>
+
+		<div id="boolean">
+			<CodeContainer
+				title="Boolean"
+				svelte={cb.usersAndAdminsHTML}
+				data={cb.usersAndAdminsStoreCode}
+			>
+				<Table config={usersAndAdminsConfig} />
 			</CodeContainer>
 		</div>
 	</div>

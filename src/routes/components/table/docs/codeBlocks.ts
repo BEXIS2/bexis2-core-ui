@@ -58,7 +58,7 @@ const userGroups: Group[] = [
 	...
 ];					
 				
-const groupsStore = writable<Group[]>(userGroups);`;
+export const groupsStore = writable<Group[]>(userGroups);`;
 
 export const usersHTML = `
 <script lang="ts">
@@ -164,13 +164,13 @@ export const usersBDHTML = `
 <Table config={usersBDConfig} />`;
 
 export const usersBDStoreCode = `
-type UserBD = { 
+export type UserBD = { 
 	id: number; 
 	name: string; 
 	dateOfBirth: Date 
 };
 
-export const usersBD = [
+const usersBD = [
 	{
 		id: 1,
 		name: 'John Doe',
@@ -189,7 +189,7 @@ export const usersBD = [
 	...
 ];
 
-const usersBDStore = writable<UserBD[]>(usersBD);`;
+export const usersBDStore = writable<UserBD[]>(usersBD);`;
 
 export const tableOptionsHTML = `
 <script lang="ts">
@@ -280,7 +280,7 @@ type UserMissingID = {
 	role: string 
 };
 	
-export const usersMissingIDs = [
+const usersMissingIDs = [
 	{
 		id: 1,
 		name: 'User 1',
@@ -313,7 +313,7 @@ export const usersMissingIDs = [
 	}
 ];
 
-const usersMissingIDsStore = writable<UserMissingID[]>(usersMissingIDs);`;
+export const usersMissingIDsStore = writable<UserMissingID[]>(usersMissingIDs);`;
 
 export const websitesHTML = `
 <script lang="ts">
@@ -345,9 +345,9 @@ export const websitesHTML = `
 `;
 
 export const websitesStoreCode = `
-type Website = { label: string; URL: URL };
+export type Website = { label: string; URL: URL };
 
-export const websites: Website[] = [
+const websites: Website[] = [
 	{
 		label: 'Google',
 		URL: new URL('https://www.google.com')
@@ -370,5 +370,65 @@ export const websites: Website[] = [
 	}
 ];
 
-const websitesStore = writable<Website[]>(websites);
+export const websitesStore = writable<Website[]>(websites);
+`;
+
+export const usersAndAdminsHTML = `
+<script lang="ts">
+	import { Table } from '@bexis2/bexis2-core-ui';
+	import type { TableConfig } from '@bexis2/bexis2-core-ui';
+
+	import { usersAndAdminsStore } from './data';
+	import type { UserOrAdmin } from './data';
+
+	const usersAndAdminsConfig: TableConfig<UserOrAdmin> = {
+		id: 'usersAndAdmins',
+		data: usersAndAdminsStore,
+		columns: {
+			role: {
+				header: 'Admin',
+				instructions: {
+					toStringFn: (isAdmin: boolean) => (isAdmin ? '✓' : '')
+				},
+				disableFiltering: true
+			}
+		}
+	};
+</script>`;
+export const usersAndAdminsStoreCode = `
+export type UserOrAdmin = {
+	name: string;
+	username: string;
+	isAdmin: boolean;
+};
+
+const usersAndAdmins: UserOrAdmin[] = [
+	{
+		name: 'John Doe',
+		username: 'johndoe',
+		isAdmin: true
+	},
+	{
+		name: 'Jane Smith',
+		username: 'janesmith',
+		isAdmin: false
+	},
+	{
+		name: 'Robert Johnson',
+		username: 'robertjohnson',
+		isAdmin: false
+	},
+	{
+		name: 'Emily Davis',
+		username: 'emilydavis',
+		isAdmin: true
+	},
+	{
+		name: 'Michael Wilson',
+		username: 'michaelwilson',
+		isAdmin: false
+	}
+];
+
+export const usersAndAdminsStore = writable<UserOrAdmin[]>(usersAndAdmins);
 `;

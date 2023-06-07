@@ -277,3 +277,36 @@ export const websites: { label: string; URL: URL }[] = [
 		URL: new URL('https://www.bing.com')
 	}
 ];
+
+export type UserOrAdmin = {
+	name: string;
+	username: string;
+	isAdmin: boolean;
+};
+export const usersAndAdmins: UserOrAdmin[] = [
+	{
+		name: 'John Doe',
+		username: 'johndoe',
+		isAdmin: true
+	},
+	{
+		name: 'Jane Smith',
+		username: 'janesmith',
+		isAdmin: false
+	},
+	{
+		name: 'Robert Johnson',
+		username: 'robertjohnson',
+		isAdmin: false
+	},
+	{
+		name: 'Emily Davis',
+		username: 'emilydavis',
+		isAdmin: true
+	},
+	{
+		name: 'Michael Wilson',
+		username: 'michaelwilson',
+		isAdmin: false
+	}
+];
