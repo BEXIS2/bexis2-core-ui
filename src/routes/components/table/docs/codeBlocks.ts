@@ -314,3 +314,61 @@ export const usersMissingIDs = [
 ];
 
 const usersMissingIDsStore = writable<UserMissingID[]>(usersMissingIDs);`;
+
+export const websitesHTML = `
+<script lang="ts">
+	import { Table } from '@bexis2/bexis2-core-ui';
+	import type { TableConfig } from '@bexis2/bexis2-core-ui';
+
+	import { websitesStore } from './data';
+	import type { Website } from './data';
+
+	type Website = { label: string; URL: URL };
+	const websitesStore = writable<Website[]>(websites);
+	const websitesConfig: TableConfig<Website> = {
+		id: 'websites',
+		data: websitesStore,
+		columns: {
+			URL: {
+				header: 'URL',
+				instructions: {
+					toStringFn: (url: URL) => url.toString(),
+					toFilterableValueFn: (url: URL) => url.toString()
+				},
+				disableSorting: true
+			}
+		}
+	};
+</script>
+
+<Table config={websitesConfig} />
+`;
+
+export const websitesStoreCode = `
+type Website = { label: string; URL: URL };
+
+export const websites: Website[] = [
+	{
+		label: 'Google',
+		URL: new URL('https://www.google.com')
+	},
+	{
+		label: 'GitHub',
+		URL: new URL('https://www.github.com')
+	},
+	{
+		label: 'YouTube',
+		URL: new URL('https://www.youtube.com')
+	},
+	{
+		label: 'Yahoo',
+		URL: new URL('https://www.yahoo.com')
+	},
+	{
+		label: 'Bing',
+		URL: new URL('https://www.bing.com')
+	}
+];
+
+const websitesStore = writable<Website[]>(websites);
+`;

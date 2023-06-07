@@ -254,3 +254,26 @@ export const usersMissingIDs = [
 		role: 'Role 5'
 	}
 ];
+
+export const websites: { label: string; URL: URL }[] = [
+	{
+		label: 'Google',
+		URL: new URL('https://www.google.com')
+	},
+	{
+		label: 'GitHub',
+		URL: new URL('https://www.github.com')
+	},
+	{
+		label: 'YouTube',
+		URL: new URL('https://www.youtube.com')
+	},
+	{
+		label: 'Yahoo',
+		URL: new URL('https://www.yahoo.com')
+	},
+	{
+		label: 'Bing',
+		URL: new URL('https://www.bing.com')
+	}
+];

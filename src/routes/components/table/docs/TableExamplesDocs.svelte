@@ -6,7 +6,7 @@
 	import TableOptions from './TableOptions.svelte';
 	import TableFilter from '$lib/components/Table/TableFilter.svelte';
 	import { columnFilter } from '$lib/components/Table/filter';
-	import { userGroups, users, usersBD, usersMissingIDs } from './data';
+	import { userGroups, users, usersBD, usersMissingIDs, websites } from './data';
 	import * as cb from './codeBlocks';
 	import type { TableConfig } from '$lib/models/Models';
 
@@ -88,6 +88,23 @@
 			}
 		}
 	};
+
+	type Website = { label: string; URL: URL };
+	const websitesStore = writable<Website[]>(websites);
+	const websitesConfig: TableConfig<Website> = {
+		id: 'websites',
+		data: websitesStore,
+		columns: {
+			URL: {
+				header: 'URL',
+				instructions: {
+					toStringFn: (url: URL) => url.toString(),
+					toFilterableValueFn: (url: URL) => url.toString()
+				},
+				disableSorting: true
+			}
+		}
+	};
 </script>
 
 <div class="grid gap-1">
@@ -148,26 +165,28 @@
 			</CodeContainer>
 		</div>
 	</div>
-	<div class="grid gap-1">
+	<div id="complexTypes">
 		<h2>Complex data types</h2>
-		<div class="grid gap-20">
-			<div class="grid gap-5" id="usersBD">
-				<CodeContainer title="Date" svelte={cb.usersBDHTML} data={cb.usersBDStoreCode}>
-					<Table config={usersBDConfig} />
-				</CodeContainer>
-			</div>
+		<div class="grid gap-5" id="usersBD">
+			<CodeContainer title="Date" svelte={cb.usersBDHTML} data={cb.usersBDStoreCode}>
+				<Table config={usersBDConfig} />
+			</CodeContainer>
 		</div>
 
-		<div class="grid gap-20">
-			<div class="grid gap-5" id="combination">
-				<CodeContainer
-					title="Missing values"
-					svelte={cb.usersMissingIDsHTML}
-					data={cb.usersMissingIDsStoreCode}
-				>
-					<Table config={usersMissingIDsConfig} />
-				</CodeContainer>
-			</div>
+		<div id="combination">
+			<CodeContainer
+				title="Missing values"
+				svelte={cb.usersMissingIDsHTML}
+				data={cb.usersMissingIDsStoreCode}
+			>
+				<Table config={usersMissingIDsConfig} />
+			</CodeContainer>
+		</div>
+
+		<div id="URLs">
+			<CodeContainer title="URLs" svelte={cb.websitesHTML} data={cb.websitesStoreCode}>
+				<Table config={websitesConfig} />
+			</CodeContainer>
 		</div>
 	</div>
 </div>
