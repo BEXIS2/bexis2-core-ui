@@ -97,7 +97,8 @@
 												filterValue,
 												id,
 												tableId,
-												values
+												values,
+												toFilterableValueFn
 											});
 										}
 								  }
@@ -175,12 +176,13 @@
 						<tr {...rowAttrs} class="bg-primary-300">
 							{#each headerRow.cells as cell (cell.id)}
 								<Subscribe attrs={cell.attrs()} props={cell.props()} let:props let:attrs>
-									<th scope="col" class="!p-2" {...attrs}>
+									<th scope="col" class="!p-2 w-min" {...attrs}>
 										<div class="flex w-full justify-between items-center">
 											<div class="flex gap-1">
 												<span
 													class:underline={props.sort.order}
 													class:normal-case={cell.id !== cell.label}
+													class:cursor-pointer={!props.sort.disabled}
 													on:click={props.sort.toggle}
 													on:keydown={props.sort.toggle}
 												>
@@ -216,7 +218,7 @@
 						<tr {...rowAttrs}>
 							{#each row.cells as cell (cell?.id)}
 								<Subscribe attrs={cell.attrs()} let:attrs>
-									<td {...attrs} class="!p-2">
+									<td {...attrs} class="!p-2 w-min">
 										<div class="flex items-center w-full h-full table-cell-fit">
 											<Render of={cell.render()} />
 										</div>
