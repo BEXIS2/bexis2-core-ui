@@ -1,5 +1,6 @@
-import { setApiConfig } from '$lib/stores/apistore';
+import {setApiConfig} from '@bexis2/bexis2-core-ui'
 
+/** @type {import('./$types').PageLoad} */
 export function load() {
 
  console.log("load and set apiconfig")
@@ -16,5 +17,6 @@ export function load() {
    setApiConfig("https://dev.bexis2.uni-jena.de/","david","123456");
  }
 
- 
+ return {};
 }
+
