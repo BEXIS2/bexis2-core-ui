@@ -4,8 +4,7 @@
  import { faCog } from '@fortawesome/free-solid-svg-icons'
 
  import { onMount } from 'svelte';
-
-
+ 
  import { getMenuItems}  from './MenuDataCaller';
 
  import type { Menu } from "./menu";
@@ -16,9 +15,7 @@
  let menu:Menu;
 
  onMount(async () => {
-
   
-
   menu = await getMenuItems();
 
 })
