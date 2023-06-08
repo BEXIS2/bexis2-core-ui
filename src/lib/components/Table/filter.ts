@@ -62,7 +62,7 @@ const dateFilter = (filterOption, filterValue, value) => {
 
 const numericFilter: ColumnFilterFn = ({ filterValue, value }) => {
 	const [firstFilterOption, firstFilterValue, secondFilterOption, secondFilterValue] = filterValue;
-	if (firstFilterValue == null && !secondFilterValue == null) {
+	if (firstFilterValue == null && secondFilterValue == null) {
 		return true;
 	} else if (
 		(firstFilterOption == null || firstFilterValue == null) &&

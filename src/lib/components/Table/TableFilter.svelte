@@ -8,6 +8,7 @@
 	export let values;
 	export let id;
 	export let tableId;
+	export let toFilterableValueFn: undefined | ((value: any) => any) = undefined;
 
 	let firstOption;
 	let firstValue;
@@ -104,7 +105,7 @@
 		placement: 'bottom-start'
 	};
 
-	let type: string = typeof $values[0];
+	let type: string = typeof (toFilterableValueFn ? toFilterableValueFn($values[0]) : $values[0]);
 	if (type === 'object') {
 		if ($values[0] instanceof Date) {
 			type = 'date';
@@ -123,7 +124,7 @@
 	</button>
 
 	<div data-popup={`${popupId}`}>
-		<div class="card p-3 absolute grid gap-2 shadow-lg z-10 w-min">
+		<div class="card p-3 absolute grid gap-2 shadow-lg z-10 w-min bg-base-100">
 			<button
 				class="btn variant-filled-primary btn-sm"
 				type="button"

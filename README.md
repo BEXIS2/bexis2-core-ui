@@ -1,4 +1,13 @@
 # bexis-core-ui
+
+## v0.1.3 
+> test table
+
+## v0.1.2
+### update
+- MultiSelect 
+  - return complex type is available now
+
 ## v0.1.1
 ### update
 - Page 
