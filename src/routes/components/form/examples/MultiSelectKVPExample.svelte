@@ -16,8 +16,8 @@
 		source={Countries}
 		bind:target
 		itemId="code"
-		label="name"
-		isComplex={true}
+		itemLabel="name"
+		complexSource={true}
 	/>
 
 	<CodeBlock language="ts" code={JSON.stringify(target, undefined, 2)} />
@@ -30,9 +30,9 @@
 		source={Countries}
 		bind:target={selectedComplextarget}
 		itemId="code"
-		label="name"
-		isComplex={true}
-		isTargetComplex={true}
+		itemLabel="name"
+		complexSource={true}
+		complexTarget={true}
 	/>
 
 	<CodeBlock language="ts" code={JSON.stringify(selectedComplextarget, undefined, 2)} />

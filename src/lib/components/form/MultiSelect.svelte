@@ -8,10 +8,10 @@
 	export let target;
 	export let title;
 	export let itemId = 'value';
-	export let label = 'label';
+	export let itemLabel = 'label';
 	export let isMulti = true;
-	export let isComplex = false;
-	export let isTargetComplex = false;
+	export let complexSource = false;
+	export let complexTarget = false;
 	export let required = false;
 	export let feedback = [];
 
@@ -23,12 +23,12 @@
 	function updateTarget(selection) {
 		//diffrent cases
 		console.log('------');
-		console.log('isComplex',isComplex);
-		console.log('isTargetComplex',isTargetComplex);
+		console.log('isComplex',complexSource);
+		console.log('complexTarget',complexTarget);
 		console.log('selection',selection);
 
 		//a) source is complex model is simple
-		if (isComplex && !isTargetComplex && isLoaded) {
+		if (complexSource && !complexTarget && isLoaded) {
 			console.log('a) source is complex model is simple');
 
 			target = [];
@@ -38,14 +38,14 @@
 			}
 		}
 
-		if (!isComplex && !isTargetComplex && isLoaded) {
+		if (!complexSource && !complexTarget && isLoaded) {
 			target = [];
 			for (let i in selection) {
 				target.push(selection[i].value);
 			}
 		}
 
-		if (isComplex && isTargetComplex && isLoaded)
+		if (complexSource && complexTarget && isLoaded)
 		{
 			 console.log("both complex",selection);
 			 target = selection;
@@ -61,7 +61,7 @@
 		//console.log(source);
 
 		//a) source is complex model is simple
-		if (isComplex && !isTargetComplex) {
+		if (complexSource && !complexTarget) {
 			let items = [];
 			// event.detail will be null unless isMulti is true and user has removed a single item
 			for (let i in target) {
@@ -76,14 +76,14 @@
 			//console.log(value);
 		}
 
-		if (isComplex && isTargetComplex)
+		if (complexSource && complexTarget)
 		{
 				value = target
 				isLoaded = true;
 		}
 
 		//b) simple liust and simple model
-		if (!isComplex && !isTargetComplex) {
+		if (!complexSource && !complexTarget) {
 			//console.log("source", source);
 			//console.log("target",target);
 			isLoaded = true;

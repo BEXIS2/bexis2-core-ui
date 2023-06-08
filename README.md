@@ -1,5 +1,17 @@
 # bexis-core-ui
 
+## v0.1.5 
+### update
+- MultiSelect 
+  - isTargetComplex -> complexTarget
+  - isComplex -> complexSource
+- DropdownKVP
+  - targetIsComplex -> complexTarget
+
+## v0.1.4 
+> test for deploy
+
+
 ## v0.1.3 
 > test table
 

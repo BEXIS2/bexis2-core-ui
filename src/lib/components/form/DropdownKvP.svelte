@@ -9,7 +9,7 @@
 	export let invalid = false;
 	export let feedback = [''];
 	export let required = false;
-	export let targetIsComplex = false;
+	export let complexTarget = false;
 
 	$: selected = null;
 
@@ -18,7 +18,7 @@
 
 	function updatedSelectedValue(selection) {
 		if (selection != null) {
-			if(targetIsComplex)
+			if(complexTarget)
 			{
 				selected = selection.id;
 			}
@@ -30,7 +30,7 @@
 	}
 
 	function updatedTarget(id) {
-		if(targetIsComplex)
+		if(complexTarget)
 		{
 			target = source.find((opt) => opt.id === id);
 		}
