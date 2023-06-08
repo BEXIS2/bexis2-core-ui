@@ -1,4 +1,4 @@
-import {setApiConfig} from '@bexis2/bexis2-core-ui'
+import {setApiConfig} from '$lib/stores/apistore'
 
 /** @type {import('./$types').PageLoad} */
 export function load() {
