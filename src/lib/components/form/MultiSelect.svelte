@@ -100,7 +100,7 @@
 		class="select variant-form-material"
 		items={source}
 		{itemId}
-		{label}
+		label = {itemLabel}
 		multiple={isMulti}
 		bind:value
 		placeholder="-- Please select --"

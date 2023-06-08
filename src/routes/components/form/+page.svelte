@@ -179,7 +179,7 @@
 				<ul class="list-disc p-5">
 					<li>isComplex={true}</li>
 					<li>itemId="key"</li>
-					<li>label="value"</li>
+					<li>itemLabel="value"</li>
 				</ul>
 
 				<b class="text-warning-500">currently the target is only the list of itemIds</b>

@@ -16,21 +16,15 @@ export const MultiSelectProperties=[
   description:"For complex object a unique identifier is needed"
  },
  {
-  name:"name",
+  name:"itemLabel",
   description:"Display value from the complex object"
  },
  {
-  name:"isComplex",
+  name:"complexSource",
   description:"Set the value to true, when the incoming data so the source complex is"
+ },
+ {
+  name:"complexTarget",
+  description:"Set the value to true, when the outgoing data so the target complex is"
  }
 ]
-
-/**
- * 
- * title="Required input fields"
-		source={Countries}
-		bind:target
-		itemId="code"
-		name="name"
-		isComplex={true}
- */
