@@ -4,9 +4,7 @@
  import { faCog } from '@fortawesome/free-solid-svg-icons'
 
  import { onMount } from 'svelte';
-
-
- import { setApiConfig } from '../../../stores/apistore';
+ 
  import { getMenuItems}  from './MenuDataCaller';
 
  import type { Menu } from "./menu";
@@ -17,9 +15,7 @@
  let menu:Menu;
 
  onMount(async () => {
-
-  setApiConfig("https://localhost:44345","david","123456");
-
+  
   menu = await getMenuItems();
 
 })

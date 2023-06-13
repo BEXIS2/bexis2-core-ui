@@ -4,8 +4,8 @@
 	import Page from '$lib/components/page/Page.svelte';
 	import Alert from "$lib/components/page/Alert.svelte";
 
- // import PageExample from "./PageExample.svelte";
- // import PageExampleRaw from "./PageExample.svelte?raw";
+ import PageExample from "./PageExample.svelte";
+ import PageExampleRaw from "./PageExample.svelte?raw";
 
  import AlertExample from "./AlertExample.svelte";
  import AlertExampleRaw from "./AlertExample.svelte?raw";

@@ -36,7 +36,7 @@
 		bind:target
 		source={Metadatastructures}
 		on:change={onChangeHandler}
-		targetIsComplex = {true}
+		complexTarget = {true}
 	/>
 
 	<CodeBlock language="ts" code={JSON.stringify(target, undefined, 2)} />
