@@ -42,7 +42,7 @@
 	$: files;
 
 	onMount(async () => {
-		console.log('fileupload - OnMount', data);
+		//console.log('fileupload - OnMount', data);
 
 		if (!data) {
 			load();
@@ -64,11 +64,11 @@
 		const res = await Api.get(url);
 		model = await res.data();
 
-		console.log('fileupload', model);
+		 console.log('fileupload', model);
 	}
 
 	function handleFilesSelect(e: any) {
-		console.log('handleFilesSelect', e);
+		//console.log('handleFilesSelect', e);
 		console.log('files', files);
 
 		const { acceptedFiles, fileRejections } = e.detail;
@@ -76,12 +76,12 @@
 		files.accepted = [...files.accepted, ...acceptedFiles];
 		files.rejected = [...files.rejected, ...fileRejections];
 
-		console.log('acceptedFiles', acceptedFiles);
+		//console.log('acceptedFiles', acceptedFiles);
 		console.log('files.accepted', files.accepted);
 
 		if (fileRejections.length > 0) {
 			//alert("the dropped file is not supported");
-			console.log('the dropped file is not supported.');
+			//console.log('the dropped file is not supported.');
 			console.log(files.rejected);
 
 			let messages = [''];
@@ -91,7 +91,7 @@
 				messages.push(getErrorMessage(element));
 			}
 
-			console.log(messages);
+			//console.log(messages);
 
 			dispatch('error', { messages });
 			//list up the errors somewhere
@@ -116,18 +116,18 @@
 	}
 
 	async function handleSubmit() {
-		console.log('SUBMIT');
+		//console.log('SUBMIT');
 
 		dispatch('submit');
 
 		let url = submit + '?id=' + id;
 
-		// console.log(model);
-		// console.log(url);
-		console.log('SUBMIT');
+		// //console.log(model);
+		// //console.log(url);
+		//console.log('SUBMIT');
 
 		if (files.accepted.length > 0) {
-			console.log(files);
+			//console.log(files);
 
 			const formData = new FormData();
 			formData.append('files', '123');

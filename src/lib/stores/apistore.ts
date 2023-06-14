@@ -21,11 +21,12 @@ passwordStore.subscribe((value) => {
 });
 
 export function setApiConfig(_host: string, _user: string, _pw: string) {
-	console.log('overwrite settings');
+	
+	console.log('overwrite api settings');
 	
 	hostStore.update((h) => (h = _host));
 	usernameStore.update((u) => (u = _user));
 	passwordStore.update((p) => (p = _pw));
 
-	console.log('overwrite host',_host);
+	//console.log('overwrite host',_host);
 }
