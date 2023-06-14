@@ -15,6 +15,8 @@
 	import * as cb from '../data/codeBlocks';
 	import { columnFilter } from '$lib/components/Table/filter';
 	import type { TableConfig } from '$lib/models/Models';
+	import UrlCell from '../components/URLCell.svelte';
+	import IsAdmin from '../components/IsAdmin.svelte';
 
 	type Group = { id: number; name: string; description: string };
 	const groupsStore = writable<Group[]>(data.userGroups);
@@ -109,7 +111,7 @@
 			URL: {
 				header: 'URL',
 				instructions: {
-					toStringFn: (url: URL) => url.toString(),
+					renderComponent: UrlCell,
 					toFilterableValueFn: (url: URL) => url.toString()
 				},
 				disableSorting: true
@@ -125,7 +127,7 @@
 			isAdmin: {
 				header: 'Admin',
 				instructions: {
-					toStringFn: (isAdmin: boolean) => (isAdmin ? '✓' : '')
+					renderComponent: IsAdmin
 				},
 				disableFiltering: true
 			}
