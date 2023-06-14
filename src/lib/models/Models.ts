@@ -3,12 +3,10 @@ import type { ColumnFilterFn } from 'svelte-headless-table/lib/plugins';
 import type { Writable } from 'svelte/store';
 
 // page
-export interface Link
-{
-	label:string,
-	url:string
+export interface Link {
+	label: string;
+	url: string;
 }
-
 
 // Form
 export interface Input {
@@ -18,7 +16,7 @@ export interface Input {
 	invalid: boolean;
 	valid: boolean;
 	required: boolean;
-	placeholder:string;
+	placeholder: string;
 }
 
 export interface FileInfo {
@@ -61,6 +59,7 @@ export interface ColumnInstructions {
 	toStringFn?: (value: any) => string;
 	toSortableValueFn?: (value: any) => string | number;
 	toFilterableValueFn?: (value: any) => string | number | Date;
+	renderComponent?: typeof SvelteComponent;
 }
 
 // Table column type
@@ -88,15 +87,14 @@ export interface TableConfig<T> {
 	optionsComponent?: typeof SvelteComponent;
 }
 
-
 // lists
 export interface KvP {
- id: number;
- text: string;
+	id: number;
+	text: string;
 }
 
 export interface ListItem {
- id: number;
- text: string;
- group: string;
+	id: number;
+	text: string;
+	group: string;
 }

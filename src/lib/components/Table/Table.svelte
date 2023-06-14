@@ -67,13 +67,18 @@
 						disableSorting = false
 					} = columns[key];
 
-					const { toSortableValueFn, toFilterableValueFn, toStringFn } = instructions ?? {};
+					const { toSortableValueFn, toFilterableValueFn, toStringFn, renderComponent } =
+						instructions ?? {};
 
 					return table.column({
 						header: header ?? key,
 						accessor: accessor,
-						cell: ({ value }) => {
-							return toStringFn ? toStringFn(value) : value;
+						cell: ({ value, row }) => {
+							return renderComponent
+								? createRender(renderComponent, { value, row })
+								: toStringFn
+								? toStringFn(value)
+								: value;
 						},
 						plugins: {
 							sort: {
