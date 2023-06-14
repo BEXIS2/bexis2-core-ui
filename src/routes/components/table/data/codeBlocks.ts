@@ -307,6 +307,7 @@ export const websitesHTML = `
 	import { Table } from '@bexis2/bexis2-core-ui';
 	import type { TableConfig } from '@bexis2/bexis2-core-ui';
 
+	import UrlCell from './URLCell.svelte';
 	import { websitesStore } from './data';
 	import type { Website } from './data';
 
@@ -319,7 +320,7 @@ export const websitesHTML = `
 			URL: {
 				header: 'URL',
 				instructions: {
-					toStringFn: (url: URL) => url.toString(),
+					renderComponent: UrlCell,
 					toFilterableValueFn: (url: URL) => url.toString()
 				},
 				disableSorting: true
@@ -360,22 +361,31 @@ const websites: Website[] = [
 export const websitesStore = writable<Website[]>(websites);
 `;
 
+export const websitesUrlCellHTML = `
+<script lang="ts">
+	export let value;
+</script>
+
+<a href={value}>{value}</a>
+`;
+
 export const usersAndAdminsHTML = `
 <script lang="ts">
 	import { Table } from '@bexis2/bexis2-core-ui';
 	import type { TableConfig } from '@bexis2/bexis2-core-ui';
 
+	import IsAdmin from './IsAdmin.svelte';
 	import { usersAndAdminsStore } from './data';
 	import type { UserOrAdmin } from './data';
 
-	const usersAndAdminsConfig: TableConfig<UserOrAdmin> = {
+	const usersAndAdminsConfig: TableConfig<data.UserOrAdmin> = {
 		id: 'usersAndAdmins',
 		data: usersAndAdminsStore,
 		columns: {
-			role: {
+			isAdmin: {
 				header: 'Admin',
 				instructions: {
-					toStringFn: (isAdmin: boolean) => (isAdmin ? '✓' : '')
+					renderComponent: IsAdmin
 				},
 				disableFiltering: true
 			}
@@ -418,6 +428,20 @@ const usersAndAdmins: UserOrAdmin[] = [
 ];
 
 export const usersAndAdminsStore = writable<UserOrAdmin[]>(usersAndAdmins);
+`;
+export const usersAndAdminsIsAdminHTML = `
+<script lang="ts">
+	export let value;
+	export let row;
+</script>
+
+<input 
+	type="checkbox" 
+	name="isAdmin" 
+	id={row.id} 
+	checked={value} 
+	disabled 
+/>
 `;
 
 export const tableOptionsHTML = `

@@ -118,6 +118,11 @@
 			}
 		}
 	};
+	const websitesTabs = [
+		{ name: 'Svelte', language: 'html', code: cb.websitesHTML },
+		{ name: 'Data', language: 'typescript', code: cb.websitesStoreCode },
+		{ name: 'URLCell.svelte', language: 'html', code: cb.websitesUrlCellHTML }
+	];
 
 	const usersAndAdminsStore = writable<data.UserOrAdmin[]>(data.usersAndAdmins);
 	const usersAndAdminsConfig: TableConfig<data.UserOrAdmin> = {
@@ -133,6 +138,12 @@
 			}
 		}
 	};
+
+	const usersAndAdminsTabs = [
+		{ name: 'Svelte', language: 'html', code: cb.usersAndAdminsHTML },
+		{ name: 'Data', language: 'typescript', code: cb.usersAndAdminsStoreCode },
+		{ name: 'IsAdmin.svelte', language: 'html', code: cb.usersAndAdminsIsAdminHTML }
+	];
 
 	const tableCRUDConfig: TableConfig<Group> = {
 		id: 'userGroupCRUD',
@@ -280,19 +291,15 @@
 		</div>
 
 		<div id="URLs">
-			<CodeContainer title="URLs" svelte={cb.websitesHTML} data={cb.websitesStoreCode}>
+			<CustomCodeContainer title="URLs" tabs={websitesTabs}>
 				<Table config={websitesConfig} />
-			</CodeContainer>
+			</CustomCodeContainer>
 		</div>
 
 		<div id="boolean">
-			<CodeContainer
-				title="Boolean"
-				svelte={cb.usersAndAdminsHTML}
-				data={cb.usersAndAdminsStoreCode}
-			>
+			<CustomCodeContainer title="Boolean" tabs={usersAndAdminsTabs}>
 				<Table config={usersAndAdminsConfig} />
-			</CodeContainer>
+			</CustomCodeContainer>
 		</div>
 	</div>
 </div>
