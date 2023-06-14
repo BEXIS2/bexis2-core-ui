@@ -1,3 +1,5 @@
+import { writable } from 'svelte/store';
+
 export const userGroups = [
 	{
 		id: 1,
@@ -310,3 +312,26 @@ export const usersAndAdmins: UserOrAdmin[] = [
 		isAdmin: false
 	}
 ];
+
+export type Group = { id: number; name: string; description: string };
+export const groupsStore = writable<Group[]>(userGroups);
+
+export type User = { id: number; name: string; group: string; role: string };
+export const usersStore = writable<User[]>(users);
+
+export type UserBD = { id: number; name: string; dateOfBirth: Date };
+export const usersBDStore = writable<UserBD[]>(usersBD);
+
+export const usersAndAdminsStore = writable<UserOrAdmin[]>(usersAndAdmins);
+
+export type Website = { label: string; URL: URL };
+export const websitesStore = writable<Website[]>(websites);
+
+export const missingValues: { [key: number]: string } = {
+	32655: 'NA',
+	32654: 'NM',
+	32653: 'ND'
+};
+
+export type UserMissingID = { id: number | undefined; name: string; group: string; role: string };
+export const usersMissingIDsStore = writable<UserMissingID[]>(usersMissingIDs);
