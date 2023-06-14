@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { CodeBlock, type PopupSettings, popup } from '@skeletonlabs/skeleton';
-	import { columnTypeCode } from './codeBlocks';
+	import { columnTypeCode } from '../data/codeBlocks';
 
 	const popupClickColumn: PopupSettings = {
 		event: 'click',
