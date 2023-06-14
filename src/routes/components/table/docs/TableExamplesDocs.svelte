@@ -55,6 +55,11 @@
 		pageSizes: [1, 3, 5],
 		defaultPageSize: 5
 	};
+	const usersNoRolesTabs = [
+		{ name: 'Svelte', language: 'html', code: cb.usersNoRolesHTML },
+		{ name: 'Data', language: 'typescript', code: cb.usersStoreCode },
+		{ name: 'TableOptions.svelte', language: 'html', code: cb.tableOptionsHTML }
+	];
 
 	type UserBD = { id: number; name: string; dateOfBirth: Date };
 	const usersBDStore = writable<UserBD[]>(data.usersBD);
@@ -242,15 +247,9 @@
 		<div id="actionDispatchersExamples" class="mb-20">
 			<h2>Dispatching Actions</h2>
 			<div class="grid gap-5" id="usersNoRoles">
-				<CodeContainer title="Odd or even" svelte={cb.usersNoRolesHTML} data={cb.usersStoreCode}>
-					<div class="grid gap-10">
-						<Table config={usersNoRolesConfig} on:action={(obj) => alert(obj.detail.type)} />
-						<div class="grid gap-5">
-							<h3>TableOptions component</h3>
-							<CodeBlock language="html" code={cb.tableOptionsHTML} />
-						</div>
-					</div>
-				</CodeContainer>
+				<CustomCodeContainer title="Odd or even" tabs={usersNoRolesTabs}>
+					<Table config={usersNoRolesConfig} />
+				</CustomCodeContainer>
 			</div>
 
 			<div class="grid gap-5" id="CRUD">
@@ -258,8 +257,6 @@
 					<Table config={tableCRUDConfig} on:action={tableCRUDActions} />
 				</CustomCodeContainer>
 			</div>
-
-			<!-- --------------------------------------- -->
 		</div>
 	</div>
 	<div id="complexTypes">
