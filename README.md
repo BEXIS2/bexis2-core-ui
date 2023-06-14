@@ -1,4 +1,7 @@
 # bexis-core-ui
+## v0.1.6
+- remove console.logs
+
 
 ## v0.1.5 
 ### update
