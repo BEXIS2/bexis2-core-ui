@@ -22,14 +22,14 @@
 
 	function updateTarget(selection) {
 		//diffrent cases
-		console.log('------');
-		console.log('isComplex',complexSource);
-		console.log('complexTarget',complexTarget);
-		console.log('selection',selection);
+		//console.log('------');
+		//console.log('isComplex',complexSource);
+		//console.log('complexTarget',complexTarget);
+		//console.log('selection',selection);
 
 		//a) source is complex model is simple
 		if (complexSource && !complexTarget && isLoaded) {
-			console.log('a) source is complex model is simple');
+			//console.log('a) source is complex model is simple');
 
 			target = [];
 			for (let i in selection) {
@@ -47,18 +47,18 @@
 
 		if (complexSource && complexTarget && isLoaded)
 		{
-			 console.log("both complex",selection);
+			 //console.log("both complex",selection);
 			 target = selection;
 			
 		}
 
-		// console.log('selection ' + title, selection);
-		// console.log('target ' + title, target);
+		// //console.log('selection ' + title, selection);
+		// //console.log('target ' + title, target);
 	}
 
 	onMount(async () => {
-		//console.log("on mount multiselect");
-		//console.log(source);
+		////console.log("on mount multiselect");
+		////console.log(source);
 
 		//a) source is complex model is simple
 		if (complexSource && !complexTarget) {
@@ -73,7 +73,7 @@
 			if (items.length > 0) {
 				value = items;
 			}
-			//console.log(value);
+			////console.log(value);
 		}
 
 		if (complexSource && complexTarget)
@@ -84,8 +84,8 @@
 
 		//b) simple liust and simple model
 		if (!complexSource && !complexTarget) {
-			//console.log("source", source);
-			//console.log("target",target);
+			////console.log("source", source);
+			////console.log("target",target);
 			isLoaded = true;
 			//set target only if its nit empty
 			if (target != null && target !== undefined && target != '') {
