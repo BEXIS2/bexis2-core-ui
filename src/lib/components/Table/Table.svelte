@@ -28,7 +28,7 @@
 		pageSizes = [5, 10, 15, 20]
 	} = config;
 
-	type AccessorType = keyof (typeof $data)[0];
+	type AccessorType = keyof (typeof $data)[number];
 
 	const dispatch = createEventDispatcher();
 	const actionDispatcher = (obj) => dispatch('action', obj);
@@ -163,12 +163,14 @@
 
 <div class="grid gap-2">
 	<div class="table-container">
-		<input
-			class="input p-2 mb-2 border border-primary-500"
-			type="text"
-			bind:value={$filterValue}
-			placeholder="Search rows..."
-		/>
+		{#if $data.length > 0}
+			<input
+				class="input p-2 mb-2 border border-primary-500"
+				type="text"
+				bind:value={$filterValue}
+				placeholder="Search rows..."
+			/>
+		{/if}
 		<table {...$tableAttrs} class="table table-compact bg-tertiary-200">
 			<thead>
 				{#each $headerRows as headerRow (headerRow.id)}
@@ -214,6 +216,8 @@
 							{/each}
 						</tr>
 					</Subscribe>
+				{:else}
+					<p class="items-center justify-center flex w-full p-10 italic">Nothing to show here.</p>
 				{/each}
 			</thead>
 
@@ -236,6 +240,7 @@
 			</tbody>
 		</table>
 	</div>
-
-	<TablePagination pageConfig={pluginStates.page} {pageSizes} />
+	{#if $data.length > 0}
+		<TablePagination pageConfig={pluginStates.page} {pageSizes} />
+	{/if}
 </div>

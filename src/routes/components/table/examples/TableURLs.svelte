@@ -3,9 +3,10 @@
 	import Table from '$lib/components/Table/Table.svelte';
 	import UrlCell from '../components/URLCell.svelte';
 	import { websitesStore } from '../data/data';
+	import { websitesHTML, websitesStoreCode, websitesUrlCellHTML } from '../data/codeBlocks';
 	import type { Website } from '../data/data';
 	import type { TableConfig } from '$lib/models/Models';
-	import { websitesHTML, websitesStoreCode, websitesUrlCellHTML } from '../data/codeBlocks';
+
 
 	const websitesConfig: TableConfig<Website> = {
 		id: 'websites',
