@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { CodeBlock, type PopupSettings, popup } from '@skeletonlabs/skeleton';
-	import { columnInstructionsTypeCode } from './codeBlocks';
+	import { columnInstructionsTypeCode } from '../data/codeBlocks';
 
 	const popupClickColumnInstructions: PopupSettings = {
 		event: 'click',
@@ -50,5 +50,35 @@
 			Custom function to return either a string, number or a Date value to have a filterable column.
 			Filter options are based on the returned value.
 		</p>
+	</div>
+
+	<div class="items-center mt-5">
+		<div class="flex gap-2">
+			<div class="italic">renderComponent:</div>
+			<div class="font-bold">SvelteComponent</div>
+		</div>
+
+		<div class="ml-5">
+			<p class="underline"><code>renderComponent</code> overrides <code>toStringFn</code>.</p>
+			<p class="">Every <code>renderComponent</code> will get 2 props:</p>
+			<div class="items-center mt-2">
+				<div class="flex gap-2">
+					<div class="italic">row:</div>
+					<div class="font-bold">Object</div>
+				</div>
+				<p class="text-xl pl-10">
+					The current row in the table. In other words, a single object from the data store.
+				</p>
+			</div>
+			<div class="items-center mt-2">
+				<div class="flex gap-2">
+					<div class="italic">value:</div>
+					<div class="font-bold">any</div>
+				</div>
+				<p class="text-xl pl-10">
+					The value of the current cell.
+				</p>
+			</div>
+		</div>
 	</div>
 </div>

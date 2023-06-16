@@ -5,9 +5,10 @@
 	import ColumnDocs from './docs/ColumnDocs.svelte';
 	import ColumnInstructionsDocs from './docs/ColumnInstructionsDocs.svelte';
 	import TableExamplesDocs from './docs/TableExamplesDocs.svelte';
+	import ActionDispatchersDocs from './docs/ActionDispatchersDocs.svelte';
 </script>
 
-<div class="grid gap-20 p-10" id="toc-target">
+<div class="grid gap-20 p-10" id="toc-target-table">
 	<div class="grid gap-5">
 		<h1 class="font-bold !text-6xl">Table</h1>
 		<h2>Types</h2>
@@ -16,5 +17,9 @@
 	<ColumnsDocs />
 	<ColumnDocs />
 	<ColumnInstructionsDocs />
+	<div class="grid gap-5">
+		<h2>Action Dispatchers</h2>
+		<ActionDispatchersDocs />
+	</div>
 	<TableExamplesDocs />
 </div>

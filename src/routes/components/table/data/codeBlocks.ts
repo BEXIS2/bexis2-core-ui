@@ -191,19 +191,6 @@ const usersBD = [
 
 export const usersBDStore = writable<UserBD[]>(usersBD);`;
 
-export const tableOptionsHTML = `
-<script lang="ts">
-	export let row;
-</script>
-
-<button 
-	class="btn btn-sm variant-filled-secondary" 
-	on:click|preventDefault={() => alert(JSON.stringify(row))}
->
-	See row info
-</button>
-`;
-
 export const tableConfigTypeCode = `
 export interface TableConfig<T> {
 	id: string;
@@ -320,6 +307,7 @@ export const websitesHTML = `
 	import { Table } from '@bexis2/bexis2-core-ui';
 	import type { TableConfig } from '@bexis2/bexis2-core-ui';
 
+	import UrlCell from './URLCell.svelte';
 	import { websitesStore } from './data';
 	import type { Website } from './data';
 
@@ -332,7 +320,7 @@ export const websitesHTML = `
 			URL: {
 				header: 'URL',
 				instructions: {
-					toStringFn: (url: URL) => url.toString(),
+					renderComponent: UrlCell,
 					toFilterableValueFn: (url: URL) => url.toString()
 				},
 				disableSorting: true
@@ -373,22 +361,31 @@ const websites: Website[] = [
 export const websitesStore = writable<Website[]>(websites);
 `;
 
+export const websitesUrlCellHTML = `
+<script lang="ts">
+	export let value;
+</script>
+
+<a href={value}>{value}</a>
+`;
+
 export const usersAndAdminsHTML = `
 <script lang="ts">
 	import { Table } from '@bexis2/bexis2-core-ui';
 	import type { TableConfig } from '@bexis2/bexis2-core-ui';
 
+	import IsAdmin from './IsAdmin.svelte';
 	import { usersAndAdminsStore } from './data';
 	import type { UserOrAdmin } from './data';
 
-	const usersAndAdminsConfig: TableConfig<UserOrAdmin> = {
+	const usersAndAdminsConfig: TableConfig<data.UserOrAdmin> = {
 		id: 'usersAndAdmins',
 		data: usersAndAdminsStore,
 		columns: {
-			role: {
+			isAdmin: {
 				header: 'Admin',
 				instructions: {
-					toStringFn: (isAdmin: boolean) => (isAdmin ? '✓' : '')
+					renderComponent: IsAdmin
 				},
 				disableFiltering: true
 			}
@@ -431,4 +428,236 @@ const usersAndAdmins: UserOrAdmin[] = [
 ];
 
 export const usersAndAdminsStore = writable<UserOrAdmin[]>(usersAndAdmins);
+`;
+export const usersAndAdminsIsAdminHTML = `
+<script lang="ts">
+	export let value;
+	export let row;
+</script>
+
+<input 
+	type="checkbox" 
+	name="isAdmin" 
+	id={row.id} 
+	checked={value} 
+	disabled 
+/>
+`;
+
+export const tableOptionsHTML = `
+<script lang="ts">
+	export let row;
+	export let dispatchFn;
+
+	const eventDispatchFn = () => {
+		const type = row.id % 2 === 0 ? 'even' : 'odd';
+		return dispatchFn({ type });
+	};
+</script>
+
+<button 
+	class="btn btn-sm variant-filled-secondary" 
+	on:click|preventDefault={eventDispatchFn}>
+	Odd or even
+</button>
+`;
+
+export const tableCRUDHTML = `
+<script lang="ts">
+	import { Modal, modalStore } from '@skeletonlabs/skeleton';
+	import { Table } from '@bexis2/bexis2-core-ui';
+	import type { TableConfig } from '@bexis2/bexis2-core-ui';
+
+	// Modals' contents
+	import AddUser from './AddUser.svelte';
+	import ShowUsers from './ShowUsers.svelte';
+	import EditGroup from './EditGroup.svelte';
+	// Table data
+	import TableCrud from './TableCRUD.svelte';
+	import { groupsStore, usersStore } from './data';
+	import type { Group } from './data';
+
+	export let row;
+	export let dispatchFn;
+
+	const tableCRUDConfig: TableConfig<Group> = {
+		id: 'userGroupCRUD',
+		data: groupsStore,
+		optionsComponent: TableCrud
+	};
+
+	const tableCRUDActions = (action: CustomEvent<{ row: Group; type: string }>) => {
+		// See tableCRUDActions tab for more details
+	};
+</script>
+
+<Table config={tableCRUDConfig} on:action={tableCRUDActions} />
+<Modal />`;
+
+export const tableCRUDActionsCode = `
+const tableCRUDActions = (action: CustomEvent<{ row: Group; type: string }>) => {
+	const { type, row } = action.detail;
+	switch (type) {
+		case 'CREATE':
+			modalStore.trigger({
+				type: 'component',
+				title: \`Add user to Group \${row.id}\`,
+				component: {
+					ref: AddUser,
+					props: { 
+						users: $usersStore.filter((user) => user.group !== row.name), 
+						group: row.name 
+					}
+				}
+			});
+			break;
+		case 'READ':
+			modalStore.trigger({
+				type: 'component',
+				title: \`Users in Group \${row.id}\`,
+				component: {
+					ref: ShowUsers,
+					props: { 
+						users: $usersStore.filter((user) => user.group === row.name), 
+						group: row.name 
+					}
+				}
+			});
+			break;
+		case 'UPDATE':
+			modalStore.trigger({
+				type: 'component',
+				title: \`Edit Group \${row.id}\`,
+				component: {
+					ref: EditGroup,
+					props: { group: row }
+				}
+			});
+			break;
+		case 'DELETE':
+			modalStore.trigger({
+				type: 'confirm',
+				title: 'Group deletion',
+				body: \`Are you sure you want to delete <strong>\${row.name}</strong>?\`,
+				response: (r: boolean) => console.log('response:', r)
+			});
+			break;
+
+		default:
+			break;
+	}
+};
+`;
+
+export const tableCRUDAddUserHTML = `
+<script lang="ts">
+	export let users;
+	export let group;
+</script>
+
+<div class="p-5 rounded-lg bg-white grid gap-2">
+	<label for="users">Select the users you would like to add to the <strong>{group}</strong>.</label>
+	<select multiple name="users" class="select" id="">
+		{#each users as user}
+			<option value={user.id}>{user.name}</option>
+		{/each}
+	</select>
+	<div class="flex gap-2 justify-end">
+		<button class="btn variant-filled-error">Cancel</button>
+		<button class="btn variant-filled-success">Done</button>
+	</div>
+</div>
+`;
+
+export const tableCRUDShowUsersHTML = `
+<script lang="ts">
+	export let users;
+	export let group;
+</script>
+
+<div class="p-5 rounded-lg bg-white grid gap-2">
+	<label for="users">Users in <strong>{group}</strong>.</label>
+	<ul>
+		{#each users as user}
+			<li class="font-semibold" value={user.id}>- {user.name}</li>
+		{:else}
+			<p class="italic">No users in this group</p>
+		{/each}
+	</ul>
+
+	<div class="flex gap-2 justify-end">
+		<button class="btn variant-filled-error">Cancel</button>
+		<button class="btn variant-filled-success">Done</button>
+	</div>
+</div>
+`;
+
+export const tableCRUDEditGroupHTML = `
+<script lang="ts">
+	export let group;
+</script>
+
+<div class="p-5 rounded-lg bg-white grid gap-2">
+	<label for="groupName">Group name</label>
+	<input type="text" id="groupName" class="input input-primary" bind:value={group.name} />
+	<label for="groupDescription">Group description</label>
+	<input
+		type="text"
+		id="groupDescription"
+		class="input input-primary"
+		bind:value={group.description}
+	/>
+	<div class="flex gap-2 justify-end">
+		<button class="btn variant-filled-error">Cancel</button>
+		<button class="btn variant-filled-success">Done</button>
+	</div>
+</div>
+`;
+
+export const tableCRUDOptionsHTML = `
+<script lang="ts">
+	import Fa from 'svelte-fa/src/fa.svelte';
+	import { faPlus, faEye, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
+
+	export let row;
+	export let dispatchFn;
+
+	const eventDispatchFn = (type: string) => {
+		return dispatchFn({ type, row });
+	};
+
+	const buttons = [
+		{
+			icon: faPlus,
+			color: 'variant-filled-primary',
+			type: 'CREATE'
+		},
+		{
+			icon: faEye,
+			color: 'variant-filled-secondary',
+			type: 'READ'
+		},
+		{
+			icon: faPen,
+			color: 'variant-filled-warning',
+			type: 'UPDATE'
+		},
+		{
+			icon: faTrash,
+			color: 'variant-filled-error',
+			type: 'DELETE'
+		}
+	];
+</script>
+
+<div class="flex gap-2 w-min">
+	{#each buttons as button}
+		<button
+			class={\`btn btn-sm btn-icon rounded-md \${button.color}\`}
+			on:click|preventDefault={() => eventDispatchFn(button.type)}
+		>
+			<Fa icon={button.icon} />
+		</button>
+	{/each}
+</div>
 `;

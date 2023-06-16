@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { CodeBlock, type PopupSettings, popup } from '@skeletonlabs/skeleton';
-	import { tableConfigTypeCode } from './codeBlocks';
+	import { tableConfigTypeCode } from '../data/codeBlocks';
 
 	const popupClickTableConfig: PopupSettings = {
 		event: 'click',
