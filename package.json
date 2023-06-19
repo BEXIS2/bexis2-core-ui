@@ -4,7 +4,7 @@
   "private": false,
   "scripts": {
     "dev": "vite dev",
-    "package": "svelte-package --watch",
+    "package": "svelte-package",
     "build": "vite build",
     "build package": "svelte-kit sync && svelte-package --watch",
     "preview": "vite preview",

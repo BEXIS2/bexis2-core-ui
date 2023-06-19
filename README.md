@@ -1,7 +1,13 @@
 # bexis-core-ui
 ## v0.1.6
-- remove console.logs
 
+- remove massive console.logs
+  
+### update
+- Table
+  - change submit to apply filter
+  - show emtpy table if not data is in the store
+  - add option of including custom rendering component
 
 ## v0.1.5 
 ### update

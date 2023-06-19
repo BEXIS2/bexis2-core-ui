@@ -20,6 +20,8 @@
 	$: value = null;
 	$: updateTarget(value);
 
+	let container;
+
 	function updateTarget(selection) {
 		//diffrent cases
 		//console.log('------');
@@ -95,9 +97,10 @@
 	});
 </script>
 
+
 <InputContainer label={title} {feedback} {required}>
 	<Select
-		class="select variant-form-material"
+	 id={title}
 		items={source}
 		{itemId}
 		label = {itemLabel}
@@ -106,3 +109,9 @@
 		placeholder="-- Please select --"
 	/>
 </InputContainer>
+
+<span class="svelte-select-list"/>
+
+<style>
+ .svelte-select-list{color:green}
+</style>
