@@ -26,38 +26,10 @@ import Select from 'svelte-select';
 
 </script>
 
-<Page title="BEXIS2 Core UI Documentation" note="test">
-
-
-	
-<br/>
-<input type="text" class="input variant-form-material">
-
-<SlideToggle name="{label}" bind:checked={value} on:change>{label}</SlideToggle>
-
-
-<MultiSelect title="Required input fields" source={CountrieNames} bind:target />
-
-<MultiSelect title="Required input fields2" source={CountrieNames} bind:target />
-
-<SlideToggle name="{label}" bind:checked={value} on:change>{label}</SlideToggle>
-
-<div class="pt-3"><b>Value:</b> {value}</div>
-
-
-
-
-
-<div class="z">
-	🦓	🦓	🦓	🦓	🦓	🦓	🦓	🦓	🦓	🦓
-</div>
+<Page title="BEXIS2 Core UI Documentation">
 
 
 </Page>
 
-<style>
-	.z { position: absolute; top: 55px; background: white; z-index:9; padding: 10px; }
-	.select { background: white; width: 300px; position: relative; z-index: 11; }
-</style>
 
 

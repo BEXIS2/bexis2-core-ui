@@ -6,21 +6,27 @@
 
 	export let source;
 	export let target;
+	export let id;
 	export let title;
 	export let itemId = 'value';
 	export let itemLabel = 'label';
+	export let itemGroup = 'group';
 	export let isMulti = true;
 	export let complexSource = false;
 	export let complexTarget = false;
 	export let required = false;
 	export let feedback = [];
+	export let placeholder = "-- Please select --"
 
 	let isLoaded = false;
 
 	$: value = null;
 	$: updateTarget(value);
 
-	let container;
+	let groupBy
+	$:groupBy;
+
+
 
 	function updateTarget(selection) {
 		//diffrent cases
@@ -76,12 +82,14 @@
 				value = items;
 			}
 			////console.log(value);
+			groupBy = (item) => item[itemGroup]
 		}
 
 		if (complexSource && complexTarget)
 		{
 				value = target
 				isLoaded = true;
+				groupBy = (item) => item[itemGroup]
 		}
 
 		//b) simple liust and simple model
@@ -100,18 +108,15 @@
 
 <InputContainer label={title} {feedback} {required}>
 	<Select
-	 id={title}
+	 {id}
 		items={source}
+		{groupBy}
 		{itemId}
 		label = {itemLabel}
 		multiple={isMulti}
 		bind:value
-		placeholder="-- Please select --"
+		{placeholder}
 	/>
+
 </InputContainer>
 
-<span class="svelte-select-list"/>
-
-<style>
- .svelte-select-list{color:green}
-</style>

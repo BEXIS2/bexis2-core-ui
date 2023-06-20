@@ -7,7 +7,9 @@
 	$: selectedtarget = ["AF"];
 	$: selectedComplextarget = [{ name: 'Dominican Republic', code: 'DO' }];
 
-	import { Countries } from './exampleData';
+	$: targetGroup = [];
+
+	import { Countries, MetadatastructuresGrouped } from './exampleData';
 </script>
 
 <div class="grid gap-10">
@@ -36,4 +38,18 @@
 	/>
 
 	<CodeBlock language="ts" code={JSON.stringify(selectedComplextarget, undefined, 2)} />
+</div>
+
+<div class="grid gap-10 mt-10">
+	<MultiSelect
+		title="Group List"
+		source={MetadatastructuresGrouped}
+		bind:target={targetGroup}
+		itemId="id"
+		itemLabel="text"
+		complexSource={true}
+		complexTarget={true}
+	/>
+
+	<CodeBlock language="ts" code={JSON.stringify(targetGroup, undefined, 2)} />
 </div>

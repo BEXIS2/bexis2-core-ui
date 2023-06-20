@@ -1,7 +1,15 @@
 export const MultiSelectProperties=[
  {
+  name:"id",
+  description:"Set up a unique identifier"
+ },
+ {
   name:"title",
-  description:"Label of the Selction Component on Top"
+  description:"Label of the Selection Component on Top"
+ },
+ {
+  name:"placeholder",
+  description:"Set up a info text, when nothing is selected"
  },
  {
   name:"source",
@@ -18,6 +26,10 @@ export const MultiSelectProperties=[
  {
   name:"itemLabel",
   description:"Display value from the complex object"
+ },
+ {
+  name:"itemGroup",
+  description:"Set the value to true, when the outgoing data so the target complex is"
  },
  {
   name:"complexSource",

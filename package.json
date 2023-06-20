@@ -70,7 +70,7 @@
     "svelte-fa": "^3.0.4",
     "svelte-file-dropzone": "^2.0.1",
     "svelte-headless-table": "^0.17.3",
-    "svelte-select": "^5.6.0",
+    "svelte-select": "^5.6.1",
     "vest": "^4.6.11"
   },
   "author": "David Schöne",
