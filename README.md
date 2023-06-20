@@ -1,4 +1,9 @@
 # bexis-core-ui
+## v0.1.7
+### update
+- MultiSelect
+  - remove skeleton css classes from svelte select input
+
 ## v0.1.6
 
 - remove massive console.logs
