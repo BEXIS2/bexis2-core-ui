@@ -29,14 +29,9 @@
 
 
 	function updateTarget(selection) {
-		//diffrent cases
-		//console.log('------');
-		//console.log('isComplex',complexSource);
-		//console.log('complexTarget',complexTarget);
-		//console.log('selection',selection);
-
-		//a) source is complex model is simple
-		if (complexSource && !complexTarget && isLoaded) {
+		//different cases
+		//a) source is complex model is simple return array
+		if (complexSource && !complexTarget && isLoaded && isMulti) {
 			//console.log('a) source is complex model is simple');
 
 			target = [];
@@ -46,20 +41,39 @@
 			}
 		}
 
-		if (!complexSource && !complexTarget && isLoaded) {
+
+		if (!complexSource && !complexTarget && isLoaded && isMulti) {
 			target = [];
 			for (let i in selection) {
 				target.push(selection[i].value);
 			}
 		}
 
-		if (complexSource && complexTarget && isLoaded)
+		if (complexSource && complexTarget && isLoaded && isMulti)
 		{
 			 //console.log("both complex",selection);
 			 target = selection;
 			
 		}
 
+		if(complexSource && complexTarget && isLoaded &&!isMulti)
+		{
+			target = selection
+		}
+
+		if(!complexSource && !complexTarget && isLoaded &&!isMulti)
+		{
+	
+			target = selection.value
+		}
+
+		if(complexSource && !complexTarget && isLoaded &&!isMulti)
+		{
+			 target = selection[itemLabel]
+				console.log("selection",selection)
+		}
+
+		
 		// //console.log('selection ' + title, selection);
 		// //console.log('target ' + title, target);
 	}
@@ -69,7 +83,7 @@
 		////console.log(source);
 
 		//a) source is complex model is simple
-		if (complexSource && !complexTarget) {
+		if (complexSource && !complexTarget && isMulti) {
 			let items = [];
 			// event.detail will be null unless isMulti is true and user has removed a single item
 			for (let i in target) {
@@ -85,7 +99,7 @@
 			groupBy = (item) => item[itemGroup]
 		}
 
-		if (complexSource && complexTarget)
+		if (complexSource && complexTarget && isMulti)
 		{
 				value = target
 				isLoaded = true;
@@ -93,7 +107,7 @@
 		}
 
 		//b) simple liust and simple model
-		if (!complexSource && !complexTarget) {
+		if (!complexSource && !complexTarget && isMulti) {
 			////console.log("source", source);
 			////console.log("target",target);
 			isLoaded = true;
@@ -102,6 +116,32 @@
 				value = target;
 			}
 		}
+
+		if(!isMulti)
+		{
+			console.log("onmount",complexSource,complexTarget,value,target)
+			if(!complexSource && !complexTarget) 
+			{
+					value = {
+							value:target,
+							label:target
+					}
+			}
+
+			if(complexSource && complexTarget) 
+			{
+					value = target;
+			}
+
+			if(complexSource && !complexTarget) 
+			{
+					//value = target
+					console.log("this case is currently not supported (complexSource,complexTarget,isMulti)", complexSource, complexTarget,isMulti)
+			}
+			
+			isLoaded = true;
+		}
+
 	});
 </script>
 

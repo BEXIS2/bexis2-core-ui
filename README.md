@@ -1,4 +1,26 @@
 # bexis-core-ui
+
+
+## v0.1.10
+### update
+- MultiSelect
+  - set isMulti to false to get also a single value
+
+
+## v0.1.9
+### update
+- MultiSelect
+  - pass events 
+  - placeholder
+
+
+## v0.1.8
+### update
+- MultiSelect
+  - add placeholder
+  - add id
+  - add ItemGroup
+
 ## v0.1.7
 ### update
 - MultiSelect

@@ -8,27 +8,17 @@
 	let target;
 	$: target;
 
-let value: boolean = false;
-let label="toggle till the end of time";
-
-
-import Select from 'svelte-select';
-
-	const items = [
-		{value: 'chocolate', label: '🍫 Chocolate', group: 'Sweet'},
-    {value: 'pizza', label: '🍕 Pizza', group: 'Savory'},
-    {value: 'cake', label: '🎂 Cake', group: 'Sweet'},
-    {value: 'cookies', label: '🍪 Cookies', group: 'Savory'},
-    {value: 'ice-cream', label: '🍦 Ice Cream', group: 'Sweet'}
-	];
-	
-	let selectedValue = undefined;
-
 </script>
 
 <Page title="BEXIS2 Core UI Documentation">
 
+	<blockquote class="blockquote">
+		this page is the documentation about the <b>@bexis2/bexis2-core-ui</b> libary.
+		
+ </blockquote>
 
+
+	
 </Page>
 
 

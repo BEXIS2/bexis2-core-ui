@@ -30,6 +30,10 @@
 	import CheckboxKVPExample from './examples/CheckboxKVPExample.svelte';
 	import CheckboxKVPExampleRaw from './examples/CheckboxKVPExample.svelte?raw';
 
+// exmaple - Multiselect single 
+import MultiSelectSingleSelectExample from './examples/MultiSelectSingleSelectExample.svelte'; 
+import MultiSelectSingleSelectExampleRaw from './examples/MultiSelectSingleSelectExample.svelte?raw'; 
+
 	// example 6 - multiselect
 	import MultiSelectExample from './examples/MultiSelectExample.svelte';
 	import MultiSelectExampleRaw from './examples/MultiSelectExample.svelte?raw';
@@ -151,6 +155,7 @@
 		</CodeContainer>
 
 	<!-- Multiselect Examples -->
+	
 
 	<CodeContainer title={'Multiselect'} svelte={MultiSelectExampleRaw} data={JSON.stringify(CountrieNames, undefined, 2)}>
 		<div slot="info">
@@ -161,6 +166,18 @@
 		</div>
 		<MultiSelectExample />
 	</CodeContainer>
+
+	<CodeContainer title={'Multiselect return simple value'} svelte={MultiSelectSingleSelectExampleRaw} data={JSON.stringify(CountrieNames, undefined, 2)}>
+		<div slot="info">
+			This example shows a simple multi select. the <b>source</b> is a json array with simple
+			content like strings.<br />
+			Source needs the assignment of the data to be selected and target is the array containing the selected
+			values.
+			The target is a simple value.
+		</div>
+		<MultiSelectSingleSelectExample />
+	</CodeContainer>
+
 
 	<CodeContainer title={'Multiselect with KeyValuePair'} 
 		svelte={MultiSelectKVPExampleRaw} 

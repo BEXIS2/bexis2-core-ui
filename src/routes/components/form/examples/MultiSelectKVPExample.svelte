@@ -14,7 +14,7 @@
 
 <div class="grid gap-10">
 	<MultiSelect
-		title="Return code as array"
+		title="Return target as array"
 		source={Countries}
 		bind:target
 		itemId="code"
