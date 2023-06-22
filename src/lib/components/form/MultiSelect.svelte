@@ -131,6 +131,7 @@
 			if(complexSource && complexTarget) 
 			{
 					value = target;
+					groupBy = (item) => item[itemGroup]
 			}
 
 			if(complexSource && !complexTarget) 

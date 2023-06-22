@@ -42,6 +42,7 @@
 
 <div class="grid gap-10 mt-10">
 	<MultiSelect
+	 id ="Group List"
 		title="Group List"
 		source={MetadatastructuresGrouped}
 		bind:target={targetGroup}

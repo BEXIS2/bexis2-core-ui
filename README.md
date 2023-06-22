@@ -1,5 +1,8 @@
 # bexis-core-ui
-
+## v0.1.11
+### update
+- MultiSelect
+  - grouped source also works now in case of complex source & return single value
 
 ## v0.1.10
 ### update
