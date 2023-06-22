@@ -5,7 +5,7 @@
  import { storePopup } from '@skeletonlabs/skeleton';
  storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
  
- import type { MenuItem } from "../../models/menu";
+ import type { MenuItem } from "./menu";
  import Item from "./MenuItem.svelte";
  
  export let menuBar:MenuItem [];
@@ -15,6 +15,7 @@
  let radomNumber = Math.floor(Math.random() * 100);
  
  
+ console.log(menuBar);
  </script>
  
  

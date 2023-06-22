@@ -3,8 +3,9 @@
  import { ListBox, ListBoxItem } from '@skeletonlabs/skeleton';
 
  import type { PopupSettings } from '@skeletonlabs/skeleton';
+ import type { MenuItem } from "./menu";
 
- export let menubarItem;
+ export let menubarItem:MenuItem;
  export let comboboxValue;
 
  let radomNumber = Math.floor(Math.random() * 100).toString();
@@ -35,7 +36,7 @@ closeQuery: '.listbox-item'
 <ListBox rounded="rounded-none">
 {#each menubarItem.Items as item}
 
-<ListBoxItem class="bg-white text-gray-900 py-1 text-sm" bind:group={menubarItem.Title} name="medium" value={item.Title}>{item.Title}</ListBoxItem>
+<ListBoxItem class="bg-white text-gray-900 py-1 text-sm"  bind:group={item.Title} name="medium" value={item.Title}><a class="bg-white text-gray-900 py-1 text-sm"  href={item.Url}>{item.Title}</a></ListBoxItem>
 {/each}
 </ListBox>
 </div>
