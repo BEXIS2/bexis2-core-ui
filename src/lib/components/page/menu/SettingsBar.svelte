@@ -3,7 +3,7 @@
  import { ListBox, ListBoxItem } from '@skeletonlabs/skeleton';
 
  import type { PopupSettings } from '@skeletonlabs/skeleton';
- import type { MenuItem } from "../../models/menu";
+ import type { MenuItem } from "./menu";
  import Fa from 'svelte-fa/src/fa.svelte'
  import { faCog } from '@fortawesome/free-solid-svg-icons'
 
@@ -50,7 +50,7 @@ closeQuery: '.listbox-item'
 <ListBox rounded="rounded-none bg-white">
 {#each menuBar as menubarItem}
 {#if isNewModule(menubarItem.Module) }<hr class="bg-gray-900">{/if}
-<ListBoxItem class="bg-white text-gray-900 py-1" bind:group={menubarItem.Title} name="medium" value={menubarItem.Title}>{menubarItem.Title}</ListBoxItem>
+<ListBoxItem class="bg-white text-gray-900 py-1" href="{menubarItem.Url}" bind:group={menubarItem.Title} name="medium" value={menubarItem.Title}><a href={menubarItem.Url}>{menubarItem.Title}</a></ListBoxItem>
 
 
 
