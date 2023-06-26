@@ -157,6 +157,15 @@
 		multiple={isMulti}
 		bind:value
 		{placeholder}
+		on:change
+		on:input
+		on:focus
+		on:blur
+		on:clear
+		on:loaded
+		on:error
+		on:filter
+		on:hoverItem
 	/>
 
 </InputContainer>
