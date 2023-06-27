@@ -42,7 +42,8 @@ import MultiSelectSingleSelectExampleRaw from './examples/MultiSelectSingleSelec
 	import MultiSelectKVPExample from './examples/MultiSelectKVPExample.svelte';
 	import MultiSelectKVPExampleRaw from './examples/MultiSelectKVPExample.svelte?raw';
 	import { Datastructures, Countries, CountrieNames } from './examples/exampleData';
-	import { MultiSelectProperties } from './examples/properties';
+	import { MultiSelectProperties,MultiSelectEvents } from './examples/properties';
+	
 
 		// example 8 - toggle
 		import ToggleExample from './examples/ToggleExample.svelte';
@@ -182,7 +183,8 @@ import MultiSelectSingleSelectExampleRaw from './examples/MultiSelectSingleSelec
 	<CodeContainer title={'Multiselect with KeyValuePair'} 
 		svelte={MultiSelectKVPExampleRaw} 
 		data={JSON.stringify(Countries, undefined, 2)}
-		properties={MultiSelectProperties}>
+		properties={MultiSelectProperties}
+		events={MultiSelectEvents}>
 		<div slot="info">
 			This example shows a multi select where the source is a list of complex objects. the <b>source</b>
 			is a json array with complex content like key value pairs.<br/>

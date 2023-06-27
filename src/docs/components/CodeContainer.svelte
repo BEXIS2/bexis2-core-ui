@@ -32,6 +32,7 @@ interface prop
 
 	export let external:link[]=[];
 	export let properties:prop[]=[];
+	export let events:prop[]=[];
 
 	export let title;
 
@@ -39,6 +40,12 @@ interface prop
 
 	const propertiesStore = writable<prop[]>(properties);
 	const propertiesTableConfig: TableConfig<prop> = {
+			id: 'properties',
+			data: propertiesStore
+		};
+
+		const eventsStore = writable<prop[]>(events);
+	const eventsTableConfig: TableConfig<prop> = {
 			id: 'properties',
 			data: propertiesStore
 		};
@@ -73,6 +80,14 @@ interface prop
 <div class="py-5 grid gap-5">
 	 <h4>Properties</h4>
 		<Table config={propertiesTableConfig} />
+</div>
+{/if}
+
+
+{#if events.length>0}
+<div class="py-5 grid gap-5">
+	 <h4>Events</h4>
+		<Table config={eventsTableConfig} />
 </div>
 {/if}
 

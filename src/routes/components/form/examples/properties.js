@@ -40,3 +40,42 @@ export const MultiSelectProperties=[
   description:"Set the value to true, when the outgoing data so the target complex is"
  }
 ]
+
+export const MultiSelectEvents=[
+ {
+  name:"change",
+  description:"fires when the user selects an option"
+ },
+ {
+  name:"input",
+  description:"fires when the value has been changed"
+ },
+ {
+  name:"focus",
+  description:"fires when select > input on:focus"
+ },
+ {
+  name:"blur",
+  description:"fires when select > input on:blur"
+ },
+ {
+  name:"clear",
+  description:"fires when clear is invoked or item is removed (by user) from multi select"
+ },
+ {
+  name:"loaded",
+  description:"fires when loadOptions resolves"
+ },
+ {
+  name:"error",
+  description:"fires when error is caught"
+ },
+ {
+  name:"filter",
+  description:"fires when listOpen: true and items are filtered"
+ },
+ {
+  name:"hoverItem",
+  description:"fires when hoverItemIndex changes"
+ }
+]

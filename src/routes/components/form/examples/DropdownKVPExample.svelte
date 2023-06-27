@@ -24,7 +24,6 @@
 		bind:target={simpleTarget}
 		source={Metadatastructures}
 		on:change={onChangeHandler}
-		
 	/>
 
 	<CodeBlock language="ts" code={JSON.stringify(simpleTarget, undefined, 2)} />

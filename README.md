@@ -1,4 +1,9 @@
 # bexis-core-ui
+## v0.1.12
+### update
+- MultiSelect
+  - pass all events from svelte select
+
 ## v0.1.11
 ### update
 - MultiSelect
