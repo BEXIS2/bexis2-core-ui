@@ -15,8 +15,10 @@
 	export let complexSource = false;
 	export let complexTarget = false;
 	export let required = false;
-	export let feedback = [];
+	export let feedback = [''];
 	export let placeholder = "-- Please select --"
+	export let invalid = false
+	export let loading = false
 
 	let isLoaded = false;
 
@@ -79,7 +81,7 @@
 	}
 
 	onMount(async () => {
-		////console.log("on mount multiselect");
+		console.log("on mount multiselect");
 		////console.log(source);
 
 		//a) source is complex model is simple
@@ -119,7 +121,7 @@
 
 		if(!isMulti)
 		{
-			console.log("onmount",complexSource,complexTarget,value,target)
+			//console.log("onmount",complexSource,complexTarget,value,target)
 			if(!complexSource && !complexTarget) 
 			{
 					value = {
@@ -157,6 +159,8 @@
 		multiple={isMulti}
 		bind:value
 		{placeholder}
+		hasError={invalid}
+		{loading}
 		on:change
 		on:input
 		on:focus

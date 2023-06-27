@@ -77,5 +77,13 @@ export const MultiSelectEvents=[
  {
   name:"hoverItem",
   description:"fires when hoverItemIndex changes"
+ },
+ {
+  name:"loading",
+  description:"actived/deactivate spinner inside the selection field"
+ },
+ {
+  name:"isValid",
+  description:"add flag to mark selection with errors"
  }
 ]

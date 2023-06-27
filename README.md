@@ -1,4 +1,10 @@
 # bexis-core-ui
+## v0.1.13
+### update
+- MultiSelect
+  - loading flag
+  - isValid
+
 ## v0.1.12
 ### update
 - MultiSelect
