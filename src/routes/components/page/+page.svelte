@@ -10,10 +10,10 @@
 
     
 
-<Page
+<Page 
 title="Create a Dataset" 
 note="On this page you can create a dataset based on a template. please select on template and fill out the form." 
-{links} >
+{links}>
 
 <div slot="description">
 

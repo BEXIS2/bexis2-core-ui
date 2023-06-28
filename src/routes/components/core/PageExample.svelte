@@ -11,7 +11,8 @@ let links:Link[] = [{label:"manual",url:"https://github.com/BEXIS2/Documents/blo
 title="Create a Dataset" 
 note="On this page you can create a dataset based on a template. please select on template and fill out the form." 
 {links}
-menu={false}>
+menu={false}
+help={false}>
 
 <div slot="description">
 
