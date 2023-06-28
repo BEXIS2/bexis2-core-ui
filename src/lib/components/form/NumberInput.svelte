@@ -1,5 +1,6 @@
 <script lang="ts">
 	import InputContainer from './InputContainer.svelte';
+	import { HelpStore } from '$store/pagestore'
 
 	export let id: string = '';
 	export let label: string = '';
@@ -10,9 +11,12 @@
 	export let required: boolean = false;
 	export let feedback: string[] = [''];
 	export let placeholder: string = "";
+	export let help:boolean=false;
+
+
 </script>
 
-<InputContainer {label} {feedback} {required}>
+<InputContainer {id} {label} {feedback} {required} {help}>
 	<input
 		{id}
 		class="input variant-form-material"

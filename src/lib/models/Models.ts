@@ -98,3 +98,16 @@ export interface ListItem {
 	text: string;
 	group: string;
 }
+
+//help
+export interface HelpItem {
+    id?: string;
+    name: string;
+    description:string;
+    link?:string;
+}
+
+export interface HelpStoreType {
+    itemId?:string;
+    helpItems:HelpItem[];
+};

@@ -9,9 +9,11 @@
 	export let invalid: boolean = false;
 	export let required: boolean = false;
 	export let feedback: string[] = [''];
+	export let help = false;
+	
 </script>
 
-<InputContainer {label} {feedback} {required}>
+<InputContainer {id} {label} {feedback} {required} {help}>
 	<input
 		{id}
 		class="input variant-form-material"

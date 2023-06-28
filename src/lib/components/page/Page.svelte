@@ -1,8 +1,13 @@
 <script lang="ts">
+  import {onMount} from 'svelte'
 
   import type { Link } from "$lib/models/Models";
 
   import Menu from './menu/Menu.svelte'
+  import Help from "./Help.svelte";
+
+  // stores
+  import { HelpStore } from '$store/pagestore';
  
   export let title = "";
   export let note = "";
@@ -11,6 +16,14 @@
   // active or hide menu
   export let menu:boolean = true;
   export let footer:boolean = true;
+  export let help:boolean = true;
+
+  onMount(async () => {
+    
+    // clean help when is not active
+    if(!help){ HelpStore.clear() }
+
+  });
  
  </script>
  
@@ -46,9 +59,16 @@
       {/if}
       <slot/>
     </div>
-    {#if $$slots.right}
-    <div class="w-fixed w-full max-w-min flex-shrink flex-grow-0 px-2">
-      <slot name="right" />
+    {#if $$slots.right || help}
+    <div class="w-fixed w-full max-w-min flex-shrink flex-grow-0 px-2" class:w-200:={help}>
+      <!--if help is active show Help-->
+      {#if help}
+        <Help />
+      {/if}
+      <!--if help is active and slot is set -->
+      <!-- help is deactiveated -->
+      <slot name="right"/>
+      
     </div>
     {/if}
     

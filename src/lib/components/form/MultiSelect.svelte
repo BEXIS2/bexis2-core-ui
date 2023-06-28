@@ -17,8 +17,10 @@
 	export let required = false;
 	export let feedback = [''];
 	export let placeholder = "-- Please select --"
-	export let invalid = false
-	export let loading = false
+	export let invalid = false;
+	export let loading = false;
+	export let help = false;
+
 
 	let isLoaded = false;
 
@@ -149,7 +151,7 @@
 </script>
 
 
-<InputContainer label={title} {feedback} {required}>
+<InputContainer {id} label={title} {feedback} {required} {help}>
 	<Select
 	 {id}
 		items={source}

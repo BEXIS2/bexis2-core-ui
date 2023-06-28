@@ -12,13 +12,23 @@
 
 	import SpinnerExample from "./SpinnerExample.svelte";
  import SpinnerExampleRaw from "./SpinnerExample.svelte?raw";
+
+	import HelpExample from "./HelpExample.svelte";
+ import HelpExampleRaw from "./HelpExample.svelte?raw";
+	import {HelpExampleData} from './data/help';
+
 </script>
 
 <div id="toc-target">
-<Page title="Core" note="here are listed all basic components for a unified design of the pages.  " menu="{false}">
+<Page title="Core" note="here are listed all basic components for a unified design of the pages." menu="{false}">
 	<CodeContainer title="Page" svelte={PageExampleRaw}	>
 		<div slot="info">by using these components a unified border is displayed on the page, furthermore, there are props for title, notes and links, as well as a slot for description</div>
 	 <PageExample/>
+	</CodeContainer>
+
+	<CodeContainer title="Help" svelte={HelpExampleRaw}	json={JSON.stringify(HelpExampleData, undefined,2)}>
+		<div slot="info">This example shows how to setup the help for your page</div>
+	 <HelpExample/>
 	</CodeContainer>
 
 	<CodeContainer title="Alert" svelte={AlertExampleRaw}	>

@@ -10,6 +10,7 @@
 	export let feedback = [''];
 	export let required = false;
 	export let complexTarget = false;
+	export let help = false;
 
 	$: selected = null;
 
@@ -41,7 +42,7 @@
 	}
 </script>
 
-<InputContainer label={title} {feedback} {required}>
+<InputContainer {id} label={title} {feedback} {required} {help}>
 	<select
 		{id}
 		class="select variant-form-material"

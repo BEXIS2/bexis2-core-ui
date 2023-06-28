@@ -10,9 +10,11 @@
 	export let required: boolean = false;
 	export let feedback: string[] = [''];
 	export let placeholder: string = "";
+	export let help:boolean=false;
+	
 </script>
 
-<InputContainer {label} {feedback} {required}>
+<InputContainer {id} {label} {feedback} {required} {help}>
 	<textarea
 		{id}
 		class="textarea variant-form-material"
