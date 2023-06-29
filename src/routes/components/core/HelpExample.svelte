@@ -18,7 +18,7 @@ let help=true;
 
 <Page title="Help Example" menu={false} {help}>
     <div class="p-5">
-     
+
         <TextArea  id="description" label="Description to understand what happen in the world" {help}/>
  
         <TextInput  id="name" label="Name of something important" {help}/>
