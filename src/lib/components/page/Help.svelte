@@ -21,16 +21,23 @@
 
 </script>
 {#if helpItem && helpItem.id}
-<div class="card p-5 w-96" id={helpItem.id}>
-
-    <div class="card-header"><h2 class="h2">{ helpItem.name }</h2></div>
- 
-    <p class="p-5">{@html helpItem.description }</p>
-
-    <div class="card-footer">
+<div class="p-5 w-96 space-y-4" id={helpItem.id}>
+    <h3 class="h3">{ helpItem.name }</h3> 
+    <p>{@html helpItem.description }</p>
      {#if helpItem.link}  
      <p><a href="{helpItem.link}">... read more</a></p>
      {/if}
+</div>
+{:else}
+<div class="p-5 w-96 space-y-4">
+    <h3 class="h3">Help</h3>
+    <div class="space-y-4">
+    <div class="grid grid-cols-3 gap-8">
+        <div class="placeholder animate-pulse" />
+        <div class="placeholder animate-pulse" />
+        <div class="placeholder animate-pulse" />
+    </div>
+    <div class="placeholder w-28 animate-pulse" />
     </div>
 </div>
 {/if}
