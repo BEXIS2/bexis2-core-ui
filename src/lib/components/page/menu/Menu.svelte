@@ -3,10 +3,9 @@
  import { onMount } from 'svelte';
  import { get } from 'svelte/store';
  import { getMenuItems}  from './MenuDataCaller';
- import { menuStore } from './menuStore';
+ import { menuStore } from '$store/pagestore';
 
-
- import type { Menu } from "./menu";
+ import type { Menu } from "$models/Page";
 
  import MenuBar from './MenuBar.svelte';
  import SettingsBar from './SettingsBar.svelte';
@@ -21,7 +20,7 @@
   {
     menu = await getMenuItems();
     menuStore.set(menu);
-    console.log("menu loaded",menu);
+    //console.log("menu loaded",menu);
   }
 })
 

@@ -1,4 +1,7 @@
 import type { HelpItem, HelpStoreType } from "$models/Models";
+import type { Menu, BreadcrumbItem } from "$models/Page";
+import { Breadcrumb} from "$models/Page";
+
 import { writable } from 'svelte/store';
 
 function createHelpStore()
@@ -80,3 +83,54 @@ function createHelpStore()
 
 //crate and export the instance of the store 
 export const HelpStore = createHelpStore();
+
+// store for menu
+export const menuStore = writable<Menu>();
+
+
+function createBreadcrumbStore()
+{
+    // set Store Type
+    const { subscribe, set, update } = writable<Breadcrumb>();
+
+    set(new Breadcrumb())
+
+    return {
+        //pass Store default functions
+		subscribe,
+        set,
+        update,
+
+        //set the ID of the help item and display it 
+        addItem: (item:BreadcrumbItem) => {
+            let b:Breadcrumb;
+            breadcrumbStore.subscribe(value => {
+
+                value = (value === undefined) ? new Breadcrumb():value;
+                // value.items = (value.items === undefined) ? b:value.items
+                if(!value.items.find(i=>i.label === item.label)){
+                    value.items = [...value.items,item]
+                }
+
+                b = value;
+            });
+
+            update(s=>s = b);
+
+        },
+
+        clean: () => {
+            let b:Breadcrumb;
+            breadcrumbStore.subscribe(value => {
+
+                value = new Breadcrumb();
+                b = value;
+            });
+
+            update(s=>s = b);
+        },
+	};
+}
+
+// store for breadcrumb navigation
+export const breadcrumbStore = createBreadcrumbStore();

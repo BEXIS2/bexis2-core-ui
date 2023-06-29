@@ -6,7 +6,7 @@ import MenuSublist from './MenuSublist.svelte';
 
  //types
  import type { PopupSettings } from '@skeletonlabs/skeleton';
- import type { MenuItem } from "./menu";
+ import type { MenuItem } from "$models/Page";
 
  import { goTo } from '$services/BaseCaller';
 

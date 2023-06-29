@@ -1,3 +1,22 @@
+// BREADCRUMB
+/********************************** */ 
+export interface BreadcrumbItem {
+ label:string,
+ link:string
+}
+
+export class Breadcrumb {
+ items:BreadcrumbItem[]
+
+ constructor() {
+   this.items = [];
+ }
+}
+
+
+
+// MENU
+/********************************** */ 
 export interface Menu {
  Logo: Logo;
  LaunchBar: MenuItem[];
