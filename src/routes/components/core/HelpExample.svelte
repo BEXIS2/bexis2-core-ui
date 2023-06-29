@@ -8,6 +8,7 @@ import TextArea from '$lib/components/form/TextArea.svelte';
 
 //Import the list of help items from a file 
 import { HelpExampleData } from './data/help.js'
+	import Page from '$lib/components/page/Page.svelte';
 let helpItems:HelpItem[] = HelpExampleData.helpItems;
 
 //Set list of help items and clear selection
@@ -16,6 +17,7 @@ HelpStore.setHelpItemList(helpItems);
 let help=true;
 
 </script>
+<Page help={true}>
 <h3 class="h3">Basic Useage</h3>
 
     <div class="p-5">     
@@ -46,3 +48,4 @@ let help=true;
 <p>this is just for demo the output is part of the page component</p>
 
     <Help/>
+</Page>
