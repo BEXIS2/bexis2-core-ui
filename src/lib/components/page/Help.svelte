@@ -21,11 +21,11 @@
 
 </script>
 {#if helpItem && helpItem.id}
-<div class="card p-5" id={helpItem.id}>
+<div class="card p-5 w-96" id={helpItem.id}>
 
     <div class="card-header"><h2 class="h2">{ helpItem.name }</h2></div>
  
-    <p>{@html helpItem.description }</p>
+    <p class="p-5">{@html helpItem.description }</p>
 
     <div class="card-footer">
      {#if helpItem.link}  

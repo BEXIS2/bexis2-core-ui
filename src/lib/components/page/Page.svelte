@@ -16,13 +16,12 @@
   // active or hide menu
   export let menu:boolean = true;
   export let footer:boolean = true;
-  export let help:boolean = true;
+  export let help:boolean = false;
 
   onMount(async () => {
     
     // clean help when is not active
-    if(!help){ HelpStore.clear() }
-
+    //if(!help){ HelpStore.clear() }
   });
  
  </script>
@@ -60,7 +59,7 @@
       <slot/>
     </div>
     {#if $$slots.right || help}
-    <div class="w-fixed w-full max-w-min flex-shrink flex-grow-0 px-2" class:w-200:={help}>
+    <div class="w-fixed w-full max-w-min flex-shrink flex-grow-0 px-2" class:w-96:={help}>
       <!--if help is active show Help-->
       {#if help}
         <Help />
