@@ -15,7 +15,6 @@
  let radomNumber = Math.floor(Math.random() * 100);
  
  
- console.log(menuBar);
  
  </script>
  

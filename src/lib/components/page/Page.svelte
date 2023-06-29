@@ -3,14 +3,18 @@
 
   import type { Link } from "$lib/models/Models";
 
+  // ui components
   import Menu from './menu/Menu.svelte'
   import Help from "./Help.svelte";
+  import Breadcrumb from './breadcrumb/Breadcrumb.svelte';
 
   //popup
   import { popup } from '@skeletonlabs/skeleton';
   import type { PopupSettings } from '@skeletonlabs/skeleton';
   import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
   import { storePopup } from '@skeletonlabs/skeleton';
+  import { breadcrumbStore } from '$store/pagestore';
+
   storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
   import { AppShell } from '@skeletonlabs/skeleton';
@@ -28,7 +32,10 @@
   export let help:boolean = false;
 
   onMount(async () => {
-    
+    console.log("on mount page ")
+    breadcrumbStore.clean();
+    breadcrumbStore.addItem({label:title,link:window.location.pathname})
+ 
     // clean help when is not active
     //if(!help){ HelpStore.clear() }
   });
@@ -42,17 +49,17 @@
  
  </script>
 
- {#if menu}
+ {#if true}
   <Menu/>
  {/if}
- <hr class="!border-t-8 bg-primary-500" />
+ <Breadcrumb {title}/>
 
  <div class="px-5 grid gap-5 content-center" >
 
-  <h3 class="h3">{title}</h3>
+  <!-- <h3 class="h3">{title}</h3>
   {#if note}
     <blockquote class="blockquote">{note}</blockquote>
-  {/if}
+  {/if} -->
 
   <slot name="description" />
 

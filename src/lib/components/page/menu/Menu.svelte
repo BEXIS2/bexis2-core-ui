@@ -1,24 +1,27 @@
 <script lang="ts">
-// 
- import Fa from 'svelte-fa/src/fa.svelte'
- import { faCog } from '@fortawesome/free-solid-svg-icons'
 
  import { onMount } from 'svelte';
- 
+ import { get } from 'svelte/store';
  import { getMenuItems}  from './MenuDataCaller';
+ import { menuStore } from '$store/pagestore';
 
- import type { Menu } from "./menu";
+ import type { Menu } from "$models/Page";
 
  import MenuBar from './MenuBar.svelte';
  import SettingsBar from './SettingsBar.svelte';
 
  let menu:Menu;
 
+ 
  onMount(async () => {
   
-  menu = await getMenuItems();
-  console.log(menu);
-
+  menu = get(menuStore);
+  if(menu === undefined)
+  {
+    menu = await getMenuItems();
+    menuStore.set(menu);
+    //console.log("menu loaded",menu);
+  }
 })
 
 
@@ -28,7 +31,7 @@
 
 {#if menu}
 
-<div class="flex flex-row md:flex px-3 py-2 bg-tertiary-50 text-surface-800 z-50">
+<div class="flex flex-row md:flex px-3 py-2 bg-tertiary-50 text-surface-800 z-50 shadow-md">
 
  <div class="basis-8">
  {#if menu.Logo}
