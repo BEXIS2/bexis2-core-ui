@@ -45,6 +45,7 @@
  {#if menu}
   <Menu/>
  {/if}
+ <hr class="!border-t-8 bg-primary-500" />
 
  <div class="px-5 grid gap-5 content-center" >
 
