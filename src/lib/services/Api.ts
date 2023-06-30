@@ -1,6 +1,6 @@
 // Api.js
 import axios from 'axios';
-import { host, username, password } from '../stores/apistore';
+import { host, username, password } from '../stores/apiStores';
 
 console.log('setup axios');
 

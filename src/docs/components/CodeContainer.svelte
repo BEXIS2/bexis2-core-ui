@@ -46,8 +46,8 @@ interface prop
 
 		const eventsStore = writable<prop[]>(events);
 	const eventsTableConfig: TableConfig<prop> = {
-			id: 'properties',
-			data: propertiesStore
+			id: 'events',
+			data: eventsStore
 		};
 
 		let codeClass = "w-1/2"
@@ -78,7 +78,7 @@ interface prop
 
 {#if properties.length>0}
 <div class="py-5 grid gap-5">
-	 <h4>Properties</h4>
+	 <h4 class="h4">Properties</h4>
 		<Table config={propertiesTableConfig} />
 </div>
 {/if}
@@ -86,7 +86,7 @@ interface prop
 
 {#if events.length>0}
 <div class="py-5 grid gap-5">
-	 <h4>Events</h4>
+	 <h4 class="h4">Events</h4>
 		<Table config={eventsTableConfig} />
 </div>
 {/if}

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { FileUploaderModel, FileInfo, Files } from '../../models/Models.js';
+	import type { fileUploaderModel, fileInfoType, filesType } from '../../models/Models.js';
 
 	import DropZone from 'svelte-file-dropzone/Dropzone.svelte';
 	import Fa from 'svelte-fa/src/fa.svelte';
@@ -27,7 +27,7 @@
 
 	export let context = '';
 
-	export let data: FileUploaderModel | undefined;
+	export let data: fileUploaderModel | undefined;
 
 	$: model = data;
 	$: submitBt = 'submit';
@@ -36,9 +36,9 @@
 
 	const dispatch = createEventDispatcher();
 
-	let fx: FileInfo[];
+	let fx: fileInfoType[];
 
-	let files: Files = { accepted: [], rejected: [] };
+	let files: filesType = { accepted: [], rejected: [] };
 	$: files;
 
 	onMount(async () => {

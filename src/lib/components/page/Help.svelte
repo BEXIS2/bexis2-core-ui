@@ -1,15 +1,15 @@
 <script lang=ts>
-    import { HelpStore } from '$store/pagestore'
-    import type { HelpItem, HelpStoreType } from "$models/Models";
+    import { helpStore } from '$store/pageStores'
+    import type { helpItemType, helpStoreType } from "$models/Models";
 
-    let Value:HelpStoreType;
-    $:HelpStore.subscribe(value => {
+    let Value:helpStoreType;
+    $:helpStore.subscribe(value => {
             Value = value;
         });
-    let helpItem:HelpItem;
+    let helpItem:helpItemType;
     $:helpItem = getHelpItem(Value);
 
-    function getHelpItem(value:HelpStoreType):HelpItem
+    function getHelpItem(value:helpStoreType):helpItemType
     {
         if(value != undefined && value.helpItems != undefined && value.itemId != undefined)
         {

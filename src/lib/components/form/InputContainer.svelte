@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { HelpStore } from '$store/pagestore'
+	import { helpStore } from '$store/pageStores'
 
 	export let id: string = '';
 	export let label: string = '';
@@ -12,7 +12,7 @@ function onMouseOver()
 	
 	if(help)
 	{
-			HelpStore.show(id);
+			helpStore.show(id);
 	}
 
 }
@@ -22,7 +22,7 @@ function onMouseOut()
 {	
 		if(help)
 		{
-				HelpStore.hide();
+				helpStore.hide();
 		}
 }
 

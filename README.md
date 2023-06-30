@@ -83,7 +83,7 @@
 - KvP
 
 #### enum
-- Position
+- position
 
 ### update
 #### components
@@ -122,7 +122,7 @@
 
 ### add
 #### types
-- Link
+- linkType
 
 ## v0.0.28
 
@@ -145,7 +145,7 @@
 - TableConfig
 - Columns 
 - Column
-- Input
+- inputType
 
 <hr/>
 
@@ -164,11 +164,11 @@
 #### components
 - Spinner
 - FileUploader 
-- FileInfo 
+- fileInfoType 
 - FileIcon 
 - 
 #### types
-- FileUploaderModel
+- fileUploaderModel
  
 <hr/>
 

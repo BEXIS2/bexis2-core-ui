@@ -3,14 +3,14 @@
  import { onMount } from 'svelte';
  import { get } from 'svelte/store';
  import { getMenuItems}  from './MenuDataCaller';
- import { menuStore } from '$store/pagestore';
+ import { menuStore } from '$store/pageStores';
 
- import type { Menu } from "$models/Page";
+ import type { MenuModel } from "$models/Page";
 
  import MenuBar from './MenuBar.svelte';
  import SettingsBar from './SettingsBar.svelte';
 
- let menu:Menu;
+ let menu:MenuModel;
 
  
  onMount(async () => {

@@ -6,7 +6,7 @@
 
  <h2 class="h2">Naming Convertions in Frontend</h2>
 
-	<div class="table-container pb-5">
+	<div class="table-container pt-5">
 		<table class="table table-compact bg-tertiary-200">
 			<thead>
 				<tr class="bg-primary-300">
@@ -23,11 +23,29 @@
 					<td>Pascal</td>
 					<td>MyComponent.svelte</td>
 				</tr>
-				<tr>
+    <tr>
 					<td>Folder</td>
 					<td>Folder</td>
 					<td>camel</td>
-					<td>lib/components/myComponents</td>
+					<td>lib/components/myComponents/...</td>
+				</tr>
+    <tr>
+					<td>Model</td>
+					<td>File</td>
+					<td>Pascal</td>
+					<td>lib/models/EditModel.ts</td>
+				</tr>
+    <tr>
+					<td>Stores</td>
+					<td>File</td>
+					<td>camel +Store[s]</td>
+					<td>lib/stores/pageStore.ts</td>
+				</tr>
+    <tr>
+					<td>Services</td>
+					<td>File</td>
+					<td>Pascal</td>
+					<td>lib/services/Api.ts</td>
 				</tr>
     <tr>
 					<td>Stores</td>
@@ -38,8 +56,8 @@
     <tr>
 					<td>Model</td>
 					<td>Entity</td>
-					<td>camel + Model</td>
-					<td>editModel</td>
+					<td>Pascal + Model</td>
+					<td>EditModel</td>
 				</tr>
     <tr>
 					<td>Type</td>
@@ -52,6 +70,12 @@
 					<td>Entity</td>
 					<td>camel</td>
 					<td>position</td>
+				</tr>
+    <tr>
+					<td>Function</td>
+					<td>Function</td>
+					<td>camel</td>
+					<td>goTo()</td>
 				</tr>
 			</tbody>
 		</table>

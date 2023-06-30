@@ -4,7 +4,7 @@
 	import NumberInput from '$lib/components/form/NumberInput.svelte';
 	import DateInput from '$lib/components/form/DateInput.svelte';
 
-	import type { Input } from '$lib/models/Models';
+	import type { inputType } from '$lib/models/Models';
 
 	$: textInputValue = 'David';
 </script>

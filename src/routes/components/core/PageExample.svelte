@@ -1,12 +1,12 @@
 <script lang="ts">
 	import Page from '$lib/components/page/Page.svelte';
-	import type { Link } from '$lib/models/Models';
+	import type { linkType } from '$lib/models/Models';
 
 
  import TextInput from '$lib/components/form/TextInput.svelte';
 
 
-	let links: Link[] = [
+	let links: linkType[] = [
 		{
 			label: 'manual',
 			url: 'https://github.com/BEXIS2/Documents/blob/master/Manuals/DCM/Manual.md'

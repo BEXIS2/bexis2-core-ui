@@ -3,13 +3,13 @@ import type { ColumnFilterFn } from 'svelte-headless-table/lib/plugins';
 import type { Writable } from 'svelte/store';
 
 // page
-export interface Link {
+export interface linkType {
 	label: string;
 	url: string;
 }
 
 // Form
-export interface Input {
+export interface inputType {
 	id: string;
 	label: string;
 	feedback: string[];
@@ -19,7 +19,7 @@ export interface Input {
 	placeholder: string;
 }
 
-export interface FileInfo {
+export interface fileInfoType {
 	name: string;
 	type: string;
 	length: number;
@@ -27,25 +27,25 @@ export interface FileInfo {
 	validationHash: string;
 }
 
-export interface FileUploaderModel {
+export interface fileUploaderModel {
 	accept: string[];
-	existingFiles: FileInfo[];
+	existingFiles: fileInfoType[];
 	descriptionType: number;
 	multiple: boolean;
 	maxSize: number;
 	lastModification: Date;
 }
 
-export interface Files {
+export interface filesType {
 	accepted: Blob[];
 	rejected: Blob[];
 }
 
-export type user = {
+export type userType = {
 	name: string;
 };
 
-export interface FileObj {
+export interface fileObjType {
 	path: string;
 	lastModified: number;
 	lastModifiedDate: Date;
@@ -88,26 +88,26 @@ export interface TableConfig<T> {
 }
 
 // lists
-export interface KvP {
+export interface keyValuePairType {
 	id: number;
 	text: string;
 }
 
-export interface ListItem {
+export interface listItemType {
 	id: number;
 	text: string;
 	group: string;
 }
 
 //help
-export interface HelpItem {
+export interface helpItemType {
     id?: string;
     name: string;
     description:string;
     link?:string;
 }
 
-export interface HelpStoreType {
+export interface helpStoreType {
     itemId?:string;
-    helpItems:HelpItem[];
+    helpItems:helpItemType[];
 };

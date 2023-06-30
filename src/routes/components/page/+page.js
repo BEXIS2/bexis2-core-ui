@@ -1,4 +1,4 @@
-import {setApiConfig} from '$lib/stores/apistore'
+import {setApiConfig} from '$lib/stores/apiStores'
 
 /** @type {import('./$types').PageLoad} */
 export function load() {

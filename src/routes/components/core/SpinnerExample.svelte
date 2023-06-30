@@ -1,6 +1,6 @@
 <script>
  import Spinner from "$lib/components/page/Spinner.svelte";
- import { Position } from "$lib/models/Enums";
+ import { positionType } from "$lib/models/Enums";
 
 </script>
 
@@ -17,7 +17,7 @@
 
 <div>
  <h4 class="h4">change position</h4>
- <Spinner textCss="text-secondary-500" position={Position.center} />
+ <Spinner textCss="text-secondary-500" position={positionType.center} />
 </div>
 
 

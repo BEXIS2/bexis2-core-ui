@@ -1,14 +1,13 @@
 <script lang="ts">
 
- import type { Link } from "$lib/models/Models";
- import { breadcrumbStore } from '$store/pagestore';
- import type{ BreadcrumbItem, Breadcrumb } from '$models/Page';
+ import { breadcrumbStore } from '$store/pageStores';
+ import type{ breadcrumbItemType } from '$models/Page';
 
 
  export let title;
 
 
- let list:BreadcrumbItem[] = [];
+ let list:breadcrumbItemType[] = [];
  $:list;
 
 	$:breadcrumbStore.subscribe(value => {

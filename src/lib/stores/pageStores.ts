@@ -1,13 +1,13 @@
-import type { HelpItem, HelpStoreType } from "$models/Models";
-import type { Menu, BreadcrumbItem } from "$models/Page";
-import { Breadcrumb} from "$models/Page";
+import type { helpItemType, helpStoreType } from "$models/Models";
+import type { Menu, breadcrumbItemType } from "$models/Page";
+import { BreadcrumbModel} from "$models/Page";
 
 import { writable } from 'svelte/store';
 
 function createHelpStore()
 {
     // set Store Type
-    const { subscribe, set, update } = writable<HelpStoreType>();
+    const { subscribe, set, update } = writable<helpStoreType>();
 
     return {
         //pass Store default functions
@@ -15,14 +15,14 @@ function createHelpStore()
         set,
         update,
         //set the list of help items to show
-		setHelpItemList: (helpItems:HelpItem[]) => {
-            HelpStore.set({itemId:undefined, helpItems:helpItems})        
+		setHelpItemList: (helpItems:helpItemType[]) => {
+            helpStore.set({itemId:undefined, helpItems:helpItems})        
         },
         //set the ID of the help item and display it 
         setItemId: (itemId:string) => {
-            let v:HelpStoreType;
-            const h:HelpItem[] = [];
-            HelpStore.subscribe(value => {
+            let v:helpStoreType;
+            const h:helpItemType[] = [];
+            helpStore.subscribe(value => {
                 value = (value === undefined) ? {itemId:undefined,helpItems:h}:value;
                 value.helpItems = (value.helpItems === undefined) ? h:value.helpItems;
                 v = {itemId:itemId, helpItems:value.helpItems};               
@@ -31,9 +31,9 @@ function createHelpStore()
         },
         //reset the ID of the help item and hide it 
         resetItemId: () =>{
-            let v:HelpStoreType;
-            const h:HelpItem[] = [];
-            HelpStore.subscribe(value => {
+            let v:helpStoreType;
+            const h:helpItemType[] = [];
+            helpStore.subscribe(value => {
                 value = (value === undefined) ? {itemId:undefined,helpItems:h}:value;
                 value.helpItems = (value.helpItems === undefined) ? h:value.helpItems;
                 v = {itemId:undefined, helpItems:value.helpItems};               
@@ -42,22 +42,22 @@ function createHelpStore()
         },
         //set the ID of the help item and display it
         show: (itemId:string) =>{
-            HelpStore.setItemId(itemId);
+            helpStore.setItemId(itemId);
         },
         //set a help item and display it
-        showHelpItem: (helpItem:HelpItem) =>{
+        showHelpItem: (helpItem:helpItemType) =>{
             helpItem.id = (helpItem.id === undefined) ? "default":helpItem.id;
-            HelpStore.set({itemId:helpItem.id, helpItems:[helpItem]})
+            helpStore.set({itemId:helpItem.id, helpItems:[helpItem]})
         },
         //reset the ID of the help item and hide it 
         hide: () =>{
-            HelpStore.resetItemId();
+            helpStore.resetItemId();
         },           
         //reset the ID of the help item and hide it 
         toggle: (itemId:string) =>{
-            let v:HelpStoreType;
-            const h:HelpItem[] = [];
-            HelpStore.subscribe(value => {
+            let v:helpStoreType;
+            const h:helpItemType[] = [];
+            helpStore.subscribe(value => {
                 value = (value === undefined) ? {itemId:undefined,helpItems:h}:value;
                 value.helpItems = (value.helpItems === undefined) ? h:value.helpItems;
                 if(itemId != value.itemId)
@@ -72,17 +72,17 @@ function createHelpStore()
             update(u => u = v)
         },
         reset:() =>{
-            const h:HelpItem[] = [];
-            HelpStore.set({itemId:undefined, helpItems:h})
+            const h:helpItemType[] = [];
+            helpStore.set({itemId:undefined, helpItems:h})
         },
         clear:() =>{
-            HelpStore.reset();
+            helpStore.reset();
         }       
 	};
 }
 
 //crate and export the instance of the store 
-export const HelpStore = createHelpStore();
+export const helpStore = createHelpStore();
 
 // store for menu
 export const menuStore = writable<Menu>();
@@ -91,9 +91,9 @@ export const menuStore = writable<Menu>();
 function createBreadcrumbStore()
 {
     // set Store Type
-    const { subscribe, set, update } = writable<Breadcrumb>();
+    const { subscribe, set, update } = writable<BreadcrumbModel>();
 
-    set(new Breadcrumb())
+    set(new BreadcrumbModel())
 
     return {
         //pass Store default functions
@@ -102,11 +102,11 @@ function createBreadcrumbStore()
         update,
 
         //set the ID of the help item and display it 
-        addItem: (item:BreadcrumbItem) => {
-            let b:Breadcrumb;
+        addItem: (item:breadcrumbItemType) => {
+            let b:breadcrumbModel;
             breadcrumbStore.subscribe(value => {
 
-                value = (value === undefined) ? new Breadcrumb():value;
+                value = (value === undefined) ? new BreadcrumbModel():value;
                 // value.items = (value.items === undefined) ? b:value.items
                 if(!value.items.find(i=>i.label === item.label)){
                     value.items = [...value.items,item]
@@ -122,7 +122,7 @@ function createBreadcrumbStore()
         clean: () => {
             let b:Breadcrumb;
             breadcrumbStore.subscribe(value => {
-                value = new Breadcrumb();
+                value = new BreadcrumbModel();
                 b = value;
             });
 

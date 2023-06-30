@@ -1,12 +1,12 @@
 // BREADCRUMB
 /********************************** */ 
-export interface BreadcrumbItem {
+export interface breadcrumbItemType {
  label:string,
  link:string
 }
 
-export class Breadcrumb {
- items:BreadcrumbItem[]
+export class BreadcrumbModel {
+ items:breadcrumbItemType[]
 
  constructor() {
    this.items = [];
@@ -15,16 +15,17 @@ export class Breadcrumb {
 
 // MENU
 /********************************** */ 
-export interface Menu {
+export class MenuModel {
  Logo: Logo;
  LaunchBar: MenuItem[];
  MenuBar: MenuItem[];
  AccountBar: MenuItem[];
  Settings: MenuItem[];
  Extended: MenuItem[];
+
 }
 
-export interface MenuItem {
+export interface menuItemType {
  Title: string;
  Url: string;
  Target: string;
@@ -32,7 +33,7 @@ export interface MenuItem {
  Items: MenuItem[];
 }
 
-export interface Logo {
+export interface logoType {
  Mime: string;
  Name: string;
  Data: string;

@@ -1,7 +1,7 @@
 <script lang="ts">
   import {onMount} from 'svelte'
 
-  import type { Link } from "$lib/models/Models";
+  import type { linkType } from "$lib/models/Models";
 
   // ui components
   import Menu from './menu/Menu.svelte'
@@ -13,18 +13,18 @@
   import type { PopupSettings } from '@skeletonlabs/skeleton';
   import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
   import { storePopup } from '@skeletonlabs/skeleton';
-  import { breadcrumbStore } from '$store/pagestore';
+  import { breadcrumbStore } from '$store/pageStores';
 
   storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
   import { AppShell } from '@skeletonlabs/skeleton';
 
   // stores
-  import { HelpStore } from '$store/pagestore';
+  import { helpStore } from '$store/pageStores';
  
   export let title = "";
   export let note = "";
-  export let links:Link[]=[];
+  export let links:linkType[]=[];
 
   // active or hide menu
   export let menu:boolean = true;
@@ -37,7 +37,7 @@
     breadcrumbStore.addItem({label:title,link:window.location.pathname})
  
     // clean help when is not active
-    //if(!help){ HelpStore.clear() }
+    //if(!help){ helpStore.clear() }
   });
 
   //popup

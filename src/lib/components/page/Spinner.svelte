@@ -1,9 +1,9 @@
 <script lang="ts">
- import { Position } from "$lib/models/Enums";
+ import { positionType } from "$lib/models/Enums";
 
 	export let textCss = "text-secundary-500"
 	export let label = "";
-	export let position:Position = Position.start
+	export let position:positionType = positionType.start;
 
 </script>
 

@@ -1,9 +1,9 @@
 <script lang="ts">
 	import TextInput from '$lib/components/form/TextInput.svelte';
 
-	import type { Input } from '$lib/models/Models';
+	import type { inputType } from '$lib/models/Models';
 
-	let textInputData: Input = {
+	let textInputData: inputType = {
 		id: 'name',
 		label: 'Name',
 		feedback: [''],

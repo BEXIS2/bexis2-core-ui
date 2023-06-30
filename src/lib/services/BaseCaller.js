@@ -1,6 +1,6 @@
 // Implementations for all the calls for the pokemon endpoints.
 //import Api from "./Api";
-import { host } from "$store/apistore";
+import { host } from "$store/apiStores";
 
 // go to a internal action
 export const goTo = async (url) => {

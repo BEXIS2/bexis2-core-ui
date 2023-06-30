@@ -21,7 +21,7 @@
 	import InputValidationJsRaw from './examples/inputvalidation?raw';
 
 	// example 4 - validation
-	import { Metadatastructures, Decimals } from './examples/exampleData';
+	import { Metadatastructures } from './examples/exampleData';
 	import DropdownKvpExample from './examples/DropdownKVPExample.svelte';
 	import DropdownKVPExampleRaw from './examples/DropdownKVPExample.svelte?raw';
 	
@@ -38,7 +38,7 @@ import MultiSelectSingleSelectExampleRaw from './examples/MultiSelectSingleSelec
 	import MultiSelectExample from './examples/MultiSelectExample.svelte';
 	import MultiSelectExampleRaw from './examples/MultiSelectExample.svelte?raw';
 
-	// example 7 - multiselect kvp
+	// example 7 - multiselect keyValuePairType
 	import MultiSelectKVPExample from './examples/MultiSelectKVPExample.svelte';
 	import MultiSelectKVPExampleRaw from './examples/MultiSelectKVPExample.svelte?raw';
 	import { Datastructures, Countries, CountrieNames } from './examples/exampleData';
@@ -77,7 +77,7 @@ import MultiSelectSingleSelectExampleRaw from './examples/MultiSelectSingleSelec
 
 	<h2 class="h2">Inputs</h2>
 
-	<!-- Simple Input Examples -->
+	<!-- Simple inputType Examples -->
 
 	<CodeContainer title={'Simple input types overview'} svelte={InputExamplesRaw}>
 		<div slot="info">
@@ -86,10 +86,10 @@ import MultiSelectSingleSelectExampleRaw from './examples/MultiSelectSingleSelec
 		<InputExamples />
 	</CodeContainer>
 
-	<!-- Input with Type Example -->
+	<!-- inputType with Type Example -->
 
 	<CodeContainer
-		title={'Input with Typescript'}
+		title={'inputType with Typescript'}
 		svelte={InputExampleWithTypeRaw}
 		typescript={InputRaw}
 	>

@@ -1,12 +1,12 @@
 <script lang="ts">
 	import Page from '$lib/components/page/Page.svelte';
-	import type { Link } from '$lib/models/Models';
+	import type { linkType } from '$lib/models/Models';
 
-	import { HelpStore } from '$store/pagestore';
-	import type { HelpItem, HelpStoreType } from '$models/Models';
+	import { helpStore } from '$store/pageStores';
+	import type { helpItemType, helpStoreType } from '$models/Models';
 	import TextInput from '$lib/components/form/TextInput.svelte';
 
-	let links: Link[] = [
+	let links: linkType[] = [
 		{
 			label: 'manual',
 			url: 'https://github.com/BEXIS2/Documents/blob/master/Manuals/DCM/Manual.md'
@@ -14,8 +14,8 @@
 	];
 
 	import { HelpExampleData } from './data/help';
-	let helpItems: HelpItem[] = HelpExampleData.helpItems;
-	HelpStore.setHelpItemList(helpItems);
+	let helpItems: helpItemType[] = HelpExampleData.helpItems;
+	helpStore.setHelpItemList(helpItems);
 </script>
 
 <Page

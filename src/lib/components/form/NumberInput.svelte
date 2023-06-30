@@ -1,6 +1,6 @@
 <script lang="ts">
 	import InputContainer from './InputContainer.svelte';
-	import { HelpStore } from '$store/pagestore'
+	import { helpStore } from '$store/pageStores'
 
 	export let id: string = '';
 	export let label: string = '';
