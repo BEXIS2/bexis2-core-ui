@@ -1,4 +1,10 @@
 # bexis-core-ui
+## v0.2.0
+> refactoring based on naming conventions (https://bexis2.github.io/bexis2-core-ui/code/naming/)
+
+- add Help, helpStore
+- update Page
+   
 ## v0.1.13
 ### update
 - MultiSelect
