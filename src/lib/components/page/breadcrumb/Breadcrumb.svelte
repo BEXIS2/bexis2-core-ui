@@ -1,12 +1,12 @@
 <script lang="ts">
 
- import { onMount } from 'svelte';
- import { get } from 'svelte/store'; 
+ import type { Link } from "$lib/models/Models";
  import { breadcrumbStore } from '$store/pagestore';
  import type{ BreadcrumbItem, Breadcrumb } from '$models/Page';
 
 
  export let title;
+
 
  let list:BreadcrumbItem[] = [];
  $:list;
@@ -14,7 +14,7 @@
 	$:breadcrumbStore.subscribe(value => {
 		
 			list = value?.items;
-		
+	
 	});
 
 

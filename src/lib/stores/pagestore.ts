@@ -122,7 +122,6 @@ function createBreadcrumbStore()
         clean: () => {
             let b:Breadcrumb;
             breadcrumbStore.subscribe(value => {
-
                 value = new Breadcrumb();
                 b = value;
             });
