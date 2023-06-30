@@ -64,6 +64,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.2.1",
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
     "axios": "^1.2.1",
+    "delay": "^6.0.0",
     "highlight.js": "^11.8.0",
     "highlightjs-svelte": "^1.0.6",
     "svelte": "^3.54.0",

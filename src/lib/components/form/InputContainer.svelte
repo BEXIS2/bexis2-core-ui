@@ -20,10 +20,7 @@ function onMouseOver()
 
 function onMouseOut()
 {	
-		if(help)
-		{
-				helpStore.hide();
-		}
+
 }
 
 </script>

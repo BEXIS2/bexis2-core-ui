@@ -21,7 +21,7 @@
 
 <div id="toc-target">
 <Page title="Core" note="here are listed all basic components for a unified design of the pages." menu="{false}">
-	<CodeContainer title="Page" svelte={PageExampleRaw}	>
+	<CodeContainer title="Page" svelte={PageExampleRaw}	codeOnly>
 		<div slot="info">by using these components a unified border is displayed on the page, furthermore, there are props for title, notes and links, as well as a slot for description</div>
 	 <PageExample/>
 	</CodeContainer>
