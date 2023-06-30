@@ -21,6 +21,7 @@
 
   // stores
   import { helpStore } from '$store/pageStores';
+	import Docs from './Docs.svelte';
  
   export let title = "";
   export let note = "";
@@ -52,7 +53,12 @@
  {#if true}
   <Menu/>
  {/if}
- <Breadcrumb {title}/>
+
+ <div class="grid grid-cols-2">
+  <Breadcrumb {title}/>
+  <Docs {links} {note}/>
+ </div>
+
 
  <div class="px-5 grid gap-5 content-center" >
 
