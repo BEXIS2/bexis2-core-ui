@@ -48,17 +48,17 @@ export { ListView, TableView, Spinner, Page, Alert };
 
 //Api
 export { Api } from './services/Api.js';
-export { host, username, password, setApiConfig } from './stores/apiStores.ts';
+export { host, username, password, setApiConfig } from './stores/apiStores.js';
 
 //Type
 export type { 
-	user, 
+	userType, 
 	inputType,
 	fileUploaderModel,
 	linkType,
 	listItemType,
 	keyValuePairType
-	} from './models/Models.ts';
+	} from './models/Models.js';
 
 //enum
 export { positionType	} from './models/Enums';

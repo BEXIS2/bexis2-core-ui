@@ -1,4 +1,9 @@
 # bexis-core-ui
+## v0.2.1
+> refactoring based on naming conventions (https://bexis2.github.io/bexis2-core-ui/code/naming/)
+
+- fix issue in index.ts file for export components
+
 ## v0.2.0
 > refactoring based on naming conventions (https://bexis2.github.io/bexis2-core-ui/code/naming/)
 
