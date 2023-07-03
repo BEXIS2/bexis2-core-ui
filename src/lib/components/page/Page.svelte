@@ -66,41 +66,33 @@
 
 
 
- <div class="px-5 grid gap-5 content-center" >
+<div class="px-5 grid gap-5 content-center" >
 
 
   <slot name="description" />
 
 
- <div class="w-full flex flex-col sm:flex-row flex-wrap sm:flex-nowrap py-4 flex-grow">
+ <div class="grid grid-cols-9 content-end space-x-3">
+
   {#if $$slots.left}
-  <div class="w-fixed w-full max-w-min flex-shrink flex-grow-1 px-4">
+  <div class="grid col-span-2 border-y border-solid border-surface-500">
     <slot name="left" />
   </div>
   {/if}
     
-  <div class="w-full flex-initial items-center justify-center pt-1 px-3 max-w-screen-lg">
-    <slot name="middle" />
-    {#if links.length>0}
-    <div class="py-5">
-      {#each	links as link}
-        <a class="chip variant-ringed" href={link.url}>{link.label}</a>
-      {/each}
-    </div>
-    {/if}
-    <slot/>
+  <div class="col-start-3 col-end-8 space-y-5 py-3 max-w-screen-md min-w-screen-md border-y border-solid border-surface-500">
+     <slot/>
   </div>
 
 
   {#if $$slots.right}
-  <div class="w-fixed w-full max-w-min flex-shrink flex-grow-0 px-2">
+  <div class="grid col-span-2  border-y border-solid border-surface-500">
     <slot name="right"/> 
-  </div>
+  </div> 
   {/if}
-    
-										
+    						
   </div>
-</div>
+
 
 
 
