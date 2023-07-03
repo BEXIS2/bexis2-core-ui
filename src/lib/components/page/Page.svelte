@@ -38,18 +38,8 @@
     console.log("page")
     breadcrumbStore.clean();
     breadcrumbStore.addItem({label:title,link:window.location.pathname})
- 
-    // clean help when is not active
-    //if(!help){ helpStore.clear() }
   });
 
-  //popup
-  const popupClick: PopupSettings = {
-    event: 'click',
-    target: 'popupClick',
-    placement: 'top' 
-  };
- 
  </script>
 
 <AppShell>
@@ -84,42 +74,31 @@
   </div>
   {/if}
     
-    <div class="w-full flex-initial items-center justify-center pt-1 px-3 max-w-screen-lg">
-      <slot name="middle" />
-      {#if links.length>0}
-      <div class="py-5">
-        {#each	links as link}
-          <a class="chip variant-ringed" href={link.url}>{link.label}</a>
-        {/each}
-      </div>
-      {/if}
-      <slot/>
-    </div>
-    {#if $$slots.right || help}
-    <div class="w-fixed w-full max-w-min flex-shrink flex-grow-0 px-2" class:w-96:={help}>
-      <!--if help is active show Help-->
-      <!--if help is active and slot is set -->
-      <!-- help is deactiveated -->
-      <slot name="right"/>
-      
+  <div class="w-full flex-initial items-center justify-center pt-1 px-3 max-w-screen-lg">
+    <slot name="middle" />
+    {#if links.length>0}
+    <div class="py-5">
+      {#each	links as link}
+        <a class="chip variant-ringed" href={link.url}>{link.label}</a>
+      {/each}
     </div>
     {/if}
-    
-					
+    <slot/>
   </div>
-  </div>
- 
-  {#if help}
-  <button class="btn btn-sm variant-filled-warning fixed bottom-5 right-10" use:popup={popupClick}>?</button>
-    
-  <div class="card p-4 variant-filled-primary" data-popup="popupClick">
-    <Help />
-    <div class="arrow variant-filled-primary" />
+
+
+  {#if $$slots.right}
+  <div class="w-fixed w-full max-w-min flex-shrink flex-grow-0 px-2">
+    <slot name="right"/> 
   </div>
   {/if}
+    
+					
+
+  <Help active={help} />
 
 <svelte:fragment slot="footer">
- {#if true}
+ {#if footer}
    <!-- footer -->
    <Footer/>
  {/if}

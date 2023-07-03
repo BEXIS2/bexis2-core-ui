@@ -17,13 +17,12 @@ helpStore.setHelpItemList(helpItems);
 let help=true;
 
 </script>
-<Page help={true}>
 <h3 class="h3">Basic Useage</h3>
 
     <div class="p-5">     
-        <p class="p-5" id="name" on:mouseover={() => {helpStore.show('name')}} on:mouseout={() => {helpStore.hide()}}>Name</p>
+        <p class="p-5" id="name" on:mouseover={() => {helpStore.show('name')}}>Name</p>
 
-        <p class="p-5" id="description" on:mouseover={() => {helpStore.show('description')}} on:mouseout={() => {helpStore.hide()}}>Description</p>
+        <p class="p-5" id="description" on:mouseover={() => {helpStore.show('description')}}>Description</p>
     </div>
 
 <h3 class="h3">Use with Inputs</h3>
@@ -35,17 +34,4 @@ let help=true;
         <TextArea  id="description" label="Description to understand what happen in the world" {help}/>
     </div>
 
-<h3 class="h3">Toggle</h3>
-<p>If you need the help to show on a click event, you can toggle it</p>
-
-    <div class="p-5">
-        <button  type="button" class="btn variant-filled-warning" on:click={() => {helpStore.toggle('name')}}>name</button>
-
-        <button  type="button" class="btn variant-filled-warning" on:click={() => {helpStore.toggle('description')}}>description</button>
-    </div>
-    
-<h3 class="h3">Output</h3>
-<p>this is just for demo the output is part of the page component</p>
-
-    <Help/>
-</Page>
+<Help active={help} />
