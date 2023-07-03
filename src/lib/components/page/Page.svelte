@@ -72,21 +72,21 @@
   <slot name="description" />
 
 
- <div class="grid grid-cols-9 content-end space-x-3">
-
+ <div class="flex flex-initial space-x-3">
+  
   {#if $$slots.left}
-  <div class="grid col-span-2 border-y border-solid border-surface-500">
+  <div class="flex-shrink-0 w-96 w-min-96  border-y border-solid border-surface-500">
     <slot name="left" />
   </div>
   {/if}
-    
-  <div class="col-start-3 col-end-8 space-y-5 py-3 max-w-screen-md min-w-screen-md border-y border-solid border-surface-500">
+
+  <div class="space-y-5 py-3 border-y border-solid border-surface-500">
      <slot/>
   </div>
 
 
   {#if $$slots.right}
-  <div class="grid col-span-2  border-y border-solid border-surface-500">
+  <div class="flex-shrink-0 w-96  border-y border-solid border-surface-500">
     <slot name="right"/> 
   </div> 
   {/if}

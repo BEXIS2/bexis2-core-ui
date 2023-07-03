@@ -27,15 +27,12 @@
 	<div slot="description">
 		<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</p>
 	</div>
+
 	<div slot="left"  class="w-full h-full bg-secondary-200 flex items-center justify-center">
 		 <span>left</span>
 	</div>
 
-
-
-
 	<div slot="right" class="w-full h-full bg-primary-200 flex items-center justify-center"> 
-
 		<span>right</span>
 	</div>
 
