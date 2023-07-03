@@ -14,14 +14,13 @@
 
  
  onMount(async () => {
-  
-  menu = get(menuStore);
-  if(menu === undefined)
-  {
-    menu = await getMenuItems();
-    menuStore.set(menu);
-    //console.log("menu loaded",menu);
-  }
+  console.log("menu");
+
+  //menu = get(menuStore);
+
+  menu = await getMenuItems();
+  menuStore.set(menu);
+
 })
 
 
