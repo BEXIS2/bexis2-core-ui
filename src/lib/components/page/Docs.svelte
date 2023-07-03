@@ -30,7 +30,7 @@ const noteSettings: PopupSettings = {
  <span><Fa icon={faQuestion}/></span>
 </span>
 
-<div class="card p-4 variant-filled-primary w-60 z-50 text-left" data-popup="noteTarget">
+<div class="card p-4 variant-filled-primary w-60 z-50 text-left shadow-md" data-popup="noteTarget">
 	{note}
 </div>
 {/if}
