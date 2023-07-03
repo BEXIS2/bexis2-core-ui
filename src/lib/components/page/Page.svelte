@@ -8,7 +8,7 @@
   import Menu from './menu/Menu.svelte'
   import Footer from './Footer.svelte'
   import Header from './Header.svelte'
-  import Help from "./Help.svelte";
+  import HelpPopUp from "./HelpPopUp.svelte";
   import Breadcrumb from './breadcrumb/Breadcrumb.svelte';
 
   //popup
@@ -96,7 +96,7 @@
 
 
 
-  <Help active={help}/>
+  <HelpPopUp active={help}/>
 
 
 
