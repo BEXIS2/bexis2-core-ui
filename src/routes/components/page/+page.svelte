@@ -32,6 +32,7 @@
 		 <span>left</span>
 	</div>
 
+
 	<div slot="right" class="w-full h-full bg-primary-200 flex items-center justify-center"> 
 		<span>right</span>
 	</div>
