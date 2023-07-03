@@ -64,42 +64,29 @@
    <Footer/>
   </svelte:fragment>
 
-
-
-<div class="px-5 grid gap-5 content-center" >
-
-
   <slot name="description" />
 
-
- <div class="flex flex-initial space-x-3">
+ <div class="flex flex-initial space-x-5">
   
   {#if $$slots.left}
-  <div class="flex-shrink-0 w-96 w-min-96  border-y border-solid border-surface-500">
+  <div class="p-5 flex-shrink-0 w-96 w-min-96  border-y border-solid border-surface-500">
     <slot name="left" />
   </div>
   {/if}
 
-  <div class="space-y-5 py-3 border-y border-solid border-surface-500">
+  <div class="p-5 space-y-5 border-y border-solid border-surface-500 w-screen">
      <slot/>
   </div>
 
 
   {#if $$slots.right}
-  <div class="flex-shrink-0 w-96  border-y border-solid border-surface-500">
+  <div class=" p-5 flex-shrink-0 w-96  border-y border-solid border-surface-500">
     <slot name="right"/> 
   </div> 
   {/if}
     						
   </div>
 
-
-
-
   <HelpPopUp active={help}/>
-
-
-
-
 
 </AppShell>
