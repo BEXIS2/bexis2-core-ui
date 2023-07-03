@@ -12,8 +12,6 @@
   import Breadcrumb from './breadcrumb/Breadcrumb.svelte';
 
   //popup
-  import { popup } from '@skeletonlabs/skeleton';
-  import type { PopupSettings } from '@skeletonlabs/skeleton';
   import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
   import { storePopup } from '@skeletonlabs/skeleton';
   import { breadcrumbStore } from '$store/pageStores';
@@ -61,6 +59,13 @@
     </AppBar>
   </svelte:fragment>
 
+
+  <svelte:fragment slot="footer">
+   <Footer/>
+  </svelte:fragment>
+
+
+
  <div class="px-5 grid gap-5 content-center" >
 
 
@@ -93,15 +98,16 @@
   </div>
   {/if}
     
-					
+										
+  </div>
+</div>
 
-  <Help active={help} />
 
-<svelte:fragment slot="footer">
- {#if footer}
-   <!-- footer -->
-   <Footer/>
- {/if}
- </svelte:fragment>
+
+  <Help active={help}/>
+
+
+
+
 
 </AppShell>

@@ -17,4 +17,6 @@
 
 </script>
 
+{#if content!=undefined}
 {@html content}
+{/if}
