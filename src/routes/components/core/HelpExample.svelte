@@ -2,7 +2,7 @@
 import { helpStore } from '$store/pageStores.js'
 import type { helpItemType, helpStoreType } from "$models/Models";
 
-import Help from "$lib/components/page/Help.svelte";
+import HelpPopUp from "$lib/components/page/HelpPopUp.svelte";
 import TextInput from '$lib/components/form/TextInput.svelte';
 import TextArea from '$lib/components/form/TextArea.svelte'; 
 
@@ -34,4 +34,4 @@ let help=true;
         <TextArea  id="description" label="Description to understand what happen in the world" {help}/>
     </div>
 
-<Help active={help} />
+<HelpPopUp active={help} />

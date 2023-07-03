@@ -5,7 +5,7 @@
 
   // ui components
   import Menu from './menu/Menu.svelte'
-  import Help from "./Help.svelte";
+  import HelpPopUp from "./HelpPopUp.svelte";
   import Breadcrumb from './breadcrumb/Breadcrumb.svelte';
 
   //popup
@@ -87,7 +87,7 @@
 					
   </div>
   </div>
-  <Help active={help} />
+  <HelpPopUp active={help} />
  {#if menu}
    <!-- footer -->
  {/if}
