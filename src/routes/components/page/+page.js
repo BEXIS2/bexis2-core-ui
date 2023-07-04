@@ -14,7 +14,7 @@ export function load() {
  else if(import.meta.env.PROD)
  {
    console.log("PROD")
-   setApiConfig("https://dev.bexis2.uni-jena.de/","david","123456");
+   setApiConfig("https://dev.bexis2.uni-jena.de/","admin","123456");
  }
 
  return {};
