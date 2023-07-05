@@ -14,6 +14,8 @@
 	// Most of your app wide CSS should be put in this file
 	import '../app.postcss';
 
+	import Menu from '$lib/components/page/menu/Menu.svelte';
+
 	// Config for the syntax highlighting
 	storeHighlightJs.set(hljs);
 	// storeHighlightJs.set(hljs2);
