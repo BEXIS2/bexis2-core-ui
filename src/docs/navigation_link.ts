@@ -13,7 +13,8 @@ export const menuNavLinks: any = [
 		id: 'code',
 		title: 'Code Rules',
 		list: [
-			{ href: base + '/code/naming', label: 'Naming Convertions', keywords: '' }
+			{ href: base + '/code/naming', label: 'Naming Convertions', keywords: '' },
+			{ href: base + '/code/design', label: 'Color Convertions', keywords: '' }
 		]
 	},
 	{

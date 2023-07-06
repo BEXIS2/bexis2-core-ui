@@ -2,9 +2,10 @@
   import {onMount} from 'svelte'
 
   import type { linkType } from "$lib/models/Models";
+  import { pageContentLayoutType } from "$lib/models/Enums";
 
   // ui components
-  import { AppShell, AppBar } from '@skeletonlabs/skeleton';
+  import { AppShell, AppBar, Modal } from '@skeletonlabs/skeleton';
   import Menu from './menu/Menu.svelte'
   import Footer from './Footer.svelte'
   import Header from './Header.svelte'
@@ -15,6 +16,7 @@
   import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
   import { storePopup } from '@skeletonlabs/skeleton';
   import { breadcrumbStore } from '$store/pageStores';
+
 
   storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
@@ -31,6 +33,7 @@
   export let menu:boolean = true;
   export let footer:boolean = true;
   export let help:boolean = false;
+  export let contentLayoutType:pageContentLayoutType = pageContentLayoutType.center;
 
   onMount(async () => {
     console.log("page")
@@ -76,9 +79,21 @@
   </div>
   {/if}
 
+  {#if contentLayoutType === pageContentLayoutType.center}
+
+  <div class="flex justify-center w-screen ">
+    <div class="max-w-7xl  p-5 space-y-5 border-y border-solid border-surface-500">
+      <slot/>
+    </div>
+  </div>
+  {/if}
+
+  {#if contentLayoutType === pageContentLayoutType.full}
   <div class="p-5 space-y-5 border-y border-solid border-surface-500 w-screen">
      <slot/>
   </div>
+  
+  {/if}
 
 
   {#if $$slots.right}

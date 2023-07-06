@@ -1,15 +1,15 @@
 <script lang="ts">
  import { positionType } from "$lib/models/Enums";
 
-	export let textCss = "text-secundary-500"
+	export let textCss = "text-surface-600"
 	export let label = "";
-	export let position:positionType = positionType.start;
+	export let position:positionType = positionType.center;
 
 </script>
 
-<div class="flex justify-{position} items-{position} h-full w-full gap-5 pt-2">
+<div class="flex justify-{position} items-{position} h-full w-full gap-5 pt-2 {textCss}">
 <div
-	class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite] {textCss}"
+	class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite] "
 	role="status"
 >
 	<span

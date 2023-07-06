@@ -4,3 +4,8 @@ export enum positionType {
 	end = "end",
  center = "center"
 }
+
+export enum pageContentLayoutType {
+	full = "full",
+	center = "center"
+}

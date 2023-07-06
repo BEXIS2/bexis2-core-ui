@@ -11,6 +11,7 @@ import Spinner from './components/page/Spinner.svelte';
 import Page from './components/page/Page.svelte';
 import Alert from './components/page/Alert.svelte';
 import Menu from './components/page/menu/Menu.svelte';
+import ErrorMessage from './components/page/ErrorMessage.svelte';
 
 // input 
 import Checkbox from './components/form/Checkbox.svelte';
@@ -23,6 +24,7 @@ import NumberInput from './components/form/NumberInput.svelte';
 import TextInput from './components/form/TextInput.svelte';
 import TextArea from './components/form/TextArea.svelte';
 
+//table
 import Table from './components/Table/Table.svelte';
 import TableFilter from './components/Table/TableFilter.svelte';
 import { columnFilter, searchFilter } from './components/Table/filter';
@@ -45,7 +47,7 @@ export {
 export { FileInfo, FileIcon, FileUploader };
 
 //others
-export { ListView, TableView, Spinner, Page, Alert, Menu };
+export { ListView, TableView, Spinner, Page, Alert, Menu, ErrorMessage };
 
 //Api
 export { Api } from './services/Api.js';
@@ -61,9 +63,15 @@ export type {
 	keyValuePairType
 	} from './models/Models.js';
 
+	//help
+export { helpStore } from '$store/pageStores';
+export type { helpStoreType, helpItemType } from './models/Models';
+
+
 //enum
-export { positionType	} from './models/Enums';
+export { positionType, pageContentLayoutType	} from './models/Enums';
 
 // Table
 export { Table, TableFilter, columnFilter, searchFilter };
 export type { TableConfig, Columns, Column };
+
