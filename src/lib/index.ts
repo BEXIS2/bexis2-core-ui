@@ -1,10 +1,10 @@
 // Reexport your entry components here
-import ListView from './components/ListView.svelte';
-import TableView from './TableView.svelte';
+// import ListView from './components/ListView.svelte';
+// import TableView from './TableView.svelte';
 
-import FileIcon from './components/file/FileIcon.svelte';
-import FileInfo from './components/file/FileInfo.svelte';
-import FileUploader from './components/file/FileUploader.svelte';
+// import FileIcon from './components/file/FileIcon.svelte';
+// import FileInfo from './components/file/FileInfo.svelte';
+// import FileUploader from './components/file/FileUploader.svelte';
 
 //page
 import Spinner from './components/page/Spinner.svelte';
@@ -44,10 +44,10 @@ export {
 };
 
 //File
-export { FileInfo, FileIcon, FileUploader };
+// export { FileInfo, FileIcon, FileUploader };
 
 //others
-export { ListView, TableView, Spinner, Page, Alert, Menu, ErrorMessage };
+export { Spinner, Page, Alert, Menu, ErrorMessage };
 
 //Api
 export { Api } from './services/Api.js';
