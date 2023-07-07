@@ -5,7 +5,7 @@
 	import { pageContentLayoutType } from '$lib/models/Enums';
 
 	// ui components
-	import { AppShell, AppBar, Modal } from '@skeletonlabs/skeleton';
+	import { AppShell, AppBar } from '@skeletonlabs/skeleton';
 	import Menu from './menu/Menu.svelte';
 	import Footer from './Footer.svelte';
 	import Header from './Header.svelte';

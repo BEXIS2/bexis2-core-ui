@@ -5,7 +5,6 @@
 
 	import { CodeBlock } from '@skeletonlabs/skeleton';
 	import Spinner from '$lib/components/page/Spinner.svelte';
-	import { positionType } from '$lib';
 </script>
 
 <Page title="Design Convertions">
