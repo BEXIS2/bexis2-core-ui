@@ -13,7 +13,7 @@ import Alert from './components/page/Alert.svelte';
 import Menu from './components/page/menu/Menu.svelte';
 import ErrorMessage from './components/page/ErrorMessage.svelte';
 
-// input 
+// input
 import Checkbox from './components/form/Checkbox.svelte';
 import CheckboxKVPList from './components/form/CheckboxKvPList.svelte';
 import CheckboxList from './components/form/CheckboxList.svelte';
@@ -54,24 +54,22 @@ export { Api } from './services/Api.js';
 export { host, username, password, setApiConfig } from './stores/apiStores.js';
 
 //Type
-export type { 
-	userType, 
+export type {
+	userType,
 	inputType,
 	fileUploaderModel,
 	linkType,
 	listItemType,
 	keyValuePairType
-	} from './models/Models.js';
+} from './models/Models.js';
 
-	//help
+//help
 export { helpStore } from '$store/pageStores';
 export type { helpStoreType, helpItemType } from './models/Models';
 
-
 //enum
-export { positionType, pageContentLayoutType	} from './models/Enums';
+export { positionType, pageContentLayoutType } from './models/Enums';
 
 // Table
 export { Table, TableFilter, columnFilter, searchFilter };
 export type { TableConfig, Columns, Column };
-

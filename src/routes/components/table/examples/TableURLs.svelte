@@ -7,7 +7,6 @@
 	import type { Website } from '../data/data';
 	import type { TableConfig } from '$lib/models/Models';
 
-
 	const websitesConfig: TableConfig<Website> = {
 		id: 'websites',
 		data: websitesStore,

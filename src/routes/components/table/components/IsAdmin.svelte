@@ -3,10 +3,4 @@
 	export let row;
 </script>
 
-<input 
-	type="checkbox" 
-	name="isAdmin" 
-	id={row.id} 
-	checked={value} 
-	disabled 
-/>
+<input type="checkbox" name="isAdmin" id={row.id} checked={value} disabled />

@@ -1,22 +1,17 @@
-import {setApiConfig} from '$lib/stores/apiStores'
+import { setApiConfig } from '$lib/stores/apiStores';
 
 /** @type {import('./$types').PageLoad} */
 export function load() {
+	console.log('load and set apiconfig');
 
- console.log("load and set apiconfig")
+	if (import.meta.env.DEV) {
+		console.log('dev');
 
- if(import.meta.env.DEV)
- { 
-   console.log("dev")
+		setApiConfig('https://dev.bexis2.uni-jena.de/', 'admin', '123456');
+	} else if (import.meta.env.PROD) {
+		console.log('PROD');
+		setApiConfig('https://dev.bexis2.uni-jena.de/', 'admin', '123456');
+	}
 
-   setApiConfig("https://dev.bexis2.uni-jena.de/","admin","123456");
- }
- else if(import.meta.env.PROD)
- {
-   console.log("PROD")
-   setApiConfig("https://dev.bexis2.uni-jena.de/","admin","123456");
- }
-
- return {};
+	return {};
 }
-

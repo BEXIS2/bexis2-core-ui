@@ -14,11 +14,21 @@
 	<div class="pt-3"><b>Value:</b> {textInputValue}</div>
 </div>
 <div class="pb-10">
-	<TextArea id="description" label="Description" required={true} placeholder="more details here, please" />
+	<TextArea
+		id="description"
+		label="Description"
+		required={true}
+		placeholder="more details here, please"
+	/>
 </div>
 <div class="pb-10">
-	<NumberInput id="numberOf" label="NumberOf" required={true} placeholder="add a random number here"/>
+	<NumberInput
+		id="numberOf"
+		label="NumberOf"
+		required={true}
+		placeholder="add a random number here"
+	/>
 </div>
 <div class="pb-10">
-	<DateInput id="date" label="Creation date" required={true}/>
+	<DateInput id="date" label="Creation date" required={true} />
 </div>

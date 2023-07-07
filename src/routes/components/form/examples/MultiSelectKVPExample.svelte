@@ -4,7 +4,7 @@
 	import { CodeBlock } from '@skeletonlabs/skeleton';
 
 	$: target = [];
-	$: selectedtarget = ["AF"];
+	$: selectedtarget = ['AF'];
 	$: selectedComplextarget = [{ name: 'Dominican Republic', code: 'DO' }];
 
 	$: targetGroup = [];
@@ -25,7 +25,6 @@
 	<CodeBlock language="ts" code={JSON.stringify(target, undefined, 2)} />
 </div>
 
-
 <div class="grid gap-10 mt-10">
 	<MultiSelect
 		title="Return complex object"
@@ -42,7 +41,7 @@
 
 <div class="grid gap-10 mt-10">
 	<MultiSelect
-	 id ="Group List"
+		id="Group List"
 		title="Group List"
 		source={MetadatastructuresGrouped}
 		bind:target={targetGroup}

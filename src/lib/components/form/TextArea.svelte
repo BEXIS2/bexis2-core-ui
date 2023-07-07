@@ -9,9 +9,8 @@
 	export let invalid: boolean = false;
 	export let required: boolean = false;
 	export let feedback: string[] = [''];
-	export let placeholder: string = "";
-	export let help:boolean=false;
-	
+	export let placeholder: string = '';
+	export let help: boolean = false;
 </script>
 
 <InputContainer {id} {label} {feedback} {required} {help}>

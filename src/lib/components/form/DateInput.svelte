@@ -10,7 +10,6 @@
 	export let required: boolean = false;
 	export let feedback: string[] = [''];
 	export let help = false;
-	
 </script>
 
 <InputContainer {id} {label} {feedback} {required} {help}>

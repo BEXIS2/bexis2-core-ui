@@ -64,7 +64,7 @@
 		const res = await Api.get(url);
 		model = await res.data();
 
-		 console.log('fileupload', model);
+		console.log('fileupload', model);
 	}
 
 	function handleFilesSelect(e: any) {

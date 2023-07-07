@@ -16,21 +16,18 @@
 	export let complexTarget = false;
 	export let required = false;
 	export let feedback = [''];
-	export let placeholder = "-- Please select --"
+	export let placeholder = '-- Please select --';
 	export let invalid = false;
 	export let loading = false;
 	export let help = false;
-
 
 	let isLoaded = false;
 
 	$: value = null;
 	$: updateTarget(value);
 
-	let groupBy
-	$:groupBy;
-
-
+	let groupBy;
+	$: groupBy;
 
 	function updateTarget(selection) {
 		//different cases
@@ -45,7 +42,6 @@
 			}
 		}
 
-
 		if (!complexSource && !complexTarget && isLoaded && isMulti) {
 			target = [];
 			for (let i in selection) {
@@ -53,37 +49,30 @@
 			}
 		}
 
-		if (complexSource && complexTarget && isLoaded && isMulti)
-		{
-			 //console.log("both complex",selection);
-			 target = selection;
-			
+		if (complexSource && complexTarget && isLoaded && isMulti) {
+			//console.log("both complex",selection);
+			target = selection;
 		}
 
-		if(complexSource && complexTarget && isLoaded &&!isMulti)
-		{
-			target = selection
+		if (complexSource && complexTarget && isLoaded && !isMulti) {
+			target = selection;
 		}
 
-		if(!complexSource && !complexTarget && isLoaded &&!isMulti)
-		{
-	
-			target = selection.value
+		if (!complexSource && !complexTarget && isLoaded && !isMulti) {
+			target = selection.value;
 		}
 
-		if(complexSource && !complexTarget && isLoaded &&!isMulti)
-		{
-			 target = selection[itemLabel]
-				console.log("selection",selection)
+		if (complexSource && !complexTarget && isLoaded && !isMulti) {
+			target = selection[itemLabel];
+			console.log('selection', selection);
 		}
 
-		
 		// //console.log('selection ' + title, selection);
 		// //console.log('target ' + title, target);
 	}
 
 	onMount(async () => {
-		console.log("on mount multiselect");
+		console.log('on mount multiselect');
 		////console.log(source);
 
 		//a) source is complex model is simple
@@ -100,14 +89,13 @@
 				value = items;
 			}
 			////console.log(value);
-			groupBy = (item) => item[itemGroup]
+			groupBy = (item) => item[itemGroup];
 		}
 
-		if (complexSource && complexTarget && isMulti)
-		{
-				value = target
-				isLoaded = true;
-				groupBy = (item) => item[itemGroup]
+		if (complexSource && complexTarget && isMulti) {
+			value = target;
+			isLoaded = true;
+			groupBy = (item) => item[itemGroup];
 		}
 
 		//b) simple liust and simple model
@@ -121,43 +109,42 @@
 			}
 		}
 
-		if(!isMulti)
-		{
+		if (!isMulti) {
 			//console.log("onmount",complexSource,complexTarget,value,target)
-			if(!complexSource && !complexTarget) 
-			{
-					value = {
-							value:target,
-							label:target
-					}
+			if (!complexSource && !complexTarget) {
+				value = {
+					value: target,
+					label: target
+				};
 			}
 
-			if(complexSource && complexTarget) 
-			{
-					value = target;
-					groupBy = (item) => item[itemGroup]
+			if (complexSource && complexTarget) {
+				value = target;
+				groupBy = (item) => item[itemGroup];
 			}
 
-			if(complexSource && !complexTarget) 
-			{
-					//value = target
-					console.log("this case is currently not supported (complexSource,complexTarget,isMulti)", complexSource, complexTarget,isMulti)
+			if (complexSource && !complexTarget) {
+				//value = target
+				console.log(
+					'this case is currently not supported (complexSource,complexTarget,isMulti)',
+					complexSource,
+					complexTarget,
+					isMulti
+				);
 			}
-			
+
 			isLoaded = true;
 		}
-
 	});
 </script>
 
-
 <InputContainer {id} label={title} {feedback} {required} {help}>
 	<Select
-	 {id}
+		{id}
 		items={source}
 		{groupBy}
 		{itemId}
-		label = {itemLabel}
+		label={itemLabel}
 		multiple={isMulti}
 		bind:value
 		{placeholder}
@@ -173,6 +160,4 @@
 		on:filter
 		on:hoverItem
 	/>
-
 </InputContainer>
-

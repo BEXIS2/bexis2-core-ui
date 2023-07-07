@@ -20,7 +20,7 @@ const config = {
 			$docs: path.resolve('./src/docs'),
 			$store: './src/lib/stores',
 			$models: path.resolve('./src/lib/models'),
-			$services: path.resolve('./src/lib/services'),
+			$services: path.resolve('./src/lib/services')
 		}
 	}
 };

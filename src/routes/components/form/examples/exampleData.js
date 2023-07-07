@@ -1,7 +1,7 @@
 export const Metadatastructures = [
 	{
 		id: 1,
-		text: 'abcd schema',
+		text: 'abcd schema'
 	},
 	{
 		id: 2,
@@ -17,17 +17,17 @@ export const MetadatastructuresGrouped = [
 	{
 		id: 1,
 		text: 'abcd schema',
-		group:'collections'
+		group: 'collections'
 	},
 	{
 		id: 2,
 		text: 'gbif',
-		group:'obervation'
+		group: 'obervation'
 	},
 	{
 		id: 3,
 		text: 'darwin code',
-		group:'obervation'
+		group: 'obervation'
 	}
 ];
 
@@ -56,7 +56,6 @@ export const Decimals = [
 		text: 'point'
 	}
 ];
-
 
 export const CountrieNames = [
 	'United States',
@@ -545,5 +544,3 @@ export const Countries = [
 	{ name: 'Zambia', code: 'ZM' },
 	{ name: 'Zimbabwe', code: 'ZW' }
 ];
-
-

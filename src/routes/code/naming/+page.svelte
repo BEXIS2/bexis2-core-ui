@@ -3,8 +3,7 @@
 </script>
 
 <Page title="Code Convertions">
-
- <h2 class="h2">Naming Convertions in Frontend</h2>
+	<h2 class="h2">Naming Convertions in Frontend</h2>
 
 	<div class="table-container pt-5">
 		<table class="table table-compact bg-tertiary-200">
@@ -23,55 +22,55 @@
 					<td>Pascal</td>
 					<td>MyComponent.svelte</td>
 				</tr>
-    <tr>
+				<tr>
 					<td>Folder</td>
 					<td>Folder</td>
 					<td>camel</td>
 					<td>lib/components/myComponents/...</td>
 				</tr>
-    <tr>
+				<tr>
 					<td>Model</td>
 					<td>File</td>
 					<td>Pascal</td>
 					<td>lib/models/EditModel.ts</td>
 				</tr>
-    <tr>
+				<tr>
 					<td>Stores</td>
 					<td>File</td>
 					<td>camel +Store[s]</td>
 					<td>lib/stores/pageStore.ts</td>
 				</tr>
-    <tr>
+				<tr>
 					<td>Services</td>
 					<td>File</td>
 					<td>Pascal</td>
 					<td>lib/services/Api.ts</td>
 				</tr>
-    <tr>
+				<tr>
 					<td>Stores</td>
 					<td>Entity</td>
 					<td>camel + Store</td>
 					<td>menuStore</td>
 				</tr>
-    <tr>
+				<tr>
 					<td>Model</td>
 					<td>Entity</td>
 					<td>Pascal + Model</td>
 					<td>EditModel</td>
 				</tr>
-    <tr>
+				<tr>
 					<td>Type</td>
 					<td>Entity</td>
 					<td>camel + Type</td>
 					<td>fileInfoType</td>
 				</tr>
-    <tr>
+				<tr>
 					<td>Enum</td>
 					<td>Entity</td>
 					<td>camel</td>
 					<td>position</td>
 				</tr>
-    <tr>
+				<tr>
 					<td>Function</td>
 					<td>Function</td>
 					<td>camel</td>

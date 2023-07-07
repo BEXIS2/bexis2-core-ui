@@ -1,14 +1,14 @@
 export const Hookplaces = [
 	{
-		place : "details",
+		place: 'details',
 		entity: 'dataset',
-  mode:"view",
-  description:"hook in where dataset can be viewed"
+		mode: 'view',
+		description: 'hook in where dataset can be viewed'
 	},
- {
-		place : "details",
+	{
+		place: 'details',
 		entity: 'dataset',
-  mode:"edit",
-  description:"hook in where dataset can be viewed"
+		mode: 'edit',
+		description: 'hook in where dataset can be viewed'
 	}
 ];

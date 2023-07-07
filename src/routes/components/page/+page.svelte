@@ -1,12 +1,12 @@
 <script lang="ts">
 	import Page from '$lib/components/page/Page.svelte';
 	import type { linkType } from '$lib/models/Models';
-	import { pageContentLayoutType  } from '$lib/models/Enums';
+	import { pageContentLayoutType } from '$lib/models/Enums';
 
 	import { helpStore } from '$store/pageStores';
 	import type { helpItemType, helpStoreType } from '$models/Models';
 	import TextInput from '$lib/components/form/TextInput.svelte';
-import ErrorMessage from '$lib/components/page/ErrorMessage.svelte';
+	import ErrorMessage from '$lib/components/page/ErrorMessage.svelte';
 
 	let links: linkType[] = [
 		{
@@ -15,19 +15,14 @@ import ErrorMessage from '$lib/components/page/ErrorMessage.svelte';
 		}
 	];
 
-
 	import { HelpExampleData } from './data/help';
-
-
 
 	let helpItems: helpItemType[] = HelpExampleData.helpItems;
 	helpStore.setHelpItemList(helpItems);
 
-
- let e:Error
-	function getError()
-	{
-		e = new Error("test");
+	let e: Error;
+	function getError() {
+		e = new Error('test');
 	}
 
 	getError();
@@ -37,23 +32,18 @@ import ErrorMessage from '$lib/components/page/ErrorMessage.svelte';
 	title="Create a Dataset"
 	note="On this page you can create a dataset based on a template. please select on template and fill out the form."
 	{links}
- help={true}
+	help={true}
 	contentLayoutType={pageContentLayoutType.center}
 >
-	 <svelte:fragment>
-
+	<svelte:fragment>
 		<div class="w-screen">
-				<h2 class="h2">Content</h2>
-				<TextInput id="name" label="name" help={true}/>
-				<p>Lorem ipsum dolor sit amet, con
-					
-			</p>
+			<h2 class="h2">Content</h2>
+			<TextInput id="name" label="name" help={true} />
+			<p>Lorem ipsum dolor sit amet, con</p>
 
 			{#if e}
-				<ErrorMessage error={e}/>
+				<ErrorMessage error={e} />
 			{/if}
 		</div>
-
 	</svelte:fragment>
-
 </Page>
