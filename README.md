@@ -1,5 +1,5 @@
 # bexis-core-ui
-## v0.2.10
+## v0.2.11
 - Error Message
 - Spinner Update
   - postion default is center
