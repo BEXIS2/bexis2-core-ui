@@ -1,5 +1,5 @@
 import type { helpItemType, helpStoreType } from '$models/Models';
-import type { Menu, breadcrumbItemType } from '$models/Page';
+import type { MenuModel, breadcrumbItemType } from '$models/Page';
 import { BreadcrumbModel } from '$models/Page';
 
 import { writable } from 'svelte/store';
@@ -75,7 +75,7 @@ function createHelpStore() {
 export const helpStore = createHelpStore();
 
 // store for menu
-export const menuStore = writable<Menu>();
+export const menuStore = writable<MenuModel>();
 
 function createBreadcrumbStore() {
 	// set Store Type

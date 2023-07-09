@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { ListBox, ListBoxItem } from '@skeletonlabs/skeleton';
-	import type { MenuItem } from './menu';
+	import type { menuItemType } from '$models/Page';
 	import { goTo } from '$services/BaseCaller';
 
 	export let id;
-	export let items: MenuItem[];
+	export let items: menuItemType[];
 
 	let lastModule = '';
 	let first = true;

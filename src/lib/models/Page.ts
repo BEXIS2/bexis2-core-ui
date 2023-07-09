@@ -16,12 +16,12 @@ export class BreadcrumbModel {
 // MENU
 /********************************** */
 export class MenuModel {
-	Logo: Logo;
-	LaunchBar: MenuItem[];
-	MenuBar: MenuItem[];
-	AccountBar: MenuItem[];
-	Settings: MenuItem[];
-	Extended: MenuItem[];
+	Logo: logoType;
+	LaunchBar: menuItemType[];
+	MenuBar: menuItemType[];
+	AccountBar: menuItemType[];
+	Settings: menuItemType[];
+	Extended: menuItemType[];
 }
 
 export interface menuItemType {
@@ -29,7 +29,7 @@ export interface menuItemType {
 	Url: string;
 	Target: string;
 	Module: string;
-	Items: MenuItem[];
+	Items: menuItemType[];
 }
 
 export interface logoType {

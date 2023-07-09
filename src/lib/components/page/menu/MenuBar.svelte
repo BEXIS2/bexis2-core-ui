@@ -3,10 +3,10 @@
 	import { storePopup } from '@skeletonlabs/skeleton';
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
-	import type { MenuItem } from './menu';
+	import type { menuItemType } from '$models/Page';
 	import Item from './MenuItem.svelte';
 
-	export let menuBar: MenuItem[];
+	export let menuBar: menuItemType[];
 
 	let comboboxValue: string;
 

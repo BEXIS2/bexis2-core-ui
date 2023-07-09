@@ -3,13 +3,13 @@
 	import { ListBox, ListBoxItem } from '@skeletonlabs/skeleton';
 
 	import type { PopupSettings } from '@skeletonlabs/skeleton';
-	import type { MenuItem } from './menu';
+	import type { menuItemType } from '$models/Page';
 	import Fa from 'svelte-fa/src/fa.svelte';
 	import { faCog } from '@fortawesome/free-solid-svg-icons';
 
 	import { goTo } from '$services/BaseCaller';
 
-	export let menuBar: MenuItem[];
+	export let menuBar: menuItemType[];
 	//uicomponents
 	import MenuSublist from './MenuSublist.svelte';
 

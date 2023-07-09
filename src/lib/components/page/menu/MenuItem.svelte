@@ -6,11 +6,11 @@
 
 	//types
 	import type { PopupSettings } from '@skeletonlabs/skeleton';
-	import type { MenuItem } from '$models/Page';
+	import type { menuItemType } from '$models/Page';
 
 	import { goTo } from '$services/BaseCaller';
 
-	export let menubarItem: MenuItem;
+	export let menubarItem: menuItemType;
 	export let comboboxValue;
 
 	let id = Math.floor(Math.random() * 100).toString();
