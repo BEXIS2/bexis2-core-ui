@@ -7,9 +7,13 @@
 
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		%sveltekit.head%
+
+		<script>
+			let date = Date.now();
+		</script>
 	</head>
 	<body>
-		<h1>hallo</h1>
+		<h1>{date}</h1>
 		<div>%sveltekit.body%</div>
 	</body>
 </html>
