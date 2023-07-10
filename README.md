@@ -1,4 +1,6 @@
 # bexis-core-ui
+## v0.2.12
+- update libs
 
 ## v0.2.11
 
