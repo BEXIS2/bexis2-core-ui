@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
-	import { Accordion, storePopup } from '@skeletonlabs/skeleton';
+	import { storePopup } from '@skeletonlabs/skeleton';
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
 	import type { MenuItem } from './menu';
@@ -9,8 +9,6 @@
 	export let menuBar: MenuItem[];
 
 	let comboboxValue: string;
-
-	let radomNumber = Math.floor(Math.random() * 100);
 </script>
 
 {#if menuBar}

@@ -6,8 +6,6 @@
 	import Fa from 'svelte-fa/src/fa.svelte';
 	import { faCog } from '@fortawesome/free-solid-svg-icons';
 
-	import { goTo } from '$services/BaseCaller';
-
 	export let menuBar: menuItemType[];
 	//uicomponents
 	import MenuSublist from './MenuSublist.svelte';
@@ -29,8 +27,7 @@
 					<span class="capitalize"><Fa icon={faCog} /></span>
 				</button></svelte:fragment
 			>
-			<svelte:fragment slot="content"><MenuSublist id="settings" items={menuBar} /></svelte:fragment
-			>
+			<svelte:fragment slot="content"><MenuSublist items={menuBar} /></svelte:fragment>
 		</AccordionItem>
 	</div>
 	<div class="hidden sm:block place-self-center" use:popup={popupCombobox}>
@@ -39,7 +36,7 @@
 			<span class="capitalize"><Fa icon={faCog} /></span>
 		</button>
 		<div class="z-50 w-max" data-popup="settings">
-			<MenuSublist id="settings" items={menuBar} />
+			<MenuSublist items={menuBar} />
 		</div>
 	</div>
 {/if}

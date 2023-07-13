@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Accordion, popup } from '@skeletonlabs/skeleton';
+	import { Accordion, AccordionItem, popup } from '@skeletonlabs/skeleton';
 
 	//uicomponents
 	import MenuSublist from './MenuSublist.svelte';
@@ -18,21 +18,38 @@
 	let popupCombobox: PopupSettings = {
 		event: 'click',
 		target: id,
-		placement: 'bottom',
+		placement: 'bottom-start',
 		// Close the popup when the item is clicked
 		closeQuery: '.listbox-item'
 	};
 </script>
 
 {#if menubarItem.Items.length < 1}
-	<button use:popup={popupCombobox} on:click={() => goTo(menubarItem.Url)}>
-		<span class="capitalize">{comboboxValue ?? menubarItem.Title}</span>
-	</button>
+	<div class="p-2">
+		<button class="grid" use:popup={popupCombobox} on:click={() => goTo(menubarItem.Url)}>
+			<span class="capitalize">{comboboxValue ?? menubarItem.Title}</span>
+		</button>
+	</div>
 {:else}
-	<button class="flex items-center gap-x-1" use:popup={popupCombobox}>
-		<span class="capitalize">{menubarItem.Title}</span>
-		<div class="before:content-['▾']" />
-	</button>
+	<div class="sm:hidden block">
+		<AccordionItem padding="p-2">
+			<svelte:fragment slot="summary"
+				><button class="flex items-center gap-x-1">
+					<span class="capitalize">{menubarItem.Title}</span>
+				</button></svelte:fragment
+			>
+			<svelte:fragment slot="content"
+				><MenuSublist {id} items={menubarItem.Items} /></svelte:fragment
+			></AccordionItem
+		>
+	</div>
+	<div class="hidden sm:block place-self-center" use:popup={popupCombobox}>
+		<button class="flex items-center gap-x-1 px-2">
+			<span class="capitalize">{menubarItem.Title}▾</span>
+		</button>
 
-	<MenuSublist {id} items={menubarItem.Items} />
+		<div class="z-50 w-max" data-popup={id}>
+			<MenuSublist {id} items={menubarItem.Items} />
+		</div>
+	</div>
 {/if}
