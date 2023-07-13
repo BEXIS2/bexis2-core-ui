@@ -45,6 +45,14 @@
 		],
 		string: [
 			{
+				value: 'contains',
+				label: 'Contains'
+			},
+			{
+				value: 'notcontains',
+				label: 'Does not contain'
+			},
+			{
 				value: 'isequal',
 				label: 'Is equal to'
 			},
@@ -55,14 +63,6 @@
 			{
 				value: 'starts',
 				label: 'Starts with'
-			},
-			{
-				value: 'contains',
-				label: 'Contains'
-			},
-			{
-				value: 'notcontains',
-				label: 'Does not contain'
 			},
 			{
 				value: 'ends',
