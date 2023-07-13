@@ -1,15 +1,14 @@
 <script lang="ts">
 	import { popup } from '@skeletonlabs/skeleton';
-	import { ListBox, ListBoxItem } from '@skeletonlabs/skeleton';
 
-	import { AccordionItem, Accordion, type PopupSettings } from '@skeletonlabs/skeleton';
-	import type { MenuItem } from './menu';
+	import { AccordionItem, type PopupSettings } from '@skeletonlabs/skeleton';
+	import type { menuItemType } from '$models/Page';
 	import Fa from 'svelte-fa/src/fa.svelte';
 	import { faCog } from '@fortawesome/free-solid-svg-icons';
 
 	import { goTo } from '$services/BaseCaller';
 
-	export let menuBar: MenuItem[];
+	export let menuBar: menuItemType[];
 	//uicomponents
 	import MenuSublist from './MenuSublist.svelte';
 
@@ -25,7 +24,7 @@
 {#if menuBar}
 	<div class="sm:hidden">
 		<AccordionItem padding="p-2">
-			<svelte:fragment slot="summary"
+			<svelte:fragment slot="summary"c
 				><button class="flex items-center gap-x-1 text-sm text-surface-800 w-5 h-full">
 					<span class="capitalize"><Fa icon={faCog} /></span>
 				</button></svelte:fragment

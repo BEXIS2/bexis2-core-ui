@@ -6,14 +6,14 @@ export const menuNavLinks: any = [
 	{
 		id: 'general',
 		title: 'General',
-		list: [
-			 { href: base + '/', label: 'Home', keywords: '' }
-		]
-	},{
+		list: [{ href: base + '/', label: 'Home', keywords: '' }]
+	},
+	{
 		id: 'code',
 		title: 'Code Rules',
 		list: [
-			{ href: base + '/code/naming', label: 'Naming Convertions', keywords: '' }
+			{ href: base + '/code/naming', label: 'Naming Convertions', keywords: '' },
+			{ href: base + '/code/design', label: 'Color Convertions', keywords: '' }
 		]
 	},
 	{
@@ -38,9 +38,7 @@ export const menuNavLinks: any = [
 	{
 		id: 'backend',
 		title: 'Backend',
-		list: [
-			{ href: base + '/backend/hooks', label: 'Hooks', keywords: '' }
-		]
+		list: [{ href: base + '/backend/hooks', label: 'Hooks', keywords: '' }]
 	}
 
 	// Tailwind ---

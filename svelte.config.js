@@ -16,11 +16,14 @@ const config = {
 			precompress: false,
 			ssr: true
 		}),
+		paths: {
+			base: process.env.NODE_ENV === 'production' ? '/bexis2-core-ui' : ''	
+		},
 		alias: {
 			$docs: path.resolve('./src/docs'),
 			$store: './src/lib/stores',
 			$models: path.resolve('./src/lib/models'),
-			$services: path.resolve('./src/lib/services'),
+			$services: path.resolve('./src/lib/services')
 		}
 	}
 };

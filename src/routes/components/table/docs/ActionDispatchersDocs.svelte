@@ -28,12 +28,9 @@
 				</div>
 				<p class="text-xl pl-10">
 					A function that takes an object and dispatches an action with the name <code
-						class="!text-xl"
-						>action</code
-					>. The passed object is accessible by the parent component through the <code
-						class="!text-xl"
-						>action.detail</code
-					> property.
+						class="!text-xl">action</code
+					>. The passed object is accessible by the parent component through the
+					<code class="!text-xl">action.detail</code> property.
 				</p>
 			</div>
 		</div>

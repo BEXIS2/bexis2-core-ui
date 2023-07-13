@@ -101,13 +101,13 @@ export interface listItemType {
 
 //help
 export interface helpItemType {
-    id?: string;
-    name: string;
-    description:string;
-    link?:string;
+	id?: string;
+	name: string;
+	description: string;
+	link?: string;
 }
 
 export interface helpStoreType {
-    itemId?:string;
-    helpItems:helpItemType[];
-};
+	itemId?: string;
+	helpItems: helpItemType[];
+}

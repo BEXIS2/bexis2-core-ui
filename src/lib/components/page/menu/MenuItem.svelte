@@ -5,12 +5,12 @@
 	import MenuSublist from './MenuSublist.svelte';
 
 	//types
-	import { AccordionItem, type PopupSettings } from '@skeletonlabs/skeleton';
-	import type { MenuItem } from '$models/Page';
+	import type { PopupSettings } from '@skeletonlabs/skeleton';
+	import type { menuItemType } from '$models/Page';
 
 	import { goTo } from '$services/BaseCaller';
 
-	export let menubarItem: MenuItem;
+	export let menubarItem: menuItemType;
 	export let comboboxValue;
 
 	let id = Math.floor(Math.random() * 100).toString();
@@ -18,38 +18,21 @@
 	let popupCombobox: PopupSettings = {
 		event: 'click',
 		target: id,
-		placement: 'bottom-start',
+		placement: 'bottom',
 		// Close the popup when the item is clicked
 		closeQuery: '.listbox-item'
 	};
 </script>
 
 {#if menubarItem.Items.length < 1}
-	<div class="p-2">
-		<button class="grid" use:popup={popupCombobox} on:click={() => goTo(menubarItem.Url)}>
-			<span class="capitalize">{comboboxValue ?? menubarItem.Title}</span>
-		</button>
-	</div>
+	<button use:popup={popupCombobox} on:click={() => goTo(menubarItem.Url)}>
+		<span class="capitalize">{comboboxValue ?? menubarItem.Title}</span>
+	</button>
 {:else}
-	<div class="sm:hidden block">
-		<AccordionItem padding="p-2">
-			<svelte:fragment slot="summary"
-				><button class="flex items-center gap-x-1">
-					<span class="capitalize">{menubarItem.Title}</span>
-				</button></svelte:fragment
-			>
-			<svelte:fragment slot="content"
-				><MenuSublist {id} items={menubarItem.Items} /></svelte:fragment
-			></AccordionItem
-		>
-	</div>
-	<div class="hidden sm:block place-self-center" use:popup={popupCombobox}>
-		<button class="flex items-center gap-x-1 px-2">
-			<span class="capitalize">{menubarItem.Title}▾</span>
-		</button>
+	<button class="flex items-center gap-x-1" use:popup={popupCombobox}>
+		<span class="capitalize">{menubarItem.Title}</span>
+		<div class="before:content-['▾']" />
+	</button>
 
-		<div class="z-50 w-max" data-popup={id}>
-			<MenuSublist {id} items={menubarItem.Items} />
-		</div>
-	</div>
+	<MenuSublist {id} items={menubarItem.Items} />
 {/if}

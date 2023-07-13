@@ -19,24 +19,18 @@
 
 	function updatedSelectedValue(selection) {
 		if (selection != null) {
-			if(complexTarget)
-			{
+			if (complexTarget) {
 				selected = selection.id;
-			}
-			else
-			{
-				selected = selection
+			} else {
+				selected = selection;
 			}
 		}
 	}
 
 	function updatedTarget(id) {
-		if(complexTarget)
-		{
+		if (complexTarget) {
 			target = source.find((opt) => opt.id === id);
-		}
-		else
-		{
+		} else {
 			target = id;
 		}
 	}

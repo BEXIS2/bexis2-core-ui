@@ -13,10 +13,7 @@
 	}
 </script>
 
-
-
 <div class="grid gap-10">
-
 	<h4 class="h4">Target is simple</h4>
 	<DropdownKvP
 		id="metadataStructure"
@@ -35,9 +32,8 @@
 		bind:target
 		source={Metadatastructures}
 		on:change={onChangeHandler}
-		complexTarget = {true}
+		complexTarget={true}
 	/>
 
 	<CodeBlock language="ts" code={JSON.stringify(target, undefined, 2)} />
-
 </div>

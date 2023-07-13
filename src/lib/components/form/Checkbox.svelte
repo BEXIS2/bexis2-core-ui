@@ -3,7 +3,7 @@
 
 	export let id: string = '';
 	export let label: string = '';
-	export let checked: bool = false;
+	export let checked: boolean = false;
 
 	export let valid: boolean;
 	export let invalid: boolean;

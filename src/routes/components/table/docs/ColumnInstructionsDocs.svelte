@@ -75,9 +75,7 @@
 					<div class="italic">value:</div>
 					<div class="font-bold">any</div>
 				</div>
-				<p class="text-xl pl-10">
-					The value of the current cell.
-				</p>
+				<p class="text-xl pl-10">The value of the current cell.</p>
 			</div>
 		</div>
 	</div>
