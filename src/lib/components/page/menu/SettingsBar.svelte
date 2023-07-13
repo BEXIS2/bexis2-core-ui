@@ -1,40 +1,46 @@
 <script lang="ts">
-  import { popup } from '@skeletonlabs/skeleton';
-  import { ListBox, ListBoxItem } from '@skeletonlabs/skeleton';
- 
-  import type { PopupSettings } from '@skeletonlabs/skeleton';
-  import type { MenuItem } from "./menu";
-  import Fa from 'svelte-fa/src/fa.svelte'
-  import { faCog } from '@fortawesome/free-solid-svg-icons'
- 
-  import { goTo } from '$services/BaseCaller';
- 
-  export let menuBar:MenuItem [];
-  //uicomponents
-  import MenuSublist from './MenuSublist.svelte';
- 
- 
- 
- 
-  let popupCombobox: PopupSettings = {
-    event: 'click',
-    target: 'settings',
-    placement: 'bottom',
-    // Close the popup when the item is clicked
-    closeQuery: '.listbox-item'
-    };
- 
-  </script>
- 
- {#if menuBar}
- <button class="flex items-center gap-x-1 text-sm text-surface-800" use:popup={popupCombobox}>
- <span class="capitalize"><Fa icon={faCog} /></span>
- 
- </button>
+	import { popup } from '@skeletonlabs/skeleton';
+	import { ListBox, ListBoxItem } from '@skeletonlabs/skeleton';
 
- <MenuSublist id="settings" items={menuBar} />
- 
+	import { AccordionItem, Accordion, type PopupSettings } from '@skeletonlabs/skeleton';
+	import type { MenuItem } from './menu';
+	import Fa from 'svelte-fa/src/fa.svelte';
+	import { faCog } from '@fortawesome/free-solid-svg-icons';
 
- {/if}
- 
- 
+	import { goTo } from '$services/BaseCaller';
+
+	export let menuBar: MenuItem[];
+	//uicomponents
+	import MenuSublist from './MenuSublist.svelte';
+
+	let popupCombobox: PopupSettings = {
+		event: 'click',
+		target: 'settings',
+		placement: 'bottom',
+		// Close the popup when the item is clicked
+		closeQuery: '.listbox-item'
+	};
+</script>
+
+{#if menuBar}
+	<div class="sm:hidden">
+		<AccordionItem padding="p-2">
+			<svelte:fragment slot="summary"
+				><button class="flex items-center gap-x-1 text-sm text-surface-800 w-5 h-full">
+					<span class="capitalize"><Fa icon={faCog} /></span>
+				</button></svelte:fragment
+			>
+			<svelte:fragment slot="content"><MenuSublist id="settings" items={menuBar} /></svelte:fragment
+			>
+		</AccordionItem>
+	</div>
+	<div class="hidden sm:block place-self-center" use:popup={popupCombobox}>
+		<button class="flex items-center gap-x-1">
+			<div class="hidden sm:block" />
+			<span class="capitalize"><Fa icon={faCog} /></span>
+		</button>
+		<div class="z-50 w-max" data-popup="settings">
+			<MenuSublist id="settings" items={menuBar} />
+		</div>
+	</div>
+{/if}
