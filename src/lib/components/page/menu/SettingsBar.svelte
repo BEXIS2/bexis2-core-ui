@@ -24,7 +24,7 @@
 {#if menuBar}
 	<div class="sm:hidden">
 		<AccordionItem padding="p-2">
-			<svelte:fragment slot="summary"c
+			<svelte:fragment slot="summary"
 				><button class="flex items-center gap-x-1 text-sm text-surface-800 w-5 h-full">
 					<span class="capitalize"><Fa icon={faCog} /></span>
 				</button></svelte:fragment
