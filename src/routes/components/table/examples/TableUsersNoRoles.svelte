@@ -34,10 +34,14 @@
 		pageSizes: [1, 3, 5],
 		defaultPageSize: 5
 	};
+
+	const oddOrEvenFn = (obj: any) => {
+		alert(obj.detail.type);
+	};
 </script>
 
 <div class="grid gap-5" id="usersNoRoles">
 	<CustomCodeContainer title="Odd or even" tabs={usersNoRolesTabs}>
-		<Table config={usersNoRolesConfig} />
+		<Table config={usersNoRolesConfig} on:action={oddOrEvenFn} />
 	</CustomCodeContainer>
 </div>
