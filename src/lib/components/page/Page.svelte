@@ -73,7 +73,7 @@
 
 		{#if contentLayoutType === pageContentLayoutType.center}
 			<div class="flex justify-center w-screen">
-				<div class="max-w-7xl p-5 space-y-5 border-y border-solid border-surface-500">
+				<div class="w-full max-w-7xl p-5 space-y-5 border-y border-solid border-surface-500">
 					<slot />
 				</div>
 			</div>
