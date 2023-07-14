@@ -1,4 +1,11 @@
 # bexis-core-ui
+## v0.2.13
+- add file reader types
+  - fileReaderInfoType,
+	- asciiFileReaderInfoType
+- add file reader enums
+  - decimalCharacterType,orientationType,textMarkerType,textSeperatorType
+
 ## v0.2.12
 - update libs
 

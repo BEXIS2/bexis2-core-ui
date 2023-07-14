@@ -2,6 +2,8 @@ import type { SvelteComponent } from 'svelte';
 import type { ColumnFilterFn } from 'svelte-headless-table/lib/plugins';
 import type { Writable } from 'svelte/store';
 
+import {decimalCharacterType, orientationType,textMarkerType,textSeperatorType} from './Enums'
+
 // page
 export interface linkType {
 	label: string;
@@ -34,7 +36,28 @@ export interface fileUploaderModel {
 	multiple: boolean;
 	maxSize: number;
 	lastModification: Date;
+	allFilesReadable: boolean;
+	asciiFileReaderInfo: asciiFileReaderInfoType
 }
+
+export interface asciiFileReaderInfoType extends fileReaderInfoType {
+	cells: boolean[];
+	seperator: textSeperatorType;
+	textMarker: textMarkerType;
+}
+
+
+export interface fileReaderInfoType {
+	decimal: decimalCharacterType;
+	orientation: orientationType;
+	offset: number;
+	variables: number;
+	data: number;
+	unit: number;
+	description: number;
+	dateformat: string;
+}
+
 
 export interface filesType {
 	accepted: Blob[];
