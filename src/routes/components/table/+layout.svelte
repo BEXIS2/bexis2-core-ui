@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { AppShell, TableOfContents } from '@skeletonlabs/skeleton';
 
-	let closed = false;
+	let closed = true;
 </script>
 
 <AppShell
@@ -9,9 +9,9 @@
 >
 	<svelte:fragment slot="sidebarRight">
 		<div class="fixed right-0 top-0 overflow-auto h-full" class:w-10={closed} class:w-max={!closed}>
-			<div class="px-10 pt-10 text-primary-500 overflow-auto h-max variant-glass-surface">
+			<div class="px-10 pt-10 text-primary-500 overflow-auto h-max bg-white/95">
 				<button
-					class="fixed top-0 left-0 btn btn-sm variant-filled-primary m-1"
+					class="fixed z-30 top-0 right-0 btn btn-sm variant-filled-primary m-1"
 					on:click={() => (closed = !closed)}
 					>{closed ? `<` : '>'}
 				</button>
