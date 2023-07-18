@@ -22,6 +22,7 @@
 	let {
 		id: tableId,
 		data,
+		fitToScreen = true,
 		columns,
 		optionsComponent,
 		defaultPageSize = 10,
@@ -171,7 +172,7 @@
 				placeholder="Search rows..."
 			/>
 		{/if}
-		<table {...$tableAttrs} class="table table-compact bg-tertiary-200">
+		<table {...$tableAttrs} class="table table-compact bg-tertiary-200" class:w-max={!fitToScreen} class:w-full={fitToScreen}>
 			<thead>
 				{#each $headerRows as headerRow (headerRow.id)}
 					<Subscribe
@@ -185,7 +186,7 @@
 								<Subscribe attrs={cell.attrs()} props={cell.props()} let:props let:attrs>
 									<th scope="col" class="!p-2 w-min" {...attrs}>
 										<div class="flex w-full justify-between items-center">
-											<div class="flex gap-1">
+											<div class="flex gap-1 whitespace-pre-wrap">
 												<span
 													class:underline={props.sort.order}
 													class:normal-case={cell.id !== cell.label}
@@ -227,8 +228,8 @@
 						<tr {...rowAttrs}>
 							{#each row.cells as cell (cell?.id)}
 								<Subscribe attrs={cell.attrs()} let:attrs>
-									<td {...attrs} class="!p-2 w-min">
-										<div class="flex items-center w-full h-full table-cell-fit">
+									<td {...attrs} class="!p-2 w-max">
+										<div class="flex items-center w-max h-full max-w-xs lg:max-w-md overflow-x-auto">
 											<Render of={cell.render()} />
 										</div>
 									</td>
