@@ -9,7 +9,7 @@
 		addTableFilter
 	} from 'svelte-headless-table/plugins';
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
-	import { storePopup } from '@skeletonlabs/skeleton';
+	import { SlideToggle, storePopup } from '@skeletonlabs/skeleton';
 
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
@@ -19,15 +19,16 @@
 	import type { TableConfig } from '$lib/models/Models';
 
 	export let config: TableConfig<any>;
+
 	let {
 		id: tableId,
 		data,
-		fitToScreen = true,
 		columns,
 		optionsComponent,
 		defaultPageSize = 10,
 		pageSizes = [5, 10, 15, 20]
 	} = config;
+	let fitToScreen = true;
 
 	type AccessorType = keyof (typeof $data)[number];
 
@@ -162,7 +163,7 @@
 	const { filterValue } = pluginStates.tableFilter;
 </script>
 
-<div class="grid gap-2">
+<div class="grid gap-2" class:w-max={!fitToScreen} class:w-full={fitToScreen}>
 	<div class="table-container">
 		{#if $data.length > 0}
 			<input
@@ -172,7 +173,15 @@
 				placeholder="Search rows..."
 			/>
 		{/if}
-		<table {...$tableAttrs} class="table table-compact bg-tertiary-200" class:w-max={!fitToScreen} class:w-full={fitToScreen}>
+		<SlideToggle
+			name="slider-label"
+			active="bg-primary-500"
+			size="sm"
+			checked={fitToScreen}
+			on:change={() => (fitToScreen = !fitToScreen)}>Fit to screen</SlideToggle
+		>
+
+		<table {...$tableAttrs} class="table table-compact bg-tertiary-200">
 			<thead>
 				{#each $headerRows as headerRow (headerRow.id)}
 					<Subscribe
@@ -229,7 +238,9 @@
 							{#each row.cells as cell (cell?.id)}
 								<Subscribe attrs={cell.attrs()} let:attrs>
 									<td {...attrs} class="!p-2 w-max">
-										<div class="flex items-center w-max h-full max-w-xs lg:max-w-md overflow-x-auto">
+										<div
+											class="flex items-center w-max h-full max-w-xs lg:max-w-md overflow-x-auto resize-none hover:resize"
+										>
 											<Render of={cell.render()} />
 										</div>
 									</td>
