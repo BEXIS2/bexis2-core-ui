@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { fileUploaderModel, fileInfoType, filesType } from '../../models/Models.js';
+	import type { fileUploaderModel, fileInfoType, filesType, fileUploaderType } from '../../models/Models.js';
 
 	import DropZone from 'svelte-file-dropzone/Dropzone.svelte';
 	import Fa from 'svelte-fa/src/fa.svelte';
@@ -27,7 +27,7 @@
 
 	export let context = '';
 
-	export let data: fileUploaderModel | undefined;
+	export let data: fileUploaderType | undefined;
 
 	$: model = data;
 	$: submitBt = 'submit';

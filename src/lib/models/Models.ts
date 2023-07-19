@@ -29,15 +29,12 @@ export interface fileInfoType {
 	validationHash: string;
 }
 
-export interface fileUploaderModel {
+export interface fileUploaderType {
 	accept: string[];
 	existingFiles: fileInfoType[];
 	descriptionType: number;
 	multiple: boolean;
 	maxSize: number;
-	lastModification: Date;
-	allFilesReadable: boolean;
-	asciiFileReaderInfo: asciiFileReaderInfoType
 }
 
 export interface asciiFileReaderInfoType extends fileReaderInfoType {

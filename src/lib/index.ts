@@ -57,7 +57,7 @@ export { host, username, password, setApiConfig } from './stores/apiStores.js';
 export type {
 	userType,
 	inputType,
-	fileUploaderModel,
+	fileUploaderType,
 	linkType,
 	listItemType,
 	keyValuePairType,
