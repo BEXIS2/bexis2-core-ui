@@ -20,6 +20,7 @@
 	export let invalid = false;
 	export let loading = false;
 	export let help = false;
+	export let clearable = true;
 
 	let isLoaded = false;
 
@@ -150,6 +151,7 @@
 		{placeholder}
 		hasError={invalid}
 		{loading}
+		{clearable}
 		on:change
 		on:input
 		on:focus

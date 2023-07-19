@@ -1,4 +1,8 @@
 # bexis-core-ui
+## v0.2.15
+- Page - centered -> min width defined
+- MultiSelect -> add crealable 
+
 ## v0.2.14
 - change fileUploaderModel to  FileUploaderType
 - remove AllFilesReadable, AsciiFileReaderInfo & LastModification from fileuploaderType
