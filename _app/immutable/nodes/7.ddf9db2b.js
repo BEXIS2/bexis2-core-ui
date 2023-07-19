@@ -1,4 +1,4 @@
-import{S as T,i as U,s as D,y,z as I,A as C,g as A,d as B,B as P,k as g,q as S,a as _,l as H,m as w,r as E,h as i,c as b,b as r,D as v,n as R,W as V}from"../chunks/index.049e93f8.js";import{P as W}from"../chunks/Page.9a797b3c.js";import{T as X,C as q}from"../chunks/CodeContainer.7139fe33.js";import{w as z}from"../chunks/index.e06e82d5.js";const O=`using BExIS.Security.Entities.Authorization;
+import{S as T,i as U,s as D,y,z as I,A as C,g as A,d as B,B as P,k as g,q as S,a as _,l as H,m as w,r as E,h as i,c as b,b as r,D as v,n as R,W as V}from"../chunks/index.049e93f8.js";import{P as W}from"../chunks/Page.4a160f5d.js";import{T as X,C as q}from"../chunks/CodeContainer.7b555429.js";import{w as z}from"../chunks/index.e06e82d5.js";const O=`using BExIS.Security.Entities.Authorization;
 using BExIS.UI.Hooks;
 
 namespace BExIS.Modules.Dcm.UI.Hooks
