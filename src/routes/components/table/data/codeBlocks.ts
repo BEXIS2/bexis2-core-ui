@@ -196,6 +196,7 @@ export const tableConfigTypeCode = `
 export interface TableConfig<T> {
 	id: string;
 	data: Writable<T[]>;
+	height?: null | number;
 	columns?: Columns;
 	pageSizes?: number[];
 	defaultPageSize?: number;
