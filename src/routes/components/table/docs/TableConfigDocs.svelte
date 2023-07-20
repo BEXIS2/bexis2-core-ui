@@ -48,6 +48,17 @@
 
 	<div class="items-center">
 		<div class="flex gap-2">
+			<div class="italic">height:</div>
+			<div class="font-bold">number</div>
+		</div>
+
+		<p class="text-xl pl-10">
+			Custom height for the table in pixels.
+		</p>
+	</div>
+
+	<div class="items-center">
+		<div class="flex gap-2">
 			<div class="italic">optionsComponent:</div>
 			<div class="font-bold">{`SvelteComponent`}</div>
 		</div>

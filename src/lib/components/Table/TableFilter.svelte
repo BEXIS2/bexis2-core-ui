@@ -123,8 +123,8 @@
 		<Fa icon={faFilter} size="12" />
 	</button>
 
-	<div data-popup={`${popupId}`}>
-		<div class="card p-3 absolute grid gap-2 shadow-lg z-10 w-min bg-base-100">
+	<div data-popup={`${popupId}`} class="">
+		<div class="card p-3 grid gap-2 shadow-lg w-min bg-base-100 z-50 absolute">
 			<button
 				class="btn variant-filled-primary btn-sm"
 				type="button"

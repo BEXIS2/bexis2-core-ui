@@ -34,7 +34,8 @@ export const groupHTML = `
 
 	const groupConfig: TableConfig<Group> = {						
 		id: 'userGroups',						
-		data: groupsStore,						
+		data: groupsStore,
+		height: 300,						
 		columns: {							
 			id: {								
 				header: 'ID',						

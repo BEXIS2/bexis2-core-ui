@@ -24,6 +24,7 @@
 		id: tableId,
 		data,
 		columns,
+		height = null,
 		optionsComponent,
 		defaultPageSize = 10,
 		pageSizes = [5, 10, 15, 20]
@@ -163,7 +164,7 @@
 	const { filterValue } = pluginStates.tableFilter;
 </script>
 
-<div class="grid gap-2" class:w-max={!fitToScreen} class:w-full={fitToScreen}>
+<div class="grid gap-2 overflow-auto" class:w-max={!fitToScreen} class:w-full={fitToScreen}>
 	<div class="table-container">
 		{#if $data.length > 0}
 			<input
@@ -181,76 +182,79 @@
 			on:change={() => (fitToScreen = !fitToScreen)}>Fit to screen</SlideToggle
 		>
 
-		<table {...$tableAttrs} class="table table-compact bg-tertiary-200">
-			<thead>
-				{#each $headerRows as headerRow (headerRow.id)}
-					<Subscribe
-						rowAttrs={headerRow.attrs()}
-						let:rowAttrs
-						rowProps={headerRow.props()}
-						let:rowProps
-					>
-						<tr {...rowAttrs} class="bg-primary-300">
-							{#each headerRow.cells as cell (cell.id)}
-								<Subscribe attrs={cell.attrs()} props={cell.props()} let:props let:attrs>
-									<th scope="col" class="!p-2 w-min" {...attrs}>
-										<div class="flex w-full justify-between items-center">
-											<div class="flex gap-1 whitespace-pre-wrap">
-												<span
-													class:underline={props.sort.order}
-													class:normal-case={cell.id !== cell.label}
-													class:cursor-pointer={!props.sort.disabled}
-													on:click={props.sort.toggle}
-													on:keydown={props.sort.toggle}
-												>
-													{cell.render()}
-												</span>
-												<div class="w-2">
-													{#if props.sort.order === 'asc'}
-														▾
-													{:else if props.sort.order === 'desc'}
-														▴
-													{/if}
-												</div>
-											</div>
-											{#if cell.isData()}
-												{#if props.colFilter?.render}
-													<div>
-														<Render of={props.colFilter.render} />
+		<div class="overflow-auto" style="height: {height}px">
+			<table {...$tableAttrs} class="table table-compact bg-tertiary-200 overflow-clip">
+				<thead class={height != null ? `sticky top-0` : ''}>
+					{#each $headerRows as headerRow (headerRow.id)}
+						<Subscribe
+							rowAttrs={headerRow.attrs()}
+							let:rowAttrs
+							rowProps={headerRow.props()}
+							let:rowProps
+						>
+							<tr {...rowAttrs} class="bg-primary-300">
+								{#each headerRow.cells as cell (cell.id)}
+									<Subscribe attrs={cell.attrs()} props={cell.props()} let:props let:attrs>
+										<th scope="col" class="!p-2 w-min" {...attrs}>
+											<div class="flex w-full justify-between items-center">
+												<div class="flex gap-1 whitespace-pre-wrap">
+													<span
+														class:underline={props.sort.order}
+														class:normal-case={cell.id !== cell.label}
+														class:cursor-pointer={!props.sort.disabled}
+														on:click={props.sort.toggle}
+														on:keydown={props.sort.toggle}
+													>
+														{cell.render()}
+													</span>
+													<div class="w-2">
+														{#if props.sort.order === 'asc'}
+															▾
+														{:else if props.sort.order === 'desc'}
+															▴
+														{/if}
 													</div>
+												</div>
+												{#if cell.isData()}
+													{#if props.colFilter?.render}
+														<div class="">
+															<Render of={props.colFilter.render} />
+														</div>
+													{/if}
 												{/if}
-											{/if}
-										</div>
-									</th>
-								</Subscribe>
-							{/each}
-						</tr>
-					</Subscribe>
-				{:else}
-					<p class="items-center justify-center flex w-full p-10 italic">Nothing to show here.</p>
-				{/each}
-			</thead>
+											</div>
+										</th>
+									</Subscribe>
+								{/each}
+							</tr>
+						</Subscribe>
+					{:else}
+						<p class="items-center justify-center flex w-full p-10 italic">Nothing to show here.</p>
+					{/each}
+				</thead>
 
-			<tbody class="" {...$tableBodyAttrs}>
-				{#each $pageRows as row (row.id)}
-					<Subscribe rowAttrs={row.attrs()} let:rowAttrs>
-						<tr {...rowAttrs}>
-							{#each row.cells as cell (cell?.id)}
-								<Subscribe attrs={cell.attrs()} let:attrs>
-									<td {...attrs} class="!p-2 w-max">
-										<div
-											class="flex items-center w-max h-full max-w-xs lg:max-w-md overflow-x-auto resize-none hover:resize"
-										>
-											<Render of={cell.render()} />
-										</div>
-									</td>
-								</Subscribe>
-							{/each}
-						</tr>
-					</Subscribe>
-				{/each}
-			</tbody>
-		</table>
+				<tbody class="overflow-auto" {...$tableBodyAttrs}>
+					{#each $pageRows as row (row.id)}
+						<Subscribe rowAttrs={row.attrs()} let:rowAttrs>
+							<tr {...rowAttrs}>
+								{#each row.cells as cell (cell?.id)}
+									<Subscribe attrs={cell.attrs()} let:attrs>
+										<td {...attrs} class="!p-2 w-max focus:resize">
+											<div
+												class="flex items-center h-max overflow-x-auto resize-none hover:resize"
+												class:max-w-md={!fitToScreen}
+											>
+												<Render of={cell.render()} />
+											</div>
+										</td>
+									</Subscribe>
+								{/each}
+							</tr>
+						</Subscribe>
+					{/each}
+				</tbody>
+			</table>
+		</div>
 	</div>
 	{#if $data.length > 0}
 		<TablePagination pageConfig={pluginStates.page} {pageSizes} />
