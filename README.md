@@ -8,7 +8,7 @@
 
 ## v0.2.15
 - Page - centered -> min width defined
-- MultiSelect -> add crealable 
+- MultiSelect -> add clearable 
 
 ## v0.2.14
 - change fileUploaderModel to  FileUploaderType
