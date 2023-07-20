@@ -34,7 +34,8 @@ export const groupHTML = `
 
 	const groupConfig: TableConfig<Group> = {						
 		id: 'userGroups',						
-		data: groupsStore,						
+		data: groupsStore,
+		height: 300,						
 		columns: {							
 			id: {								
 				header: 'ID',						
@@ -195,6 +196,7 @@ export const tableConfigTypeCode = `
 export interface TableConfig<T> {
 	id: string;
 	data: Writable<T[]>;
+	height?: null | number;
 	columns?: Columns;
 	pageSizes?: number[];
 	defaultPageSize?: number;

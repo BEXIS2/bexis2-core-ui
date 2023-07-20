@@ -9,6 +9,7 @@
 	const groupConfig: TableConfig<Group> = {
 		id: 'userGroups',
 		data: groupsStore,
+		height: 300,
 		columns: {
 			id: {
 				header: 'ID'
