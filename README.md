@@ -1,4 +1,21 @@
 # bexis-core-ui
+## v0.2.14
+- change fileUploaderModel to  FileUploaderType
+- remove AllFilesReadable, AsciiFileReaderInfo & LastModification from fileuploaderType
+- 
+
+## v0.2.13
+- add file reader types
+  - fileReaderInfoType,
+	- asciiFileReaderInfoType
+- add file reader enums
+  - decimalCharacterType,orientationType,textMarkerType,textSeperatorType
+- Table Change order of text filter options
+- fix menu
+- update navbar
+
+## v0.2.12
+- update libs
 
 ## v0.2.11
 

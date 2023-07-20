@@ -8,3 +8,25 @@ export enum pageContentLayoutType {
 	full = 'full',
 	center = 'center'
 }
+
+export enum decimalCharacterType {
+	point,
+	comma
+}
+
+export enum orientationType {
+	columnwise,
+	rowwise
+}
+
+export enum textSeperatorType {
+	tab = 9,
+	comma = 44,
+	semicolon = 59,
+	space = 32
+}
+
+export enum textMarkerType {
+	quotes,
+	doubleQuotes
+}

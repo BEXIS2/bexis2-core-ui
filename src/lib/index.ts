@@ -57,10 +57,13 @@ export { host, username, password, setApiConfig } from './stores/apiStores.js';
 export type {
 	userType,
 	inputType,
-	fileUploaderModel,
+	fileUploaderType,
 	linkType,
 	listItemType,
-	keyValuePairType
+	keyValuePairType,
+	fileInfoType,
+	fileReaderInfoType,
+	asciiFileReaderInfoType
 } from './models/Models.js';
 
 //help
@@ -68,7 +71,7 @@ export { helpStore } from '$store/pageStores';
 export type { helpStoreType, helpItemType } from './models/Models';
 
 //enum
-export { positionType, pageContentLayoutType } from './models/Enums';
+export { positionType, pageContentLayoutType,decimalCharacterType,orientationType,textMarkerType,textSeperatorType } from './models/Enums';
 
 // Table
 export { Table, TableFilter, columnFilter, searchFilter };
