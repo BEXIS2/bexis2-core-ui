@@ -1,4 +1,11 @@
 # bexis-core-ui
+## v0.2.16
+- Table
+  - width - fit to screen
+  - Cell - drag to change the height
+  - define a height to scroll the content
+  - header allways on top whie scrolling
+
 ## v0.2.15
 - Page - centered -> min width defined
 - MultiSelect -> add crealable 
