@@ -52,9 +52,7 @@
 			<div class="font-bold">number</div>
 		</div>
 
-		<p class="text-xl pl-10">
-			Custom height for the table in pixels.
-		</p>
+		<p class="text-xl pl-10">Custom height for the table in pixels.</p>
 	</div>
 
 	<div class="items-center">

@@ -11,6 +11,7 @@
 	import Header from './Header.svelte';
 	import HelpPopUp from './HelpPopUp.svelte';
 	import Breadcrumb from './breadcrumb/Breadcrumb.svelte';
+	import Notification from './Notification.svelte';
 
 	//popup
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
@@ -93,4 +94,5 @@
 	</div>
 
 	<HelpPopUp active={help} />
+	<Notification />
 </AppShell>

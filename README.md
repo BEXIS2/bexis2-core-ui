@@ -1,17 +1,30 @@
 # bexis-core-ui
+
+## v0.2.17
+
+- CodeEditor component
+
+## v0.2.16
+
+- Table placeholder component added
+- notification toasts added
+
 ## v0.2.15
+
 - Page - centered -> min width defined
-- MultiSelect -> add crealable 
+- MultiSelect -> add crealable
 
 ## v0.2.14
-- change fileUploaderModel to  FileUploaderType
+
+- change fileUploaderModel to FileUploaderType
 - remove AllFilesReadable, AsciiFileReaderInfo & LastModification from fileuploaderType
-- 
+-
 
 ## v0.2.13
+
 - add file reader types
   - fileReaderInfoType,
-	- asciiFileReaderInfoType
+  - asciiFileReaderInfoType
 - add file reader enums
   - decimalCharacterType,orientationType,textMarkerType,textSeperatorType
 - Table Change order of text filter options
@@ -19,6 +32,7 @@
 - update navbar
 
 ## v0.2.12
+
 - update libs
 
 ## v0.2.11
