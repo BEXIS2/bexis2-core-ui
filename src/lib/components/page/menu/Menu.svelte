@@ -17,7 +17,6 @@
 	let hamburger = true;
 </script>
 
-
 {#if $menuStore !== undefined}
 	<div
 		class="sm:flex h-min flex-row w-full justify-between items-center md:flex px-3 py-2 bg-tertiary-50 text-surface-800 z-50 shadow-md"

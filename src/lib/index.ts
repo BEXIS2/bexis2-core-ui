@@ -30,6 +30,12 @@ import TableFilter from './components/Table/TableFilter.svelte';
 import { columnFilter, searchFilter } from './components/Table/filter';
 import type { TableConfig, Columns, Column } from './models/Models';
 
+//notification
+import Notification from './components/page/Notification.svelte';
+
+//table placeholder
+import TablePlaceholder from './components/page/TablePlaceholder.svelte';
+
 //Form
 export {
 	Checkbox,
@@ -70,8 +76,23 @@ export type {
 export { helpStore } from '$store/pageStores';
 export type { helpStoreType, helpItemType } from './models/Models';
 
+//notification
+export { notificationStore } from '$store/pageStores';
+export type { notificationItemType, notificationStoreType } from './models/Models';
+export { notificationType } from './models/Enums';
+export { Notification };
+
+//table placholder
+export { TablePlaceholder };
 //enum
-export { positionType, pageContentLayoutType,decimalCharacterType,orientationType,textMarkerType,textSeperatorType } from './models/Enums';
+export {
+	positionType,
+	pageContentLayoutType,
+	decimalCharacterType,
+	orientationType,
+	textMarkerType,
+	textSeperatorType
+} from './models/Enums';
 
 // Table
 export { Table, TableFilter, columnFilter, searchFilter };

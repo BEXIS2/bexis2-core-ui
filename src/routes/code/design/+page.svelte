@@ -5,6 +5,7 @@
 
 	import { CodeBlock } from '@skeletonlabs/skeleton';
 	import Spinner from '$lib/components/page/Spinner.svelte';
+	import TabelPlacholder from '$lib/components/page/TablePlaceholder.svelte';
 </script>
 
 <Page title="Design Convertions">
@@ -153,14 +154,44 @@
 						</div>
 					</td>
 					<td>
-						<CodeBlock language="html" code={`<Spinner label="...loading"/>`} />
+						<CodeBlock
+							class="my-2"
+							language="js"
+							code={`import Spinner from '@bexis2/bexis2-core-ui';`}
+						/>
+
+						<CodeBlock class="my-2" language="html" code={`<Spinner label="...loading"/>`} />
 					</td>
 				</tr>
 
 				<tr>
 					<td>Loading - 1</td>
 					<td>Placeholder</td>
-					<td>
+					<td />
+					<td rowspan="2">
+						<CodeBlock
+							language="html"
+							code={`<section class="card w-full">
+	<div class="p-4 space-y-4">
+		<div class="placeholder" />
+		<div class="grid grid-cols-3 gap-8">
+			<div class="placeholder" />
+			<div class="placeholder" />
+			<div class="placeholder" />
+		</div>
+		<div class="grid grid-cols-4 gap-4">
+			<div class="placeholder" />
+			<div class="placeholder" />
+			<div class="placeholder" />
+			<div class="placeholder" />
+		</div>
+	</div>
+</section>`}
+						/>
+					</td>
+				</tr>
+				<tr
+					><td colspan="3">
 						<div>
 							<section class="card w-full">
 								<div class="p-4 space-y-4">
@@ -173,27 +204,29 @@
 								</div>
 							</section>
 						</div>
-					</td>
-					<td>
+					</td></tr
+				>
+				<tr>
+					<td>Loading - 1</td>
+					<td>Table Placeholder</td>
+					<td />
+					<td rowspan="2">
 						<CodeBlock
-							language="html"
-							code={`<section class="card w-full">
-								<div class="p-4 space-y-4">
-									<div class="placeholder" />
-									<div class="grid grid-cols-3 gap-8">
-										<div class="placeholder" />
-										<div class="placeholder" />
-										<div class="placeholder" />
-									</div>
-									<div class="grid grid-cols-4 gap-4">
-										<div class="placeholder" />
-										<div class="placeholder" />
-										<div class="placeholder" />
-										<div class="placeholder" />
-									</div>
-								</div>
-							</section>`}
+							class="my-2"
+							language="js"
+							code={`import TabelPlacholder from '@bexis2/bexis2-core-ui';`}
 						/>
+						<CodeBlock class="my-2" language="html" code={`<TabelPlacholder cols={2} rows={5}/>`} />
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3">
+						<p class="m-3">
+							Parameters
+							<li>cols: number of columns default is 1</li>
+							<li>rows: number of rows default is 10</li>
+						</p>
+						<TabelPlacholder cols={2} rows={5} />
 					</td>
 				</tr>
 			</tbody>
