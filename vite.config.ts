@@ -6,6 +6,14 @@ export default defineConfig({
 	test: {
 		include: ['src/**/*.{test,spec}.{js,ts}']
 	},
+	optimizeDeps: {
+		exclude: [
+			'codemirror',
+			'@codemirror/language-javascript',
+			'@codemirror/lang-html',
+			'@codemirror/theme-one-dark'
+		]
+	},
 	build: {
 		chunkSizeWarningLimit: 1600
 	}
