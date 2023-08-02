@@ -1,6 +1,6 @@
 {
   "name": "@bexis2/bexis2-core-ui",
-  "version": "0.2.18",
+  "version": "0.2.19",
   "private": false,
   "scripts": {
     "dev": "vite dev",

@@ -1,4 +1,7 @@
 # bexis-core-ui
+## v0.2.19
+- fix multiselect bug from prev version
+
 ## v0.2.18
 - Multiselect
   - fix target bug with simple list and list of simple values
