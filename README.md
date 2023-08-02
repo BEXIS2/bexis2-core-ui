@@ -1,4 +1,12 @@
 # bexis-core-ui
+## v0.2.18
+- Multiselect
+  - fix target bug with simple list and list of simple values
+
+## v0.2.17
+- Multiselect
+  - fix target bind bug
+
 ## v0.2.16
 - Table
   - width - fit to screen

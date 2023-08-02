@@ -26,11 +26,13 @@
 
 	$: value = null;
 	$: updateTarget(value);
+	$: target, setValue(target);
 
 	let groupBy;
 	$: groupBy;
 
 	function updateTarget(selection) {
+		console.log("UPDATE target",selection);
 		//different cases
 		//a) source is complex model is simple return array
 		if (complexSource && !complexTarget && isLoaded && isMulti) {
@@ -45,8 +47,9 @@
 
 		if (!complexSource && !complexTarget && isLoaded && isMulti) {
 			target = [];
+
 			for (let i in selection) {
-				target.push(selection[i].value);
+				target.push(selection[i]);
 			}
 		}
 
@@ -73,14 +76,15 @@
 	}
 
 	onMount(async () => {
-		console.log('on mount multiselect');
-		////console.log(source);
+		setValue(target);
+	});
 
+	function setValue(t) {
 		//a) source is complex model is simple
 		if (complexSource && !complexTarget && isMulti) {
 			let items = [];
 			// event.detail will be null unless isMulti is true and user has removed a single item
-			for (let i in target) {
+			for (let i in t) {
 				let t = target[i];
 				items.push(source.find((item) => item[itemId] === t));
 			}
@@ -94,19 +98,21 @@
 		}
 
 		if (complexSource && complexTarget && isMulti) {
-			value = target;
+			value = t;
 			isLoaded = true;
 			groupBy = (item) => item[itemGroup];
 		}
 
 		//b) simple liust and simple model
 		if (!complexSource && !complexTarget && isMulti) {
-			////console.log("source", source);
-			////console.log("target",target);
+			console.log('b) simple liust and simple model');
+			console.log('source', source);
+			//console.log("target",t);
 			isLoaded = true;
 			//set target only if its nit empty
-			if (target != null && target !== undefined && target != '') {
-				value = target;
+			if (t != null && t !== undefined && t != '') {
+				console.log('target', t);
+				value = t;
 			}
 		}
 
@@ -114,13 +120,13 @@
 			//console.log("onmount",complexSource,complexTarget,value,target)
 			if (!complexSource && !complexTarget) {
 				value = {
-					value: target,
-					label: target
+					value: t,
+					label: t
 				};
 			}
 
 			if (complexSource && complexTarget) {
-				value = target;
+				value = t;
 				groupBy = (item) => item[itemGroup];
 			}
 
@@ -136,7 +142,7 @@
 
 			isLoaded = true;
 		}
-	});
+	}
 </script>
 
 <InputContainer {id} label={title} {feedback} {required} {help}>
