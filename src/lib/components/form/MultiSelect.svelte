@@ -49,7 +49,7 @@
 			target = [];
 
 			for (let i in selection) {
-				target.push(selection[i]);
+				target.push(selection[i].value);
 			}
 		}
 
@@ -71,15 +71,20 @@
 			console.log('selection', selection);
 		}
 
-		// //console.log('selection ' + title, selection);
-		// //console.log('target ' + title, target);
+		//console.log('selection ' + title, selection);
+		//console.log('target ' + title, target);
 	}
 
 	onMount(async () => {
-		setValue(target);
+		console.log("OnMount", target)
+			if(complexSource && complexTarget) // after on mount a setValue is needed when data is complex
+			{
+					setValue(target);
+			}
 	});
 
 	function setValue(t) {
+		console.log("Set Value",t);
 		//a) source is complex model is simple
 		if (complexSource && !complexTarget && isMulti) {
 			let items = [];
@@ -106,12 +111,12 @@
 		//b) simple liust and simple model
 		if (!complexSource && !complexTarget && isMulti) {
 			console.log('b) simple liust and simple model');
-			console.log('source', source);
+			//console.log('source', source);
 			//console.log("target",t);
 			isLoaded = true;
 			//set target only if its nit empty
 			if (t != null && t !== undefined && t != '') {
-				console.log('target', t);
+				//console.log('target', t);
 				value = t;
 			}
 		}
@@ -142,6 +147,8 @@
 
 			isLoaded = true;
 		}
+
+		console.log(t,value)
 	}
 </script>
 
