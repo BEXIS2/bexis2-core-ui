@@ -14,7 +14,6 @@
 	// Most of your app wide CSS should be put in this file
 	import '../app.postcss';
 
-
 	// Config for the syntax highlighting
 	storeHighlightJs.set(hljs);
 	// storeHighlightJs.set(hljs2);

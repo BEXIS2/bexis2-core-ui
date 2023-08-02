@@ -2,7 +2,13 @@ import type { SvelteComponent } from 'svelte';
 import type { ColumnFilterFn } from 'svelte-headless-table/lib/plugins';
 import type { Writable } from 'svelte/store';
 
-import {decimalCharacterType, orientationType,textMarkerType,textSeperatorType} from './Enums'
+import type {
+	decimalCharacterType,
+	notificationType,
+	orientationType,
+	textMarkerType,
+	textSeperatorType
+} from './Enums';
 
 // page
 export interface linkType {
@@ -43,7 +49,6 @@ export interface asciiFileReaderInfoType extends fileReaderInfoType {
 	textMarker: textMarkerType;
 }
 
-
 export interface fileReaderInfoType {
 	decimal: decimalCharacterType;
 	orientation: orientationType;
@@ -54,7 +59,6 @@ export interface fileReaderInfoType {
 	description: number;
 	dateformat: string;
 }
-
 
 export interface filesType {
 	accepted: Blob[];
@@ -131,4 +135,16 @@ export interface helpItemType {
 export interface helpStoreType {
 	itemId?: string;
 	helpItems: helpItemType[];
+}
+
+// notifications (toasts)
+export interface notificationItemType {
+	notificationType?: notificationType;
+	message: string;
+}
+
+export interface notificationStoreType {
+	notificationType: notificationType;
+	message: string;
+	btnStyle: string;
 }

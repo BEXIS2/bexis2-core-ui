@@ -30,3 +30,11 @@ export enum textMarkerType {
 	quotes,
 	doubleQuotes
 }
+
+//types for the notification styling
+export enum notificationType {
+	success,
+	warning,
+	error,
+	surface
+}

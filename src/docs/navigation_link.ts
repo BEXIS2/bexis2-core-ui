@@ -32,7 +32,8 @@ export const menuNavLinks: any = [
 			{ href: base + '/components/core', label: 'Core', keywords: '' },
 			{ href: base + '/components/icon', label: 'Icons', keywords: '' },
 			{ href: base + '/components/form', label: 'Form', keywords: '' },
-			{ href: base + '/components/table', label: 'Table', keywords: '' }
+			{ href: base + '/components/table', label: 'Table', keywords: '' },
+			{ href: base + '/components/codeEditor', label: 'Code Editor', keywords: '' }
 		]
 	},
 	{

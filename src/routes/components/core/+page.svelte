@@ -15,6 +15,9 @@
 	import HelpExample from './HelpExample.svelte';
 	import HelpExampleRaw from './HelpExample.svelte?raw';
 	import { HelpExampleData } from './data/help';
+
+	import NotificationExample from './NotificationExample.svelte';
+	import NotificationExampleRaw from './NotificationExample.svelte?raw';
 </script>
 
 <div id="toc-target">
@@ -38,6 +41,11 @@
 		>
 			<div slot="info">This example shows how to setup the help for your page</div>
 			<HelpExample />
+		</CodeContainer>
+
+		<CodeContainer title="Notification" svelte={NotificationExampleRaw}>
+			<div slot="info">This example shows how to use notifcation toasts</div>
+			<NotificationExample />
 		</CodeContainer>
 
 		<CodeContainer title="Alert" svelte={AlertExampleRaw}>

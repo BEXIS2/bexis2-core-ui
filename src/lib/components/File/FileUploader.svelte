@@ -1,5 +1,10 @@
 <script lang="ts">
-	import type { fileUploaderModel, fileInfoType, filesType, fileUploaderType } from '../../models/Models.js';
+	import type {
+		fileUploaderModel,
+		fileInfoType,
+		filesType,
+		fileUploaderType
+	} from '../../models/Models.js';
 
 	import DropZone from 'svelte-file-dropzone/Dropzone.svelte';
 	import Fa from 'svelte-fa/src/fa.svelte';

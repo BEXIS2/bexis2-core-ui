@@ -2,6 +2,8 @@
 ## v0.2.18
 - Multiselect
   - fix target bug with simple list and list of simple values
+  
+- CodeEditor component
 
 ## v0.2.17
 - Multiselect
@@ -15,18 +17,21 @@
   - header allways on top whie scrolling
 
 ## v0.2.15
+
 - Page - centered -> min width defined
 - MultiSelect -> add clearable 
 
 ## v0.2.14
-- change fileUploaderModel to  FileUploaderType
+
+- change fileUploaderModel to FileUploaderType
 - remove AllFilesReadable, AsciiFileReaderInfo & LastModification from fileuploaderType
-- 
+-
 
 ## v0.2.13
+
 - add file reader types
   - fileReaderInfoType,
-	- asciiFileReaderInfoType
+  - asciiFileReaderInfoType
 - add file reader enums
   - decimalCharacterType,orientationType,textMarkerType,textSeperatorType
 - Table Change order of text filter options
@@ -34,6 +39,7 @@
 - update navbar
 
 ## v0.2.12
+
 - update libs
 
 ## v0.2.11
