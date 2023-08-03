@@ -43,7 +43,7 @@
 	const svelteJson = `<CodeEditor
   title="JSON"
   initialValue={valueJson}
-  language="js"
+  language="json"
   on:cancel={() => alert("CANCELLED")}
 />`;
 
@@ -85,7 +85,7 @@
 				<CodeEditor
 					title="JSON"
 					initialValue={valueJson}
-					language="js"
+					language="json"
 					on:cancel={() => alert('CANCELLED')}
 				/>
 			</CodeContainer>
