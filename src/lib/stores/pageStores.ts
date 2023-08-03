@@ -111,14 +111,32 @@ function createBreadcrumbStore() {
 			update((s) => (s = b));
 		},
 
-		clean: () => {
+		updateItem: (item: breadcrumbItemType) => {
+
 			let b: BreadcrumbModel;
 			breadcrumbStore.subscribe((value) => {
-				value = new BreadcrumbModel();
+				value = value === undefined ? new BreadcrumbModel() : value;
+				
+				let v = value.items.find((i) => i.link === item.link)
+				console.log(value.items,v);
+				
+				if (v) {
+					const i = value.items.indexOf(v);
+				 value.items[i]=item
+					v = item;
+				}
+
 				b = value;
 			});
 
 			update((s) => (s = b));
+		},
+
+		clean: () => {
+
+			breadcrumbStore.set(new BreadcrumbModel());
+
+			//update((s) => (s = b));
 		}
 	};
 }

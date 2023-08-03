@@ -26,16 +26,25 @@
 	}
 
 	getError();
+
+	let title = "Create a Dataset"
+ 
+function updateTitle()
+{
+		title += Date.now(); 
+}
+
 </script>
 
 <Page
-	title="Create a Dataset"
+	title="{title}"
 	note="On this page you can create a dataset based on a template. please select on template and fill out the form."
 	{links}
 	help={true}
 	contentLayoutType={pageContentLayoutType.center}
 >
 	<svelte:fragment>
+		<button class="btn variant-filled-error" on:click="{updateTitle}">change title </button>
 		<div class="w-screen">
 			<h2 class="h2">Content</h2>
 			<TextInput id="name" label="name" help={true} />

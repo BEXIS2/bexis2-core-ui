@@ -4,6 +4,14 @@
 
 	export let title;
 
+	$:update(title)
+
+
+	function update(t)
+	{
+  breadcrumbStore.updateItem({ label: t, link: window.location.pathname });
+	}
+
 	let list: breadcrumbItemType[] = [];
 	$: list;
 

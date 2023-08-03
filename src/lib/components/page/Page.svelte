@@ -52,7 +52,7 @@
 				{/if}
 
 				<div class="grid grid-cols-2">
-					<Breadcrumb {title} />
+					<Breadcrumb bind:title={title} />
 					<Docs {links} {note} />
 				</div>
 			</svelte:fragment>
