@@ -1,4 +1,7 @@
 # bexis-core-ui
+## 0.2.22
+- Page title update on breadcrumb
+
 ## v0.2.19
 - fix multiselect bug from prev version
 

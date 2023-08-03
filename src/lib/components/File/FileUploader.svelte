@@ -168,7 +168,7 @@
 				<b style="font-size:xx-large"><Fa icon={faFileUpload} /></b>
 				<span
 					><b>Drag 'n' drop some files here, or click to select files</b>
-					<b>max file : {model.maxSize} mb</b></span
+					<b>(max file size: {model.maxSize} mb)</b></span
 				>
 				<p>
 					{#if model.accept}
