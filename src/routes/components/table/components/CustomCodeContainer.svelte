@@ -13,19 +13,19 @@
 	let tabSet: number = 0;
 </script>
 
-<div>
+<div class="">
 	<div class="py-5">
 		{#if title}
 			<h3 class="h3">{title}</h3>
 		{/if}
 	</div>
 
-	<div class="grid grid-cols-2 card p-5 gap-10">
-		<div>
+	<div class="flex card p-5 gap-10">
+		<div class="flex-1">
 			<slot />
 		</div>
 
-		<div>
+		<div class="flex-1">
 			<TabGroup>
 				{#each tabs as tab, index}
 					<Tab bind:group={tabSet} name={`tab${index}`} value={index}>{tab.name}</Tab>
