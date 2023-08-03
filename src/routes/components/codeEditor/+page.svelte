@@ -50,7 +50,21 @@
 	let newValueHtml = valueHtml;
 </script>
 
-<div class="container m-auto">
+<div class="container m-auto py-5">
+	<h1 class="h1 font-semibold text-6xl">CodeEditor</h1>
+
+	<div class="card p-5 bg-tertiary-50 mt-3">
+		<div class="flex items-center h3 gap-5">
+			<p class="font-semibold text-primary-500">Codemirror 6:</p>
+			<a class="underline text-secondary-500" href="https://codemirror.net/">https://codemirror.net/</a>
+		</div>
+
+		<div class="flex items-center h3 gap-5">
+			<p class="font-semibold text-primary-500">svelte-codemirror-editor:</p>
+			<a class="underline text-secondary-500" href="https://github.com/touchifyapp/svelte-codemirror-editor">https://github.com/touchifyapp/svelte-codemirror-editor</a>
+		</div>
+	</div>
+
 	<CodeContainer title="HTML (no title, no toggle, no description)" svelte={svelteHtml}
 		><CodeEditor initialValue={valueHtml} toggle={false} bind:value={newValueHtml} /></CodeContainer
 	>
