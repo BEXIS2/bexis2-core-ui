@@ -10,6 +10,8 @@
 	const websitesConfig: TableConfig<Website> = {
 		id: 'websites',
 		data: websitesStore,
+		toggle: true,
+		fitToScreen: false,
 		columns: {
 			URL: {
 				header: 'URL',

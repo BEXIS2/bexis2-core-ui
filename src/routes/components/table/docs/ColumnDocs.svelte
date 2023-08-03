@@ -11,7 +11,7 @@
 
 <div class="grid gap-5">
 	<div class="grid gap-2" id="column">
-		<h3 class="font-semibold items-center w-max">Column</h3>
+		<h3 class="font-semibold items-center w-max h3">Column</h3>
 		<button class="btn variant-ghost-primary w-min" use:popup={popupClickColumn}>
 			Show type details</button
 		>

@@ -11,7 +11,7 @@
 
 <div class="grid gap-5">
 	<div class="grid gap-2" id="columnInstructions">
-		<h3 class="font-semibold items-center w-max">ColumnInstructions</h3>
+		<h3 class="font-semibold items-center w-max h3">ColumnInstructions</h3>
 		<button class="btn variant-ghost-primary w-min" use:popup={popupClickColumnInstructions}>
 			Show type details</button
 		>
@@ -59,8 +59,8 @@
 		</div>
 
 		<div class="ml-5">
-			<p class="underline"><code>renderComponent</code> overrides <code>toStringFn</code>.</p>
-			<p class="">Every <code>renderComponent</code> will get 2 props:</p>
+			<p class="underline"><code class="!text-xl bg-tertiary-300 rounded-md p-0.5 text-primary-500">renderComponent</code> overrides <code class="!text-xl bg-tertiary-300 rounded-md p-0.5 text-primary-500">toStringFn</code>.</p>
+			<p class="">Every <code class="!text-xl bg-tertiary-300 rounded-md p-0.5 text-primary-500">renderComponent</code> will get 2 props:</p>
 			<div class="items-center mt-2">
 				<div class="flex gap-2">
 					<div class="italic">row:</div>

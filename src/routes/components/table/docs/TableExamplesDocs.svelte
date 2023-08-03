@@ -13,17 +13,17 @@
 </script>
 
 <div class="grid gap-1">
-	<h2>Examples</h2>
+	<h2 class="h2">Examples</h2>
 	<TableSimple />
 	<TableGroups />
 	<TableUsers />
 	<div id="actionDispatchersExamples" class="my-20">
-		<h2>Dispatching Actions</h2>
+		<h2 class="h2">Dispatching Actions</h2>
 		<TableUsersNoRoles />
 		<TableCrud />
 	</div>
 	<div id="complexTypes">
-		<h2>Complex data types</h2>
+		<h2 class="h2">Complex data types</h2>
 		<TableDate />
 		<TableCombination />
 		<TableUrLs />

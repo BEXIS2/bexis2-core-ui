@@ -11,14 +11,14 @@
 <div class="grid gap-20 p-10" id="toc-target-table">
 	<div class="grid gap-5">
 		<h1 class="font-bold !text-6xl">Table</h1>
-		<h2>Types</h2>
+		<h2 class="h2">Types</h2>
 		<TableConfigDocs />
 	</div>
 	<ColumnsDocs />
 	<ColumnDocs />
 	<ColumnInstructionsDocs />
 	<div class="grid gap-5">
-		<h2>Action Dispatchers</h2>
+		<h2 class="h2">Action Dispatchers</h2>
 		<ActionDispatchersDocs />
 	</div>
 	<TableExamplesDocs />

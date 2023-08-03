@@ -5,6 +5,7 @@
 	import Fa from 'svelte-fa/src/fa.svelte';
 	import { html } from '@codemirror/lang-html';
 	import { javascript } from '@codemirror/lang-javascript';
+	import { json } from '@codemirror/lang-json';
 	import { oneDark } from '@codemirror/theme-one-dark';
 	import { Modal, modalStore } from '@skeletonlabs/skeleton';
 	import { faMoon, faSave, faSun } from '@fortawesome/free-regular-svg-icons';
@@ -45,7 +46,11 @@
 		<div class="rounded-lg shadow-lg w-full">
 			<CodeMirror
 				bind:value
-				lang={language === 'html' ? html({ selfClosingTags: true }) : javascript()}
+				lang={language === 'html'
+					? html({ selfClosingTags: true })
+					: language === 'js'
+					? javascript()
+					: json()}
 				theme={dark ? oneDark : null}
 				class="flex w-full"
 				{styles}
