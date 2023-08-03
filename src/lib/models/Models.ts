@@ -105,6 +105,8 @@ export interface Columns {
 export interface TableConfig<T> {
 	id: string;
 	data: Writable<T[]>;
+	toggle?: boolean;
+	fitToScreen?: boolean;
 	height?: null | number;
 	columns?: Columns;
 	pageSizes?: number[];

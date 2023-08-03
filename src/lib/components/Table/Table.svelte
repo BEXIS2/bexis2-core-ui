@@ -27,9 +27,10 @@
 		height = null,
 		optionsComponent,
 		defaultPageSize = 10,
-		pageSizes = [5, 10, 15, 20]
+		toggle = false,
+		pageSizes = [5, 10, 15, 20],
+		fitToScreen = true
 	} = config;
-	let fitToScreen = true;
 
 	type AccessorType = keyof (typeof $data)[number];
 
@@ -164,7 +165,7 @@
 	const { filterValue } = pluginStates.tableFilter;
 </script>
 
-<div class="grid gap-2 overflow-auto" class:w-max={!fitToScreen} class:w-full={fitToScreen}>
+<div class="grid gap-2 overflow-auto" class:w-fit={!fitToScreen} class:w-full={fitToScreen}>
 	<div class="table-container">
 		{#if $data.length > 0}
 			<input
@@ -174,13 +175,16 @@
 				placeholder="Search rows..."
 			/>
 		{/if}
-		<SlideToggle
-			name="slider-label"
-			active="bg-primary-500"
-			size="sm"
-			checked={fitToScreen}
-			on:change={() => (fitToScreen = !fitToScreen)}>Fit to screen</SlideToggle
-		>
+
+		{#if toggle}
+			<SlideToggle
+				name="slider-label"
+				active="bg-primary-500"
+				size="sm"
+				checked={fitToScreen}
+				on:change={() => (fitToScreen = !fitToScreen)}>Fit to screen</SlideToggle
+			>
+		{/if}
 
 		<div class="overflow-auto" style="height: {height}px">
 			<table {...$tableAttrs} class="table table-compact bg-tertiary-200 overflow-clip">
