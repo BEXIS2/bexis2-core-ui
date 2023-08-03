@@ -10,6 +10,7 @@
 		id: 'userGroups',
 		data: groupsStore,
 		height: 300,
+		toggle: true,
 		columns: {
 			id: {
 				header: 'ID'

@@ -35,6 +35,7 @@ export const groupHTML = `
 	const groupConfig: TableConfig<Group> = {						
 		id: 'userGroups',						
 		data: groupsStore,
+		toggle: true,
 		height: 300,						
 		columns: {							
 			id: {								
@@ -196,6 +197,8 @@ export const tableConfigTypeCode = `
 export interface TableConfig<T> {
 	id: string;
 	data: Writable<T[]>;
+	toggle?: boolean;
+	fitToScreen?: boolean;
 	height?: null | number;
 	columns?: Columns;
 	pageSizes?: number[];
@@ -318,6 +321,8 @@ export const websitesHTML = `
 	const websitesConfig: TableConfig<Website> = {
 		id: 'websites',
 		data: websitesStore,
+		toggle: true,
+		fitToScreen: false,
 		columns: {
 			URL: {
 				header: 'URL',
@@ -485,6 +490,7 @@ export const tableCRUDHTML = `
 	const tableCRUDConfig: TableConfig<Group> = {
 		id: 'userGroupCRUD',
 		data: groupsStore,
+		toggle: true,
 		optionsComponent: TableCrud
 	};
 

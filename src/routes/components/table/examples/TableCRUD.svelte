@@ -14,6 +14,7 @@
 
 	export const tableCRUDConfig: TableConfig<Group> = {
 		id: 'userGroupCRUD',
+		toggle: true,
 		data: groupsStore,
 		optionsComponent: TableCrud
 	};
