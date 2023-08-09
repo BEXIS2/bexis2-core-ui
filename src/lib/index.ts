@@ -30,6 +30,9 @@ import TableFilter from './components/Table/TableFilter.svelte';
 import { columnFilter, searchFilter } from './components/Table/filter';
 import type { TableConfig, Columns, Column } from './models/Models';
 
+// CodeEditor
+import CodeEditor from './components/CodeEditor/CodeEditor.svelte';
+
 //notification
 import Notification from './components/page/Notification.svelte';
 
@@ -96,4 +99,8 @@ export {
 
 // Table
 export { Table, TableFilter, columnFilter, searchFilter };
+
+// CodeEditor
+export { CodeEditor };
+
 export type { TableConfig, Columns, Column };
