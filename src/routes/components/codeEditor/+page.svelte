@@ -1,6 +1,6 @@
 <script>
 	import CodeContainer from '$docs/components/CodeContainer.svelte';
-	import CodeEditor from './CodeEditor.svelte';
+	import CodeEditor from '$lib/components/CodeEditor/CodeEditor.svelte';
 
 	const valueHtml = `<html>
   <head>
