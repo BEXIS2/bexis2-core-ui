@@ -67,7 +67,7 @@ test.describe('RPM Dimension', () => {
 		});
 	});
 
-	test.describe('Edit new Dimension', async () => {
+	test.describe('Edit new Dimension', () => {
 		// Check the title
 		test('Title', async () => {
 			await page.getByTitle(`Edit Unit, ${dimension}`).click(); // Click on the edit button
@@ -110,7 +110,7 @@ test.describe('RPM Dimension', () => {
 		});
 	});
 
-	test.describe('Delete new Dimension', async () => {
+	test.describe('Delete new Dimension', () => {
 		test('Delete Dimension', async () => {
 			// Click on the delete button
 			await page.getByTitle(`Delete Unit, ${dimension}`).click();
