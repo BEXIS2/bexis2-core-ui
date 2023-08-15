@@ -99,6 +99,8 @@
 
 	const popupId = `${tableId}-${id}`;
 
+	console.log(`POPUP ID: ${popupId}`);
+
 	const popupFeatured: PopupSettings = {
 		event: 'click',
 		target: popupId,
@@ -119,11 +121,12 @@
 		class="btn w-max p-2"
 		type="button"
 		use:popup={popupFeatured}
+		id="{popupId}-button"
 	>
 		<Fa icon={faFilter} size="12" />
 	</button>
 
-	<div data-popup={`${popupId}`} class="z-50">
+	<div data-popup={`${popupId}`} id="{popupId}" class="z-50">
 		<div class="card p-3 grid gap-2 shadow-lg w-min bg-base-100">
 			<button
 				class="btn variant-filled-primary btn-sm"

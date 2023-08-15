@@ -146,7 +146,7 @@
 	if (optionsComponent !== undefined) {
 		tableColumns.push(
 			table.display({
-				id: 'options',
+				id: 'actionsColumn',
 				header: '',
 				cell: ({ row }, _) => {
 					return createRender(optionsComponent!, {
@@ -173,6 +173,7 @@
 				type="text"
 				bind:value={$filterValue}
 				placeholder="Search rows..."
+				id="{tableId}-search"
 			/>
 		{/if}
 
@@ -182,12 +183,17 @@
 				active="bg-primary-500"
 				size="sm"
 				checked={fitToScreen}
+				id="{tableId}-toggle"
 				on:change={() => (fitToScreen = !fitToScreen)}>Fit to screen</SlideToggle
 			>
 		{/if}
 
 		<div class="overflow-auto" style="height: {height}px">
-			<table {...$tableAttrs} class="table table-compact bg-tertiary-200 overflow-clip">
+			<table
+				{...$tableAttrs}
+				class="table table-compact bg-tertiary-200 overflow-clip"
+				id="{tableId}-table"
+			>
 				<thead class={height != null ? `sticky top-0` : ''}>
 					{#each $headerRows as headerRow (headerRow.id)}
 						<Subscribe
@@ -240,10 +246,10 @@
 				<tbody class="overflow-auto" {...$tableBodyAttrs}>
 					{#each $pageRows as row (row.id)}
 						<Subscribe rowAttrs={row.attrs()} let:rowAttrs>
-							<tr {...rowAttrs}>
+							<tr {...rowAttrs} id="{tableId}-row-{row.id}">
 								{#each row.cells as cell (cell?.id)}
 									<Subscribe attrs={cell.attrs()} let:attrs>
-										<td {...attrs} class="!p-2 w-max focus:resize">
+										<td {...attrs} class="!p-2 w-max focus:resize" id="{tableId}-{cell.id}-{row.id}">
 											<div
 												class="flex items-center h-max overflow-x-auto resize-none hover:resize"
 												class:max-w-md={!fitToScreen}
@@ -261,6 +267,6 @@
 		</div>
 	</div>
 	{#if $data.length > 0}
-		<TablePagination pageConfig={pluginStates.page} {pageSizes} />
+		<TablePagination pageConfig={pluginStates.page} {pageSizes} id={tableId} />
 	{/if}
 </div>
