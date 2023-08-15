@@ -99,8 +99,6 @@
 
 	const popupId = `${tableId}-${id}`;
 
-	console.log(`POPUP ID: ${popupId}`);
-
 	const popupFeatured: PopupSettings = {
 		event: 'click',
 		target: popupId,
