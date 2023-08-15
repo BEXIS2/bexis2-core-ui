@@ -1,6 +1,6 @@
 <script>
 	import CodeContainer from '$docs/components/CodeContainer.svelte';
-	import CodeEditor from './CodeEditor.svelte';
+	import CodeEditor from '$lib/components/CodeEditor/CodeEditor.svelte';
 
 	const valueHtml = `<html>
   <head>
@@ -56,12 +56,18 @@
 	<div class="card p-5 bg-tertiary-50 mt-3">
 		<div class="flex items-center h3 gap-5">
 			<p class="font-semibold text-primary-500">Codemirror 6:</p>
-			<a class="underline text-secondary-500" href="https://codemirror.net/">https://codemirror.net/</a>
+			<a class="underline text-secondary-500" href="https://codemirror.net/"
+				>https://codemirror.net/</a
+			>
 		</div>
 
 		<div class="flex items-center h3 gap-5">
 			<p class="font-semibold text-primary-500">svelte-codemirror-editor:</p>
-			<a class="underline text-secondary-500" href="https://github.com/touchifyapp/svelte-codemirror-editor">https://github.com/touchifyapp/svelte-codemirror-editor</a>
+			<a
+				class="underline text-secondary-500"
+				href="https://github.com/touchifyapp/svelte-codemirror-editor"
+				>https://github.com/touchifyapp/svelte-codemirror-editor</a
+			>
 		</div>
 	</div>
 
