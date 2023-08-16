@@ -1,5 +1,3 @@
-import 'dotenv/config'; // necessary to read .env file
-
 import { expect } from '@playwright/test';
 import type { Page } from '@playwright/test';
 
