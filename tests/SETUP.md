@@ -31,7 +31,8 @@ import 'dotenv/config'; // 7th line
 By default, Playwright runs all the tests in parallel, meaning, tests should be isolated to not interfere with one another and to enable multithreading. However, some tests, especially CRUD functionalities, may require serially running the tests. If the majority of the tests are run serially, then, you may change the value of `fullyParallel` in the config file to false. You can configure individual test files as [serial](https://playwright.dev/docs/test-parallel#serial-mode) or [parallel](https://playwright.dev/docs/test-parallel#parallelize-tests-in-a-single-file) in the file itself. 
 ## Shared functions
 Create a `.env` file in the root folder of the project for your user credentials and host URL. `HOST`, `USER` and `PASSWORD` are the environment variables required to run shared functions.
-\
+
+
 Here's an example `.env` file contents:
 ```bash
 export HOST="https://localhost:4173"
