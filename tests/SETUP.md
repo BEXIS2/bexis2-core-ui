@@ -47,7 +47,7 @@ import { login, host } from  './shared';
 Usage of shared functions in tests:
 ```typescript
 test('Test', async ({ page }) => {
-	await login(page); // Login
-	await page.goto(`${host}/test/`); // Go to /test route
+    await login(page); // Login
+    await page.goto(`${host}/test/`); // Go to /test route
 });
 ```
