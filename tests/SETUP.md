@@ -52,3 +52,5 @@ test('Test', async ({ page }) => {
     await page.goto(`${host}/test/`); // Go to /test route
 });
 ```
+## Playwright Docs
+You can check Playwright documentation [page](https://playwright.dev/docs/intro) for more details, guides and information.
