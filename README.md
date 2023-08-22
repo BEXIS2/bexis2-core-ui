@@ -1,21 +1,29 @@
 # bexis-core-ui
+
+## 0.2.23
+
+- add CodeEditor component
+
 ## 0.2.22
+
 - Page title update on breadcrumb
 
 ## v0.2.19
+
 - fix multiselect bug from prev version
 
 ## v0.2.18
+
 - Multiselect
   - fix target bug with simple list and list of simple values
-  
-- CodeEditor component
 
 ## v0.2.17
+
 - Multiselect
   - fix target bind bug
 
 ## v0.2.16
+
 - Table
   - width - fit to screen
   - Cell - drag to change the height
@@ -25,7 +33,7 @@
 ## v0.2.15
 
 - Page - centered -> min width defined
-- MultiSelect -> add clearable 
+- MultiSelect -> add clearable
 
 ## v0.2.14
 
@@ -66,13 +74,13 @@
 
 ## v0.2.1
 
-> refactoring based on naming conventions (https://bexis2.github.io/bexis2-core-ui/code/naming/)
+> refactoring based on naming conventions (<https://bexis2.github.io/bexis2-core-ui/code/naming/>)
 
 - fix issue in index.ts file for export components
 
 ## v0.2.0
 
-> refactoring based on naming conventions (https://bexis2.github.io/bexis2-core-ui/code/naming/)
+> refactoring based on naming conventions (<https://bexis2.github.io/bexis2-core-ui/code/naming/>)
 
 - add Help, helpStore
 - update Page
@@ -219,7 +227,7 @@
   - Disabling of filters
   - Disabling of sorting
 
-### fixes:
+### fixes
 
 #### table
 
