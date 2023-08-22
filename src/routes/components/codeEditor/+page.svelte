@@ -16,11 +16,13 @@
 }`;
 
 	const svelteHtml = `<CodeEditor 
+	id="htmlExample"
   initialValue={valueHtml} 
   toggle={false} 
   bind:value={newValueHtml} 
 />`;
 	const svelteJs = `<CodeEditor
+	id="jsExample"
   title="JavaScript"
   initialValue={valueJavascript}
   language="js"
@@ -41,6 +43,7 @@
   <p>Custom styles + light mode + description</p>
 </CodeEditor>`;
 	const svelteJson = `<CodeEditor
+	id="jsonExample"
   title="JSON"
   initialValue={valueJson}
   language="json"
@@ -72,13 +75,19 @@
 	</div>
 
 	<CodeContainer title="HTML (no title, no toggle, no description)" svelte={svelteHtml}
-		><CodeEditor initialValue={valueHtml} toggle={false} bind:value={newValueHtml} /></CodeContainer
+		><CodeEditor
+			id="htmlExample"
+			initialValue={valueHtml}
+			toggle={false}
+			bind:value={newValueHtml}
+		/></CodeContainer
 	>
 
 	<div class="grid grid-cols-1 gap-5 w-full">
 		<div class="grow">
 			<CodeContainer title="JavaScript" svelte={svelteJs}>
 				<CodeEditor
+					id="jsExample"
 					title="JavaScript"
 					initialValue={valueJavascript}
 					language="js"
@@ -103,6 +112,7 @@
 		<div class="grow">
 			<CodeContainer title="JSON" svelte={svelteJson}>
 				<CodeEditor
+					id="jsonExample"
 					title="JSON"
 					initialValue={valueJson}
 					language="json"
