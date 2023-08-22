@@ -20,6 +20,7 @@
 	export let language = 'html';
 	export let dark = true;
 	export let toggle = true;
+	export let actions = true;
 	export let styles: ThemeSpec = {
 		'&': {
 			borderRadius: '0.5rem',
@@ -83,18 +84,20 @@
 			{/if}
 		</div>
 
-		<div class="flex gap-2">
-			<button
-				class="btn variant-filled-warning"
-				id="{id}-cancel"
-				on:click|preventDefault={() => dispatch('cancel')}><Fa icon={faXmark} /></button
-			>
-			<button
-				class="btn variant-filled-primary"
-				id="{id}-save"
-				on:click|preventDefault={() => dispatch('save')}><Fa icon={faSave} /></button
-			>
-		</div>
+		{#if actions}
+			<div class="flex gap-2">
+				<button
+					class="btn variant-filled-warning"
+					id="{id}-cancel"
+					on:click|preventDefault={() => dispatch('cancel')}><Fa icon={faXmark} /></button
+				>
+				<button
+					class="btn variant-filled-primary"
+					id="{id}-save"
+					on:click|preventDefault={() => dispatch('save')}><Fa icon={faSave} /></button
+				>
+			</div>
+		{/if}
 	</div>
 </div>
 

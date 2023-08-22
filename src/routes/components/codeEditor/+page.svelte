@@ -24,6 +24,7 @@
 	const svelteJs = `<CodeEditor
 	id="jsExample"
   title="JavaScript"
+	actions={false}
   initialValue={valueJavascript}
   language="js"
   dark={false}
@@ -89,6 +90,7 @@
 				<CodeEditor
 					id="jsExample"
 					title="JavaScript"
+					actions={false}
 					initialValue={valueJavascript}
 					language="js"
 					dark={false}
