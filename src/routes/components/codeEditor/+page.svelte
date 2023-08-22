@@ -16,15 +16,15 @@
 }`;
 
 	const svelteHtml = `<CodeEditor 
-	id="htmlExample"
+  id="htmlExample"
   initialValue={valueHtml} 
   toggle={false} 
   bind:value={newValueHtml} 
 />`;
 	const svelteJs = `<CodeEditor
-	id="jsExample"
+  id="jsExample"
   title="JavaScript"
-	actions={false}
+  actions={false}
   initialValue={valueJavascript}
   language="js"
   dark={false}
@@ -41,10 +41,10 @@
   }}
   on:save={() => alert("SAVED")}
 >
-  <p>Custom styles + light mode + description</p>
+  <p>Custom styles + light mode + description + no action buttons</p>
 </CodeEditor>`;
 	const svelteJson = `<CodeEditor
-	id="jsonExample"
+  id="jsonExample"
   title="JSON"
   initialValue={valueJson}
   language="json"
@@ -107,7 +107,7 @@
 					}}
 					on:save={() => alert('SAVED')}
 				>
-					<p>Custom styles + light mode + description</p>
+					<p>Custom styles + light mode + description + no action buttons</p>
 				</CodeEditor>
 			</CodeContainer>
 		</div>
