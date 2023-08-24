@@ -12,7 +12,7 @@
 	import { faArrowRotateLeft, faXmark } from '@fortawesome/free-solid-svg-icons';
 	import type { ThemeSpec } from 'svelte-codemirror-editor';
 	import type { ModalSettings } from '@skeletonlabs/skeleton';
-
+  
 	export let id: string;
 	export let title = '';
 	export let initialValue = '';
@@ -42,6 +42,7 @@
 </script>
 
 <div class="items-center justify-center">
+
 	<h1 class="h1 font-semibold text-primary-500 mb-3" id="{id}-title">{title}</h1>
 	<slot id="{id}-description" />
 	<div class="grid gap-1 w-full h-full mt-5">
@@ -59,6 +60,7 @@
 			/>
 		</div>
 	</div>
+
 
 	<div class="flex justify-between gap-2 items-center mt-3" id="{id}-footer">
 		<div class="flex gap-2">
