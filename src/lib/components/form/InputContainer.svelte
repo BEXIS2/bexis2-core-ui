@@ -16,7 +16,7 @@
 	function onMouseOut() {}
 </script>
 
-<div {id} on:mouseover={onMouseOver} on:mouseout={onMouseOut}>
+<div id="{id}-container" on:mouseover={onMouseOver} on:mouseout={onMouseOut}>
 	<label class="label">
 		<span
 			>{label}

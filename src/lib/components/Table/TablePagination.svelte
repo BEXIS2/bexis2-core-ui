@@ -9,6 +9,7 @@
 
 	export let pageConfig;
 	export let pageSizes;
+	export let id;
 
 	const { pageIndex, pageCount, pageSize, hasNextPage, hasPreviousPage } = pageConfig;
 
@@ -28,18 +29,20 @@
 		class="btn btn-sm variant-filled-primary"
 		on:click|preventDefault={goToFirstPage}
 		disabled={goToFirstPageDisabled}
+		id="{id}-first"
 	>
 		<Fa icon={faAnglesLeft} /></button
 	>
 	<button
 		class="btn btn-sm variant-filled-primary"
+		id="{id}-previous"
 		on:click|preventDefault={goToPreviousPage}
 		disabled={goToPreviousPageDisabled}><Fa icon={faAngleLeft} /></button
 	>
 
 	<select
 		name="pageSize"
-		id="pageSize"
+		id="{id}-pageSize"
 		class="select variant-filled-primary w-min font-bold"
 		bind:value={$pageSize}
 	>
@@ -50,11 +53,13 @@
 
 	<button
 		class="btn btn-sm variant-filled-primary"
+		id="{id}-next"
 		on:click|preventDefault={goToNextPage}
 		disabled={goToNextPageDisabled}><Fa icon={faAngleRight} /></button
 	>
 	<button
 		class="btn btn-sm variant-filled-primary"
+		id="{id}-last"
 		on:click|preventDefault={goToLastPage}
 		disabled={goToLastPageDisabled}><Fa icon={faAnglesRight} /></button
 	>

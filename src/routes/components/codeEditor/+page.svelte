@@ -16,12 +16,15 @@
 }`;
 
 	const svelteHtml = `<CodeEditor 
+  id="htmlExample"
   initialValue={valueHtml} 
   toggle={false} 
   bind:value={newValueHtml} 
 />`;
 	const svelteJs = `<CodeEditor
+  id="jsExample"
   title="JavaScript"
+  actions={false}
   initialValue={valueJavascript}
   language="js"
   dark={false}
@@ -38,9 +41,10 @@
   }}
   on:save={() => alert("SAVED")}
 >
-  <p>Custom styles + light mode + description</p>
+  <p>Custom styles + light mode + description + no action buttons</p>
 </CodeEditor>`;
 	const svelteJson = `<CodeEditor
+  id="jsonExample"
   title="JSON"
   initialValue={valueJson}
   language="json"
@@ -56,24 +60,37 @@
 	<div class="card p-5 bg-tertiary-50 mt-3">
 		<div class="flex items-center h3 gap-5">
 			<p class="font-semibold text-primary-500">Codemirror 6:</p>
-			<a class="underline text-secondary-500" href="https://codemirror.net/">https://codemirror.net/</a>
+			<a class="underline text-secondary-500" href="https://codemirror.net/"
+				>https://codemirror.net/</a
+			>
 		</div>
 
 		<div class="flex items-center h3 gap-5">
 			<p class="font-semibold text-primary-500">svelte-codemirror-editor:</p>
-			<a class="underline text-secondary-500" href="https://github.com/touchifyapp/svelte-codemirror-editor">https://github.com/touchifyapp/svelte-codemirror-editor</a>
+			<a
+				class="underline text-secondary-500"
+				href="https://github.com/touchifyapp/svelte-codemirror-editor"
+				>https://github.com/touchifyapp/svelte-codemirror-editor</a
+			>
 		</div>
 	</div>
 
 	<CodeContainer title="HTML (no title, no toggle, no description)" svelte={svelteHtml}
-		><CodeEditor initialValue={valueHtml} toggle={false} bind:value={newValueHtml} /></CodeContainer
+		><CodeEditor
+			id="htmlExample"
+			initialValue={valueHtml}
+			toggle={false}
+			bind:value={newValueHtml}
+		/></CodeContainer
 	>
 
 	<div class="grid grid-cols-1 gap-5 w-full">
 		<div class="grow">
 			<CodeContainer title="JavaScript" svelte={svelteJs}>
 				<CodeEditor
+					id="jsExample"
 					title="JavaScript"
+					actions={false}
 					initialValue={valueJavascript}
 					language="js"
 					dark={false}
@@ -90,13 +107,14 @@
 					}}
 					on:save={() => alert('SAVED')}
 				>
-					<p>Custom styles + light mode + description</p>
+					<p>Custom styles + light mode + description + no action buttons</p>
 				</CodeEditor>
 			</CodeContainer>
 		</div>
 		<div class="grow">
 			<CodeContainer title="JSON" svelte={svelteJson}>
 				<CodeEditor
+					id="jsonExample"
 					title="JSON"
 					initialValue={valueJson}
 					language="json"
