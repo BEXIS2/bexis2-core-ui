@@ -1,4 +1,6 @@
 # bexis-core-ui
+## 0.2.24
+- add ids to table and code editor components 
 
 ## 0.2.23
 

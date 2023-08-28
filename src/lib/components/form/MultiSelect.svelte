@@ -32,7 +32,7 @@
 	$: groupBy;
 
 	function updateTarget(selection) {
-		console.log("UPDATE target",selection);
+		//console.log("UPDATE target",selection);
 		//different cases
 		//a) source is complex model is simple return array
 		if (complexSource && !complexTarget && isLoaded && isMulti) {
@@ -68,7 +68,7 @@
 
 		if (complexSource && !complexTarget && isLoaded && !isMulti) {
 			target = selection[itemLabel];
-			console.log('selection', selection);
+			//console.log('selection', selection);
 		}
 
 		//console.log('selection ' + title, selection);
@@ -76,7 +76,7 @@
 	}
 
 	onMount(async () => {
-		console.log("OnMount", target)
+		 //console.log("OnMount", target)
 			if(complexSource && complexTarget) // after on mount a setValue is needed when data is complex
 			{
 					setValue(target);
@@ -84,7 +84,7 @@
 	});
 
 	function setValue(t) {
-		console.log("Set Value",t);
+		//console.log("Set Value",t);
 		//a) source is complex model is simple
 		if (complexSource && !complexTarget && isMulti) {
 			let items = [];
@@ -110,7 +110,7 @@
 
 		//b) simple liust and simple model
 		if (!complexSource && !complexTarget && isMulti) {
-			console.log('b) simple liust and simple model');
+			//console.log('b) simple liust and simple model');
 			//console.log('source', source);
 			//console.log("target",t);
 			isLoaded = true;
@@ -148,7 +148,7 @@
 			isLoaded = true;
 		}
 
-		console.log(t,value)
+		//console.log(t,value)
 	}
 </script>
 
