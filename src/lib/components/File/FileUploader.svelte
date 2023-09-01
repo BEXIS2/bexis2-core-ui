@@ -147,7 +147,12 @@
 				dispatch('submited');
 
 				let message = files.accepted.length + ' is/are uploaded';
-				dispatch('success', { text: message });
+
+				let fileList:string[] = []; 
+				files.accepted.forEach(f => fileList.push(f.name))
+
+
+				dispatch('success', { text: message , files: fileList});
 
 				files.accepted = [];
 			}

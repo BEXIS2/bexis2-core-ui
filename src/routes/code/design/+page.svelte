@@ -214,9 +214,9 @@
 						<CodeBlock
 							class="my-2"
 							language="js"
-							code={`import TabelPlacholder from '@bexis2/bexis2-core-ui';`}
+							code={`import TablePlaceholder from '@bexis2/bexis2-core-ui';`}
 						/>
-						<CodeBlock class="my-2" language="html" code={`<TabelPlacholder cols={2} rows={5}/>`} />
+						<CodeBlock class="my-2" language="html" code={`<TablePlaceholder cols={2} rows={5}/>`} />
 					</td>
 				</tr>
 				<tr>
@@ -226,7 +226,7 @@
 							<li>cols: number of columns default is 1</li>
 							<li>rows: number of rows default is 10</li>
 						</p>
-						<TabelPlacholder cols={2} rows={5} />
+						<TablePlaceholder cols={2} rows={5} />
 					</td>
 				</tr>
 			</tbody>
