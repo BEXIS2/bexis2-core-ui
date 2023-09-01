@@ -1,4 +1,8 @@
 # bexis-core-ui
+## 0.2.25
+- hide console.logs
+- file uploader return list of uploaded files after success 
+
 ## 0.2.24
 - add ids to table and code editor components 
 
