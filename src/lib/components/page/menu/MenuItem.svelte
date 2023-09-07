@@ -27,7 +27,7 @@
 {#if menubarItem.Items.length < 1}
 	<div class="p-2">
 		<button class="grid" use:popup={popupCombobox} on:click={() => goTo(menubarItem.Url)}>
-			<span class="capitalize">{comboboxValue ?? menubarItem.Title}</span>
+			<span class="capitalize whitespace-nowrap">{comboboxValue ?? menubarItem.Title}</span>
 		</button>
 	</div>
 {:else}
