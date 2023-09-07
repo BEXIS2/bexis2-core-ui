@@ -1,10 +1,9 @@
 {
   "name": "@bexis2/bexis2-core-ui",
-  "version": "0.2.24",
+  "version": "0.2.25",
   "private": false,
   "scripts": {
     "dev": "vite dev",
-    "package": "svelte-package",
     "build": "vite build",
     "build package": "svelte-kit sync && svelte-package --watch",
     "preview": "vite preview",
@@ -14,9 +13,9 @@
     "test:unit": "vitest",
     "lint": "prettier --plugin-search-dir . --check . && eslint .",
     "format": "prettier --plugin-search-dir . --write .",
-    "init": "npm init --scope bexis2",
-    "link": "npm link",
-    "publish": "npm publish --access public"
+    "1.npm - update package infos": "npm init --scope bexis2",
+    "2.npm - package": "svelte-package",
+    "3.npm - publish": "npm publish --access public"
   },
   "devDependencies": {
     "@playwright/test": "^1.36.2",
