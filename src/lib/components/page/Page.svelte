@@ -33,6 +33,7 @@
 	export let footer: boolean = true;
 	export let help: boolean = false;
 	export let contentLayoutType: pageContentLayoutType = pageContentLayoutType.center;
+	export let fixLeft:boolean = true;
 
 	onMount(async () => {
 		console.log('page');
@@ -67,7 +68,7 @@
 
 	<div class="flex flex-initial space-x-5">
 		{#if $$slots.left}
-			<div class="p-5 flex-shrink-0 w-96 w-min-96 border-y border-solid border-surface-500">
+			<div class="p-5 fixed flex-shrink-0 w-96 w-min-96 border-y border-solid border-surface-500" class:fixed={fixLeft}>
 				<slot name="left" />
 			</div>
 		{/if}
@@ -87,7 +88,7 @@
 		{/if}
 
 		{#if $$slots.right}
-			<div class=" p-5 flex-shrink-0 w-96 border-y border-solid border-surface-500">
+			<div class=" p-5 fixed flex-shrink-0 w-96 border-y border-solid border-surface-500">
 				<slot name="right" />
 			</div>
 		{/if}
