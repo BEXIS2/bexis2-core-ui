@@ -1,4 +1,7 @@
 # bexis-core-ui
+## 0.2.26
+- add fixLeft to page
+
 ## 0.2.25
 - hide console.logs
 - file uploader return list of uploaded files after success 
