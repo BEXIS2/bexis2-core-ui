@@ -27,7 +27,7 @@
 					<img
 						src="data:{$menuStore.Logo.Mime};charset=utf-8;base64, {$menuStore.Logo.Data}"
 						alt={$menuStore.Logo.Name}
-						style="height:40px;"
+						style="height:40px; max-width: none;"
 					/>
 				{/if}
 			</div>
