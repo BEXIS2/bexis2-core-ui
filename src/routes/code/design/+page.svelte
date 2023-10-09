@@ -5,7 +5,8 @@
 
 	import { CodeBlock } from '@skeletonlabs/skeleton';
 	import Spinner from '$lib/components/page/Spinner.svelte';
-	import TabelPlacholder from '$lib/components/page/TablePlaceholder.svelte';
+	import { TablePlaceholder } from '$lib';
+
 </script>
 
 <Page title="Design Convertions">
