@@ -1,4 +1,7 @@
 # bexis-core-ui
+## 0.2.27
+- fix brand stretching
+
 ## 0.2.26
 - add fixLeft to page
 
