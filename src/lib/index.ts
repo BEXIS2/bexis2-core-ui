@@ -2,9 +2,9 @@
 // import ListView from './components/ListView.svelte';
 // import TableView from './TableView.svelte';
 
-import FileIcon from './components/file/FileIcon.svelte';
-import FileInfo from './components/file/FileInfo.svelte';
-import FileUploader from './components/file/FileUploader.svelte';
+import FileIcon from './components/File/FileIcon.svelte';
+import FileInfo from './components/File/FileInfo.svelte';
+import FileUploader from './components/File/FileUploader.svelte';
 
 //page
 import Spinner from './components/page/Spinner.svelte';
