@@ -1,5 +1,12 @@
 # bexis-core-ui
+
+## 0.2.30
+
+- fix routes for 'file' components ('.../file/...' -> '.../File/...')
+- 'Table' components is able to display heterogeneous data, that means data items/rows might have a different number of properties/columns.
+
 ## 0.2.29
+
 - add disbaled propertie to
   - TextInput
   - TextArea
@@ -7,20 +14,25 @@
   - DateInput
 
 ## 0.2.28
+
 - add disabled to multiselect
   
 ## 0.2.27
+
 - fix brand stretching
 
 ## 0.2.26
+
 - add fixLeft to page
 
 ## 0.2.25
+
 - hide console.logs
-- file uploader return list of uploaded files after success 
+- file uploader return list of uploaded files after success
 
 ## 0.2.24
-- add ids to table and code editor components 
+
+- add ids to table and code editor components
 
 ## 0.2.23
 
