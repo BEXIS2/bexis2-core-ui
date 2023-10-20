@@ -47,8 +47,17 @@
 		expand: addExpandedRows()
 	});
 
-	const accessors: AccessorType[] =
-		$data.length > 0 ? (Object.keys($data[0]) as AccessorType[]) : [];
+	const allCols: { [key: string]: any } = {};
+	
+	$data.forEach((item) => {
+		Object.keys(item).forEach((key) => {
+			if (!allCols[key]) {
+				allCols[key] = {};
+			}
+		});
+	});
+
+	const accessors: AccessorType[] = Object.keys(allCols) as AccessorType[];
 
 	const tableColumns = [
 		...accessors
@@ -123,6 +132,9 @@
 					return table.column({
 						header: key,
 						accessor: accessor,
+						cell: ({ value }) => {
+							return (value === undefined) ? "" : value;
+						},
 						plugins: {
 							sort: {
 								invert: true
@@ -249,7 +261,11 @@
 							<tr {...rowAttrs} id="{tableId}-row-{row.id}">
 								{#each row.cells as cell (cell?.id)}
 									<Subscribe attrs={cell.attrs()} let:attrs>
-										<td {...attrs} class="!p-2 w-max focus:resize" id="{tableId}-{cell.id}-{row.id}">
+										<td
+											{...attrs}
+											class="!p-2 w-max focus:resize"
+											id="{tableId}-{cell.id}-{row.id}"
+										>
 											<div
 												class="flex items-center h-max overflow-x-auto resize-none hover:resize"
 												class:max-w-md={!fitToScreen}

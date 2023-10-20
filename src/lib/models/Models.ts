@@ -80,9 +80,9 @@ export interface fileObjType {
 }
 
 export interface ColumnInstructions {
-	toStringFn?: (value: any) => string;
-	toSortableValueFn?: (value: any) => string | number;
-	toFilterableValueFn?: (value: any) => string | number | Date;
+	toStringFn?: (any) => string;
+	toSortableValueFn?: (any) => string | number;
+	toFilterableValueFn?: (any) => string | number | Date;
 	renderComponent?: typeof SvelteComponent;
 }
 

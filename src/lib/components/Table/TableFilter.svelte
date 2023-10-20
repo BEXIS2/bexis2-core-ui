@@ -105,12 +105,21 @@
 		placement: 'bottom-start'
 	};
 
-	let type: string = typeof (toFilterableValueFn ? toFilterableValueFn($values[0]) : $values[0]);
-	if (type === 'object') {
-		if ($values[0] instanceof Date) {
-			type = 'date';
+	let type: string = '';
+	let isDate = false;
+
+	$values.forEach((item) => {
+		if (item) {
+			type = typeof (toFilterableValueFn ? toFilterableValueFn(item) : item);
+			if (type === 'object') {
+				if (item instanceof Date) {
+					isDate = true;
+				}
+			}
 		}
-	}
+	});
+
+	type = isDate ? 'date' : type;
 </script>
 
 <form class="">
@@ -124,7 +133,7 @@
 		<Fa icon={faFilter} size="12" />
 	</button>
 
-	<div data-popup={`${popupId}`} id="{popupId}" class="z-50">
+	<div data-popup={`${popupId}`} id={popupId} class="z-50">
 		<div class="card p-3 grid gap-2 shadow-lg w-min bg-base-100">
 			<button
 				class="btn variant-filled-primary btn-sm"
