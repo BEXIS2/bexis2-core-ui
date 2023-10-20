@@ -11,6 +11,7 @@
 	export let feedback: string[] = [''];
 	export let placeholder: string = '';
 	export let help: boolean = false;
+	export let disabled: boolean = false;
 </script>
 
 <InputContainer {id} {label} {feedback} {required} {help}>
@@ -22,5 +23,6 @@
 		bind:value
 		on:input
 		{placeholder}
+		{disabled}
 	/>
 </InputContainer>

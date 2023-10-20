@@ -10,6 +10,7 @@
 	export let required: boolean = false;
 	export let feedback: string[] = [''];
 	export let help = false;
+	export let disabled: boolean = false;
 </script>
 
 <InputContainer {id} {label} {feedback} {required} {help}>
@@ -21,5 +22,6 @@
 		class:input-error={invalid}
 		bind:value
 		on:input
+		{disabled}
 	/>
 </InputContainer>

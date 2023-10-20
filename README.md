@@ -1,4 +1,14 @@
 # bexis-core-ui
+## 0.2.29
+- add disbaled propertie to
+  - TextInput
+  - TextArea
+  - NumberInput
+  - DateInput
+
+## 0.2.28
+- add disabled to multiselect
+  
 ## 0.2.27
 - fix brand stretching
 
