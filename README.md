@@ -3,7 +3,7 @@
 ## 0.2.30
 
 - fix routes for 'file' components ('.../file/...' -> '.../File/...')
-- 'Table' components is able to display heterogeneous data, that means data items/rows might have a different number of properties/columns.
+- 'Table' component is able to display heterogeneous data, that means data items/rows might have a different number of properties/columns.
 
 ## 0.2.29
 
