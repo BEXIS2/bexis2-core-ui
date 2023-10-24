@@ -60,6 +60,6 @@ import{S as Do,i as Uo,s as qo,e as Pl,b as Zt,W as xi,h as z,$ as sc,o as Hd,Y 
   title="JSON"
   initialValue={valueJson}
   language="json"
-	bind:isValid={isValidJSON}
+  bind:isValid={isValidJSON}
   on:cancel={() => alert("CANCELLED")}
 />`;let h=i;function c(d){h=d,t(0,h)}return[h,i,s,r,o,l,a,c,()=>alert("SAVED"),()=>alert("CANCELLED")]}class KQ extends Do{constructor(e){super(),Uo(this,e,qQ,UQ,qo,{})}}export{KQ as component};
