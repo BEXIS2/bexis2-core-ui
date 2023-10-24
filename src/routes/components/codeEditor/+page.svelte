@@ -48,6 +48,7 @@
   title="JSON"
   initialValue={valueJson}
   language="json"
+	bind:isValid={isValidJSON}
   on:cancel={() => alert("CANCELLED")}
 />`;
 
