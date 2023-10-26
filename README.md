@@ -1,5 +1,9 @@
 # bexis-core-ui
 
+## 0.2.31
+
+- validation and syntax check for code editor component
+
 ## 0.2.30
 
 - fix routes for 'file' components ('.../file/...' -> '.../File/...')
