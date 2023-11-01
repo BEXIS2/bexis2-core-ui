@@ -73,11 +73,13 @@
 		language === 'json' ? isValidJSON(value) : language === 'js' ? isValidJS(value) : true;
 </script>
 
-<div class="items-center justify-center">
-	<h1 class="h1 font-semibold text-primary-500 mb-3" id="{id}-title">{title}</h1>
+<div class="grid items-stretch justify-stretch gap-1">
+	<label class="label" for="{id}-editor" id="{id}-title">
+		<span>{title}</span>
+	</label>
 	<slot id="{id}-description" />
-	<div class="grid gap-1 w-full h-full mt-5">
-		<div class="rounded-lg shadow-lg w-full" id="{id}-editor">
+	<div class="grid gap-1 w-full h-full">
+		<div class="rounded-lg shadow-lg w-full overflow-auto" id="{id}-editor">
 			<CodeMirror
 				bind:value
 				lang={language === 'html'

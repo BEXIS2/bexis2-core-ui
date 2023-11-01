@@ -19,6 +19,7 @@
   id="htmlExample"
   initialValue={valueHtml} 
   toggle={false} 
+  actions={false}
   bind:value={newValueHtml} 
 />`;
 	const svelteJs = `<CodeEditor
@@ -81,17 +82,17 @@
 			id="htmlExample"
 			initialValue={valueHtml}
 			toggle={false}
+			actions={false}
 			bind:value={newValueHtml}
 		/></CodeContainer
 	>
 
-	<div class="grid grid-cols-1 gap-5 w-full">
+	<div class="grid gap-5 w-full">
 		<div class="grow">
 			<CodeContainer title="JavaScript" svelte={svelteJs}>
 				<CodeEditor
 					id="jsExample"
 					title="JavaScript"
-					actions={false}
 					initialValue={valueJavascript}
 					language="js"
 					dark={false}
