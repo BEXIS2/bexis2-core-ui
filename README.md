@@ -1,5 +1,10 @@
 # bexis-core-ui
 
+## 0.2.32
+
+- resizability for Table rows and columns
+- **fixedWidth** and **minWidth** options for columns
+
 ## 0.2.31
 
 - validation and syntax check for code editor component
