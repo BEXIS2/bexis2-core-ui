@@ -12,14 +12,20 @@
 	import CustomCodeContainer from '../components/CustomCodeContainer.svelte';
 	import Table from '$lib/components/Table/Table.svelte';
 
-	export const tableCRUDConfig: TableConfig<Group> = {
+	const tableCRUDConfig: TableConfig<Group> = {
 		id: 'userGroupCRUD',
 		toggle: true,
 		data: groupsStore,
+		resizable: 'both',
+		columns: {
+			name: {
+				minWidth: 200,
+			}
+		},
 		optionsComponent: TableCrud
 	};
 
-	export const tableCRUDActions = (action: CustomEvent<{ row: Group; type: string }>) => {
+	const tableCRUDActions = (action: CustomEvent<{ row: Group; type: string }>) => {
 		const { type, row } = action.detail;
 		switch (type) {
 			case 'CREATE':
@@ -66,7 +72,7 @@
 		}
 	};
 
-	export const tableCRUDtabs = [
+	const tableCRUDtabs = [
 		{ name: 'Svelte', language: 'html', code: cb.tableCRUDHTML },
 		{ name: 'tableCRUDActions', language: 'typescript', code: cb.tableCRUDActionsCode },
 		{ name: 'optionsComponent', language: 'html', code: cb.tableCRUDOptionsHTML },

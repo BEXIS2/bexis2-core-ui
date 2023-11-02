@@ -19,6 +19,8 @@
 		id: 'usersNoRoles',
 		data: usersStore,
 		optionsComponent: TableOptions,
+		resizable: 'columns',
+		toggle: true,
 		columns: {
 			id: {
 				colFilterFn: columnFilter,
@@ -29,6 +31,9 @@
 			},
 			group: {
 				header: 'Group name'
+			},
+			optionsColumn: {
+				fixedWidth: 120
 			}
 		},
 		pageSizes: [1, 3, 5],

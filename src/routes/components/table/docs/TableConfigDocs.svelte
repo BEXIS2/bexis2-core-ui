@@ -64,6 +64,17 @@
 
 	<div class="items-center">
 		<div class="flex gap-2">
+			<div class="italic">resizable:</div>
+			<div class="font-bold"><i>"rows"</i>, <i>"columns"</i> or <i>"both"</i></div>
+		</div>
+
+		<p class="text-xl pl-10">
+			Whether rows, columns or both should be resizable. Not resizable by default.
+		</p>
+	</div>
+
+	<div class="items-center">
+		<div class="flex gap-2">
 			<div class="italic">fitToScreen:</div>
 			<div class="font-bold">boolean</div>
 		</div>

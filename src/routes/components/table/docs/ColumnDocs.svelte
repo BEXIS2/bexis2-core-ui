@@ -34,6 +34,31 @@
 
 	<div class="items-center">
 		<div class="flex gap-2">
+			<div class="italic">minWidth:</div>
+			<div class="font-bold">number</div>
+		</div>
+
+		<p class="text-xl pl-10">
+			Minimum width in pixels for the column. By default, the column will be as wide as the content.
+		</p>
+	</div>
+
+	<div class="items-center">
+		<div class="flex gap-2">
+			<div class="italic">fixedWidth:</div>
+			<div class="font-bold">number</div>
+		</div>
+
+		<p class="text-xl pl-10">
+			Fixed width in pixels for the column. By default, the column will be as wide as the content.
+			Setting this will override the <code class="!text-xl bg-tertiary-300 rounded-md p-0.5 text-primary-500"
+			>resizable</code
+		> property for the column.
+		</p>
+	</div>
+
+	<div class="items-center">
+		<div class="flex gap-2">
 			<div class="italic">exclude:</div>
 			<div class="font-bold">boolean</div>
 		</div>

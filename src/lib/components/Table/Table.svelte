@@ -24,6 +24,7 @@
 		id: tableId,
 		data,
 		columns,
+		resizable = 'none',
 		height = null,
 		optionsComponent,
 		defaultPageSize = 10,
@@ -48,7 +49,7 @@
 	});
 
 	const allCols: { [key: string]: any } = {};
-	
+
 	$data.forEach((item) => {
 		Object.keys(item).forEach((key) => {
 			if (!allCols[key]) {
@@ -133,7 +134,7 @@
 						header: key,
 						accessor: accessor,
 						cell: ({ value }) => {
-							return (value === undefined) ? "" : value;
+							return value === undefined ? '' : value;
 						},
 						plugins: {
 							sort: {
@@ -158,7 +159,7 @@
 	if (optionsComponent !== undefined) {
 		tableColumns.push(
 			table.display({
-				id: 'actionsColumn',
+				id: 'optionsColumn',
 				header: '',
 				cell: ({ row }, _) => {
 					return createRender(optionsComponent!, {
@@ -175,13 +176,72 @@
 	const { headerRows, pageRows, tableAttrs, tableBodyAttrs, pluginStates } =
 		table.createViewModel(createdTableColumns);
 	const { filterValue } = pluginStates.tableFilter;
+
+	const minWidth = (id: string) => {
+		if (columns && id in columns) {
+			return columns[id].minWidth ?? 0;
+		}
+		return 0;
+	};
+
+	const fixedWidth = (id: string) => {
+		if (columns && id in columns) {
+			return columns[id].fixedWidth ?? 0;
+		}
+		return 0;
+	};
+
+	const cellStyle = (id: string) => {
+		const minW = minWidth(id);
+		const fixedW = fixedWidth(id);
+		const styles: string[] = [];
+
+		minW && styles.push(`min-width: ${minW}px`);
+		fixedW && styles.push(`width: ${fixedW}px`);
+
+		return styles.join(';');
+	};
+
+	const resetResize = () => {
+		if (resizable === 'columns' || resizable === 'both') {
+			$headerRows.forEach((row) => {
+				row.cells.forEach((cell) => {
+					const minW = minWidth(cell.id);
+					const fixedW = fixedWidth(cell.id);
+
+					fixedW &&
+						document
+							.getElementById(`th-${tableId}-${cell.id}`)
+							?.style.setProperty('width', `${fixedW}px`);
+					minW &&
+						document
+							.getElementById(`th-${tableId}-${cell.id}`)
+							?.style.setProperty('min-width', `${minW}px`);
+
+					!minW &&
+						!fixedW &&
+						document.getElementById(`th-${tableId}-${cell.id}`)?.style.setProperty('width', 'auto');
+				});
+			});
+		}
+
+		if (resizable === 'rows' || resizable === 'both') {
+			$pageRows.forEach((row) => {
+				row.cells.forEach((cell) => {
+					document
+						.getElementById(`${tableId}-${cell.id}-${row.id}`)
+						?.style.setProperty('height', 'auto');
+				});
+			});
+		}
+	};
 </script>
 
 <div class="grid gap-2 overflow-auto" class:w-fit={!fitToScreen} class:w-full={fitToScreen}>
 	<div class="table-container">
 		{#if $data.length > 0}
 			<input
-				class="input p-2 mb-2 border border-primary-500"
+				class="input p-2 border border-primary-500"
 				type="text"
 				bind:value={$filterValue}
 				placeholder="Search rows..."
@@ -189,24 +249,37 @@
 			/>
 		{/if}
 
-		{#if toggle}
-			<SlideToggle
-				name="slider-label"
-				active="bg-primary-500"
-				size="sm"
-				checked={fitToScreen}
-				id="{tableId}-toggle"
-				on:change={() => (fitToScreen = !fitToScreen)}>Fit to screen</SlideToggle
-			>
-		{/if}
+		<div class="flex justify-between items-center py-2 w-full">
+			<div>
+				{#if toggle}
+					<SlideToggle
+						name="slider-label"
+						active="bg-primary-500"
+						size="sm"
+						checked={fitToScreen}
+						id="{tableId}-toggle"
+						on:change={() => (fitToScreen = !fitToScreen)}>Fit to screen</SlideToggle
+					>
+				{/if}
+			</div>
+			<div>
+				{#if resizable !== 'none'}
+					<button
+						type="button"
+						class="btn btn-sm variant-filled-primary rounded-full order-last"
+						on:click|preventDefault={resetResize}>Reset sizing</button
+					>
+				{/if}
+			</div>
+		</div>
 
 		<div class="overflow-auto" style="height: {height}px">
 			<table
 				{...$tableAttrs}
-				class="table table-compact bg-tertiary-200 overflow-clip"
+				class="table table-auto table-compact bg-tertiary-500/30 overflow-clip"
 				id="{tableId}-table"
 			>
-				<thead class={height != null ? `sticky top-0` : ''}>
+				<thead class=" {height != null ? `sticky top-0` : ''}">
 					{#each $headerRows as headerRow (headerRow.id)}
 						<Subscribe
 							rowAttrs={headerRow.attrs()}
@@ -214,11 +287,19 @@
 							rowProps={headerRow.props()}
 							let:rowProps
 						>
-							<tr {...rowAttrs} class="bg-primary-300">
+							<tr {...rowAttrs} class="bg-primary-300 items-stretch">
 								{#each headerRow.cells as cell (cell.id)}
 									<Subscribe attrs={cell.attrs()} props={cell.props()} let:props let:attrs>
-										<th scope="col" class="!p-2 w-min" {...attrs}>
-											<div class="flex w-full justify-between items-center">
+										<th
+											scope="col"
+											class="!p-2 overflow-auto"
+											class:resize-x={(resizable === 'columns' || resizable === 'both') &&
+												!fixedWidth(cell.id)}
+											{...attrs}
+											id="th-{tableId}-{cell.id}"
+											style={cellStyle(cell.id)}
+										>
+											<div class="flex justify-between items-center">
 												<div class="flex gap-1 whitespace-pre-wrap">
 													<span
 														class:underline={props.sort.order}
@@ -258,18 +339,18 @@
 				<tbody class="overflow-auto" {...$tableBodyAttrs}>
 					{#each $pageRows as row (row.id)}
 						<Subscribe rowAttrs={row.attrs()} let:rowAttrs>
-							<tr {...rowAttrs} id="{tableId}-row-{row.id}">
-								{#each row.cells as cell (cell?.id)}
+							<tr {...rowAttrs} id="{tableId}-row-{row.id}" class="">
+								{#each row.cells as cell, index (cell?.id)}
 									<Subscribe attrs={cell.attrs()} let:attrs>
 										<td
 											{...attrs}
-											class="!p-2 w-max focus:resize"
+											class="!p-2 overflow-auto {index === 0 &&
+											(resizable === 'rows' || resizable === 'both')
+												? 'resize-y'
+												: ''}"
 											id="{tableId}-{cell.id}-{row.id}"
 										>
-											<div
-												class="flex items-center h-max overflow-x-auto resize-none hover:resize"
-												class:max-w-md={!fitToScreen}
-											>
+											<div class="flex items-center h-max overflow-x-auto">
 												<Render of={cell.render()} />
 											</div>
 										</td>

@@ -108,6 +108,8 @@ export const usersNoRolesHTML = `
 		id: 'usersNoRoles',
 		data: usersStore,
 		optionsComponent: TableOptions,
+		resizable: 'columns',
+		toggle: true,
 		columns: {
 			id: {
 				colFilterFn: columnFilter,
@@ -118,6 +120,9 @@ export const usersNoRolesHTML = `
 			},
 			group: {
 				header: 'Group name'
+			},
+			optionsColumn: {
+				fixedWidth: 120
 			}
 		},
 		pageSizes: [1, 3, 5],
@@ -489,8 +494,14 @@ export const tableCRUDHTML = `
 
 	const tableCRUDConfig: TableConfig<Group> = {
 		id: 'userGroupCRUD',
-		data: groupsStore,
 		toggle: true,
+		data: groupsStore,
+		resizable: 'both',
+		columns: {
+			name: {
+				minWidth: 200,
+			}
+		},
 		optionsComponent: TableCrud
 	};
 
