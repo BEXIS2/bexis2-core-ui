@@ -134,7 +134,7 @@
 						header: key,
 						accessor: accessor,
 						cell: ({ value }) => {
-							return value === undefined ? '' : value;
+							return value ? value : '';
 						},
 						plugins: {
 							sort: {

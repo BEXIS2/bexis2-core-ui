@@ -105,12 +105,13 @@
 		placement: 'bottom-start'
 	};
 
-	let type: string = '';
+	let type: string = 'string';
 	let isDate = false;
 
 	$values.forEach((item) => {
 		if (item) {
 			type = typeof (toFilterableValueFn ? toFilterableValueFn(item) : item);
+
 			if (type === 'object') {
 				if (item instanceof Date) {
 					isDate = true;
