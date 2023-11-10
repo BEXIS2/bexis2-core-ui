@@ -19,7 +19,7 @@
 		resizable: 'both',
 		columns: {
 			name: {
-				minWidth: 200,
+				minWidth: 200
 			}
 		},
 		optionsComponent: TableCrud

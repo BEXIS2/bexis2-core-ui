@@ -6,7 +6,6 @@
 	import { CodeBlock } from '@skeletonlabs/skeleton';
 	import Spinner from '$lib/components/page/Spinner.svelte';
 	import { TablePlaceholder } from '$lib';
-
 </script>
 
 <Page title="Design Convertions">
@@ -217,7 +216,11 @@
 							language="js"
 							code={`import TablePlaceholder from '@bexis2/bexis2-core-ui';`}
 						/>
-						<CodeBlock class="my-2" language="html" code={`<TablePlaceholder cols={2} rows={5}/>`} />
+						<CodeBlock
+							class="my-2"
+							language="html"
+							code={`<TablePlaceholder cols={2} rows={5}/>`}
+						/>
 					</td>
 				</tr>
 				<tr>

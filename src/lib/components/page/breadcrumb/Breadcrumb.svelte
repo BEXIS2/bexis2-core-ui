@@ -6,12 +6,10 @@
 
 	export let title;
 
-	$:update(title)
+	$: update(title);
 
-
-	function update(t)
-	{
-  		if (browser){
+	function update(t) {
+		if (browser) {
 			breadcrumbStore.updateItem({ label: t, link: window.location.pathname });
 		}
 	}

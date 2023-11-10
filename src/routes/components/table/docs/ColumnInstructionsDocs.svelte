@@ -59,8 +59,18 @@
 		</div>
 
 		<div class="ml-5">
-			<p class="underline"><code class="!text-xl bg-tertiary-300 rounded-md p-0.5 text-primary-500">renderComponent</code> overrides <code class="!text-xl bg-tertiary-300 rounded-md p-0.5 text-primary-500">toStringFn</code>.</p>
-			<p class="">Every <code class="!text-xl bg-tertiary-300 rounded-md p-0.5 text-primary-500">renderComponent</code> will get 2 props:</p>
+			<p class="underline">
+				<code class="!text-xl bg-tertiary-300 rounded-md p-0.5 text-primary-500"
+					>renderComponent</code
+				>
+				overrides
+				<code class="!text-xl bg-tertiary-300 rounded-md p-0.5 text-primary-500">toStringFn</code>.
+			</p>
+			<p class="">
+				Every <code class="!text-xl bg-tertiary-300 rounded-md p-0.5 text-primary-500"
+					>renderComponent</code
+				> will get 2 props:
+			</p>
 			<div class="items-center mt-2">
 				<div class="flex gap-2">
 					<div class="italic">row:</div>

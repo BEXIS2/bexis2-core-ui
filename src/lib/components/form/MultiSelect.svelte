@@ -23,7 +23,6 @@
 	export let clearable = true;
 	export let disabled = false;
 
-
 	let isLoaded = false;
 
 	$: value = null;
@@ -78,11 +77,11 @@
 	}
 
 	onMount(async () => {
-		 //console.log("OnMount", target)
-			if(complexSource && complexTarget) // after on mount a setValue is needed when data is complex
-			{
-					setValue(target);
-			}
+		//console.log("OnMount", target)
+		if (complexSource && complexTarget) {
+			// after on mount a setValue is needed when data is complex
+			setValue(target);
+		}
 	});
 
 	function setValue(t) {

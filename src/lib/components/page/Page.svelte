@@ -33,7 +33,7 @@
 	export let footer: boolean = true;
 	export let help: boolean = false;
 	export let contentLayoutType: pageContentLayoutType = pageContentLayoutType.center;
-	export let fixLeft:boolean = true;
+	export let fixLeft: boolean = true;
 
 	onMount(async () => {
 		console.log('page');
@@ -53,7 +53,7 @@
 				{/if}
 
 				<div class="grid grid-cols-2">
-					<Breadcrumb bind:title={title} />
+					<Breadcrumb bind:title />
 					<Docs {links} {note} />
 				</div>
 			</svelte:fragment>

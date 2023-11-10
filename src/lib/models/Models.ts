@@ -111,7 +111,7 @@ export interface TableConfig<T> {
 	toggle?: boolean; // false by default
 	fitToScreen?: boolean; // true by default
 	height?: null | number; // null by default
-	columns?: Columns; 
+	columns?: Columns;
 	pageSizes?: number[]; // [5, 10, 15, 20] by default
 	defaultPageSize?: number; // 10 by default
 	optionsComponent?: typeof SvelteComponent;
