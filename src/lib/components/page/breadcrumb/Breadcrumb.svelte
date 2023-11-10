@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { breadcrumbStore } from '$store/pageStores';
 	import type { breadcrumbItemType } from '$models/Page';
+	import { browser } from '$app/environment';
+	import { base } from '$app/paths';
 
 	export let title;
 
@@ -9,7 +11,9 @@
 
 	function update(t)
 	{
-  breadcrumbStore.updateItem({ label: t, link: window.location.pathname });
+  		if (browser){
+			breadcrumbStore.updateItem({ label: t, link: window.location.pathname });
+		}
 	}
 
 	let list: breadcrumbItemType[] = [];
@@ -23,7 +27,7 @@
 <div class="px-5 py-2">
 	<ol class="breadcrumb -p50">
 		<!--default home-->
-		<li class="crumb"><a class="anchor" href={'/'}>Home</a></li>
+		<li class="crumb"><a class="anchor" href={base + '/'}>Home</a></li>
 		<li class="crumb-separator" aria-hidden>&rsaquo;</li>
 
 		{#each list as crumb, i}
