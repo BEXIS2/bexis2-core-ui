@@ -7,19 +7,795 @@
 
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		
-		<link rel="modulepreload" href="../../_app/immutable/entry/start.fb9c2672.js">
+		<link href="../../_app/immutable/assets/0.6780e825.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/theme-bexis2.6bd076c9.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/ProgressBar.4f1e9ba5.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/index.95b16411.css" rel="stylesheet">
+		<link rel="modulepreload" href="../../_app/immutable/entry/start.c777f38d.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/index.a4c6af49.js">
-		<link rel="modulepreload" href="../../_app/immutable/chunks/singletons.79e981ec.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/singletons.a64a201a.js">
 		<link rel="modulepreload" href="../../_app/immutable/chunks/index.8e4ddf86.js">
-		<link rel="modulepreload" href="../../_app/immutable/entry/app.72ed8ffe.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/paths.d27352ce.js">
+		<link rel="modulepreload" href="../../_app/immutable/entry/app.0a7c8b68.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/0.b053ba89.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/stores.e06d5ce2.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/ProgressBar.svelte_svelte_type_style_lang.6b6ffce1.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/AppShell.917624df.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/stores.43760f85.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/3.ac83fd84.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/TableOfContents.99042f0f.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.29964873.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/12.4ad1cc31.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/Page.773ebfde.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/floating-ui.dom.06a5fcc9.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/index.939af9e7.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/CodeContainer.5660f195.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/store.3a6ec3b2.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/Alert.7972b636.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/Spinner.1399f202.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/TextInput.3bbb8b3c.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/TextArea.112f51b4.js">
 
 		<script></script>
 	</head>
 	<body class="variant">
 		<div>
+
+
+<div id="appShell" class="w-full h-full flex flex-col overflow-hidden " data-testid="app-shell">
+	
+
+	
+	<div class="flex-auto w-full h-full flex overflow-hidden">
+		<aside id="sidebar-left" class="flex-none overflow-x-hidden overflow-y-auto flex-none overflow-x-hidden overflow-y-auto bg-surface-50-900-token lg:w-auto">
+		<div class="grid grid-cols-[auto_1fr] h-full bg-surface-50-900-token border-r border-surface-500/30 hidden lg:grid w-[360px] overflow-hidden">
+
+<div class="app-rail grid grid-rows-[auto_1fr_auto] overflow-y-auto bg-transparent border-r border-surface-500/30 w-[70px] h-full gap-0 " data-testid="app-rail">
+	<div class="app-bar-lead box-border "><label class="app-rail-tile cursor-pointer " data-testid="app-rail-tile" title="Tile">
+	
+	
+	<div class="app-rail-wrapper flex flex-col justify-center items-stretch aspect-square undefined bg-primary-hover-token ">
+		<div class="h-0 w-0 overflow-hidden"><input type="radio" value="general" label="General" tabindex="-1"></div>
+		
+		<div class="app-rail-interface text-center space-y-1">
+			<div class="app-rail-label font-bold text-xs "><i class="fa-solid fa-screwdriver-wrench text-2xl"></i></div></div></div></label>
+			<label class="app-rail-tile cursor-pointer " data-testid="app-rail-tile" title="Tile">
+	
+	
+	<div class="app-rail-wrapper flex flex-col justify-center items-stretch aspect-square undefined bg-primary-hover-token ">
+		<div class="h-0 w-0 overflow-hidden"><input type="radio" value="theme" label="Theme" tabindex="-1"></div>
+		
+		<div class="app-rail-interface text-center space-y-1">
+			<div class="app-rail-label font-bold text-xs "><i class="fa-solid fa-code-compare text-2xl"></i></div></div></div></label>
+			<label class="app-rail-tile cursor-pointer " data-testid="app-rail-tile" title="Tile">
+	
+	
+	<div class="app-rail-wrapper flex flex-col justify-center items-stretch aspect-square undefined bg-primary-hover-token ">
+		<div class="h-0 w-0 overflow-hidden"><input type="radio" value="components" label="Components" tabindex="-1"></div>
+		
+		<div class="app-rail-interface text-center space-y-1">
+			<div class="app-rail-label font-bold text-xs "><i class="fa-solid fa-list-check text-2xl"></i></div></div></div></label></div>
+	
+	<div class="app-bar-default box-border "></div>
+	
+	<div class="app-bar-trail box-border "></div></div>
+
+	<section class="p-4 pb-20 space-y-4 overflow-y-auto">
+				<div id="general" class="text-primary-700 dark:text-primary-500 font-bold uppercase px-4">General</div>
+				
+				<nav class="list-nav"><ul><li><a href="/bexis2-core-ui/" class="" data-sveltekit-preload-data="hover"><span class="flex-auto"><!-- HTML_TAG_START -->Home<!-- HTML_TAG_END --></span>
+									</a>
+							</li>
+					</ul></nav>
+				
+				<hr class="!my-6 opacity-50">
+				<div id="code" class="text-primary-700 dark:text-primary-500 font-bold uppercase px-4">Code Rules</div>
+				
+				<nav class="list-nav"><ul><li><a href="/bexis2-core-ui/code/naming" class="" data-sveltekit-preload-data="hover"><span class="flex-auto"><!-- HTML_TAG_START -->Naming Convertions<!-- HTML_TAG_END --></span>
+									</a>
+							</li><li><a href="/bexis2-core-ui/code/design" class="" data-sveltekit-preload-data="hover"><span class="flex-auto"><!-- HTML_TAG_START -->Color Convertions<!-- HTML_TAG_END --></span>
+									</a>
+							</li>
+					</ul></nav>
+				
+				<hr class="!my-6 opacity-50">
+				<div id="theme" class="text-primary-700 dark:text-primary-500 font-bold uppercase px-4">Theme</div>
+				
+				<nav class="list-nav"><ul><li><a href="/bexis2-core-ui/components/theme" class="" data-sveltekit-preload-data="hover"><span class="flex-auto"><!-- HTML_TAG_START -->Theme/Layout<!-- HTML_TAG_END --></span>
+									</a>
+							</li><li><a href="/bexis2-core-ui/components/page" class="" data-sveltekit-preload-data="hover"><span class="flex-auto"><!-- HTML_TAG_START -->Page<!-- HTML_TAG_END --></span>
+									</a>
+							</li>
+					</ul></nav>
+				
+				<hr class="!my-6 opacity-50">
+				<div id="components" class="text-primary-700 dark:text-primary-500 font-bold uppercase px-4">Components</div>
+				
+				<nav class="list-nav"><ul><li><a href="/bexis2-core-ui/components/core" class="" data-sveltekit-preload-data="hover"><span class="flex-auto"><!-- HTML_TAG_START -->Core<!-- HTML_TAG_END --></span>
+									</a>
+							</li><li><a href="/bexis2-core-ui/components/icon" class="" data-sveltekit-preload-data="hover"><span class="flex-auto"><!-- HTML_TAG_START -->Icons<!-- HTML_TAG_END --></span>
+									</a>
+							</li><li><a href="/bexis2-core-ui/components/form" class="" data-sveltekit-preload-data="hover"><span class="flex-auto"><!-- HTML_TAG_START -->Form<!-- HTML_TAG_END --></span>
+									</a>
+							</li><li><a href="/bexis2-core-ui/components/table" class="" data-sveltekit-preload-data="hover"><span class="flex-auto"><!-- HTML_TAG_START -->Table<!-- HTML_TAG_END --></span>
+									</a>
+							</li><li><a href="/bexis2-core-ui/components/codeEditor" class="" data-sveltekit-preload-data="hover"><span class="flex-auto"><!-- HTML_TAG_START -->Code Editor<!-- HTML_TAG_END --></span>
+									</a>
+							</li>
+					</ul></nav>
+				
+				<hr class="!my-6 opacity-50">
+				<div id="backend" class="text-primary-700 dark:text-primary-500 font-bold uppercase px-4">Backend</div>
+				
+				<nav class="list-nav"><ul><li><a href="/bexis2-core-ui/backend/hooks" class="" data-sveltekit-preload-data="hover"><span class="flex-auto"><!-- HTML_TAG_START -->Hooks<!-- HTML_TAG_END --></span>
+									</a>
+							</li>
+					</ul></nav>
+				
+				</section></div>
+	</aside>
+
+		
+		<div id="page" class=" flex-1 overflow-x-hidden flex flex-col">
+			
+
+			
+			<main id="page-content" class="flex-auto ">
+	
+	
+	
+	<div id="appShell" class="w-full h-full flex flex-col overflow-hidden " data-testid="app-shell">
+	
+
+	
+	<div class="flex-auto w-full h-full flex overflow-hidden">
+		
+
+		
+		<div id="page" class=" flex-1 overflow-x-hidden flex flex-col">
+			
+
+			
+			<main id="page-content" class="flex-auto "><div id="toc-target"><div id="appShell" class="w-full h-full flex flex-col overflow-hidden " data-testid="app-shell">
+	<header id="shell-header" class="flex-none z-10">
+		<div class="app-bar flex flex-col white  space-y-0 0  " data-testid="app-bar" role="toolbar" aria-label="" aria-labelledby="">
+	<div class="app-bar-row-main grid items-center grid-cols-[auto_1fr_auto] gap-4 ">
+		
+		
+		<div class="app-bar-slot-default flex-auto "></div>
+		
+		</div>
+	
+	<div class="app-bar-row-headline  "><!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+				<div class="placeholder h-14 bg-tertiary-50 shadow-md"></div>
+
+				<div class="grid grid-cols-2"><div class="px-5 py-2"><ol class="breadcrumb -p50">
+		<li class="crumb"><a class="anchor" href="/bexis2-core-ui/">Home</a></li>
+		<li class="crumb-separator" aria-hidden>›</li>
+
+		</ol></div>
+					<div class="text-right p-2"><span class="chip variant-soft hover:variant-filled"><span><svg class="svelte-fa  svelte-1cj2gr0" style="height:1em;vertical-align:-.125em;transform-origin:center;overflow:visible" viewBox="0 0 320 512" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg"><g transform="translate(160 256)" transform-origin="80 0"><g transform="translate(0,0) scale(1,1)"><path d="M80 160c0-35.3 28.7-64 64-64h32c35.3 0 64 28.7 64 64v3.6c0 21.8-11.1 42.1-29.4 53.8l-42.2 27.1c-25.2 16.2-40.4 44.1-40.4 74V320c0 17.7 14.3 32 32 32s32-14.3 32-32v-1.4c0-8.2 4.2-15.8 11-20.2l42.2-27.1c36.6-23.6 58.8-64.1 58.8-107.7V160c0-70.7-57.3-128-128-128H144C73.3 32 16 89.3 16 160c0 17.7 14.3 32 32 32s32-14.3 32-32zm80 320a40 40 0 1 0 0-80 40 40 0 1 0 0 80z" fill="currentColor" transform="translate(-160 -256)"></path></g></g></svg></span></span>
+
+		<div class="card p-4 variant-filled-primary w-60 z-50 text-left shadow-md" data-popup="noteTarget">here are listed all basic components for a unified design of the pages.</div>
+
+	</div></div></div></div>
+	</header>
+
+	
+	<div class="flex-auto w-full h-full flex overflow-hidden">
+		
+
+		
+		<div id="page" class=" flex-1 overflow-x-hidden flex flex-col">
+			
+
+			
+			<main id="page-content" class="flex-auto ">
+	
+
+	
+
+	
+
+	<div class="flex flex-initial space-x-5">
+
+		<div class="flex justify-center w-screen"><div class="w-full max-w-7xl p-5 space-y-5 border-y border-solid border-surface-500"><div><div class="py-5"><h3 class="h3">Page</h3>
+		<div><div slot="info">by using these components a unified border is displayed on the page, furthermore, there are
+				props for title, notes and links, as well as a slot for description
+			</div></div></div>
+
+	
+
+	
+
+	
+
+	<div><div class="card flex p-5 gap-10">
+
+			<div class="w-full">
+
+<div class="tab-group space-y-4 " data-testid="tab-group">
+	<div class="tab-list flex overflow-x-auto hide-scrollbar justify-start border-b border-surface-400-500-token " role="tablist" aria-labelledby=""><label class="text-center cursor-pointer transition-colors duration-100 flex-none px-4 py-2 rounded-tl-container-token rounded-tr-container-token border-b-2 border-surface-900-50-token " title="">
+	<div class="tab " data-testid="tab" role="tab" aria-controls="" aria-selected="true" tabindex="0">
+		<div class="h-0 w-0 overflow-hidden"><input type="radio" name="html" value="0" tabindex="-1" checked></div>
+		
+		<div class="tab-interface  space-y-1">
+			<div class="tab-label">Svelte</div></div></div></label>
+					
+					
+					
+					
+					
+					
+					
+
+					</div>
+	
+	<div class="tab-panel  " role="tabpanel" aria-labelledby="" tabindex="0">
+						
+<div class="codeblock overflow-hidden shadow bg-neutral-900/90  text-sm text-white rounded-container-token shadow " data-testid="codeblock">
+	<header class="codeblock-header text-xs text-white/50 uppercase flex justify-between items-center p-2 pl-4">
+		<span class="codeblock-language">html</span>
+		
+		<button class="codeblock-btn btn btn-sm variant-soft !text-white">Copy</button></header>
+	
+	<pre class="codeblock-pre whitespace-pre-wrap break-all p-4 pt-1"><code class="codeblock-code language-html lineNumbers"><!-- HTML_TAG_START --><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;ts&quot;</span>&gt;</span><span class="language-javascript">
+	<span class="hljs-keyword">import</span> <span class="hljs-title class_">Page</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;$lib/components/page/Page.svelte&#x27;</span>;
+	<span class="hljs-keyword">import</span> type { linkType } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;$lib/models/Models&#x27;</span>;
+
+	<span class="hljs-keyword">import</span> <span class="hljs-title class_">TextInput</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;$lib/components/form/TextInput.svelte&#x27;</span>;
+
+	<span class="hljs-keyword">let</span> <span class="hljs-attr">links</span>: linkType[] = [
+		{
+			<span class="hljs-attr">label</span>: <span class="hljs-string">&#x27;manual&#x27;</span>,
+			<span class="hljs-attr">url</span>: <span class="hljs-string">&#x27;https://github.com/BEXIS2/Documents/blob/master/Manuals/DCM/Manual.md&#x27;</span>
+		}
+	];
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">Page</span>
+	<span class="hljs-attr">title</span>=<span class="hljs-string">&quot;Create a Dataset&quot;</span>
+	<span class="hljs-attr">note</span>=<span class="hljs-string">&quot;On this page you can create a dataset based on a template. please select on template and fill out the form.&quot;</span>
+	{<span class="hljs-attr">links</span>}
+	<span class="hljs-attr">menu</span>=<span class="hljs-string">{false}</span>
+	<span class="hljs-attr">help</span>=<span class="hljs-string">{true}</span>
+&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;description&quot;</span>&gt;</span>
+		<span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+	<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+	<span class="hljs-comment">&lt;!-- your Page content --&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>My Content HERE<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">Page</span>&gt;</span><!-- HTML_TAG_END --></code></pre></div>
+					</div></div></div></div></div></div>
+
+		<div><div class="py-5"><h3 class="h3">Help</h3>
+		<div><div slot="info">This example shows how to setup the help for your page</div></div></div>
+
+	
+
+	
+
+	
+
+	<div><div class="card flex p-5 gap-10"><div class="w-1/2"><h3 class="h3">Basic Useage</h3>
+
+<div class="p-5"><p class="p-5" id="name">Name
+	</p>
+
+	<p class="p-5" id="description">Description
+	</p></div>
+
+<h3 class="h3">Use with Inputs</h3>
+<p>Some inputs have the mouseover and mouseout functions for the help bulid in you just have to
+	anable them.
+</p>
+
+<div class="p-5"><div id="name-container"><label class="label"><span>Name of something important
+			</span>
+		<input id="name" class="input variant-form-material" type="text" placeholder=""  value="">
+		<span class="text-sm text-error-600"><ul><li></li></ul></span></label></div>
+
+	<div id="description-container"><label class="label"><span>Description to understand what happen in the world
+			</span>
+		<textarea id="description" class="textarea variant-form-material" placeholder="" ></textarea>
+		<span class="text-sm text-error-600"><ul><li></li></ul></span></label></div></div>
+
+<button id="helpButton" class="chip variant-filled-warning fixed bottom-5 right-10 shadow-md"><svg class="svelte-fa  svelte-1cj2gr0" style="height:1em;vertical-align:-.125em;transform-origin:center;overflow:visible" viewBox="0 0 320 512" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg"><g transform="translate(160 256)" transform-origin="80 0"><g transform="translate(0,0) scale(1,1)"><path d="M80 160c0-35.3 28.7-64 64-64h32c35.3 0 64 28.7 64 64v3.6c0 21.8-11.1 42.1-29.4 53.8l-42.2 27.1c-25.2 16.2-40.4 44.1-40.4 74V320c0 17.7 14.3 32 32 32s32-14.3 32-32v-1.4c0-8.2 4.2-15.8 11-20.2l42.2-27.1c36.6-23.6 58.8-64.1 58.8-107.7V160c0-70.7-57.3-128-128-128H144C73.3 32 16 89.3 16 160c0 17.7 14.3 32 32 32s32-14.3 32-32zm80 320a40 40 0 1 0 0-80 40 40 0 1 0 0 80z" fill="currentColor" transform="translate(-160 -256)"></path></g></g></svg></button>
+
+	<div class="card bg-primary-300 border-solid border-2 border-primary-500 shadow-md" data-popup="helpTarget"><div class="p-5 w-96 space-y-4" id="helpPopup"><h3 class="h3">Help</h3>
+				<p>Hover over the Element, you like to know more about.</p></div>
+		<div class="arrow variant-filled-primary"></div></div></div>
+
+			<div class="w-1/2">
+
+<div class="tab-group space-y-4 " data-testid="tab-group">
+	<div class="tab-list flex overflow-x-auto hide-scrollbar justify-start border-b border-surface-400-500-token " role="tablist" aria-labelledby=""><label class="text-center cursor-pointer transition-colors duration-100 flex-none px-4 py-2 rounded-tl-container-token rounded-tr-container-token border-b-2 border-surface-900-50-token " title="">
+	<div class="tab " data-testid="tab" role="tab" aria-controls="" aria-selected="true" tabindex="0">
+		<div class="h-0 w-0 overflow-hidden"><input type="radio" name="html" value="0" tabindex="-1" checked></div>
+		
+		<div class="tab-interface  space-y-1">
+			<div class="tab-label">Svelte</div></div></div></label>
+					
+					
+					
+					
+					
+					<label class="text-center cursor-pointer transition-colors duration-100 flex-none px-4 py-2 rounded-tl-container-token rounded-tr-container-token hover:variant-soft " title="">
+	<div class="tab " data-testid="tab" role="tab" aria-controls="" aria-selected="false" tabindex="-1">
+		<div class="h-0 w-0 overflow-hidden"><input type="radio" name="javascript" value="6" tabindex="-1"></div>
+		
+		<div class="tab-interface  space-y-1">
+			<div class="tab-label">Json</div></div></div></label>
+					
+
+					</div>
+	
+	<div class="tab-panel  " role="tabpanel" aria-labelledby="" tabindex="0">
+						
+<div class="codeblock overflow-hidden shadow bg-neutral-900/90  text-sm text-white rounded-container-token shadow " data-testid="codeblock">
+	<header class="codeblock-header text-xs text-white/50 uppercase flex justify-between items-center p-2 pl-4">
+		<span class="codeblock-language">html</span>
+		
+		<button class="codeblock-btn btn btn-sm variant-soft !text-white">Copy</button></header>
+	
+	<pre class="codeblock-pre whitespace-pre-wrap break-all p-4 pt-1"><code class="codeblock-code language-html lineNumbers"><!-- HTML_TAG_START --><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;ts&quot;</span>&gt;</span><span class="language-javascript">
+	<span class="hljs-keyword">import</span> { helpStore } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;$store/pageStores.js&#x27;</span>;
+	<span class="hljs-keyword">import</span> type { helpItemType, helpStoreType } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;$models/Models&#x27;</span>;
+
+	<span class="hljs-keyword">import</span> <span class="hljs-title class_">HelpPopUp</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;$lib/components/page/HelpPopUp.svelte&#x27;</span>;
+	<span class="hljs-keyword">import</span> <span class="hljs-title class_">TextInput</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;$lib/components/form/TextInput.svelte&#x27;</span>;
+	<span class="hljs-keyword">import</span> <span class="hljs-title class_">TextArea</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;$lib/components/form/TextArea.svelte&#x27;</span>;
+
+	<span class="hljs-comment">//Import the list of help items from a file</span>
+	<span class="hljs-keyword">import</span> { <span class="hljs-title class_">HelpExampleData</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./data/help.js&#x27;</span>;
+	<span class="hljs-keyword">import</span> <span class="hljs-title class_">Page</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;$lib/components/page/Page.svelte&#x27;</span>;
+	<span class="hljs-keyword">let</span> <span class="hljs-attr">helpItems</span>: helpItemType[] = <span class="hljs-title class_">HelpExampleData</span>.<span class="hljs-property">helpItems</span>;
+
+	<span class="hljs-comment">//Set list of help items and clear selection</span>
+	helpStore.<span class="hljs-title function_">setHelpItemList</span>(helpItems);
+
+	<span class="hljs-keyword">let</span> help = <span class="hljs-literal">true</span>;
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">h3</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;h3&quot;</span>&gt;</span>Basic Useage<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;p-5&quot;</span>&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">p</span>
+		<span class="hljs-attr">class</span>=<span class="hljs-string">&quot;p-5&quot;</span>
+		<span class="hljs-attr">id</span>=<span class="hljs-string">&quot;name&quot;</span>
+		<span class="hljs-attr">on:mouseover</span>=<span class="hljs-string">{()</span> =&gt;</span> {
+			helpStore.show(&#x27;name&#x27;);
+		}}
+	&gt;
+		Name
+	<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+
+	<span class="hljs-tag">&lt;<span class="hljs-name">p</span>
+		<span class="hljs-attr">class</span>=<span class="hljs-string">&quot;p-5&quot;</span>
+		<span class="hljs-attr">id</span>=<span class="hljs-string">&quot;description&quot;</span>
+		<span class="hljs-attr">on:mouseover</span>=<span class="hljs-string">{()</span> =&gt;</span> {
+			helpStore.show(&#x27;description&#x27;);
+		}}
+	&gt;
+		Description
+	<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">h3</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;h3&quot;</span>&gt;</span>Use with Inputs<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>
+	Some inputs have the mouseover and mouseout functions for the help bulid in you just have to
+	anable them.
+<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;p-5&quot;</span>&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">TextInput</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;name&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Name of something important&quot;</span> {<span class="hljs-attr">help</span>} /&gt;</span>
+
+	<span class="hljs-tag">&lt;<span class="hljs-name">TextArea</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;description&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Description to understand what happen in the world&quot;</span> {<span class="hljs-attr">help</span>} /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">HelpPopUp</span> <span class="hljs-attr">active</span>=<span class="hljs-string">{help}</span> /&gt;</span><!-- HTML_TAG_END --></code></pre></div>
+					</div></div></div></div></div></div>
+
+		<div><div class="py-5"><h3 class="h3">Notification</h3>
+		<div><div slot="info">This example shows how to use notifcation toasts</div></div></div>
+
+	
+
+	
+
+	
+
+	<div><div class="card flex p-5 gap-10"><div class="w-1/2"><div class="p-5">
+	<button type="button" class="btn variant-filled-surface h-9 shadow-md" title="Default" id="default">Default</button>
+	
+	<button type="button" class="btn variant-filled-success h-9 shadow-md" title="Success" id="success">Success</button>
+	
+	<button type="button" class="btn variant-filled-warning h-9 shadow-md" title="Warning" id="warning">Warning</button>
+	
+	<button type="button" class="btn variant-filled-error h-9 shadow-md" title="Error" id="error">Error</button></div>
+<div class="p-5">
+	<button type="button" class="btn variant-filled-surface h-9 shadow-md" title="Default" id="default">HTML Message</button></div></div>
+
+			<div class="w-1/2">
+
+<div class="tab-group space-y-4 " data-testid="tab-group">
+	<div class="tab-list flex overflow-x-auto hide-scrollbar justify-start border-b border-surface-400-500-token " role="tablist" aria-labelledby=""><label class="text-center cursor-pointer transition-colors duration-100 flex-none px-4 py-2 rounded-tl-container-token rounded-tr-container-token border-b-2 border-surface-900-50-token " title="">
+	<div class="tab " data-testid="tab" role="tab" aria-controls="" aria-selected="true" tabindex="0">
+		<div class="h-0 w-0 overflow-hidden"><input type="radio" name="html" value="0" tabindex="-1" checked></div>
+		
+		<div class="tab-interface  space-y-1">
+			<div class="tab-label">Svelte</div></div></div></label>
+					
+					
+					
+					
+					
+					
+					
+
+					</div>
+	
+	<div class="tab-panel  " role="tabpanel" aria-labelledby="" tabindex="0">
+						
+<div class="codeblock overflow-hidden shadow bg-neutral-900/90  text-sm text-white rounded-container-token shadow " data-testid="codeblock">
+	<header class="codeblock-header text-xs text-white/50 uppercase flex justify-between items-center p-2 pl-4">
+		<span class="codeblock-language">html</span>
+		
+		<button class="codeblock-btn btn btn-sm variant-soft !text-white">Copy</button></header>
+	
+	<pre class="codeblock-pre whitespace-pre-wrap break-all p-4 pt-1"><code class="codeblock-code language-html lineNumbers"><!-- HTML_TAG_START --><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;ts&quot;</span>&gt;</span><span class="language-javascript">
+	<span class="hljs-keyword">import</span> { notificationType } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;$models/Enums&#x27;</span>;
+	<span class="hljs-keyword">import</span> { notificationStore } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;$store/pageStores.js&#x27;</span>;
+	<span class="hljs-keyword">import</span> { error } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@sveltejs/kit&#x27;</span>;
+
+	<span class="hljs-keyword">let</span> <span class="hljs-title class_">HTMLMessage</span>: string =
+		<span class="hljs-string">&#x27;&lt;h3 class=&quot;h3&quot;&gt;HTML Message&lt;h3&gt;&lt;li&gt;message 1&lt;/li&gt;&lt;li&gt;message 2&lt;/li&gt;&lt;li&gt;message 3&lt;/li&gt;&#x27;</span>;
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;p-5&quot;</span>&gt;</span>
+	<span class="hljs-comment">&lt;!-- Default --&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">button</span>
+		<span class="hljs-attr">type</span>=<span class="hljs-string">&quot;button&quot;</span>
+		<span class="hljs-attr">class</span>=<span class="hljs-string">&quot;btn variant-filled-surface h-9 shadow-md&quot;</span>
+		<span class="hljs-attr">title</span>=<span class="hljs-string">&quot;Default&quot;</span>
+		<span class="hljs-attr">id</span>=<span class="hljs-string">&quot;default&quot;</span>
+		<span class="hljs-attr">on:click</span>=<span class="hljs-string">{()</span> =&gt;</span>
+			notificationStore.showNotification({
+				message: &#x27;This is the default style Notification&#x27;
+			})}&gt;Default&lt;/button
+	&gt;
+	<span class="hljs-comment">&lt;!-- Success --&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">button</span>
+		<span class="hljs-attr">type</span>=<span class="hljs-string">&quot;button&quot;</span>
+		<span class="hljs-attr">class</span>=<span class="hljs-string">&quot;btn variant-filled-success h-9 shadow-md&quot;</span>
+		<span class="hljs-attr">title</span>=<span class="hljs-string">&quot;Success&quot;</span>
+		<span class="hljs-attr">id</span>=<span class="hljs-string">&quot;success&quot;</span>
+		<span class="hljs-attr">on:click</span>=<span class="hljs-string">{()</span> =&gt;</span>
+			notificationStore.showNotification({
+				notificationType: notificationType.success,
+				message: &#x27;This is the success style Notification&#x27;
+			})}&gt;Success&lt;/button
+	&gt;
+	<span class="hljs-comment">&lt;!-- Warning --&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">button</span>
+		<span class="hljs-attr">type</span>=<span class="hljs-string">&quot;button&quot;</span>
+		<span class="hljs-attr">class</span>=<span class="hljs-string">&quot;btn variant-filled-warning h-9 shadow-md&quot;</span>
+		<span class="hljs-attr">title</span>=<span class="hljs-string">&quot;Warning&quot;</span>
+		<span class="hljs-attr">id</span>=<span class="hljs-string">&quot;warning&quot;</span>
+		<span class="hljs-attr">on:click</span>=<span class="hljs-string">{()</span> =&gt;</span>
+			notificationStore.showNotification({
+				notificationType: notificationType.warning,
+				message: &#x27;This is the warning style Notification&#x27;
+			})}&gt;Warning&lt;/button
+	&gt;
+	<span class="hljs-comment">&lt;!-- Error --&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">button</span>
+		<span class="hljs-attr">type</span>=<span class="hljs-string">&quot;button&quot;</span>
+		<span class="hljs-attr">class</span>=<span class="hljs-string">&quot;btn variant-filled-error h-9 shadow-md&quot;</span>
+		<span class="hljs-attr">title</span>=<span class="hljs-string">&quot;Error&quot;</span>
+		<span class="hljs-attr">id</span>=<span class="hljs-string">&quot;error&quot;</span>
+		<span class="hljs-attr">on:click</span>=<span class="hljs-string">{()</span> =&gt;</span>
+			notificationStore.showNotification({
+				notificationType: notificationType.error,
+				message: &#x27;This is the error style Notification&#x27;
+			})}&gt;Error&lt;/button
+	&gt;
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;p-5&quot;</span>&gt;</span>
+	<span class="hljs-comment">&lt;!-- notfication with HTML message --&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">button</span>
+		<span class="hljs-attr">type</span>=<span class="hljs-string">&quot;button&quot;</span>
+		<span class="hljs-attr">class</span>=<span class="hljs-string">&quot;btn variant-filled-surface h-9 shadow-md&quot;</span>
+		<span class="hljs-attr">title</span>=<span class="hljs-string">&quot;Default&quot;</span>
+		<span class="hljs-attr">id</span>=<span class="hljs-string">&quot;default&quot;</span>
+		<span class="hljs-attr">on:click</span>=<span class="hljs-string">{()</span> =&gt;</span> notificationStore.showNotification({ message: HTMLMessage })}
+		&gt;HTML Message&lt;/button
+	&gt;
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><!-- HTML_TAG_END --></code></pre></div>
+					</div></div></div></div></div></div>
+
+		<div><div class="py-5"><h3 class="h3">Alert</h3>
+		<div><div slot="info">The alerts are used to pass on messages to the user.</div></div></div>
+
+	
+
+	
+
+	
+
+	<div><div class="card flex p-5 gap-10"><div class="w-1/2"><div class="grid grid-cols-1 gap-2"><aside class="alert variant-filled-error">
+		
+		
+		<div class="alert-message"><h3 class="h3">Errors</h3>
+			<p>validation faild
+				<b>test</b></p></div>
+		
+		<div class="alert-actions">
+
+			<button class="btn hover:text-primary-100"><svg class="svelte-fa  svelte-1cj2gr0" style="height:1em;vertical-align:-.125em;transform-origin:center;overflow:visible" viewBox="0 0 384 512" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg"><g transform="translate(192 256)" transform-origin="96 0"><g transform="translate(0,0) scale(1,1)"><path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" fill="currentColor" transform="translate(-192 -256)"></path></g></g></svg></button></div></aside>
+
+	<aside class="alert variant-filled-warning">
+		
+		
+		<div class="alert-message"><h3 class="h3">Warning</h3>
+			<p>validation faild
+				<b>test</b></p></div>
+		
+		<div class="alert-actions">
+
+			<button class="btn hover:text-primary-100"><svg class="svelte-fa  svelte-1cj2gr0" style="height:1em;vertical-align:-.125em;transform-origin:center;overflow:visible" viewBox="0 0 384 512" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg"><g transform="translate(192 256)" transform-origin="96 0"><g transform="translate(0,0) scale(1,1)"><path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" fill="currentColor" transform="translate(-192 -256)"></path></g></g></svg></button></div></aside>
+
+	<aside class="alert variant-filled-success">
+		
+		
+		<div class="alert-message">
+			<p>validation success
+				<b>test</b></p></div>
+		
+		<div class="alert-actions">
+
+			<button class="btn hover:text-primary-100"><svg class="svelte-fa  svelte-1cj2gr0" style="height:1em;vertical-align:-.125em;transform-origin:center;overflow:visible" viewBox="0 0 384 512" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg"><g transform="translate(192 256)" transform-origin="96 0"><g transform="translate(0,0) scale(1,1)"><path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" fill="currentColor" transform="translate(-192 -256)"></path></g></g></svg></button></div></aside>
+
+	<aside class="alert variant-ringed-success">
+		
+		
+		<div class="alert-message">
+			<p>
+				<h3 class="h3">Alert with a complex message</h3>
+		<p>inside the Alert messsage everthing goes to the slot in the message block</p>
+		<ul class="list-disc pl-5"><li>note 1</li>
+			<li>note 2</li>
+			<li>note 3</li></ul></p></div>
+		
+		<div class="alert-actions">
+
+			<button class="btn hover:text-primary-100"><svg class="svelte-fa  svelte-1cj2gr0" style="height:1em;vertical-align:-.125em;transform-origin:center;overflow:visible" viewBox="0 0 384 512" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg"><g transform="translate(192 256)" transform-origin="96 0"><g transform="translate(0,0) scale(1,1)"><path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" fill="currentColor" transform="translate(-192 -256)"></path></g></g></svg></button></div></aside>
+
+	<aside class="alert variant-ringed-success">
+		
+		
+		<div class="alert-message"><h3 class="h3">Alert with extra button</h3>
+			<p>in the slot actions you can create your own container with different acions
+				</p></div>
+		
+		<div class="alert-actions"><div class="flex gap-2" slot="actions"><button class="btn hover:text-primary-100"><svg class="svelte-fa  svelte-1cj2gr0" style="height:1em;vertical-align:-.125em;transform-origin:center;overflow:visible" viewBox="0 0 512 512" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg"><g transform="translate(256 256)" transform-origin="128 0"><g transform="translate(0,0) scale(1,1)"><path d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z" fill="currentColor" transform="translate(-256 -256)"></path></g></g></svg></button>
+			<button class="btn hover:text-primary-100"><svg class="svelte-fa  svelte-1cj2gr0" style="height:1em;vertical-align:-.125em;transform-origin:center;overflow:visible" viewBox="0 0 512 512" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg"><g transform="translate(256 256)" transform-origin="128 0"><g transform="translate(0,0) scale(1,1)"><path d="M288 0a32 32 0 1 1 0 64 32 32 0 1 1 0-64zM160 56a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zM32 288c0-35.3 28.7-64 64-64H232V157.5l-203.1 42c-13 2.7-25.7-5.7-28.4-18.6s5.7-25.7 18.6-28.4l232-48 232-48c13-2.7 25.7 5.7 28.4 18.6s-5.7 25.7-18.6 28.4L280 147.5V224H416c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V288zm64 0c-8.8 0-16 7.2-16 16v64c0 8.8 7.2 16 16 16h64c8.8 0 16-7.2 16-16V304c0-8.8-7.2-16-16-16H96zm112 16v64c0 8.8 7.2 16 16 16h64c8.8 0 16-7.2 16-16V304c0-8.8-7.2-16-16-16H224c-8.8 0-16 7.2-16 16zm144-16c-8.8 0-16 7.2-16 16v64c0 8.8 7.2 16 16 16h64c8.8 0 16-7.2 16-16V304c0-8.8-7.2-16-16-16H352z" fill="currentColor" transform="translate(-256 -256)"></path></g></g></svg></button></div>
+
+			<button class="btn hover:text-primary-100"><svg class="svelte-fa  svelte-1cj2gr0" style="height:1em;vertical-align:-.125em;transform-origin:center;overflow:visible" viewBox="0 0 384 512" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg"><g transform="translate(192 256)" transform-origin="96 0"><g transform="translate(0,0) scale(1,1)"><path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" fill="currentColor" transform="translate(-192 -256)"></path></g></g></svg></button></div></aside></div></div>
+
+			<div class="w-1/2">
+
+<div class="tab-group space-y-4 " data-testid="tab-group">
+	<div class="tab-list flex overflow-x-auto hide-scrollbar justify-start border-b border-surface-400-500-token " role="tablist" aria-labelledby=""><label class="text-center cursor-pointer transition-colors duration-100 flex-none px-4 py-2 rounded-tl-container-token rounded-tr-container-token border-b-2 border-surface-900-50-token " title="">
+	<div class="tab " data-testid="tab" role="tab" aria-controls="" aria-selected="true" tabindex="0">
+		<div class="h-0 w-0 overflow-hidden"><input type="radio" name="html" value="0" tabindex="-1" checked></div>
+		
+		<div class="tab-interface  space-y-1">
+			<div class="tab-label">Svelte</div></div></div></label>
+					
+					
+					
+					
+					
+					
+					
+
+					</div>
+	
+	<div class="tab-panel  " role="tabpanel" aria-labelledby="" tabindex="0">
+						
+<div class="codeblock overflow-hidden shadow bg-neutral-900/90  text-sm text-white rounded-container-token shadow " data-testid="codeblock">
+	<header class="codeblock-header text-xs text-white/50 uppercase flex justify-between items-center p-2 pl-4">
+		<span class="codeblock-language">html</span>
+		
+		<button class="codeblock-btn btn btn-sm variant-soft !text-white">Copy</button></header>
+	
+	<pre class="codeblock-pre whitespace-pre-wrap break-all p-4 pt-1"><code class="codeblock-code language-html lineNumbers"><!-- HTML_TAG_START --><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+	<span class="hljs-keyword">import</span> <span class="hljs-title class_">Alert</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;$lib/components/page/Alert.svelte&#x27;</span>;
+	<span class="hljs-keyword">import</span> <span class="hljs-title class_">Fa</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;svelte-fa&#x27;</span>;
+
+	<span class="hljs-keyword">import</span> { faEdit, faCableCar } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@fortawesome/free-solid-svg-icons&#x27;</span>;
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;grid grid-cols-1 gap-2&quot;</span>&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">Alert</span> <span class="hljs-attr">title</span>=<span class="hljs-string">&quot;Errors&quot;</span> <span class="hljs-attr">message</span>=<span class="hljs-string">&quot;validation faild&quot;</span> <span class="hljs-attr">cssClass</span>=<span class="hljs-string">&quot;variant-filled-error&quot;</span>&gt;</span>
+		<span class="hljs-tag">&lt;<span class="hljs-name">b</span>&gt;</span>test<span class="hljs-tag">&lt;/<span class="hljs-name">b</span>&gt;</span>
+	<span class="hljs-tag">&lt;/<span class="hljs-name">Alert</span>&gt;</span>
+
+	<span class="hljs-tag">&lt;<span class="hljs-name">Alert</span> <span class="hljs-attr">title</span>=<span class="hljs-string">&quot;Warning&quot;</span> <span class="hljs-attr">message</span>=<span class="hljs-string">&quot;validation faild&quot;</span> <span class="hljs-attr">cssClass</span>=<span class="hljs-string">&quot;variant-filled-warning&quot;</span>&gt;</span>
+		<span class="hljs-tag">&lt;<span class="hljs-name">b</span>&gt;</span>test<span class="hljs-tag">&lt;/<span class="hljs-name">b</span>&gt;</span>
+	<span class="hljs-tag">&lt;/<span class="hljs-name">Alert</span>&gt;</span>
+
+	<span class="hljs-tag">&lt;<span class="hljs-name">Alert</span> <span class="hljs-attr">message</span>=<span class="hljs-string">&quot;validation success&quot;</span> <span class="hljs-attr">cssClass</span>=<span class="hljs-string">&quot;variant-filled-success&quot;</span>&gt;</span>
+		<span class="hljs-tag">&lt;<span class="hljs-name">b</span>&gt;</span>test<span class="hljs-tag">&lt;/<span class="hljs-name">b</span>&gt;</span>
+	<span class="hljs-tag">&lt;/<span class="hljs-name">Alert</span>&gt;</span>
+
+	<span class="hljs-tag">&lt;<span class="hljs-name">Alert</span> <span class="hljs-attr">cssClass</span>=<span class="hljs-string">&quot;variant-ringed-success&quot;</span>&gt;</span>
+		<span class="hljs-tag">&lt;<span class="hljs-name">h3</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;h3&quot;</span>&gt;</span>Alert with a complex message<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
+		<span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>inside the Alert messsage everthing goes to the slot in the message block<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+		<span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;list-disc pl-5&quot;</span>&gt;</span>
+			<span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>note 1<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+			<span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>note 2<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+			<span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>note 3<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+		<span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+	<span class="hljs-tag">&lt;/<span class="hljs-name">Alert</span>&gt;</span>
+
+	<span class="hljs-tag">&lt;<span class="hljs-name">Alert</span>
+		<span class="hljs-attr">title</span>=<span class="hljs-string">&quot;Alert with extra button&quot;</span>
+		<span class="hljs-attr">message</span>=<span class="hljs-string">&quot;in the slot actions you can create your own container with different acions&quot;</span>
+		<span class="hljs-attr">cssClass</span>=<span class="hljs-string">&quot;variant-ringed-success&quot;</span>
+	&gt;</span>
+		<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;flex gap-2&quot;</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;actions&quot;</span>&gt;</span>
+			<span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;btn hover:text-primary-100&quot;</span> <span class="hljs-attr">on:click</span>=<span class="hljs-string">{()</span> =&gt;</span> alert(&#x27;edit&#x27;)}&gt;
+				<span class="hljs-tag">&lt;<span class="hljs-name">Fa</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">{faEdit}</span> /&gt;</span>
+			<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+			<span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;btn hover:text-primary-100&quot;</span> <span class="hljs-attr">on:click</span>=<span class="hljs-string">{()</span> =&gt;</span> alert(&#x27;something else&#x27;)}&gt;
+				<span class="hljs-tag">&lt;<span class="hljs-name">Fa</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">{faCableCar}</span> /&gt;</span>
+			<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+		<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+	<span class="hljs-tag">&lt;/<span class="hljs-name">Alert</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><!-- HTML_TAG_END --></code></pre></div>
+					</div></div></div></div></div></div>
+
+		<div><div class="py-5"><h3 class="h3">Spinner</h3>
+		<div><div slot="info"><p>every time there is a change that a user has to wait for, a spinner should be used. this
+					component can be customized by <b>color, size and position.</b></p>
+				<aside class="alert variant-filled-warning">
+		
+		
+		<div class="alert-message">
+			<p>For coloring the spinner you can use all tailwind text color
+				</p></div>
+		
+		<div class="alert-actions">
+
+			</div></aside></div></div></div>
+
+	
+
+	
+
+	
+
+	<div><div class="card flex p-5 gap-10"><div class="w-1/2"><div class="grid grid-cols-1 space-y-10 divide-y-2"><div><h4 class="h4">default</h4>
+		<div class="flex justify-center items-center h-full w-full gap-5 pt-2 text-surface-600"><div class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status"><span class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">Loading...</span></div>
+	<span></span></div></div>
+
+	<div><h4 class="h4">change color</h4>
+		<div class="flex justify-center items-center h-full w-full gap-5 pt-2 text-primary-500"><div class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status"><span class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">Loading...</span></div>
+	<span></span></div></div>
+
+	<div><h4 class="h4">change position</h4>
+		<div class="flex justify-center items-center h-full w-full gap-5 pt-2 text-secondary-500"><div class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status"><span class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">Loading...</span></div>
+	<span></span></div></div>
+
+	<div><h4 class="h4">add text</h4>
+		<div class="flex justify-center items-center h-full w-full gap-5 pt-2 text-surface-500"><div class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status"><span class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">Loading...</span></div>
+	<span>validation is running, please waiting until dead</span></div></div></div></div>
+
+			<div class="w-1/2">
+
+<div class="tab-group space-y-4 " data-testid="tab-group">
+	<div class="tab-list flex overflow-x-auto hide-scrollbar justify-start border-b border-surface-400-500-token " role="tablist" aria-labelledby=""><label class="text-center cursor-pointer transition-colors duration-100 flex-none px-4 py-2 rounded-tl-container-token rounded-tr-container-token border-b-2 border-surface-900-50-token " title="">
+	<div class="tab " data-testid="tab" role="tab" aria-controls="" aria-selected="true" tabindex="0">
+		<div class="h-0 w-0 overflow-hidden"><input type="radio" name="html" value="0" tabindex="-1" checked></div>
+		
+		<div class="tab-interface  space-y-1">
+			<div class="tab-label">Svelte</div></div></div></label>
+					
+					
+					
+					
+					
+					
+					
+
+					</div>
+	
+	<div class="tab-panel  " role="tabpanel" aria-labelledby="" tabindex="0">
+						
+<div class="codeblock overflow-hidden shadow bg-neutral-900/90  text-sm text-white rounded-container-token shadow " data-testid="codeblock">
+	<header class="codeblock-header text-xs text-white/50 uppercase flex justify-between items-center p-2 pl-4">
+		<span class="codeblock-language">html</span>
+		
+		<button class="codeblock-btn btn btn-sm variant-soft !text-white">Copy</button></header>
+	
+	<pre class="codeblock-pre whitespace-pre-wrap break-all p-4 pt-1"><code class="codeblock-code language-html lineNumbers"><!-- HTML_TAG_START --><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+	<span class="hljs-keyword">import</span> <span class="hljs-title class_">Spinner</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;$lib/components/page/Spinner.svelte&#x27;</span>;
+	<span class="hljs-keyword">import</span> { positionType } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;$lib/models/Enums&#x27;</span>;
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;grid grid-cols-1 space-y-10 divide-y-2&quot;</span>&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+		<span class="hljs-tag">&lt;<span class="hljs-name">h4</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;h4&quot;</span>&gt;</span>default<span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span>
+		<span class="hljs-tag">&lt;<span class="hljs-name">Spinner</span> /&gt;</span>
+	<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+	<span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+		<span class="hljs-tag">&lt;<span class="hljs-name">h4</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;h4&quot;</span>&gt;</span>change color<span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span>
+		<span class="hljs-tag">&lt;<span class="hljs-name">Spinner</span> <span class="hljs-attr">textCss</span>=<span class="hljs-string">&quot;text-primary-500&quot;</span> /&gt;</span>
+	<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+	<span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+		<span class="hljs-tag">&lt;<span class="hljs-name">h4</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;h4&quot;</span>&gt;</span>change position<span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span>
+		<span class="hljs-tag">&lt;<span class="hljs-name">Spinner</span> <span class="hljs-attr">textCss</span>=<span class="hljs-string">&quot;text-secondary-500&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">{positionType.center}</span> /&gt;</span>
+	<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+	<span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+		<span class="hljs-tag">&lt;<span class="hljs-name">h4</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;h4&quot;</span>&gt;</span>add text<span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span>
+		<span class="hljs-tag">&lt;<span class="hljs-name">Spinner</span> <span class="hljs-attr">textCss</span>=<span class="hljs-string">&quot;text-surface-500&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;validation is running, please waiting until dead&quot;</span> /&gt;</span>
+	<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><!-- HTML_TAG_END --></code></pre></div>
+					</div></div></div></div></div></div></div></div>
+
+		
+
+		</div>
+
+	
+	</main>
+
+			
+			</div>
+
+		
+		</div>
+
+	
+	<footer id="shell-footer" class="flex-none "><!-- HTML_TAG_START --><!-- HTML_TAG_END -->
+	</footer></div></div></main>
+
+			
+			</div>
+
+		
+		<aside id="sidebar-right" class="flex-none overflow-x-hidden overflow-y-auto w-auto"><div class="fixed right-0 top-0 overflow-auto h-full  w-max"><div class="px-10 pt-10 text-primary-500 overflow-auto h-max variant-glass-surface"><button class="fixed top-0 left-0 btn btn-sm variant-filled-primary m-1">></button>
+				
+
+</div></div>
+	</aside></div>
+
+	
+	</div>
+	
+	
+	</main>
+
+			
+			</div>
+
+		
+		</div>
+
+	
+	</div>
+
+
+			
 			<script>
 				{
-					__sveltekit_ycrkvr = {
+					__sveltekit_1bjtihr = {
 						assets: "/bexis2-core-ui",
 						base: new URL("../..", location).pathname.slice(0, -1),
 						env: {}
@@ -27,11 +803,18 @@
 
 					const element = document.currentScript.parentElement;
 
+					const data = [null,null,null];
+
 					Promise.all([
-						import("../../_app/immutable/entry/start.fb9c2672.js"),
-						import("../../_app/immutable/entry/app.72ed8ffe.js")
+						import("../../_app/immutable/entry/start.c777f38d.js"),
+						import("../../_app/immutable/entry/app.0a7c8b68.js")
 					]).then(([kit, app]) => {
-						kit.start(app, element);
+						kit.start(app, element, {
+							node_ids: [0, 3, 12],
+							data,
+							form: null,
+							error: null
+						});
 					});
 				}
 			</script>
