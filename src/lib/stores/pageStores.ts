@@ -7,8 +7,9 @@ import type {
 } from '$models/Models';
 import type { MenuModel, breadcrumbItemType } from '$models/Page';
 import { BreadcrumbModel } from '$models/Page';
-import { toastStore, type ToastSettings } from '@skeletonlabs/skeleton';
-import { writable, type Writable } from 'svelte/store';
+
+
+import { writable } from 'svelte/store';
 
 function createHelpStore() {
 	// set Store Type
@@ -182,59 +183,18 @@ function createNotificationStore() {
 				message: notificationItem.message,
 				btnStyle: btnStyle
 			});
-			notificationStore.subscribe((value) => {});
+			notificationStore.subscribe((value) => {""});
 		},
 
-		// triggers the notification to show
-		triggerNotification: () => {
-			let timeout: number = 30000;
-			let classes: string = '';
-			let message: string = '';
-			notificationStore.subscribe((value) => {
-				switch (value.notificationType) {
-					case notificationType.success:
-						classes =
-							'bg-success-300 border-solid border-2 border-success-500 shadow-md text-surface-900';
-						break;
-					case notificationType.warning:
-						classes =
-							'bg-warning-300 border-solid border-2 border-warning-500 shadow-md text-surface-900';
-						break;
-					case notificationType.error:
-						classes =
-							'bg-error-300 border-solid border-2 border-error-500 shadow-md text-surface-900';
-						break;
-					case notificationType.surface:
-						classes =
-							'bg-surface-300 border-solid border-2 border-surface-500 shadow-md text-surface-900';
-						break;
-				}
-
-				message = value.message;
-			});
-			if (classes != '' && message != '') {
-				const notificationToast: ToastSettings = {
-					classes: classes,
-					message: message,
-					timeout: timeout
-				};
-				toastStore.trigger(notificationToast);
-			}
-		},
-
-		// cleans the toastStore
-		clear: () => {
-			toastStore.clear();
-		},
 
 		// cleans, sets, and schows the notification (all you need ;))
 		showNotification: (notificationItem: notificationItemType) => {
-			notificationStore.clear();
+			//notificationStore.clear();
 			notificationStore.setNotification({
 				notificationType: notificationItem.notificationType,
 				message: notificationItem.message
 			});
-			notificationStore.triggerNotification();
+			// if the store is changing, the notification componend will be updated
 		},
 
 		// gets the dissmiss Button style

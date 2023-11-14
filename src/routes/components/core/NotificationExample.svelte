@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { notificationType } from '$models/Enums';
-	import { notificationStore } from '$store/pageStores.js';
-	import { error } from '@sveltejs/kit';
+	import { notificationStore } from '$store/pageStores';
 
 	let HTMLMessage: string =
 		'<h3 class="h3">HTML Message<h3><li>message 1</li><li>message 2</li><li>message 3</li>';

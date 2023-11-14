@@ -476,7 +476,8 @@ export const tableOptionsHTML = `
 
 export const tableCRUDHTML = `
 <script lang="ts">
-	import { Modal, modalStore } from '@skeletonlabs/skeleton';
+	import { Modal, getModalStore } from '@skeletonlabs/skeleton';
+	const modalStore = getModalStore()
 	import { Table } from '@bexis2/bexis2-core-ui';
 	import type { TableConfig } from '@bexis2/bexis2-core-ui';
 

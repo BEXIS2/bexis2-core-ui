@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { AppRail, AppRailTile, drawerStore } from '@skeletonlabs/skeleton';
+	import { AppRail, AppRailTile, getDrawerStore } from '@skeletonlabs/skeleton';
+	const drawerStore = getDrawerStore();
 	import { writable, type Writable } from 'svelte/store';
 	import { page } from '$app/stores';
 
