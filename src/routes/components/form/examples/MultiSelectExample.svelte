@@ -3,15 +3,13 @@
 
 	import { CodeBlock } from '@skeletonlabs/skeleton';
 
-	let target = ["Canada","Armenia"];
-	$: target ;
+	let target = ['Canada', 'Armenia'];
+	$: target;
 
 	import { CountrieNames } from './exampleData';
 </script>
 
-
-
 <div class="grid gap-10">
-	<MultiSelect title="Required input fields" source={CountrieNames} bind:target={target} />
+	<MultiSelect title="Required input fields" source={CountrieNames} bind:target />
 	<CodeBlock language="ts" code={JSON.stringify(target, undefined, 2)} />
 </div>

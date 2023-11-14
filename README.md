@@ -25,7 +25,7 @@
 ## 0.2.28
 
 - add disabled to multiselect
-  
+
 ## 0.2.27
 
 - fix brand stretching

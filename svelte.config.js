@@ -24,6 +24,24 @@ const config = {
 			$store: './src/lib/stores',
 			$models: path.resolve('./src/lib/models'),
 			$services: path.resolve('./src/lib/services')
+		},
+		prerender: {
+			handleHttpError: ({ status, path, referrer, referenceType }) => {
+				if (
+					path.startsWith('/backend/') ||
+					path.startsWith('/images/') ||
+					path.startsWith('/search/')
+				) {
+					//do nothing as it links to backend
+				} else {
+					throw new Error(
+						path +
+							' Missing link.' +
+							`${status} ${path}${referrer ? ` (${referenceType} from ${referrer})` : ''}`
+					);
+				}
+				console.warn(`${status} ${path}${referrer ? ` (${referenceType} from ${referrer})` : ''}`);
+			}
 		}
 	}
 };
