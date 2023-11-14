@@ -6,8 +6,8 @@ import { join } from 'path';
 // 1. Import the Skeleton plugin
 import { skeleton } from '@skeletonlabs/tw-plugin';
 
-// add theme 
-import {bexis2Theme} from './src/lib/themes/theme-bexis2'
+// add theme
+import { bexis2theme } from './src/lib/themes/theme-bexis2';
 
 module.exports = {
 	darkMode: 'class',
@@ -23,7 +23,7 @@ module.exports = {
 		require('@tailwindcss/typography'),
 		skeleton({
 			themes: {
-				custom: [ bexis2Theme ]
+				custom: [bexis2theme]
 			}
 		})
 	]

@@ -20,7 +20,6 @@
 
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
-
 	import Docs from './Docs.svelte';
 
 	export let title = '';

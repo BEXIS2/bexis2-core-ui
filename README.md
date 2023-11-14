@@ -1,5 +1,13 @@
 # bexis-core-ui
 
+## 0.3.1
+
+- add bexis2theme
+
+## 0.3.0
+
+- update skeleton ui -> 2.5.0
+
 ## 0.2.32
 
 - resizability for Table rows and columns

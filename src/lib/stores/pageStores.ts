@@ -8,7 +8,6 @@ import type {
 import type { MenuModel, breadcrumbItemType } from '$models/Page';
 import { BreadcrumbModel } from '$models/Page';
 
-
 import { writable } from 'svelte/store';
 
 function createHelpStore() {
@@ -181,9 +180,10 @@ function createNotificationStore() {
 				message: notificationItem.message,
 				btnStyle: btnStyle
 			});
-			notificationStore.subscribe((value) => {""});
+			notificationStore.subscribe((value) => {
+				('');
+			});
 		},
-
 
 		// cleans, sets, and schows the notification (all you need ;))
 		showNotification: (notificationItem: notificationItemType) => {

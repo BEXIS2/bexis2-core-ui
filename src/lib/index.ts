@@ -39,6 +39,9 @@ import Notification from './components/page/Notification.svelte';
 //table placeholder
 import TablePlaceholder from './components/page/TablePlaceholder.svelte';
 
+// theme
+import { bexis2theme } from './themes/theme-bexis2';
+
 //Form
 export {
 	Checkbox,
@@ -104,3 +107,6 @@ export { Table, TableFilter, columnFilter, searchFilter };
 export { CodeEditor };
 
 export type { TableConfig, Columns, Column };
+
+// theme
+export { bexis2theme };

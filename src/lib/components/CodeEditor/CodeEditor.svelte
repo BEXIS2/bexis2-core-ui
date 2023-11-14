@@ -9,7 +9,7 @@
 	import { lintGutter, linter } from '@codemirror/lint';
 	import { json, jsonParseLinter } from '@codemirror/lang-json';
 	import { oneDark } from '@codemirror/theme-one-dark';
-	import { Modal, getModalStore} from '@skeletonlabs/skeleton';
+	import { Modal, getModalStore } from '@skeletonlabs/skeleton';
 	const modalStore = getModalStore();
 	import { faMoon, faSave, faSun } from '@fortawesome/free-regular-svg-icons';
 	import { faArrowRotateLeft, faXmark } from '@fortawesome/free-solid-svg-icons';
