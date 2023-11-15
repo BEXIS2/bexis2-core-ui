@@ -17,6 +17,7 @@
 		toggle: true,
 		data: groupsStore,
 		resizable: 'both',
+		rowHeight: 40,
 		columns: {
 			name: {
 				minWidth: 200
