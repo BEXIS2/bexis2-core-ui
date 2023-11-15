@@ -6,7 +6,8 @@
 		addPagination,
 		addExpandedRows,
 		addColumnFilters,
-		addTableFilter
+		addTableFilter,
+		addDataExport
 	} from 'svelte-headless-table/plugins';
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
 	import { SlideToggle, storePopup } from '@skeletonlabs/skeleton';
@@ -32,7 +33,8 @@
 		defaultPageSize = 10, // Default page size - number of rows to display per page
 		toggle = false, // Whether to display the fitToScreen toggle
 		pageSizes = [5, 10, 15, 20], // Page sizes to display in the pagination component
-		fitToScreen = true // Whether to fit the table to the screen
+		fitToScreen = true, // Whether to fit the table to the screen,
+		exportable = false // Whether to display the export button and enable export functionality
 	} = config;
 
 	// Creatign a type to access keys of the objects in the data store
@@ -50,7 +52,8 @@
 		}),
 		sort: addSortBy({ disableMultiSort: true }),
 		page: addPagination({ initialPageSize: defaultPageSize }),
-		expand: addExpandedRows()
+		expand: addExpandedRows(),
+		export: addDataExport({ format: 'csv' })
 	});
 
 	// A variable to hold all the keys
@@ -182,6 +185,11 @@
 			table.display({
 				id: 'optionsColumn',
 				header: '',
+				plugins: {
+					export: {
+						exclude: true
+					}
+				},
 				cell: ({ row }, _) => {
 					return createRender(optionsComponent!, {
 						row: row.isData() ? row.original : null,
@@ -199,6 +207,8 @@
 		table.createViewModel(createdTableColumns);
 	// Extracting filterValue to bind it for the search input and search immediately on input
 	const { filterValue } = pluginStates.tableFilter;
+	// CSV content to be exported. If unexportable, then null
+	const { exportedData } = pluginStates.export;
 
 	// Function to determine minWidth for a column to simplify the logic in the HTML
 	const minWidth = (id: string) => {
@@ -265,6 +275,17 @@
 			});
 		}
 	};
+
+	const exportAsCsv = () => {
+		// Creating a hidden anchor element to download the CSV file
+		const anchor = document.createElement('a');
+		anchor.style.display = 'none';
+		anchor.href = `data:text/csv;charset=utf-8,${encodeURIComponent($exportedData)}`;
+		anchor.download = `${tableId}.csv`;
+		document.body.appendChild(anchor);
+		anchor.click();
+		document.body.removeChild(anchor);
+	};
 </script>
 
 <div class="grid gap-2 overflow-auto" class:w-fit={!fitToScreen} class:w-full={fitToScreen}>
@@ -294,13 +315,20 @@
 					>
 				{/if}
 			</div>
-			<div>
+			<div class="flex gap-2">
 				<!-- Enable the resetResize button if resizable !== 'none' -->
 				{#if resizable !== 'none'}
 					<button
 						type="button"
 						class="btn btn-sm variant-filled-primary rounded-full order-last"
 						on:click|preventDefault={resetResize}>Reset sizing</button
+					>
+				{/if}
+				{#if exportable}
+					<button
+						type="button"
+						class="btn btn-sm variant-filled-primary rounded-full order-last"
+						on:click|preventDefault={exportAsCsv}>Export as CSV</button
 					>
 				{/if}
 			</div>
@@ -376,7 +404,7 @@
 				<tbody class="overflow-auto" {...$tableBodyAttrs}>
 					{#each $pageRows as row (row.id)}
 						<Subscribe rowAttrs={row.attrs()} let:rowAttrs>
-							<tr {...rowAttrs} id="{tableId}-row-{row.id}" class="" >
+							<tr {...rowAttrs} id="{tableId}-row-{row.id}" class="">
 								{#each row.cells as cell, index (cell?.id)}
 									<Subscribe attrs={cell.attrs()} let:attrs>
 										<td
@@ -388,7 +416,10 @@
 											id="{tableId}-{cell.id}-{row.id}"
 										>
 											<!-- Adding config for initial rowHeight, if provided -->
-											<div class="flex items-center" style="height: {rowHeight ? `${rowHeight}px` : 'auto'};">
+											<div
+												class="flex items-center"
+												style="height: {rowHeight ? `${rowHeight}px` : 'auto'};"
+											>
 												<div class="grow h-full"><Render of={cell.render()} /></div>
 											</div>
 										</td>
