@@ -208,6 +208,7 @@ export interface TableConfig<T> {
 	height?: null | number; // null by default
 	rowHeight?: number; // auto by default
 	columns?: Columns;
+	exportable?: boolean; // false by default
 	pageSizes?: number[]; // [5, 10, 15, 20] by default
 	defaultPageSize?: number; // 10 by default
 	optionsComponent?: typeof SvelteComponent;
@@ -504,6 +505,7 @@ export const tableCRUDHTML = `
 		data: groupsStore,
 		resizable: 'both',
 		rowHeight: 40,
+		exportable: true,
 		columns: {
 			name: {
 				minWidth: 200,

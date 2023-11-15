@@ -49,6 +49,19 @@
 
 	<div class="items-center">
 		<div class="flex gap-2">
+			<div class="italic">exportable:</div>
+			<div class="font-bold">boolean</div>
+		</div>
+
+		<p class="text-xl pl-10">
+			Whether the table should be exportable to CSV. <code
+				class="!text-xl bg-red-100 rounded-md p-0.5 text-red-500">false</code
+			> by default.
+		</p>
+	</div>
+
+	<div class="items-center">
+		<div class="flex gap-2">
 			<div class="italic">toggle:</div>
 			<div class="font-bold">boolean</div>
 		</div>
