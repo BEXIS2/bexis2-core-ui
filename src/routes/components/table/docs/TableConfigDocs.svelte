@@ -75,6 +75,19 @@
 
 	<div class="items-center">
 		<div class="flex gap-2">
+			<div class="italic">rowHeight:</div>
+			<div class="font-bold">number</div>
+		</div>
+
+		<p class="text-xl pl-10">
+			Sets height for the rows in pixels. If <code
+				class="!text-xl bg-tertiary-300 rounded-md p-0.5 text-primary-500">resizable</code
+			> is set to "both" or "rows", this value can be interpreted as minimum height for the rows.
+		</p>
+	</div>
+
+	<div class="items-center">
+		<div class="flex gap-2">
 			<div class="italic">fitToScreen:</div>
 			<div class="font-bold">boolean</div>
 		</div>
