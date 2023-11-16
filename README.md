@@ -1,5 +1,16 @@
 # bexis-core-ui
 
+## 0.3.2
+
+- Table
+  - `rowHeight (number)`: fixed height for rows in pixels. (if combined with resizability, acts as minimum height)
+  - `exportability (boolean)`: if toggled true, lets user to export the current state of the table as CSV.
+  - Optimized styles for dark mode.
+  - Bug fix related to empty tables.
+  - Migrated to new TableOfContents structure (Beta).
+- LightSwitch for toggling dark mode on documentation pages.
+- Optimized surface colors in dark mode.
+
 ## 0.3.1
 
 - add bexis2theme
