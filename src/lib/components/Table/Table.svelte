@@ -299,40 +299,39 @@
 				placeholder="Search rows..."
 				id="{tableId}-search"
 			/>
+			<div class="flex justify-between items-center py-2 w-full">
+				<div>
+					<!-- Enable the fitToScreen toggle if toggle === true -->
+					{#if toggle}
+						<SlideToggle
+							name="slider-label"
+							active="bg-primary-500"
+							size="sm"
+							checked={fitToScreen}
+							id="{tableId}-toggle"
+							on:change={() => (fitToScreen = !fitToScreen)}>Fit to screen</SlideToggle
+						>
+					{/if}
+				</div>
+				<div class="flex gap-2">
+					<!-- Enable the resetResize button if resizable !== 'none' -->
+					{#if resizable !== 'none'}
+						<button
+							type="button"
+							class="btn btn-sm variant-filled-primary rounded-full order-last"
+							on:click|preventDefault={resetResize}>Reset sizing</button
+						>
+					{/if}
+					{#if exportable}
+						<button
+							type="button"
+							class="btn btn-sm variant-filled-primary rounded-full order-last"
+							on:click|preventDefault={exportAsCsv}>Export as CSV</button
+						>
+					{/if}
+				</div>
+			</div>
 		{/if}
-
-		<div class="flex justify-between items-center py-2 w-full">
-			<div>
-				<!-- Enable the fitToScreen toggle if toggle === true -->
-				{#if toggle}
-					<SlideToggle
-						name="slider-label"
-						active="bg-primary-500"
-						size="sm"
-						checked={fitToScreen}
-						id="{tableId}-toggle"
-						on:change={() => (fitToScreen = !fitToScreen)}>Fit to screen</SlideToggle
-					>
-				{/if}
-			</div>
-			<div class="flex gap-2">
-				<!-- Enable the resetResize button if resizable !== 'none' -->
-				{#if resizable !== 'none'}
-					<button
-						type="button"
-						class="btn btn-sm variant-filled-primary rounded-full order-last"
-						on:click|preventDefault={resetResize}>Reset sizing</button
-					>
-				{/if}
-				{#if exportable}
-					<button
-						type="button"
-						class="btn btn-sm variant-filled-primary rounded-full order-last"
-						on:click|preventDefault={exportAsCsv}>Export as CSV</button
-					>
-				{/if}
-			</div>
-		</div>
 
 		<div class="overflow-auto" style="height: {height}px">
 			<table
@@ -342,92 +341,96 @@
 			>
 				<!-- If table height is provided, making the top row sticky -->
 				<thead class=" {height != null ? `sticky top-0` : ''}">
-					{#each $headerRows as headerRow (headerRow.id)}
-						<Subscribe
-							rowAttrs={headerRow.attrs()}
-							let:rowAttrs
-							rowProps={headerRow.props()}
-							let:rowProps
-						>
-							<tr {...rowAttrs} class="bg-primary-300 items-stretch">
-								{#each headerRow.cells as cell (cell.id)}
-									<Subscribe attrs={cell.attrs()} props={cell.props()} let:props let:attrs>
-										<th
-											scope="col"
-											class="!p-2 overflow-auto"
-											class:resize-x={(resizable === 'columns' || resizable === 'both') &&
-												!fixedWidth(cell.id)}
-											{...attrs}
-											id="th-{tableId}-{cell.id}"
-											style={cellStyle(cell.id)}
-										>
-											<div class="flex justify-between items-center">
-												<div class="flex gap-1 whitespace-pre-wrap">
-													<!-- Adding sorting config and styling -->
-													<span
-														class:underline={props.sort.order}
-														class:normal-case={cell.id !== cell.label}
-														class:cursor-pointer={!props.sort.disabled}
-														on:click={props.sort.toggle}
-														on:keydown={props.sort.toggle}
-													>
-														{cell.render()}
-													</span>
-													<div class="w-2">
-														{#if props.sort.order === 'asc'}
-															▾
-														{:else if props.sort.order === 'desc'}
-															▴
-														{/if}
-													</div>
-												</div>
-												<!-- Adding column filter config -->
-												{#if cell.isData()}
-													{#if props.colFilter?.render}
-														<div class="">
-															<Render of={props.colFilter.render} />
+					{#if $data.length > 0}
+						{#each $headerRows as headerRow (headerRow.id)}
+							<Subscribe
+								rowAttrs={headerRow.attrs()}
+								let:rowAttrs
+								rowProps={headerRow.props()}
+								let:rowProps
+							>
+								<tr {...rowAttrs} class="bg-primary-300 items-stretch">
+									{#each headerRow.cells as cell (cell.id)}
+										<Subscribe attrs={cell.attrs()} props={cell.props()} let:props let:attrs>
+											<th
+												scope="col"
+												class="!p-2 overflow-auto"
+												class:resize-x={(resizable === 'columns' || resizable === 'both') &&
+													!fixedWidth(cell.id)}
+												{...attrs}
+												id="th-{tableId}-{cell.id}"
+												style={cellStyle(cell.id)}
+											>
+												<div class="flex justify-between items-center">
+													<div class="flex gap-1 whitespace-pre-wrap">
+														<!-- Adding sorting config and styling -->
+														<span
+															class:underline={props.sort.order}
+															class:normal-case={cell.id !== cell.label}
+															class:cursor-pointer={!props.sort.disabled}
+															on:click={props.sort.toggle}
+															on:keydown={props.sort.toggle}
+														>
+															{cell.render()}
+														</span>
+														<div class="w-2">
+															{#if props.sort.order === 'asc'}
+																▾
+															{:else if props.sort.order === 'desc'}
+																▴
+															{/if}
 														</div>
+													</div>
+													<!-- Adding column filter config -->
+													{#if cell.isData()}
+														{#if props.colFilter?.render}
+															<div class="">
+																<Render of={props.colFilter.render} />
+															</div>
+														{/if}
 													{/if}
-												{/if}
-											</div>
-										</th>
-									</Subscribe>
-								{/each}
-							</tr>
-						</Subscribe>
+												</div>
+											</th>
+										</Subscribe>
+									{/each}
+								</tr>
+							</Subscribe>
+						{/each}
 					{:else}
 						<!-- Table is empty -->
 						<p class="items-center justify-center flex w-full p-10 italic">Nothing to show here.</p>
-					{/each}
+					{/if}
 				</thead>
 
 				<tbody class="overflow-auto" {...$tableBodyAttrs}>
-					{#each $pageRows as row (row.id)}
-						<Subscribe rowAttrs={row.attrs()} let:rowAttrs>
-							<tr {...rowAttrs} id="{tableId}-row-{row.id}" class="">
-								{#each row.cells as cell, index (cell?.id)}
-									<Subscribe attrs={cell.attrs()} let:attrs>
-										<td
-											{...attrs}
-											class="!p-2 overflow-auto {index === 0 &&
-											(resizable === 'rows' || resizable === 'both')
-												? 'resize-y'
-												: ''}"
-											id="{tableId}-{cell.id}-{row.id}"
-										>
-											<!-- Adding config for initial rowHeight, if provided -->
-											<div
-												class="flex items-center"
-												style="height: {rowHeight ? `${rowHeight}px` : 'auto'};"
+					{#if $data.length > 0}
+						{#each $pageRows as row (row.id)}
+							<Subscribe rowAttrs={row.attrs()} let:rowAttrs>
+								<tr {...rowAttrs} id="{tableId}-row-{row.id}" class="">
+									{#each row.cells as cell, index (cell?.id)}
+										<Subscribe attrs={cell.attrs()} let:attrs>
+											<td
+												{...attrs}
+												class="!p-2 overflow-auto {index === 0 &&
+												(resizable === 'rows' || resizable === 'both')
+													? 'resize-y'
+													: ''}"
+												id="{tableId}-{cell.id}-{row.id}"
 											>
-												<div class="grow h-full"><Render of={cell.render()} /></div>
-											</div>
-										</td>
-									</Subscribe>
-								{/each}
-							</tr>
-						</Subscribe>
-					{/each}
+												<!-- Adding config for initial rowHeight, if provided -->
+												<div
+													class="flex items-center"
+													style="height: {rowHeight ? `${rowHeight}px` : 'auto'};"
+												>
+													<div class="grow h-full"><Render of={cell.render()} /></div>
+												</div>
+											</td>
+										</Subscribe>
+									{/each}
+								</tr>
+							</Subscribe>
+						{/each}
+					{/if}
 				</tbody>
 			</table>
 		</div>
