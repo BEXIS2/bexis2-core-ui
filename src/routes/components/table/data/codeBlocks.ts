@@ -202,12 +202,15 @@ export const tableConfigTypeCode = `
 export interface TableConfig<T> {
 	id: string;
 	data: Writable<T[]>;
-	toggle?: boolean;
-	fitToScreen?: boolean;
-	height?: null | number;
+	resizable?: 'rows' | 'columns' | 'both'; // none by default
+	toggle?: boolean; // false by default
+	fitToScreen?: boolean; // true by default
+	height?: null | number; // null by default
+	rowHeight?: number; // auto by default
 	columns?: Columns;
-	pageSizes?: number[];
-	defaultPageSize?: number;
+	exportable?: boolean; // false by default
+	pageSizes?: number[]; // [5, 10, 15, 20] by default
+	defaultPageSize?: number; // 10 by default
 	optionsComponent?: typeof SvelteComponent;
 }`;
 
@@ -218,20 +221,23 @@ export interface Columns {
 
 export const columnTypeCode = `
 export interface Column {
-	header?: string;
+	header?: string; // key by default
 	exclude?: boolean; // false by default
 	instructions?: ColumnInstructions;
 	disableFiltering?: boolean; // false by default
 	disableSorting?: boolean; // false by default
 	colFilterFn?: ColumnFilterFn;
 	colFilterComponent?: typeof SvelteComponent;
+	minWidth?: number; // auto by default
+	fixedWidth?: number; // auto by default
 }`;
 
 export const columnInstructionsTypeCode = `
 export interface ColumnInstructions {
-	toStringFn?: (value: any) => string;
-	toSortableValueFn?: (value: any) => string | number;
-	toFilterableValueFn?: (value: any) => string | number | Date;
+	toStringFn?: (any) => string; // value by default
+	toSortableValueFn?: (any) => string | number; // value by default
+	toFilterableValueFn?: (any) => string | number | Date; // value by default
+	renderComponent?: typeof SvelteComponent; // null by default
 }`;
 
 export const usersMissingIDsHTML = `
@@ -498,6 +504,8 @@ export const tableCRUDHTML = `
 		toggle: true,
 		data: groupsStore,
 		resizable: 'both',
+		rowHeight: 40,
+		exportable: true,
 		columns: {
 			name: {
 				minWidth: 200,

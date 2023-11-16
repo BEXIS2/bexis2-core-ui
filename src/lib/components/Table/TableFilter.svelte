@@ -14,8 +14,10 @@
 	let firstValue;
 	let secondOption;
 	let secondValue;
+	// If the filter is applied and the displayed values are filtered
 	let active = false;
 
+	// Options for different types of values
 	const options = {
 		number: [
 			{
@@ -97,8 +99,9 @@
 		]
 	};
 
+	// Unique ID for the column filter popup
 	const popupId = `${tableId}-${id}`;
-
+	// Popup config
 	const popupFeatured: PopupSettings = {
 		event: 'click',
 		target: popupId,
@@ -107,7 +110,7 @@
 
 	let type: string = 'string';
 	let isDate = false;
-
+	// Check the type of the column
 	$values.forEach((item) => {
 		if (item) {
 			type = typeof (toFilterableValueFn ? toFilterableValueFn(item) : item);
@@ -119,7 +122,7 @@
 			}
 		}
 	});
-
+	// Determine if the type is date
 	type = isDate ? 'date' : type;
 </script>
 
@@ -140,6 +143,7 @@
 				class="btn variant-filled-primary btn-sm"
 				type="button"
 				on:click|preventDefault={() => {
+					// Set the defaults when cleared
 					firstOption = 'isequal';
 					firstValue = undefined;
 					secondOption = 'isequal';

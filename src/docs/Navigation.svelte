@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { AppRail, AppRailTile, getDrawerStore } from '@skeletonlabs/skeleton';
+	import { AppRail, AppRailTile, LightSwitch, getDrawerStore } from '@skeletonlabs/skeleton';
 	const drawerStore = getDrawerStore();
 	import { writable, type Writable } from 'svelte/store';
 	import { page } from '$app/stores';
@@ -47,7 +47,8 @@
 		border="border-r border-surface-500/30"
 		width="w-[70px]"
 	>
-		<svelte:fragment slot="lead">
+		<svelte:fragment slot="lead"
+			><div class="flex justify-center py-2"><LightSwitch /></div>
 			<AppRailTile label="General" title="Tile" value={'general'} on:click={onListItemClick}
 				><i class="fa-solid fa-screwdriver-wrench text-2xl" /></AppRailTile
 			>

@@ -3,5 +3,5 @@
 </script>
 
 <AppShell slotSidebarLeft="flex-none bg-surface-50-900-token lg:w-auto relative">
-	<slot />
+	<div class="dark:bg-surface-800"><slot /></div>
 </AppShell>

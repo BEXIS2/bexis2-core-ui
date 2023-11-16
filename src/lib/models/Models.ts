@@ -80,10 +80,10 @@ export interface fileObjType {
 }
 
 export interface ColumnInstructions {
-	toStringFn?: (any) => string;
-	toSortableValueFn?: (any) => string | number;
-	toFilterableValueFn?: (any) => string | number | Date;
-	renderComponent?: typeof SvelteComponent;
+	toStringFn?: (any) => string; // value by default
+	toSortableValueFn?: (any) => string | number; // value by default
+	toFilterableValueFn?: (any) => string | number | Date; // value by default
+	renderComponent?: typeof SvelteComponent; // null by default
 }
 
 // Table column type
@@ -111,7 +111,9 @@ export interface TableConfig<T> {
 	toggle?: boolean; // false by default
 	fitToScreen?: boolean; // true by default
 	height?: null | number; // null by default
+	rowHeight?: number; // auto by default
 	columns?: Columns;
+	exportable?: boolean; // false by default
 	pageSizes?: number[]; // [5, 10, 15, 20] by default
 	defaultPageSize?: number; // 10 by default
 	optionsComponent?: typeof SvelteComponent;

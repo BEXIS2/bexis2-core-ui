@@ -60,14 +60,14 @@
 
 		<div class="ml-5">
 			<p class="underline">
-				<code class="!text-xl bg-tertiary-300 rounded-md p-0.5 text-primary-500"
+				<code class="!text-xl bg-tertiary-300 dark:bg-tertiary-700/50 rounded-md p-0.5 text-primary-500"
 					>renderComponent</code
 				>
 				overrides
-				<code class="!text-xl bg-tertiary-300 rounded-md p-0.5 text-primary-500">toStringFn</code>.
+				<code class="!text-xl bg-tertiary-300 dark:bg-tertiary-700/50 rounded-md p-0.5 text-primary-500">toStringFn</code>.
 			</p>
 			<p class="">
-				Every <code class="!text-xl bg-tertiary-300 rounded-md p-0.5 text-primary-500"
+				Every <code class="!text-xl bg-tertiary-300 dark:bg-tertiary-700/50 rounded-md p-0.5 text-primary-500"
 					>renderComponent</code
 				> will get 2 props:
 			</p>

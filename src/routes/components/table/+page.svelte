@@ -6,9 +6,13 @@
 	import ColumnInstructionsDocs from './docs/ColumnInstructionsDocs.svelte';
 	import TableExamplesDocs from './docs/TableExamplesDocs.svelte';
 	import ActionDispatchersDocs from './docs/ActionDispatchersDocs.svelte';
+	import { tocCrawler } from '@skeletonlabs/skeleton';
 </script>
 
-<div class="grid gap-20 p-10" id="toc-target-table">
+<div
+	class="grid gap-20 p-10 dark:bg-surface-800"
+	use:tocCrawler={{ mode: 'generate', scrollTarget: '#page-content' }}
+>
 	<div class="grid gap-5">
 		<h1 class="font-bold !text-6xl">Table</h1>
 		<h2 class="h2">Types</h2>

@@ -113,7 +113,7 @@
 						<Tab bind:group={tabSet} name="javascript" value={5}>Javascript</Tab>
 					{/if}
 					{#if json}
-						<Tab bind:group={tabSet} name="javascript" value={6}>Json</Tab>
+						<Tab bind:group={tabSet} name="json" value={6}>Json</Tab>
 					{/if}
 					{#if data}
 						<Tab bind:group={tabSet} name="javascript" value={7}>Data</Tab>
@@ -134,7 +134,7 @@
 						{:else if tabSet === 5}
 							<CodeBlock language="javascript" code={javascript} />
 						{:else if tabSet === 6}
-							<CodeBlock language="javascript" code={json} />
+							<CodeBlock language="json" code={json} />
 						{:else if tabSet === 7}
 							<CodeBlock language="javascript" code={data} />
 						{/if}

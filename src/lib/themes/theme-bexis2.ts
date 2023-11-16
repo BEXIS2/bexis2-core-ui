@@ -97,5 +97,18 @@ export const bexis2theme: CustomThemeConfig = {
 		'--color-surface-700': '149 149 149', // #959595
 		'--color-surface-800': '119 119 119', // #777777
 		'--color-surface-900': '98 98 98' // #626262
+	},
+	properties_dark: {
+		// surface | #2e2e2e
+		'--color-surface-50': '224 224 224', // #e0e0e0
+		'--color-surface-100': '213 213 213', // #d5d5d5
+		'--color-surface-200': '203 203 203', // #cbcbcb
+		'--color-surface-300': '171 171 171', // #ababab
+		'--color-surface-400': '109 109 109', // #6d6d6d
+		'--color-surface-500': '46 46 46', // #2e2e2e
+		'--color-surface-600': '41 41 41', // #292929
+		'--color-surface-700': '35 35 35', // #232323
+		'--color-surface-800': '28 28 28', // #1c1c1c
+		'--color-surface-900': '23 23 23' // #171717
 	}
 };

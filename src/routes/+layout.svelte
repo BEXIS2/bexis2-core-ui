@@ -15,7 +15,26 @@
 	import '../app.postcss';
 
 	// Config for the syntax highlighting
-	//storeHighlightJs.set(hljs);
+	import { storeHighlightJs } from '@skeletonlabs/skeleton';
+
+	import hljs from 'highlight.js/lib/core';
+	import 'highlight.js/styles/github-dark.css';
+
+	storeHighlightJs.set(hljs);
+
+	// Import each language module you require
+	import xmlLang from 'highlight.js/lib/languages/xml'; // for HTML
+	import csharpLang from 'highlight.js/lib/languages/csharp'; // for HTML
+	import jsonLang from 'highlight.js/lib/languages/json';
+	import javascriptLang from 'highlight.js/lib/languages/javascript';
+	import typescriptLang from 'highlight.js/lib/languages/typescript';
+
+	// Register each imported language module
+	hljs.registerLanguage('xml', xmlLang); // for HTML
+	hljs.registerLanguage('csharp', csharpLang);
+	hljs.registerLanguage('json', jsonLang);
+	hljs.registerLanguage('javascript', javascriptLang);
+	hljs.registerLanguage('typescript', typescriptLang);
 
 	import { initializeStores } from '@skeletonlabs/skeleton';
 	initializeStores();
