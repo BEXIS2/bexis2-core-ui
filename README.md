@@ -7,7 +7,7 @@
   - `exportability (boolean)`: if toggled true, lets user to export the current state of the table as CSV.
   - Optimized styles for dark mode.
   - Bug fix related to empty tables.
-  - Migrated to new TableOfContents structure (Beta).
+  - Migrated to new TableOfContents (Beta) on documentation page.
 - LightSwitch for toggling dark mode on documentation pages.
 - Optimized surface colors in dark mode.
 
