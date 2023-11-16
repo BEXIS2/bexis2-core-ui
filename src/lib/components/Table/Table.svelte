@@ -336,7 +336,7 @@
 		<div class="overflow-auto" style="height: {height}px">
 			<table
 				{...$tableAttrs}
-				class="table table-auto table-compact bg-tertiary-500/30 overflow-clip"
+				class="table table-auto table-compact bg-tertiary-500/30 dark:bg-tertiary-900/10 overflow-clip"
 				id="{tableId}-table"
 			>
 				<!-- If table height is provided, making the top row sticky -->
@@ -349,7 +349,7 @@
 								rowProps={headerRow.props()}
 								let:rowProps
 							>
-								<tr {...rowAttrs} class="bg-primary-300 items-stretch">
+								<tr {...rowAttrs} class="bg-primary-300 dark:bg-primary-500 items-stretch">
 									{#each headerRow.cells as cell (cell.id)}
 										<Subscribe attrs={cell.attrs()} props={cell.props()} let:props let:attrs>
 											<th
