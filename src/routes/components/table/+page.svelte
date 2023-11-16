@@ -8,7 +8,7 @@
 	import ActionDispatchersDocs from './docs/ActionDispatchersDocs.svelte';
 </script>
 
-<div class="grid gap-20 p-10" id="toc-target-table">
+<div class="grid gap-20 p-10 dark:bg-surface-800" id="toc-target-table">
 	<div class="grid gap-5">
 		<h1 class="font-bold !text-6xl">Table</h1>
 		<h2 class="h2">Types</h2>

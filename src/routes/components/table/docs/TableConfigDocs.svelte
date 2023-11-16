@@ -18,8 +18,8 @@
 			>Show type details</button
 		>
 		<div class="italic div">Underlined attributes are <strong>required</strong>.</div>
-		<div class="variant-filled-secondary" data-popup="popupClickTableConfig">
-			<CodeBlock language="ts" code={tableConfigTypeCode} />
+		<div data-popup="popupClickTableConfig">
+			<CodeBlock language="ts" code={tableConfigTypeCode}  />
 		</div>
 	</div>
 
@@ -42,7 +42,7 @@
 
 		<p class="text-xl pl-10">
 			A writable store of the type <code
-				class="!text-xl bg-tertiary-300 rounded-md p-0.5 text-primary-500">T[]</code
+				class="!text-xl bg-tertiary-300 dark:bg-tertiary-700/50 rounded-md p-0.5 text-primary-500">T[]</code
 			>. Any changes in the store will be reflected in the table.
 		</p>
 	</div>
@@ -55,7 +55,7 @@
 
 		<p class="text-xl pl-10">
 			Whether the table should be exportable to CSV. <code
-				class="!text-xl bg-red-100 rounded-md p-0.5 text-red-500">false</code
+				class="!text-xl bg-red-100 dark:bg-red-400/30 rounded-md p-0.5 text-red-500">false</code
 			> by default.
 		</p>
 	</div>
@@ -67,11 +67,11 @@
 		</div>
 
 		<p class="text-xl pl-10">
-			Whether the <code class="!text-xl bg-tertiary-300 rounded-md p-0.5 text-primary-500"
+			Whether the <code class="!text-xl bg-tertiary-300 dark:bg-tertiary-700/50 rounded-md p-0.5 text-primary-500"
 				>fitToScreen</code
 			>
 			toggle should be visible.
-			<code class="!text-xl bg-red-100 rounded-md p-0.5 text-red-500">false</code> by default.
+			<code class="!text-xl bg-red-100 dark:bg-red-400/30 rounded-md p-0.5 text-red-500">false</code> by default.
 		</p>
 	</div>
 
@@ -94,7 +94,7 @@
 
 		<p class="text-xl pl-10">
 			Sets height for the rows in pixels. If <code
-				class="!text-xl bg-tertiary-300 rounded-md p-0.5 text-primary-500">resizable</code
+				class="!text-xl bg-tertiary-300 dark:bg-tertiary-700/50 rounded-md p-0.5 text-primary-500">resizable</code
 			> is set to "both" or "rows", this value can be interpreted as minimum height for the rows.
 		</p>
 	</div>
@@ -107,7 +107,7 @@
 
 		<p class="text-xl pl-10">
 			Whether the table takes the whole width. <code
-				class="!text-xl bg-blue-100 rounded-md p-0.5 text-blue-500">true</code
+				class="!text-xl bg-blue-100 dark:bg-blue-600/30 rounded-md p-0.5 text-blue-500">true</code
 			> by default.
 		</p>
 	</div>
@@ -129,7 +129,7 @@
 
 		<p class="text-xl pl-10">
 			Custom Svelte component to apply actions on a specific row. Table will not have an options
-			column if no <code class="!text-xl bg-tertiary-300 rounded-md p-0.5 text-primary-500"
+			column if no <code class="!text-xl bg-tertiary-300 dark:bg-tertiary-700/50 rounded-md p-0.5 text-primary-500"
 				>optionsComponent</code
 			> was provided.
 		</p>
@@ -166,7 +166,7 @@
 
 		<p class="text-xl pl-10">
 			An object with configuration for specific columns. <code
-				class="!text-xl bg-tertiary-300 rounded-md p-0.5 text-primary-500">Columns</code
+				class="!text-xl bg-tertiary-300 dark:bg-tertiary-700/50 rounded-md p-0.5 text-primary-500">Columns</code
 			>
 			object is described below.
 		</p>

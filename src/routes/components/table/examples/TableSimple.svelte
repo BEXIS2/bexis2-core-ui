@@ -15,9 +15,9 @@
 		</div>
 
 		<div class="table-container">
-			<table class="table table-compact bg-tertiary-200">
+			<table class="table table-compact bg-tertiary-500/30 dark:bg-tertiary-900/10">
 				<thead>
-					<tr class="bg-primary-300">
+					<tr class="bg-primary-300 dark:bg-primary-500">
 						<th class="!p-2">Group</th>
 						<th class="!p-2">Description</th>
 					</tr>
