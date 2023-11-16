@@ -12,18 +12,18 @@
 			class:w-max={!closed}
 		>
 			<div
-				class="px-10 pt-10 text-primary-500 h-max transition-all duration-100 ease-out {closed
+				class="px-10 pt-10 text-primary-500 dark:text-primary-400 h-max transition-all duration-100 ease-out {closed
 					? ''
-					: 'bg-white/95'}"
+					: 'bg-white/95 dark:bg-surface-900'}"
 			>
 				<button
 					class="fixed z-30 top-0 right-0 btn btn-sm variant-filled-primary m-1"
 					on:click={() => (closed = !closed)}
 					>{closed ? `<` : '>'}
 				</button>
-				<TableOfContents target="#toc-target-table" text="text-primary-500" />
+				<TableOfContents active="text-primary-500 font-bold" />
 			</div>
 		</div>
 	</svelte:fragment>
-	<slot />
+	<slot id="pageSlot" />
 </AppShell>
