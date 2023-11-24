@@ -1,5 +1,10 @@
 # bexis-core-ui
 
+## 0.3.4
+
+- Page
+  - add automatic scroll to top button next to help
+
 ## 0.3.3
 
 - Table
