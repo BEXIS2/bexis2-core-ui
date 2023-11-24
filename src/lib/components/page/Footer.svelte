@@ -6,10 +6,7 @@
 	$: content;
 
 	onMount(async () => {
-		console.log('footer');
-
 		content = await getFooter();
-		console.log(content);
 	});
 </script>
 

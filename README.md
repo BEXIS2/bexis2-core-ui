@@ -1,6 +1,6 @@
 # bexis-core-ui
 
-## 0.3.2
+## 0.3.3
 
 - Table
   - `rowHeight (number)`: fixed height for rows in pixels. (if combined with resizability, acts as minimum height)

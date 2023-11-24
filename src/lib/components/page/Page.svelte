@@ -20,7 +20,12 @@
 
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
+// icons
+import type { helpItemType, helpStoreType } from '$models/Models';
+
+
 	import Docs from './Docs.svelte';
+	import GoToTop from './GoToTop.svelte';
 
 	export let title = '';
 	export let note = '';
@@ -38,8 +43,15 @@
 		breadcrumbStore.clean();
 		breadcrumbStore.addItem({ label: title, link: window.location.pathname });
 	});
+
+ let app;
+	function scrollToTop() {
+		app.scrollIntoView();
+	}
+
 </script>
 
+<div class="app" bind:this={app}>
 <AppShell>
 	<!--header-->
 	<svelte:fragment slot="header">
@@ -92,6 +104,11 @@
 		{/if}
 	</div>
 
+
+
+	<GoToTop/>
 	<HelpPopUp active={help} />
 	<Notification />
 </AppShell>
+</div>
+
