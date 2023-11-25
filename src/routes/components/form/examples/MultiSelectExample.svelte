@@ -10,6 +10,6 @@
 </script>
 
 <div class="grid gap-10">
-	<MultiSelect title="Required input fields" source={CountrieNames} bind:target />
+	<MultiSelect id="multi_select_example" title="Required input fields" source={CountrieNames} bind:target />
 	<CodeBlock language="ts" code={JSON.stringify(target, undefined, 2)} />
 </div>

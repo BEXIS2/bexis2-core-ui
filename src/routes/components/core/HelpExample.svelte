@@ -17,13 +17,16 @@
 	let help = true;
 </script>
 
-<h3 class="h3">Basic Useage</h3>
+<h3 class="h3">Basic Usage</h3>
 
 <div class="p-5">
 	<p
 		class="p-5"
 		id="name"
 		on:mouseover={() => {
+			helpStore.show('name');
+		}}
+		on:focus={() => {
 			helpStore.show('name');
 		}}
 	>
@@ -36,6 +39,9 @@
 		on:mouseover={() => {
 			helpStore.show('description');
 		}}
+		on:focus={() => {
+			helpStore.show('description');
+		}}
 	>
 		Description
 	</p>
@@ -43,8 +49,8 @@
 
 <h3 class="h3">Use with Inputs</h3>
 <p>
-	Some inputs have the mouseover and mouseout functions for the help bulid in you just have to
-	anable them.
+	Some inputs have the mouseover and mouseout functions for the help build in you just have to
+	enable them.
 </p>
 
 <div class="p-5">

@@ -15,6 +15,8 @@
 {#if Datastructures}
 	<div class="grid gap-10">
 		<CheckboxKVPList
+			id="checkboxkvp_example"
+			description="Select data structures"
 			key="datastructures"
 			title="Datastructures"
 			source={Datastructures}

@@ -14,6 +14,7 @@
 
 <div class="grid gap-10">
 	<MultiSelect
+		id="multi_select_example"
 		title="Return target as array"
 		source={Countries}
 		bind:target
@@ -27,6 +28,7 @@
 
 <div class="grid gap-10 mt-10">
 	<MultiSelect
+		id="multi_select_example"
 		title="Return complex object"
 		source={Countries}
 		bind:target={selectedComplextarget}

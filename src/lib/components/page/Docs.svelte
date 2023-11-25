@@ -39,7 +39,7 @@
 	{/if}
 
 	{#each links as link}
-		<span class="chip variant-soft hover:variant-filled" on:click={() => goTo(link.url, false)}>
+		<span class="chip variant-soft hover:variant-filled" on:click={() => goTo(link.url, false)} on:keypress={() => goTo(link.url, false)}>
 			<span>{link.label}</span>
 		</span>
 	{/each}

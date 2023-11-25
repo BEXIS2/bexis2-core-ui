@@ -4,6 +4,7 @@
 	let value: number = 0;
 </script>
 
+<!-- svelte-ignore a11y-label-has-associated-control -->
 <label class="text-sm">best of</label>
 <RadioGroup>
 	<RadioItem bind:group={value} name="justify" value={0}>(music)</RadioItem>
