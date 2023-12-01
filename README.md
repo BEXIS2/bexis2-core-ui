@@ -1,5 +1,11 @@
 # bexis-core-ui
 
+## 0.3.5
+
+- listeItemType
+  - add description
+
+
 ## 0.3.4
 
 - Page
