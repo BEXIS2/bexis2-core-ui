@@ -24,7 +24,7 @@
 	}
 </script>
 
-<ListBox class="sm:bg-white sm:border">
+<ListBox class="sm:bg-white sm:border overflow-y-auto max-h-[500px]">
 	{#each items as item}
 		{#if isNewModule(item.Module)}<hr class="text-surface-800" />{/if}
 		<ListBoxItem
