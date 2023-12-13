@@ -21,6 +21,7 @@
 	export let version = 1;
 
 	import { onMount } from 'svelte';
+	import { ProgressBar } from '@skeletonlabs/skeleton';
 
 	// export let description="";
 	// export let status=0;
@@ -33,6 +34,8 @@
 	export let context = '';
 
 	export let data: fileUploaderType | undefined;
+
+	let isUploading:boolean = false;
 
 	$: model = data;
 	$: submitBt = 'submit';
@@ -124,6 +127,7 @@
 		//console.log('SUBMIT');
 
 		dispatch('submit');
+		isUploading = true;
 
 		let url = submit + '?id=' + id;
 
@@ -156,6 +160,8 @@
 				files.accepted = [];
 			}
 		}
+
+		isUploading = false;
 	}
 </script>
 
@@ -182,6 +188,9 @@
 					{/if}
 				</p>
 			</DropZone>
+			{#if isUploading}
+					<ProgressBar  value={undefined}/>
+			{/if}
 		</div>
 
 		<button id={submitBt} color="primary" style="display:none"><Fa icon={faSave} /></button>
