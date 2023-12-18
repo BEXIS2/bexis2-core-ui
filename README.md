@@ -1,5 +1,12 @@
 # bexis-core-ui
 
+## 0.3.6
+
+- FileUpload 
+  - add progressbar during upload
+- Table
+  - fix update issue with first row entry
+
 ## 0.3.5
 
 - listeItemType

@@ -129,6 +129,7 @@ export interface listItemType {
 	id: number;
 	text: string;
 	group: string;
+	description:string;
 }
 
 //help
