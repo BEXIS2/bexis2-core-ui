@@ -1,4 +1,8 @@
 # bexis-core-ui
+## 0.3.7
+
+- listeItemType
+  - add description
 
 ## 0.3.6
 
