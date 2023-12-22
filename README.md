@@ -1,4 +1,10 @@
 # bexis-core-ui
+
+## 0.3.8
+
+- change home within breadcrumb from "app"-based home to "/" in general
+  - There was an issue in case the application is routing through sub-apps. By that, "home" was redirecting to the home of the sub-app, but not to the general "/" anymore.
+
 ## 0.3.7
 
 - listeItemType
@@ -6,7 +12,7 @@
 
 ## 0.3.6
 
-- FileUpload 
+- FileUpload
   - add progressbar during upload
 - Table
   - fix update issue with first row entry
@@ -15,7 +21,6 @@
 
 - listeItemType
   - add description
-
 
 ## 0.3.4
 
