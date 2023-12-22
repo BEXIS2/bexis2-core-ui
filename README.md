@@ -1,5 +1,9 @@
 # bexis-core-ui
 
+## 0.3.9
+
+- add application name into the breadcrumb component
+
 ## 0.3.8
 
 - change home within breadcrumb from "app"-based home to "/" in general
