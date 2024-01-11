@@ -33,7 +33,7 @@
 <div class="px-5 py-2">
 	<ol class="breadcrumb -p50">
 		<!--default home-->
-		<li class="crumb"><a class="anchor" href={'/'}>{applicationName} (Home)</a></li>
+		<li class="crumb"><a class="anchor" href={'/'}>{applicationName}</a></li>
 		<li class="crumb-separator" aria-hidden>&rsaquo;</li>
 
 		{#each list as crumb, i}
