@@ -43,7 +43,7 @@
 	};
 
 	// Table pagination handler
-	async function updateQuery() {
+	const updateQuery = async () => {
 		const q = new URLSearchParams();
 
 		// Set query parameters for pagination and items
