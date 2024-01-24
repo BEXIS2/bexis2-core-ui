@@ -1,5 +1,11 @@
 <script lang="ts">
-	import { AppRail, AppRailTile, LightSwitch, getDrawerStore } from '@skeletonlabs/skeleton';
+	import {
+		AppRail,
+		AppRailTile,
+		LightSwitch,
+		setInitialClassState,
+		getDrawerStore
+	} from '@skeletonlabs/skeleton';
 	const drawerStore = getDrawerStore();
 	import { writable, type Writable } from 'svelte/store';
 	import { page } from '$app/stores';
@@ -36,6 +42,9 @@
 	// Reactive
 	$: classesActive = (href: string) =>
 		$storeCurrentUrl?.includes(href) ? 'bg-primary-active-token' : '';
+
+	// Fix for theme switcher
+	setInitialClassState();
 </script>
 
 <div
@@ -48,7 +57,9 @@
 		width="w-[70px]"
 	>
 		<svelte:fragment slot="lead"
-			><div class="flex justify-center py-2"><LightSwitch /></div>
+			><div class="flex justify-center py-2">
+				<LightSwitch />
+			</div>
 			<AppRailTile label="General" title="Tile" value={'general'} on:click={onListItemClick}
 				><i class="fa-solid fa-screwdriver-wrench text-2xl" /></AppRailTile
 			>
