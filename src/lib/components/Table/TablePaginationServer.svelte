@@ -23,13 +23,28 @@
 	// Table pagination configuration variables
 	const { pageIndex, pageSize } = pageConfig;
 
+	// Handles the input change event
+	const handleChange = (e) => {
+		const value = e.target.value;
+
+		if (value > pageCount) {
+			$pageIndex = pageCount - 1;
+		} else if (value < 1) {
+			$pageIndex = 0;
+		} else {
+			$pageIndex = value - 1;
+		}
+
+		updateQuery();
+	};
+
 	// Main navigation function
 	const goTo = (dst: string) => {
 		switch (dst) {
 			case 'first':
 				$pageIndex = 0;
 			case 'last':
-				$pageIndex = Math.ceil(serverItemCount / $pageSize) - 1;
+				$pageIndex = pageCount - 1;
 			case 'next':
 				$pageIndex += 1;
 			case 'previous':
@@ -60,54 +75,79 @@
 
 		// Update pagination flags
 		goToFirstPageDisabled = !$pageIndex;
-		goToLastPageDisabled = $pageIndex == Math.ceil(serverItemCount / $pageSize) - 1;
+		goToLastPageDisabled = $pageIndex == pageCount - 1;
 		goToNextPageDisabled = response.next ? false : true;
 		goToPreviousPageDisabled = response.previous ? false : true;
 
 		// Update data store
 		$data = results;
-	}
+	};
+
+	$: pageCount = Math.ceil(serverItemCount / $pageSize);
 
 	updateQuery();
 </script>
 
-<div class="flex justify-center gap-1">
-	<button
-		class="btn btn-sm variant-filled-primary"
-		on:click|preventDefault={() => goTo('first')}
-		disabled={goToFirstPageDisabled}
-		id="{id}-first"
-	>
-		<Fa icon={faAnglesLeft} /></button
-	>
-	<button
-		class="btn btn-sm variant-filled-primary"
-		id="{id}-previous"
-		on:click|preventDefault={() => goTo('previous')}
-		disabled={goToPreviousPageDisabled}><Fa icon={faAngleLeft} /></button
-	>
-
-	<select
-		name="pageSize"
-		id="{id}-pageSize"
-		class="select variant-filled-primary w-min font-bold"
-		bind:value={$pageSize}
-	>
-		{#each pageSizes as size}
-			<option value={size}>{size}</option>
-		{/each}
-	</select>
-
-	<button
-		class="btn btn-sm variant-filled-primary"
-		id="{id}-next"
-		on:click|preventDefault={() => goTo('next')}
-		disabled={goToNextPageDisabled}><Fa icon={faAngleRight} /></button
-	>
-	<button
-		class="btn btn-sm variant-filled-primary"
-		id="{id}-last"
-		on:click|preventDefault={() => goTo('last')}
-		disabled={goToLastPageDisabled}><Fa icon={faAnglesRight} /></button
-	>
+<div class="flex justify-between w-full items-stretch gap-10">
+	<div class="flex justify-start">
+		<select
+			name="pageSize"
+			id="{id}-pageSize"
+			class="select variant-filled-primary w-min font-bold"
+			bind:value={$pageSize}
+		>
+			{#each pageSizes as size}
+				<option value={size}>{size}</option>
+			{/each}
+		</select>
+	</div>
+	<div class="flex justify-center gap-1">
+		<button
+			class="btn btn-sm variant-filled-primary"
+			on:click|preventDefault={() => goTo('first')}
+			disabled={goToFirstPageDisabled}
+			id="{id}-first"
+		>
+			<Fa icon={faAnglesLeft} /></button
+		>
+		<button
+			class="btn btn-sm variant-filled-primary"
+			id="{id}-previous"
+			on:click|preventDefault={() => goTo('previous')}
+			disabled={goToPreviousPageDisabled}><Fa icon={faAngleLeft} /></button
+		>
+		<input
+			type="number"
+			class="input border border-primary-500 rounded flex w-24"
+			value={$pageIndex + 1}
+			max={pageCount}
+			min={1}
+			on:change={handleChange}
+		/>
+		<button
+			class="btn btn-sm variant-filled-primary"
+			id="{id}-next"
+			on:click|preventDefault={() => goTo('next')}
+			disabled={goToNextPageDisabled}><Fa icon={faAngleRight} /></button
+		>
+		<button
+			class="btn btn-sm variant-filled-primary"
+			id="{id}-last"
+			on:click|preventDefault={() => goTo('last')}
+			disabled={goToLastPageDisabled}><Fa icon={faAnglesRight} /></button
+		>
+	</div>
+	<div class="flex justify-end items-center">
+		<span class="text-sm text-gray-500">
+			{#if pageCount > 0}
+				{#if pageCount == 1}
+					1 page
+				{:else}
+					{pageCount} pages
+				{/if}
+			{:else}
+				No pages
+			{/if}
+		</span>
+	</div>
 </div>
