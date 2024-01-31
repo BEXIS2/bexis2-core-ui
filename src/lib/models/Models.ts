@@ -117,6 +117,8 @@ export interface TableConfig<T> {
 	pageSizes?: number[]; // [5, 10, 15, 20] by default
 	defaultPageSize?: number; // 10 by default
 	optionsComponent?: typeof SvelteComponent;
+	serverSide?: boolean; // false by default
+	URL?: string; // Base URL for server-side table
 }
 
 // lists
