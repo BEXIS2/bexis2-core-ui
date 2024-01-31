@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
+	import { readable, writable } from 'svelte/store';
 	import { createTable, Subscribe, Render, createRender } from 'svelte-headless-table';
 	import {
 		addSortBy,
@@ -15,9 +16,12 @@
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
 	import TableFilter from './TableFilter.svelte';
+	import TableFilterServer from './TableFilterServer.svelte';
 	import TablePagination from './TablePagination.svelte';
+	import TablePaginationServer from './TablePaginationServer.svelte';
 	import { columnFilter, searchFilter } from './filter';
 	import type { TableConfig } from '$lib/models/Models';
+	import type { PaginationConfig } from 'svelte-headless-table/lib/plugins/addPagination';
 
 	export let config: TableConfig<any>;
 
@@ -34,8 +38,12 @@
 		toggle = false, // Whether to display the fitToScreen toggle
 		pageSizes = [5, 10, 15, 20], // Page sizes to display in the pagination component
 		fitToScreen = true, // Whether to fit the table to the screen,
-		exportable = false // Whether to display the export button and enable export functionality
+		exportable = false, // Whether to display the export button and enable export functionality
+		serverSide = false, // Whether the table is client or server-side
+		URL = '' // URL to fetch data from
 	} = config;
+
+	const q = writable(new URLSearchParams());
 
 	// Creatign a type to access keys of the objects in the data store
 	type AccessorType = keyof (typeof $data)[number];
@@ -44,6 +52,8 @@
 	const dispatch = createEventDispatcher();
 	const actionDispatcher = (obj) => dispatch('action', obj);
 
+	const serverItemCount = serverSide ? readable<Number>(0) : undefined;
+
 	// Initializing the table
 	const table = createTable(data, {
 		colFilter: addColumnFilters(),
@@ -51,7 +61,11 @@
 			fn: searchFilter
 		}),
 		sort: addSortBy({ disableMultiSort: true }),
-		page: addPagination({ initialPageSize: defaultPageSize }),
+		page: addPagination({
+			initialPageSize: defaultPageSize,
+			serverSide,
+			serverItemCount
+		} as PaginationConfig),
 		expand: addExpandedRows(),
 		export: addDataExport({ format: 'csv' })
 	});
@@ -127,16 +141,24 @@
 												? colFilterFn({ filterValue, value: val })
 												: columnFilter({ filterValue, value: val });
 										},
-										render: ({ filterValue, values, id }) => {
-											// If provided, use the custom filter component, or use the default TableFilter component
-											return createRender(colFilterComponent ?? TableFilter, {
-												filterValue,
-												id,
-												tableId,
-												values,
-												toFilterableValueFn
-											});
-										}
+										render: ({ filterValue, values, id }) =>
+											serverSide
+												? createRender(TableFilterServer, {
+														id,
+														tableId,
+														values,
+														q,
+														updateQuery,
+														pageIndex,
+														toFilterableValueFn
+												  })
+												: createRender(colFilterComponent ?? TableFilter, {
+														filterValue,
+														id,
+														tableId,
+														values,
+														toFilterableValueFn
+												  })
 								  }
 								: undefined,
 							tableFilter: {
@@ -149,7 +171,6 @@
 						}
 					});
 				} else {
-					// Default configuration for unconfigured columns
 					return table.column({
 						header: key,
 						accessor: accessor,
@@ -166,12 +187,21 @@
 							colFilter: {
 								fn: columnFilter,
 								render: ({ filterValue, values, id }) =>
-									createRender(TableFilter, {
-										filterValue,
-										id,
-										tableId,
-										values
-									})
+									serverSide
+										? createRender(TableFilterServer, {
+												id,
+												tableId,
+												values,
+												q,
+												updateQuery,
+												pageIndex
+										  })
+										: createRender(TableFilter, {
+												filterValue,
+												id,
+												tableId,
+												values
+										  })
 							}
 						}
 					});
@@ -209,6 +239,8 @@
 	const { filterValue } = pluginStates.tableFilter;
 	// CSV content to be exported. If unexportable, then null
 	const { exportedData } = pluginStates.export;
+	// Page configuration
+	const { pageIndex, pageSize } = pluginStates.page;
 
 	// Function to determine minWidth for a column to simplify the logic in the HTML
 	const minWidth = (id: string) => {
@@ -286,6 +318,32 @@
 		anchor.click();
 		document.body.removeChild(anchor);
 	};
+
+	const updateQuery = async () => {
+		$q.set('limit', String($pageSize));
+		$q.set('offset', String($pageSize * $pageIndex));
+
+		const fetchData = await fetch(`${URL}?${$q}`);
+		const response = await fetchData.json();
+
+		// Update expected items count
+		$serverItemCount = response.count;
+
+		// Update data store
+		$data = response.results;
+
+		return response;
+	};
+
+	const sortServer = (order: 'asc' | 'desc' | undefined) => {
+		// Set parameter for sorting
+		$q.set('ordering', `${order}`);
+
+		// Reset pagination
+		$pageIndex = 0;
+
+		updateQuery();
+	};
 </script>
 
 <div class="grid gap-2 overflow-auto" class:w-fit={!fitToScreen} class:w-full={fitToScreen}>
@@ -349,46 +407,52 @@
 								rowProps={headerRow.props()}
 								let:rowProps
 							>
-								<tr {...rowAttrs} class="bg-primary-300 dark:bg-primary-500 items-stretch">
+								<tr {...rowAttrs} class="bg-primary-300 dark:bg-primary-500">
 									{#each headerRow.cells as cell (cell.id)}
 										<Subscribe attrs={cell.attrs()} props={cell.props()} let:props let:attrs>
 											<th
 												scope="col"
-												class="!p-2 overflow-auto"
-												class:resize-x={(resizable === 'columns' || resizable === 'both') &&
-													!fixedWidth(cell.id)}
+												class="!p-2"
 												{...attrs}
 												id="th-{tableId}-{cell.id}"
 												style={cellStyle(cell.id)}
 											>
-												<div class="flex justify-between items-center">
-													<div class="flex gap-1 whitespace-pre-wrap">
-														<!-- Adding sorting config and styling -->
-														<span
-															class:underline={props.sort.order}
-															class:normal-case={cell.id !== cell.label}
-															class:cursor-pointer={!props.sort.disabled}
-															on:click={props.sort.toggle}
-															on:keydown={props.sort.toggle}
-														>
-															{cell.render()}
-														</span>
-														<div class="w-2">
-															{#if props.sort.order === 'asc'}
-																▾
-															{:else if props.sort.order === 'desc'}
-																▴
-															{/if}
-														</div>
-													</div>
-													<!-- Adding column filter config -->
-													{#if cell.isData()}
-														{#if props.colFilter?.render}
-															<div class="">
-																<Render of={props.colFilter.render} />
+												<div
+													class="overflow-auto"
+													class:resize-x={(resizable === 'columns' || resizable === 'both') &&
+														!fixedWidth(cell.id)}
+												>
+													<div class="flex justify-between items-center">
+														<div class="flex gap-1 whitespace-pre-wrap">
+															<!-- Adding sorting config and styling -->
+															<span
+																class:underline={props.sort.order}
+																class:normal-case={cell.id !== cell.label}
+																class:cursor-pointer={!props.sort.disabled}
+																on:click={(e) => {
+																	serverSide ? sortServer(props.sort.order) : props.sort.toggle(e);
+																}}
+																on:keydown={props.sort.toggle}
+															>
+																{cell.render()}
+															</span>
+															<div class="w-2">
+																{#if props.sort.order === 'asc'}
+																	▾
+																{:else if props.sort.order === 'desc'}
+																	▴
+																{/if}
 															</div>
+														</div>
+														<!-- Adding column filter config -->
+														{#if cell.isData()}
+															{#if props.colFilter?.render}
+																<div class="">
+																	<Render of={props.colFilter.render} />
+																</div>
+															{/if}
 														{/if}
-													{/if}
+													</div>
 												</div>
 											</th>
 										</Subscribe>
@@ -409,20 +473,21 @@
 								<tr {...rowAttrs} id="{tableId}-row-{row.id}" class="">
 									{#each row.cells as cell, index (cell?.id)}
 										<Subscribe attrs={cell.attrs()} let:attrs>
-											<td
-												{...attrs}
-												class="!p-2 overflow-auto {index === 0 &&
-												(resizable === 'rows' || resizable === 'both')
-													? 'resize-y'
-													: ''}"
-												id="{tableId}-{cell.id}-{row.id}"
-											>
-												<!-- Adding config for initial rowHeight, if provided -->
+											<td {...attrs} class="!p-2">
 												<div
-													class="flex items-center"
-													style="height: {rowHeight ? `${rowHeight}px` : 'auto'};"
+													class=" overflow-auto h-max {index === 0 &&
+													(resizable === 'rows' || resizable === 'both')
+														? 'resize-y'
+														: ''}"
+													id="{tableId}-{cell.id}-{row.id}"
 												>
-													<div class="grow h-full"><Render of={cell.render()} /></div>
+													<!-- Adding config for initial rowHeight, if provided -->
+													<div
+														class="flex items-center overflow-auto"
+														style="height: {rowHeight ? `${rowHeight}px` : 'auto'};"
+													>
+														<div class="grow h-full"><Render of={cell.render()} /></div>
+													</div>
 												</div>
 											</td>
 										</Subscribe>
@@ -437,6 +502,17 @@
 	</div>
 	{#if $data.length > 0}
 		<!-- Adding pagination, if table is not empty -->
-		<TablePagination pageConfig={pluginStates.page} {pageSizes} id={tableId} />
+		{#if serverSide}
+			<TablePaginationServer
+				{pageIndex}
+				{pageSize}
+				{serverItemCount}
+				{updateQuery}
+				{pageSizes}
+				id={tableId}
+			/>
+		{:else}
+			<TablePagination pageConfig={pluginStates.page} {pageSizes} id={tableId} />
+		{/if}
 	{/if}
 </div>
