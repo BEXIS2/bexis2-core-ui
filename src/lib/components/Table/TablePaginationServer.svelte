@@ -8,20 +8,17 @@
 	} from '@fortawesome/free-solid-svg-icons';
 
 	export let id; // Unique table ID
-	export let data; // Data store for the table
-	export let URL; // URL for fetching
-	export let pageConfig; // Page configuration
+	export let pageIndex;
+	export let pageSize;
 	export let pageSizes; // Available page sizes
 	export let serverItemCount; // Total number of items expected from the server. `serverSide` must be true on table config.
+	export let updateQuery; // Function to update the query parameters
 
 	// Flags for disabling buttons
 	let goToFirstPageDisabled = true;
 	let goToLastPageDisabled = true;
 	let goToNextPageDisabled = true;
 	let goToPreviousPageDisabled = true;
-
-	// Table pagination configuration variables
-	const { pageIndex, pageSize } = pageConfig;
 
 	// Handles the input change event
 	const handleChange = (e) => {
@@ -57,33 +54,11 @@
 		updateQuery();
 	};
 
-	// Table pagination handler
-	const updateQuery = async () => {
-		const q = new URLSearchParams();
-
-		// Set query parameters for pagination and items
-		q.set('limit', String($pageSize));
-		q.set('offset', String($pageSize * $pageIndex));
-
-		// Fetch data from the server
-		const fetchData = await fetch(`${URL}?${q}`);
-		const response = await fetchData.json();
-		const results = response.results;
-
-		// Update expected items count
-		serverItemCount = response.count;
-
-		// Update pagination flags
-		goToFirstPageDisabled = !$pageIndex;
-		goToLastPageDisabled = $pageIndex == pageCount - 1;
-		goToNextPageDisabled = response.next ? false : true;
-		goToPreviousPageDisabled = response.previous ? false : true;
-
-		// Update data store
-		$data = results;
-	};
-
-	$: pageCount = Math.ceil(serverItemCount / $pageSize);
+	$: pageCount = Math.ceil($serverItemCount / $pageSize);
+	$: goToFirstPageDisabled = !$pageIndex;
+	$: goToLastPageDisabled = $pageIndex == pageCount - 1;
+	$: goToNextPageDisabled = $pageIndex == pageCount - 1;
+	$: goToPreviousPageDisabled = !$pageIndex;
 
 	updateQuery();
 </script>
