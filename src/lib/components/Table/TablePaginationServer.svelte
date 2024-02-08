@@ -40,12 +40,16 @@
 		switch (dst) {
 			case 'first':
 				$pageIndex = 0;
+				break;
 			case 'last':
 				$pageIndex = pageCount - 1;
+				break;
 			case 'next':
 				$pageIndex += 1;
+				break;
 			case 'previous':
 				$pageIndex -= 1;
+				break;
 			default:
 				break;
 		}
@@ -59,6 +63,7 @@
 	$: goToLastPageDisabled = $pageIndex == pageCount - 1;
 	$: goToNextPageDisabled = $pageIndex == pageCount - 1;
 	$: goToPreviousPageDisabled = !$pageIndex;
+	$: $pageSize && updateQuery(); // Update query when page size changes
 
 	updateQuery();
 </script>
