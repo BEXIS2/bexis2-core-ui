@@ -52,15 +52,24 @@
 	const dispatch = createEventDispatcher();
 	const actionDispatcher = (obj) => dispatch('action', obj);
 
-	const serverItemCount = serverSide ? readable<Number>(0) : undefined;
+	const serverItems = serverSide ? writable<Number>(0) : undefined;
+	const serverItemCount = serverSide
+		? readable<Number>(0, (set) => {
+				serverItems!.subscribe((val) => set(val));
+		  })
+		: undefined;
 
 	// Initializing the table
 	const table = createTable(data, {
 		colFilter: addColumnFilters(),
 		tableFilter: addTableFilter({
-			fn: searchFilter
+			fn: searchFilter,
+			serverSide
 		}),
-		sort: addSortBy({ disableMultiSort: true }),
+		sort: addSortBy({
+			disableMultiSort: true,
+			serverSide
+		}),
 		page: addPagination({
 			initialPageSize: defaultPageSize,
 			serverSide,
@@ -125,7 +134,6 @@
 							// Sorting config
 							sort: {
 								disable: disableSorting,
-								invert: true,
 								getSortValue: (row) => {
 									// If provided, use the custom sorting function toSortableValueFn(), or just use the value
 									return toSortableValueFn ? toSortableValueFn(row) : row;
@@ -180,9 +188,7 @@
 						},
 						plugins: {
 							// Sorting enabled by default
-							sort: {
-								invert: true
-							},
+							sort: {},
 							// Filtering enabled by default
 							colFilter: {
 								fn: columnFilter,
@@ -287,7 +293,7 @@
 					minW &&
 						document
 							.getElementById(`th-${tableId}-${cell.id}`)
-							?.style.setProperty('min-width', `${minW}px`);
+							?.style.setProperty('width', `${minW}px`);
 					// If neither minWidth nor fixedWidth provided for a column, then reset the width to auto
 					!minW &&
 						!fixedW &&
@@ -326,24 +332,30 @@
 		const fetchData = await fetch(`${URL}?${$q}`);
 		const response = await fetchData.json();
 
-		// Update expected items count
-		$serverItemCount = response.count;
-
 		// Update data store
 		$data = response.results;
+		$serverItems = response.count;
 
 		return response;
 	};
 
-	const sortServer = (order: 'asc' | 'desc' | undefined) => {
+	const sortServer = (order: 'asc' | 'desc' | undefined, id: string) => {
 		// Set parameter for sorting
-		$q.set('ordering', `${order}`);
+		if (order === undefined) {
+			$q.delete('ordering');
+		} else {
+			$q.set('ordering', `${order === 'asc' ? '' : '-'}${id}`);
+		}
 
 		// Reset pagination
 		$pageIndex = 0;
 
 		updateQuery();
 	};
+
+	$: sortKeys = pluginStates.sort.sortKeys;
+	$: serverSide && updateQuery();
+	$: serverSide && sortServer($sortKeys[0]?.order, $sortKeys[0]?.id);
 </script>
 
 <div class="grid gap-2 overflow-auto" class:w-fit={!fitToScreen} class:w-full={fitToScreen}>
@@ -410,17 +422,12 @@
 								<tr {...rowAttrs} class="bg-primary-300 dark:bg-primary-500">
 									{#each headerRow.cells as cell (cell.id)}
 										<Subscribe attrs={cell.attrs()} props={cell.props()} let:props let:attrs>
-											<th
-												scope="col"
-												class="!p-2"
-												{...attrs}
-												id="th-{tableId}-{cell.id}"
-												style={cellStyle(cell.id)}
-											>
+											<th scope="col" class="!p-2" {...attrs} style={cellStyle(cell.id)}>
 												<div
 													class="overflow-auto"
 													class:resize-x={(resizable === 'columns' || resizable === 'both') &&
 														!fixedWidth(cell.id)}
+													id="th-{tableId}-{cell.id}"
 												>
 													<div class="flex justify-between items-center">
 														<div class="flex gap-1 whitespace-pre-wrap">
@@ -429,18 +436,16 @@
 																class:underline={props.sort.order}
 																class:normal-case={cell.id !== cell.label}
 																class:cursor-pointer={!props.sort.disabled}
-																on:click={(e) => {
-																	serverSide ? sortServer(props.sort.order) : props.sort.toggle(e);
-																}}
+																on:click={props.sort.toggle}
 																on:keydown={props.sort.toggle}
 															>
 																{cell.render()}
 															</span>
 															<div class="w-2">
 																{#if props.sort.order === 'asc'}
-																	▾
-																{:else if props.sort.order === 'desc'}
 																	▴
+																{:else if props.sort.order === 'desc'}
+																	▾
 																{/if}
 															</div>
 														</div>
