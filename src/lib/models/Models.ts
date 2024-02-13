@@ -183,8 +183,9 @@ export type ServerColumn = {
 export class Send {
 	limit: number;
 	offset: number;
-	filter: Filter[];
-	orderBy: OrderBy[];
+	version?: number;
+	filter?: Filter[];
+	orderBy?: OrderBy[];
 
 	constructor() {
 		this.limit = 10;
@@ -197,13 +198,13 @@ export class Send {
 export class Receive {
 	count: number;
 	data: any[];
-	columns: ServerColumn[];
 	sendModel: Send;
+	columns?: ServerColumn[];
 
 	constructor() {
 		this.count = 0;
 		this.data = [];
-		this.columns = [];
 		this.sendModel = new Send();
+		this.columns = [];
 	}
 }
