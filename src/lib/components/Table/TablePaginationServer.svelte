@@ -12,7 +12,7 @@
 	export let pageSize;
 	export let pageSizes; // Available page sizes
 	export let serverItemCount; // Total number of items expected from the server. `serverSide` must be true on table config.
-	export let updateQuery; // Function to update the query parameters
+	export let updateTable; // Function to update table
 
 	// Flags for disabling buttons
 	let goToFirstPageDisabled = true;
@@ -32,7 +32,7 @@
 			$pageIndex = value - 1;
 		}
 
-		updateQuery();
+		updateTable();
 	};
 
 	// Main navigation function
@@ -55,7 +55,7 @@
 		}
 
 		// Fetch data for new parameters
-		updateQuery();
+		updateTable();
 	};
 
 	$: pageCount = Math.ceil($serverItemCount / $pageSize);
@@ -63,9 +63,9 @@
 	$: goToLastPageDisabled = $pageIndex == pageCount - 1;
 	$: goToNextPageDisabled = $pageIndex == pageCount - 1;
 	$: goToPreviousPageDisabled = !$pageIndex;
-	$: $pageSize && updateQuery(); // Update query when page size changes
+	$: $pageSize && updateTable(); // Update query when page size changes
 
-	updateQuery();
+	updateTable();
 </script>
 
 <div class="flex justify-between w-full items-stretch gap-10">

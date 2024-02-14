@@ -20,7 +20,7 @@
 	import TablePagination from './TablePagination.svelte';
 	import TablePaginationServer from './TablePaginationServer.svelte';
 	import { columnFilter, searchFilter } from './filter';
-	import type { TableConfig } from '$lib/models/Models';
+	import { Receive, Send, type TableConfig } from '$lib/models/Models';
 	import type { PaginationConfig } from 'svelte-headless-table/lib/plugins/addPagination';
 
 	export let config: TableConfig<any>;
@@ -43,7 +43,7 @@
 		URL = '' // URL to fetch data from
 	} = config;
 
-	const q = writable(new URLSearchParams());
+	const request = new Send();
 
 	// Creatign a type to access keys of the objects in the data store
 	type AccessorType = keyof (typeof $data)[number];
@@ -155,8 +155,8 @@
 														id,
 														tableId,
 														values,
-														q,
-														updateQuery,
+														request,
+														updateTable,
 														pageIndex,
 														toFilterableValueFn
 												  })
@@ -198,8 +198,8 @@
 												id,
 												tableId,
 												values,
-												q,
-												updateQuery,
+												request,
+												updateTable,
 												pageIndex
 										  })
 										: createRender(TableFilter, {
@@ -325,15 +325,20 @@
 		document.body.removeChild(anchor);
 	};
 
-	const updateQuery = async () => {
-		$q.set('limit', String($pageSize));
-		$q.set('offset', String($pageSize * $pageIndex));
+	const updateTable = async () => {
+		request.limit = $pageSize;
+		request.offset = $pageSize * $pageIndex;
 
-		const fetchData = await fetch(`${URL}?${$q}`);
-		const response = await fetchData.json();
+		const fetchData = await fetch(URL, {
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(request)
+		});
+		const response: Receive = await fetchData.json();
 
 		// Update data store
-		$data = response.results;
+		$data = response.data;
 		$serverItems = response.count;
 
 		return response;
@@ -342,19 +347,19 @@
 	const sortServer = (order: 'asc' | 'desc' | undefined, id: string) => {
 		// Set parameter for sorting
 		if (order === undefined) {
-			$q.delete('ordering');
+			request.orderBy = [];
 		} else {
-			$q.set('ordering', `${order === 'asc' ? '' : '-'}${id}`);
+			request.orderBy = [{ column: id, direction: order}];
 		}
 
 		// Reset pagination
 		$pageIndex = 0;
 
-		updateQuery();
+		updateTable();
 	};
 
 	$: sortKeys = pluginStates.sort.sortKeys;
-	$: serverSide && updateQuery();
+	$: serverSide && updateTable();
 	$: serverSide && sortServer($sortKeys[0]?.order, $sortKeys[0]?.id);
 </script>
 
@@ -512,7 +517,7 @@
 				{pageIndex}
 				{pageSize}
 				{serverItemCount}
-				{updateQuery}
+				{updateTable}
 				{pageSizes}
 				id={tableId}
 			/>
