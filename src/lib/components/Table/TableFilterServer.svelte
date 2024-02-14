@@ -2,14 +2,16 @@
 	import Fa from 'svelte-fa/src/fa.svelte';
 	import { faFilter } from '@fortawesome/free-solid-svg-icons';
 	import { popup } from '@skeletonlabs/skeleton';
+	import { FilterOptionsEnum } from '$models/Enums';
 	import type { PopupSettings } from '@skeletonlabs/skeleton';
+	import type { Send } from '$models/Models';
 
 	export let values;
 	export let id;
 	export let tableId;
 	export let toFilterableValueFn: undefined | ((value: any) => any) = undefined;
-	export let q; // Query parameters
-	export let updateQuery; // Function to update the query parameters
+	export let request: Send;
+	export let updateTable; // Function to update the table
 	export let pageIndex; // Current page index
 
 	let firstOption;
@@ -23,79 +25,79 @@
 	const options = {
 		number: [
 			{
-				value: 'isequal',
+				value: FilterOptionsEnum.ie,
 				label: 'Is equal to'
 			},
 			{
-				value: 'isgreaterorequal',
+				value: FilterOptionsEnum.gte,
 				label: 'Is greater than or equal to'
 			},
 			{
-				value: 'isgreater',
+				value: FilterOptionsEnum.gt,
 				label: 'Is greater than'
 			},
 			{
-				value: 'islessorequal',
+				value: FilterOptionsEnum.lte,
 				label: 'Is less than or equal to'
 			},
 			{
-				value: 'isless',
+				value: FilterOptionsEnum.lt,
 				label: 'Is less than'
 			},
 			{
-				value: 'isnotequal',
+				value: FilterOptionsEnum.ne,
 				label: 'Is not equal to'
 			}
 		],
 		string: [
 			{
-				value: 'contains',
+				value: FilterOptionsEnum.c,
 				label: 'Contains'
 			},
 			{
-				value: 'notcontains',
+				value: FilterOptionsEnum.nc,
 				label: 'Does not contain'
 			},
 			{
-				value: 'isequal',
+				value: FilterOptionsEnum.ie,
 				label: 'Is equal to'
 			},
 			{
-				value: 'isnotequal',
+				value: FilterOptionsEnum.ne,
 				label: 'Is not equal to'
 			},
 			{
-				value: 'starts',
+				value: FilterOptionsEnum.sw,
 				label: 'Starts with'
 			},
 			{
-				value: 'ends',
+				value: FilterOptionsEnum.ew,
 				label: 'Ends with'
 			}
 		],
 		date: [
 			{
-				value: 'ison',
+				value: FilterOptionsEnum.o,
 				label: 'Is on'
 			},
 			{
-				value: 'isstartingfrom',
+				value: FilterOptionsEnum.sf,
 				label: 'Is starting from'
 			},
 			{
-				value: 'isafter',
+				value: FilterOptionsEnum.a,
 				label: 'Is after'
 			},
 			{
-				value: 'isuntil',
+				value: FilterOptionsEnum.u,
 				label: 'Is until'
 			},
 			{
-				value: 'isbefore',
+				value: FilterOptionsEnum.b,
 				label: 'Is before'
 			},
 			{
-				value: 'isnoton',
+				value: FilterOptionsEnum.no,
 				label: 'Is not on'
 			}
 		]
@@ -127,14 +129,46 @@
 	// Determine if the type is date
 	type = isDate ? 'date' : type;
 
+	const addFilter = (column, option, value) => {
+		const columnFilters = request.filter.filter((f) => f.column === column);
+
+		if (columnFilters) {
+			// If the filter is already applied, remove it first
+			removeFilter(column, option);
+			columnFilters[0].filters.filter((f) => f.option !== option);
+
+			request.filter = [
+				...request.filter.filter((f) => f.column !== column),
+				{ column, filters: [...columnFilters[0].filters, { option, value }] }
+			];
+		} else {
+			request.filter = [...request.filter, { column, filters: [{ option, value }] }];
+		}
+	};
+
+	const removeFilter = (column, option) => {
+		const columnFilters = request.filter.filter((f) => f.column === column);
+		if (columnFilters) {
+			request.filter = [
+				...request.filter.filter((f) => f.column !== column),
+				{
+					column,
+					filters: columnFilters[0].filters.filter((f) => f.option !== option)
+				}
+			];
+		}
+	};
+
+	const clearFilters = (column) => {
+		request.filter = request.filter.filter((f) => f.column !== column);
+	};
+
 	// Update data store with fetched data
 	const fetchFiltered = async () => {
-		// Set query parameters for filtering
-		$q.set('filter', '....');
 		// Set paging to first page
 		$pageIndex = 0;
 		// Fetch data from the server
-		updateQuery();
+		updateTable();
 	};
 </script>
 
@@ -160,6 +194,8 @@
 					firstValue = undefined;
 					secondOption = 'isequal';
 					secondValue = undefined;
+
+					clearFilters(id);
 					fetchFiltered();
 
 					active = false;
@@ -172,7 +208,7 @@
 					class="select border border-primary-500 text-sm p-1"
 					aria-label="Show rows with value that"
 					bind:value={firstOption}
-					on:click|stopPropagation
+					on:click={() => addFilter(id, firstOption, '')}
 				>
 					{#each options[type] as option (option)}
 						<option value={option.value}>{option.label}</option>
@@ -183,25 +219,25 @@
 						type="number"
 						class="input p-1 border border-primary-500"
 						bind:value={firstValue}
-						on:click|stopPropagation
+						on:change={(e) => addFilter(id, firstOption, e.target.value)}
 					/>
 				{:else if type === 'string'}
 					<input
 						type="text"
 						class="input p-1 border border-primary-500"
 						bind:value={firstValue}
-						on:click|stopPropagation
+						on:change={() => addFilter(id, firstOption, firstValue)}
 					/>
 				{:else}
 					<input
 						type="date"
 						class="input p-1 border border-primary-500"
 						bind:value={firstValue}
-						on:click|stopPropagation
+						on:change={() => addFilter(id, firstOption, firstValue)}
 					/>
 				{/if}
 			</div>
-			<label for="" class="label normal-case">And</label>
+			<!-- <label for="" class="label normal-case">And</label>
 			<div class="grid gap-2 w-max">
 				<select
 					class="select border border-primary-500 text-sm p-1"
@@ -235,7 +271,12 @@
 						on:click|stopPropagation
 					/>
 				{/if}
-			</div>
+			</div> -->\
+			<button
+				class="btn variant-outline-primary btn-sm"
+				type="button"
+				on:click|preventDefault={() => {}}>Add another filter</button
+			>
 			<button
 				class="btn variant-filled-primary btn-sm"
 				type="button"

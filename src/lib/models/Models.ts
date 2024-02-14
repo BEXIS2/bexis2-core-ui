@@ -3,7 +3,7 @@ import type { ColumnFilterFn } from 'svelte-headless-table/lib/plugins';
 import type { Writable } from 'svelte/store';
 
 import type {
-	FilterByEnum,
+	FilterOptionsEnum,
 	decimalCharacterType,
 	notificationType,
 	orientationType,
@@ -160,14 +160,19 @@ export interface notificationStoreType {
 	btnStyle: string;
 }
 
-export type Filter = {
-	filterBy: FilterByEnum;
-	filterValue: string;
+export type OrderBy = {
+	column: string;
+	direction: 'asc' | 'desc';
 };
 
-export type OrderBy = {
-	orderBy: string;
-	direction: 'asc' | 'desc';
+export type Filter = {
+	option: FilterOptionsEnum;
+	value: string;
+};
+
+export type FilterCombo = {
+	column: string;
+	filters: Filter[];
 };
 
 // Table column type for server-side table
@@ -184,12 +189,13 @@ export class Send {
 	limit: number;
 	offset: number;
 	version?: number;
-	filter?: Filter[];
-	orderBy?: OrderBy[];
+	filter: FilterCombo[];
+	orderBy: OrderBy[];
 
 	constructor() {
 		this.limit = 10;
 		this.offset = 0;
+		this.version = 0;
 		this.filter = [];
 		this.orderBy = [];
 	}
