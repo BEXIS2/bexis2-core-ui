@@ -41,20 +41,22 @@ export enum notificationType {
 
 // Server-side table fitler types
 export enum FilterOptionsEnum {
-	'ie' = 'isequal', // Is equal to
-	'ne' = 'notequal', // Is not equal to
-	'gt' = 'greaterthan', // Greater than
-	'lt' = 'lessthan', // Less than
-	'gte' = 'greaterthanequal', // Greater than or equal to
-	'lte' = 'lessthanequal', // Less than or equal to
-	'c' = 'contains', // Contains
-	'nc' = 'notcontains', // Does not contain
-	'sw' = 'startswith', // Starts with
-	'ew' = 'endswith', // Ends with,
-	'o' = 'on', // On (date)
-	'sf' = 'startingfrom', // Starting from (date)
-	'a' = 'after', // After (date)
-	'u' = 'until', // Until (date)
-	'b' = 'before', // Before (date)
-	'no' = 'noton' // Not on (date)
+	'ie' = 'ie', // Is equal to
+	'ne' = 'ne', // Is not equal to
+	'gt' = 'gt', // Greater than
+	'lt' = 'lt', // Less than
+	'gte' = 'gte', // Greater than or equal to
+	'lte' = 'lte', // Less than or equal to
+
+	'c' = 'c', // Contains
+	'nc' = 'nc', // Does not contain
+	'sw' = 'sw', // Starts with
+	'ew' = 'ew', // Ends with,
+
+	'o' = 'o', // On (date)
+	'sf' = 'sf', // Starting from (date)
+	'a' = 'a', // After (date)
+	'u' = 'u', // Until (date)
+	'b' = 'b', // Before (date)
+	'no' = 'no' // Not on (date)
 }
