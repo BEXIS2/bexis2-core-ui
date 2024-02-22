@@ -77,13 +77,15 @@ const applyFilter = (filterValue, value, filterFn) => {
 };
 
 export const columnFilter: ColumnFilterFn = ({ filterValue, value }) => {
-	const filterFns: { [key: string]: (filterOption: any, filterValue: any, value: any) => any } = {
-		string: textFilter,
-		number: numberFilter,
-		date: dateFilter
-	};
+	if (typeof value === 'object' && value instanceof Date) {
+		return applyFilter(filterValue, value, dateFilter);
+	} else if (typeof value === 'number') {
+		return applyFilter(filterValue, value, numberFilter);
+	} else if (typeof value === 'string') {
+		return applyFilter(filterValue, value, textFilter);
+	}
 
-	return applyFilter(filterValue, value, filterFns[typeof value]) || false;
+	return false;
 };
 
 export const searchFilter: TableFilterFn = ({ filterValue, value }) => {
