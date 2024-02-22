@@ -22,6 +22,7 @@
 	import { columnFilter, searchFilter } from './filter';
 	import { Receive, Send, type TableConfig } from '$lib/models/Models';
 	import type { PaginationConfig } from 'svelte-headless-table/lib/plugins/addPagination';
+	import type { FilterOptionsEnum } from '$models/Enums';
 
 	export let config: TableConfig<any>;
 
@@ -39,11 +40,19 @@
 		pageSizes = [5, 10, 15, 20], // Page sizes to display in the pagination component
 		fitToScreen = true, // Whether to fit the table to the screen,
 		exportable = false, // Whether to display the export button and enable export functionality
+
 		serverSide = false, // Whether the table is client or server-side
-		URL = '' // URL to fetch data from
+		URL = '', // URL to fetch data from
+		token = '', // Bearer token to authenticate the request
+		sendModel = new Send(), // Model to send requests
+		entityId = 0, // Entity ID to send with the request
+		versionId = 0 // Version ID to send with the request
 	} = config;
 
 	const request = new Send();
+	const filters = writable<{
+		[key: string]: { [key in FilterOptionsEnum]?: number | string | Date };
+	}>({});
 
 	// Creatign a type to access keys of the objects in the data store
 	type AccessorType = keyof (typeof $data)[number];
@@ -89,8 +98,14 @@
 			}
 		});
 	});
+
+	Object.keys(allCols).forEach((key) => {
+		$filters = { ...$filters, [key]: {} };
+	});
+
 	// Creating an array of all the keys
 	const accessors: AccessorType[] = Object.keys(allCols) as AccessorType[];
+
 	// Configuring every table column with the provided options
 	const tableColumns = [
 		...accessors
@@ -149,8 +164,9 @@
 												? colFilterFn({ filterValue, value: val })
 												: columnFilter({ filterValue, value: val });
 										},
-										render: ({ filterValue, values, id }) =>
-											serverSide
+										render: ({ filterValue, values, id }) => {
+											filterValue.set($filters[key]);
+											return serverSide
 												? createRender(TableFilterServer, {
 														id,
 														tableId,
@@ -158,15 +174,18 @@
 														request,
 														updateTable,
 														pageIndex,
-														toFilterableValueFn
+														toFilterableValueFn,
+														filters
 												  })
 												: createRender(colFilterComponent ?? TableFilter, {
 														filterValue,
 														id,
 														tableId,
 														values,
-														toFilterableValueFn
-												  })
+														toFilterableValueFn,
+														filters
+												  });
+										}
 								  }
 								: undefined,
 							tableFilter: {
@@ -192,22 +211,25 @@
 							// Filtering enabled by default
 							colFilter: {
 								fn: columnFilter,
-								render: ({ filterValue, values, id }) =>
-									serverSide
+								render: ({ filterValue, values, id }) => {
+									return serverSide
 										? createRender(TableFilterServer, {
 												id,
 												tableId,
 												values,
 												request,
 												updateTable,
-												pageIndex
+												pageIndex,
+												filters
 										  })
 										: createRender(TableFilter, {
 												filterValue,
 												id,
 												tableId,
-												values
-										  })
+												values,
+												filters
+										  });
+								}
 							}
 						}
 					});
@@ -325,17 +347,27 @@
 		document.body.removeChild(anchor);
 	};
 
+	// TODO: Add loading animation for server-side fetch requests
 	const updateTable = async () => {
-		request.limit = $pageSize;
-		request.offset = $pageSize * $pageIndex;
+		sendModel.limit = $pageSize;
+		sendModel.offset = $pageSize * $pageIndex;
+		sendModel.version = versionId;
+		sendModel.id = entityId;
 
 		const fetchData = await fetch(URL, {
 			headers: {
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`
 			},
-			body: JSON.stringify(request)
+			method: 'POST',
+			body: JSON.stringify(sendModel)
 		});
+
+		console.log(fetchData);
+
 		const response: Receive = await fetchData.json();
+
+		console.log(response);
 
 		// Update data store
 		$data = response.data;
@@ -349,7 +381,7 @@
 		if (order === undefined) {
 			request.orderBy = [];
 		} else {
-			request.orderBy = [{ column: id, direction: order}];
+			request.orderBy = [{ column: id, direction: order }];
 		}
 
 		// Reset pagination

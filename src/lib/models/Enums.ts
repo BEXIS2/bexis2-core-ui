@@ -41,8 +41,8 @@ export enum notificationType {
 
 // Server-side table fitler types
 export enum FilterOptionsEnum {
-	'ie' = 'ie', // Is equal to
-	'ne' = 'ne', // Is not equal to
+	'e' = 'e', // Equal to
+	'ne' = 'ne', // Not equal to
 	'gt' = 'gt', // Greater than
 	'lt' = 'lt', // Less than
 	'gte' = 'gte', // Greater than or equal to

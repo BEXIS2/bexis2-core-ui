@@ -1,19 +1,18 @@
 <script lang="ts">
 	import Fa from 'svelte-fa/src/fa.svelte';
-	import { faFilter } from '@fortawesome/free-solid-svg-icons';
+	import { faFilter, faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
 	import { popup } from '@skeletonlabs/skeleton';
 	import type { PopupSettings } from '@skeletonlabs/skeleton';
 
-	export let filterValue;
+	import { FilterOptionsEnum } from '$models/Enums';
+
 	export let values;
 	export let id;
 	export let tableId;
 	export let toFilterableValueFn: undefined | ((value: any) => any) = undefined;
+	export let filterValue;
+	export let filters;
 
-	let firstOption;
-	let firstValue;
-	let secondOption;
-	let secondValue;
 	// If the filter is applied and the displayed values are filtered
 	let active = false;
 
@@ -21,83 +20,88 @@
 	const options = {
 		number: [
 			{
-				value: 'isequal',
+				value: FilterOptionsEnum.e,
 				label: 'Is equal to'
 			},
 			{
-				value: 'isgreaterorequal',
+				value: FilterOptionsEnum.gte,
 				label: 'Is greater than or equal to'
 			},
 			{
-				value: 'isgreater',
+				value: FilterOptionsEnum.gt,
 				label: 'Is greater than'
 			},
 			{
-				value: 'islessorequal',
+				value: FilterOptionsEnum.lte,
 				label: 'Is less than or equal to'
 			},
 			{
-				value: 'isless',
+				value: FilterOptionsEnum.lt,
 				label: 'Is less than'
 			},
 			{
-				value: 'isnotequal',
+				value: FilterOptionsEnum.ne,
 				label: 'Is not equal to'
 			}
 		],
 		string: [
 			{
-				value: 'contains',
+				value: FilterOptionsEnum.c,
 				label: 'Contains'
 			},
 			{
-				value: 'notcontains',
+				value: FilterOptionsEnum.nc,
 				label: 'Does not contain'
 			},
 			{
-				value: 'isequal',
+				value: FilterOptionsEnum.e,
 				label: 'Is equal to'
 			},
 			{
-				value: 'isnotequal',
+				value: FilterOptionsEnum.ne,
 				label: 'Is not equal to'
 			},
 			{
-				value: 'starts',
+				value: FilterOptionsEnum.sw,
 				label: 'Starts with'
 			},
 			{
-				value: 'ends',
+				value: FilterOptionsEnum.ew,
 				label: 'Ends with'
 			}
 		],
 		date: [
 			{
-				value: 'ison',
+				value: FilterOptionsEnum.o,
 				label: 'Is on'
 			},
 			{
-				value: 'isstartingfrom',
+				value: FilterOptionsEnum.sf,
 				label: 'Is starting from'
 			},
 			{
-				value: 'isafter',
+				value: FilterOptionsEnum.a,
 				label: 'Is after'
 			},
 			{
-				value: 'isuntil',
+				value: FilterOptionsEnum.u,
 				label: 'Is until'
 			},
 			{
-				value: 'isbefore',
+				value: FilterOptionsEnum.b,
 				label: 'Is before'
 			},
 			{
-				value: 'isnoton',
+				value: FilterOptionsEnum.no,
 				label: 'Is not on'
 			}
 		]
 	};
+
+	let dropdowns: {
+		option: FilterOptionsEnum;
+		value: string | number | Date | undefined;
+	}[] = [];
 
 	// Unique ID for the column filter popup
 	const popupId = `${tableId}-${id}`;
@@ -122,8 +126,68 @@
 			}
 		}
 	});
+
+	const optionChangeHandler = (e, index) => {
+		delete $filters[id][dropdowns[index].option];
+		$filters[id] = { ...$filters[id], [e.target.value]: dropdowns[index].value };
+		$filters = $filters;
+
+		dropdowns[index] = {
+			...dropdowns[index],
+			option: e.target.value
+		};
+	};
+
+	const valueChangeHandler = (e, index) => {
+		dropdowns[index] = {
+			...dropdowns[index],
+			value:
+				type === 'number'
+					? +e.target.value
+					: type === 'date'
+					? new Date(e.target.value)
+					: e.target.value
+		};
+
+		$filters = {
+			...$filters,
+			[id]: { ...$filters[id], [dropdowns[index].option]: dropdowns[index].value }
+		};
+	};
+
+	const addFilter = (option, value) => {
+		$filters = { ...$filters, [id]: { ...$filters[id], [option]: value } };
+
+		dropdowns = [
+			...dropdowns,
+			{
+				option: option,
+				value: undefined
+			}
+		];
+	};
+
+	const removeFilter = (option) => {
+		dropdowns = dropdowns.filter((dropdown) => dropdown.option !== option);
+		delete $filters[id][option];
+		$filters = $filters;
+	};
+
+	const clearFilters = () => {
+		dropdowns = [];
+		$filters[id] = {};
+	};
+
 	// Determine if the type is date
-	type = isDate ? 'date' : type;
+	$: type = isDate ? 'date' : type;
+
+	// Filter the unapplied filters
+	$: remainingFilters = options[type].filter(
+		(option) => !Object.keys($filters[id]).includes(option.value)
+	);
+
+	// Start by adding the default filter
+	$: addFilter(options[type][0].value, undefined);
 </script>
 
 <form class="">
@@ -138,98 +202,98 @@
 	</button>
 
 	<div data-popup={`${popupId}`} id={popupId} class="z-50">
-		<div class="card p-3 grid gap-2 shadow-lg w-min bg-base-100">
+		<div class="card p-3 grid gap-2 shadow-lg w-max bg-base-100">
 			<button
 				class="btn variant-filled-primary btn-sm"
 				type="button"
 				on:click|preventDefault={() => {
 					// Set the defaults when cleared
-					firstOption = 'isequal';
-					firstValue = undefined;
-					secondOption = 'isequal';
-					secondValue = undefined;
-
-					$filterValue = [firstOption, firstValue, secondOption, secondValue];
+					clearFilters();
+					addFilter(options[type][0].value, undefined);
+					$filterValue = $filters[id];
 					active = false;
-				}}>Clear Filter</button
+				}}>Clear Filters</button
 			>
 
 			<label for="" class="label normal-case text-sm">Show rows with value that</label>
-			<div class="grid gap-2 w-full">
-				<select
-					class="select border border-primary-500 text-sm p-1"
-					aria-label="Show rows with value that"
-					bind:value={firstOption}
-					on:click|stopPropagation
-				>
-					{#each options[type] as option (option)}
-						<option value={option.value}>{option.label}</option>
-					{/each}
-				</select>
-				{#if type === 'number'}
-					<input
-						type="number"
-						class="input p-1 border border-primary-500"
-						bind:value={firstValue}
-						on:click|stopPropagation
-					/>
-				{:else if type === 'string'}
-					<input
-						type="text"
-						class="input p-1 border border-primary-500"
-						bind:value={firstValue}
-						on:click|stopPropagation
-					/>
-				{:else}
-					<input
-						type="date"
-						class="input p-1 border border-primary-500"
-						bind:value={firstValue}
-						on:click|stopPropagation
-					/>
-				{/if}
+			<div class="grid gap-2 overflow-auto">
+				{#each dropdowns as dropdown, index (index)}
+					<div class="grid gap-2 w-full">
+						<div class="flex gap-1 items-center">
+							<select
+								class="select border border-primary-500 text-sm p-1"
+								aria-label="Show rows with value that"
+								on:change={(e) => optionChangeHandler(e, index)}
+								bind:value={dropdown.option}
+							>
+								{#each options[type] as option (option)}
+									<option
+										value={option.value}
+										selected={dropdown.option === option.value}
+										disabled={Object.keys($filters[id]).includes(option.value) &&
+											dropdown.option !== option.value}>{option.label}</option
+									>
+								{/each}
+							</select>
+							{#if dropdowns.length > 1}
+								<div
+									class="btn variant-filled-warning btn-sm h-full"
+									on:click|preventDefault={() => removeFilter(dropdown.option)}
+									on:keydown|preventDefault={() => removeFilter(dropdown.option)}
+								>
+									<Fa icon={faXmark} />
+								</div>
+							{/if}
+						</div>
+
+						{#if type === 'number'}
+							<input
+								type="number"
+								class="input p-1 border border-primary-500"
+								on:input={(e) => valueChangeHandler(e, index)}
+								bind:value={dropdown.value}
+							/>
+						{:else if type === 'string'}
+							<input
+								type="text"
+								class="input p-1 border border-primary-500"
+								on:input={(e) => valueChangeHandler(e, index)}
+								bind:value={dropdown.value}
+							/>
+						{:else}
+							<input
+								type="date"
+								class="input p-1 border border-primary-500"
+								on:input={(e) => valueChangeHandler(e, index)}
+								bind:value={dropdown.value}
+							/>
+						{/if}
+					</div>
+					{#if index !== dropdowns.length - 1 && dropdowns.length > 1}
+						<label for="" class="label normal-case">And</label>
+					{/if}
+				{/each}
 			</div>
-			<label for="" class="label normal-case">And</label>
-			<div class="grid gap-2 w-max">
-				<select
-					class="select border border-primary-500 text-sm p-1"
-					aria-label="Show rows with value that"
-					bind:value={secondOption}
-					on:click|stopPropagation
+
+			{#if remainingFilters.length}
+				<div
+					class="btn variant-filled-secondary btn-sm cursor-pointer"
+					on:click|stopPropagation={() => {
+						addFilter(remainingFilters[0].value, undefined);
+					}}
+					on:keydown|stopPropagation={() => {
+						addFilter(remainingFilters[0].value, undefined);
+					}}
 				>
-					{#each options[type] as option (option)}
-						<option value={option.value}>{option.label}</option>
-					{/each}
-				</select>
-				{#if type === 'number'}
-					<input
-						type="number"
-						class="input p-1 border border-primary-500"
-						bind:value={secondValue}
-						on:click|stopPropagation
-					/>
-				{:else if type === 'string'}
-					<input
-						type="text"
-						class="input p-1 border border-primary-500"
-						bind:value={secondValue}
-						on:click|stopPropagation
-					/>
-				{:else}
-					<input
-						type="date"
-						class="input p-1 border border-primary-500"
-						bind:value={secondValue}
-						on:click|stopPropagation
-					/>
-				{/if}
-			</div>
+					<div class="flex gap-1 items-center"><Fa icon={faPlus} />Add Filter</div>
+				</div>
+			{/if}
 			<button
 				class="btn variant-filled-primary btn-sm"
 				type="button"
 				on:click|preventDefault={() => {
-					active = firstValue?.toString().length > 0 || secondValue?.toString().length > 0;
-					$filterValue = [firstOption, firstValue, secondOption, secondValue];
+					$filterValue = $filters[id];
+					active = true;
 				}}>Apply</button
 			>
 		</div>
