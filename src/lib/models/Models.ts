@@ -118,8 +118,13 @@ export interface TableConfig<T> {
 	pageSizes?: number[]; // [5, 10, 15, 20] by default
 	defaultPageSize?: number; // 10 by default
 	optionsComponent?: typeof SvelteComponent;
+
 	serverSide?: boolean; // false by default
 	URL?: string; // Base URL for server-side table
+	token?: string; // Authorization token for server-side table
+	sendModel?: Send; // Send model for server-side table
+	entityId?: number; // Entity ID for server-side table
+	versionId?: number; // Version ID for server-side table
 }
 
 // lists
@@ -186,6 +191,7 @@ export type ServerColumn = {
 };
 
 export class Send {
+	id: number;
 	limit: number;
 	offset: number;
 	version?: number;
@@ -193,6 +199,7 @@ export class Send {
 	orderBy: OrderBy[];
 
 	constructor() {
+		this.id = 0;
 		this.limit = 10;
 		this.offset = 0;
 		this.version = 0;
@@ -204,13 +211,13 @@ export class Send {
 export class Receive {
 	count: number;
 	data: any[];
-	sendModel: Send;
+	send: Send;
 	columns?: ServerColumn[];
 
 	constructor() {
 		this.count = 0;
 		this.data = [];
-		this.sendModel = new Send();
+		this.send = new Send();
 		this.columns = [];
 	}
 }

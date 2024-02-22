@@ -171,7 +171,6 @@
 														id,
 														tableId,
 														values,
-														request,
 														updateTable,
 														pageIndex,
 														toFilterableValueFn,
@@ -217,7 +216,6 @@
 												id,
 												tableId,
 												values,
-												request,
 												updateTable,
 												pageIndex,
 												filters
