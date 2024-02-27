@@ -165,21 +165,6 @@ export interface notificationStoreType {
 	btnStyle: string;
 }
 
-export type OrderBy = {
-	column: string;
-	direction: 'asc' | 'desc';
-};
-
-export type Filter = {
-	option: FilterOptionsEnum;
-	value: string;
-};
-
-export type FilterCombo = {
-	column: string;
-	filters: Filter[];
-};
-
 // Table column type for server-side table
 export type ServerColumn = {
 	header?: string; // key by default
@@ -190,13 +175,24 @@ export type ServerColumn = {
 	};
 };
 
+export type OrderBy = {
+	column: string;
+	direction: 'asc' | 'desc';
+};
+
+export type Filter = {
+	column: string;
+	filterBy: FilterOptionsEnum;
+	value: string | number | Date | boolean;
+};
+
 export class Send {
 	id: number;
 	limit: number;
 	offset: number;
 	version?: number;
-	filter: FilterCombo[];
-	orderBy: OrderBy[];
+	filter: Filter[];
+	order: OrderBy[];
 
 	constructor() {
 		this.id = 0;
@@ -204,7 +200,7 @@ export class Send {
 		this.offset = 0;
 		this.version = 0;
 		this.filter = [];
-		this.orderBy = [];
+		this.order = [];
 	}
 }
 

@@ -352,6 +352,23 @@
 		sendModel.version = versionId;
 		sendModel.id = entityId;
 
+		let filter: any[] = [];
+
+		// Add filters to the request
+		Object.keys($filters).forEach((key) => {
+			Object.keys($filters[key])
+				.filter((k) => $filters[key][k] !== undefined)
+				.forEach((k) => {
+					filter.push({
+						column: key,
+						filterBy: k as FilterOptionsEnum,
+						value: $filters[key][k]
+					});
+				});
+		});
+
+		sendModel.filter = filter;
+
 		const fetchData = await fetch(URL, {
 			headers: {
 				'Content-Type': 'application/json',
@@ -361,11 +378,7 @@
 			body: JSON.stringify(sendModel)
 		});
 
-		console.log(fetchData);
-
 		const response: Receive = await fetchData.json();
-
-		console.log(response);
 
 		// Update data store
 		$data = response.data;
@@ -377,9 +390,9 @@
 	const sortServer = (order: 'asc' | 'desc' | undefined, id: string) => {
 		// Set parameter for sorting
 		if (order === undefined) {
-			request.orderBy = [];
+			sendModel.order = [];
 		} else {
-			request.orderBy = [{ column: id, direction: order }];
+			sendModel.order = [{ column: id, direction: order }];
 		}
 
 		// Reset pagination

@@ -1,6 +1,7 @@
-import { FilterOptionsEnum } from '$models/Enums';
 import type { ColumnFilterFn } from 'svelte-headless-table/lib/plugins';
 import type { TableFilterFn } from 'svelte-headless-table/lib/plugins/addTableFilter';
+
+import { FilterOptionsEnum } from '$models/Enums';
 
 const textFilter = (filterOption, filterValue, value) => {
 	switch (filterOption) {
