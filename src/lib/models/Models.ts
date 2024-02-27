@@ -108,7 +108,7 @@ export interface Columns {
 export interface TableConfig<T> {
 	id: string;
 	data: Writable<T[]>;
-	resizable?: 'rows' | 'columns' | 'both'; // none by default
+	resizable?: 'none' | 'rows' | 'columns' | 'both'; // none by default
 	toggle?: boolean; // false by default
 	fitToScreen?: boolean; // true by default
 	height?: null | number; // null by default

@@ -12,6 +12,7 @@
 	} from 'svelte-headless-table/plugins';
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
 	import { SlideToggle, storePopup } from '@skeletonlabs/skeleton';
+	import type { PaginationConfig } from 'svelte-headless-table/lib/plugins/addPagination';
 
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
@@ -20,8 +21,9 @@
 	import TablePagination from './TablePagination.svelte';
 	import TablePaginationServer from './TablePaginationServer.svelte';
 	import { columnFilter, searchFilter } from './filter';
-	import { Receive, Send, type TableConfig } from '$lib/models/Models';
-	import type { PaginationConfig } from 'svelte-headless-table/lib/plugins/addPagination';
+	import { cellStyle, exportAsCsv, fixedWidth, normalizeFilters, resetResize } from './shared';
+	import { Receive, Send } from '$lib/models/Models';
+	import type { TableConfig } from '$lib/models/Models';
 	import type { FilterOptionsEnum } from '$models/Enums';
 
 	export let config: TableConfig<any>;
@@ -40,7 +42,6 @@
 		pageSizes = [5, 10, 15, 20], // Page sizes to display in the pagination component
 		fitToScreen = true, // Whether to fit the table to the screen,
 		exportable = false, // Whether to display the export button and enable export functionality
-
 		serverSide = false, // Whether the table is client or server-side
 		URL = '', // URL to fetch data from
 		token = '', // Bearer token to authenticate the request
@@ -49,7 +50,6 @@
 		versionId = 0 // Version ID to send with the request
 	} = config;
 
-	const request = new Send();
 	const filters = writable<{
 		[key: string]: { [key in FilterOptionsEnum]?: number | string | Date };
 	}>({});
@@ -268,106 +268,13 @@
 	// Page configuration
 	const { pageIndex, pageSize } = pluginStates.page;
 
-	// Function to determine minWidth for a column to simplify the logic in the HTML
-	const minWidth = (id: string) => {
-		if (columns && id in columns) {
-			return columns[id].minWidth ?? 0;
-		}
-		return 0;
-	};
-	// Function to determine fixedWidth for a column to simplify the logic in the HTML
-	const fixedWidth = (id: string) => {
-		if (columns && id in columns) {
-			return columns[id].fixedWidth ?? 0;
-		}
-		return 0;
-	};
-	// Function to create custom styles for the columns to simplify the logic in the HTML
-	const cellStyle = (id: string) => {
-		const minW = minWidth(id);
-		const fixedW = fixedWidth(id);
-		const styles: string[] = [];
-
-		// If minWidth is provided, add to styles
-		minW && styles.push(`min-width: ${minW}px`);
-		// If fixedWidth is provided, add to styles
-		fixedW && styles.push(`width: ${fixedW}px`);
-		// Create and return styles separated by ';'
-		return styles.join(';');
-	};
-
-	// Resetting the resized columns and/or rows
-	const resetResize = () => {
-		// Run only if resizable is not none
-		if (resizable === 'columns' || resizable === 'both') {
-			$headerRows.forEach((row) => {
-				row.cells.forEach((cell) => {
-					const minW = minWidth(cell.id);
-					const fixedW = fixedWidth(cell.id);
-					// If a fixedWidth is provided for a column, then reset the width to that value
-					fixedW &&
-						document
-							.getElementById(`th-${tableId}-${cell.id}`)
-							?.style.setProperty('width', `${fixedW}px`);
-					// If a minWidth is provided for a column, then reset the width to that value
-					minW &&
-						document
-							.getElementById(`th-${tableId}-${cell.id}`)
-							?.style.setProperty('width', `${minW}px`);
-					// If neither minWidth nor fixedWidth provided for a column, then reset the width to auto
-					!minW &&
-						!fixedW &&
-						document.getElementById(`th-${tableId}-${cell.id}`)?.style.setProperty('width', 'auto');
-				});
-			});
-		}
-
-		if (resizable === 'rows' || resizable === 'both') {
-			$pageRows.forEach((row) => {
-				row.cells.forEach((cell) => {
-					// Reset all row heights to auto
-					document
-						.getElementById(`${tableId}-${cell.id}-${row.id}`)
-						?.style.setProperty('height', 'auto');
-				});
-			});
-		}
-	};
-
-	const exportAsCsv = () => {
-		// Creating a hidden anchor element to download the CSV file
-		const anchor = document.createElement('a');
-		anchor.style.display = 'none';
-		anchor.href = `data:text/csv;charset=utf-8,${encodeURIComponent($exportedData)}`;
-		anchor.download = `${tableId}.csv`;
-		document.body.appendChild(anchor);
-		anchor.click();
-		document.body.removeChild(anchor);
-	};
-
 	// TODO: Add loading animation for server-side fetch requests
 	const updateTable = async () => {
 		sendModel.limit = $pageSize;
 		sendModel.offset = $pageSize * $pageIndex;
 		sendModel.version = versionId;
 		sendModel.id = entityId;
-
-		let filter: any[] = [];
-
-		// Add filters to the request
-		Object.keys($filters).forEach((key) => {
-			Object.keys($filters[key])
-				.filter((k) => $filters[key][k] !== undefined)
-				.forEach((k) => {
-					filter.push({
-						column: key,
-						filterBy: k as FilterOptionsEnum,
-						value: $filters[key][k]
-					});
-				});
-		});
-
-		sendModel.filter = filter;
+		sendModel.filter = normalizeFilters($filters);
 
 		const fetchData = await fetch(URL, {
 			headers: {
@@ -437,14 +344,17 @@
 						<button
 							type="button"
 							class="btn btn-sm variant-filled-primary rounded-full order-last"
-							on:click|preventDefault={resetResize}>Reset sizing</button
+							on:click|preventDefault={() =>
+								resetResize($headerRows, $pageRows, tableId, columns, resizable)}
+							>Reset sizing</button
 						>
 					{/if}
 					{#if exportable}
 						<button
 							type="button"
 							class="btn btn-sm variant-filled-primary rounded-full order-last"
-							on:click|preventDefault={exportAsCsv}>Export as CSV</button
+							on:click|preventDefault={() => exportAsCsv(tableId, $exportedData)}
+							>Export as CSV</button
 						>
 					{/if}
 				</div>
@@ -470,11 +380,11 @@
 								<tr {...rowAttrs} class="bg-primary-300 dark:bg-primary-500">
 									{#each headerRow.cells as cell (cell.id)}
 										<Subscribe attrs={cell.attrs()} props={cell.props()} let:props let:attrs>
-											<th scope="col" class="!p-2" {...attrs} style={cellStyle(cell.id)}>
+											<th scope="col" class="!p-2" {...attrs} style={cellStyle(cell.id, columns)}>
 												<div
 													class="overflow-auto"
 													class:resize-x={(resizable === 'columns' || resizable === 'both') &&
-														!fixedWidth(cell.id)}
+														!fixedWidth(cell.id, columns)}
 													id="th-{tableId}-{cell.id}"
 												>
 													<div class="flex justify-between items-center">
