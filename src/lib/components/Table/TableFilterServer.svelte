@@ -180,7 +180,7 @@
 
 		$pageIndex = 0;
 		updateTable().then(() => {
-			active = true;
+			active = false;
 		});
 	};
 
