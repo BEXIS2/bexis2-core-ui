@@ -1,5 +1,5 @@
 import type { FilterOptionsEnum } from '$models/Enums';
-import type { Columns, Filter } from '$models/Models';
+import type { Columns, Filter, ServerColumn } from '$models/Models';
 
 // Function to determine minWidth for a column to simplify the logic in the HTML
 export const minWidth = (id: string, columns: Columns | undefined) => {
@@ -103,4 +103,35 @@ export const resetResize = (
 			});
 		});
 	}
+};
+
+export const missingValuesFn = (key: number, missingValues: { [key: string | number]: string }) => {
+	return key in missingValues ? missingValues[key] : key.toString();
+};
+
+export const convertServerColumns = (columns: ServerColumn[]) => {
+	const columnsConfig: Columns = {};
+
+	columns.forEach((col) => {
+		let instructions = {};
+		if (col.instructions?.displayPattern) {
+			instructions = {
+				toStringFn: (date: Date) =>
+					date.toLocaleString('en-US', col.instructions?.displayPattern || {}),
+				toSortableValueFn: (date: Date) => date.getTime(),
+				toFilterableValueFn: (date: Date) => date
+			};
+		} else if (col.instructions?.missingValues) {
+			instructions = {
+				toStringFn: (key) => missingValuesFn(key, col.instructions?.missingValues || {})
+			};
+		}
+
+		columnsConfig[col.column] = {
+			exclude: col.exclude,
+			instructions
+		};
+	});
+
+	return columnsConfig;
 };

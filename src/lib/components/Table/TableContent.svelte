@@ -21,7 +21,14 @@
 	import TablePagination from './TablePagination.svelte';
 	import TablePaginationServer from './TablePaginationServer.svelte';
 	import { columnFilter, searchFilter } from './filter';
-	import { cellStyle, exportAsCsv, fixedWidth, normalizeFilters, resetResize } from './shared';
+	import {
+		cellStyle,
+		exportAsCsv,
+		fixedWidth,
+		normalizeFilters,
+		resetResize,
+		convertServerColumns
+	} from './shared';
 	import { Receive, Send } from '$lib/models/Models';
 	import type { TableConfig } from '$lib/models/Models';
 	import type { FilterOptionsEnum } from '$models/Enums';
@@ -286,6 +293,11 @@
 		});
 
 		const response: Receive = await fetchData.json();
+
+		// Format server columns to the client columns
+		if (response.columns !== undefined) {
+			columns = convertServerColumns(response.columns);
+		}
 
 		// Update data store
 		$data = response.data;
