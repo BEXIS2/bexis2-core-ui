@@ -114,15 +114,19 @@ export const convertServerColumns = (columns: ServerColumn[]) => {
 
 	columns.forEach((col) => {
 		let instructions = {};
-		if (col.instructions?.displayPattern) {
+
+		// if (col.instructions?.displayPattern) {
+		// 	instructions = {
+		// 		toStringFn: (date: Date) =>
+		// 			date.toLocaleString('en-US', col.instructions?.displayPattern || {}),
+		// 		toSortableValueFn: (date: Date) => date.getTime(),
+		// 		toFilterableValueFn: (date: Date) => date
+		// 	};
+		// }
+
+		if (col.instructions?.missingValues) {
 			instructions = {
-				toStringFn: (date: Date) =>
-					date.toLocaleString('en-US', col.instructions?.displayPattern || {}),
-				toSortableValueFn: (date: Date) => date.getTime(),
-				toFilterableValueFn: (date: Date) => date
-			};
-		} else if (col.instructions?.missingValues) {
-			instructions = {
+				...instructions,
 				toStringFn: (key) => missingValuesFn(key, col.instructions?.missingValues || {})
 			};
 		}

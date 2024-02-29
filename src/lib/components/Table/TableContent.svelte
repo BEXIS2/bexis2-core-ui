@@ -329,13 +329,15 @@
 	<div class="table-container">
 		<!-- Enable the search filter if table is not empty -->
 		{#if $data.length > 0}
-			<input
-				class="input p-2 border border-primary-500"
-				type="text"
-				bind:value={$filterValue}
-				placeholder="Search rows..."
-				id="{tableId}-search"
-			/>
+			{#if !serverSide}
+				<input
+					class="input p-2 border border-primary-500"
+					type="text"
+					bind:value={$filterValue}
+					placeholder="Search rows..."
+					id="{tableId}-search"
+				/>
+			{/if}
 			<div class="flex justify-between items-center py-2 w-full">
 				<div>
 					<!-- Enable the fitToScreen toggle if toggle === true -->
