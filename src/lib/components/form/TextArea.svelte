@@ -22,6 +22,7 @@
 		class:input-error={invalid}
 		bind:value
 		on:input
+		on:change
 		{placeholder}
 		{disabled}
 	/>

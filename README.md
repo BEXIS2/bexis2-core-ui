@@ -1,4 +1,12 @@
 # bexis-core-ui
+## 0.3.11
+- add on:change passthrough to TextInput, TextArea, DateInput, NumberInput, CheckBox
+  
+## 0.3.10
+- multi select
+  - update svelte-select libary
+  - refactor filterFn (new order - > exact, start, includes)
+  - fix issues with clearable
 
 ## 0.3.9
 

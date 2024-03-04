@@ -4,7 +4,6 @@
 	export let id: string = '';
 	export let label: string = '';
 	export let value: string = '';
-
 	export let valid: boolean = false;
 	export let invalid: boolean = false;
 	export let required: boolean = false;
@@ -22,6 +21,7 @@
 		class:input-error={invalid}
 		bind:value
 		on:input
+		on:change
 		{disabled}
 	/>
 </InputContainer>
