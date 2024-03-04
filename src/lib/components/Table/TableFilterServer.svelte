@@ -10,8 +10,9 @@
 	export let id;
 	export let tableId;
 	export let toFilterableValueFn: undefined | ((value: any) => any) = undefined;
-	export let filterValue;
 	export let filters;
+	export let updateTable;
+	export let pageIndex;
 
 	// If the filter is applied and the displayed values are filtered
 	let active = false;
@@ -176,6 +177,18 @@
 	const clearFilters = () => {
 		dropdowns = [];
 		$filters[id] = {};
+
+		$pageIndex = 0;
+		updateTable().then(() => {
+			active = false;
+		});
+	};
+
+	const applyFilters = () => {
+		$pageIndex = 0;
+		updateTable().then(() => {
+			active = true;
+		});
 	};
 
 	// Determine if the type is date
@@ -210,7 +223,6 @@
 					// Set the defaults when cleared
 					clearFilters();
 					addFilter(options[type][0].value, undefined);
-					$filterValue = $filters[id];
 					active = false;
 				}}>Clear Filters</button
 			>
@@ -291,10 +303,7 @@
 			<button
 				class="btn variant-filled-primary btn-sm"
 				type="button"
-				on:click|preventDefault={() => {
-					$filterValue = $filters[id];
-					active = true;
-				}}>Apply</button
+				on:click|preventDefault={applyFilters}>Apply</button
 			>
 		</div>
 	</div>

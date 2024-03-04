@@ -38,3 +38,25 @@ export enum notificationType {
 	error,
 	surface
 }
+
+// Server-side table fitler types
+export enum FilterOptionsEnum {
+	'e' = 'e', // Equal to
+	'ne' = 'ne', // Not equal to
+	'gt' = 'gt', // Greater than
+	'lt' = 'lt', // Less than
+	'gte' = 'gte', // Greater than or equal to
+	'lte' = 'lte', // Less than or equal to
+
+	'c' = 'c', // Contains
+	'nc' = 'nc', // Does not contain
+	'sw' = 'sw', // Starts with
+	'ew' = 'ew', // Ends with,
+
+	'o' = 'o', // On (date)
+	'sf' = 'sf', // Starting from (date)
+	'a' = 'a', // After (date)
+	'u' = 'u', // Until (date)
+	'b' = 'b', // Before (date)
+	'no' = 'no' // Not on (date)
+}

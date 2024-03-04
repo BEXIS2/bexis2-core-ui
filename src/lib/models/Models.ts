@@ -3,6 +3,7 @@ import type { ColumnFilterFn } from 'svelte-headless-table/lib/plugins';
 import type { Writable } from 'svelte/store';
 
 import type {
+	FilterOptionsEnum,
 	decimalCharacterType,
 	notificationType,
 	orientationType,
@@ -107,7 +108,7 @@ export interface Columns {
 export interface TableConfig<T> {
 	id: string;
 	data: Writable<T[]>;
-	resizable?: 'rows' | 'columns' | 'both'; // none by default
+	resizable?: 'none' | 'rows' | 'columns' | 'both'; // none by default
 	toggle?: boolean; // false by default
 	fitToScreen?: boolean; // true by default
 	height?: null | number; // null by default
@@ -117,6 +118,13 @@ export interface TableConfig<T> {
 	pageSizes?: number[]; // [5, 10, 15, 20] by default
 	defaultPageSize?: number; // 10 by default
 	optionsComponent?: typeof SvelteComponent;
+
+	serverSide?: boolean; // false by default
+	URL?: string; // Base URL for server-side table
+	token?: string; // Authorization token for server-side table
+	sendModel?: Send; // Send model for server-side table
+	entityId?: number; // Entity ID for server-side table
+	versionId?: number; // Version ID for server-side table
 }
 
 // lists
@@ -129,7 +137,7 @@ export interface listItemType {
 	id: number;
 	text: string;
 	group: string;
-	description:string;
+	description: string;
 }
 
 //help
@@ -155,4 +163,57 @@ export interface notificationStoreType {
 	notificationType: notificationType;
 	message: string;
 	btnStyle: string;
+}
+
+// Table column type for server-side table
+export type ServerColumn = {
+	column: string;
+	exclude?: boolean; // false by default
+	instructions?: {
+		missingValues?: { [key: string | number]: string };
+		displayPattern?: string;
+	};
+};
+
+export type OrderBy = {
+	column: string;
+	direction: 'asc' | 'desc';
+};
+
+export type Filter = {
+	column: string;
+	filterBy: FilterOptionsEnum;
+	value: string | number | Date | boolean;
+};
+
+export class Send {
+	id: number;
+	limit: number;
+	offset: number;
+	version?: number;
+	filter: Filter[];
+	order: OrderBy[];
+
+	constructor() {
+		this.id = 0;
+		this.limit = 10;
+		this.offset = 0;
+		this.version = 0;
+		this.filter = [];
+		this.order = [];
+	}
+}
+
+export class Receive {
+	count: number;
+	data: any[];
+	send: Send;
+	columns?: ServerColumn[];
+
+	constructor() {
+		this.count = 0;
+		this.data = [];
+		this.send = new Send();
+		this.columns = [];
+	}
 }

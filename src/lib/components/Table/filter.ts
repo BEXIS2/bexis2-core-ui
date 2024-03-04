@@ -1,19 +1,21 @@
 import type { ColumnFilterFn } from 'svelte-headless-table/lib/plugins';
 import type { TableFilterFn } from 'svelte-headless-table/lib/plugins/addTableFilter';
 
+import { FilterOptionsEnum } from '$models/Enums';
+
 const textFilter = (filterOption, filterValue, value) => {
 	switch (filterOption) {
-		case 'isequal':
+		case FilterOptionsEnum.e:
 			return value.toLowerCase() === filterValue.toLowerCase();
-		case 'isnotequal':
+		case FilterOptionsEnum.ne:
 			return value.toLowerCase() !== filterValue.toLowerCase();
-		case 'starts':
+		case FilterOptionsEnum.sw:
 			return value.toLowerCase().startsWith(filterValue.toLowerCase());
-		case 'ends':
+		case FilterOptionsEnum.ew:
 			return value.toLowerCase().endsWith(filterValue.toLowerCase());
-		case 'contains':
+		case FilterOptionsEnum.c:
 			return value.toLowerCase().includes(filterValue.toLowerCase());
-		case 'notcontains':
+		case FilterOptionsEnum.nc:
 			return !value.toLowerCase().includes(filterValue.toLowerCase());
 		default:
 			return false;
@@ -22,17 +24,17 @@ const textFilter = (filterOption, filterValue, value) => {
 
 const numberFilter = (filterOption, filterValue, value) => {
 	switch (filterOption) {
-		case 'isequal':
+		case FilterOptionsEnum.e:
 			return value === filterValue;
-		case 'isnotequal':
+		case FilterOptionsEnum.ne:
 			return value !== filterValue;
-		case 'isgreater':
+		case FilterOptionsEnum.gt:
 			return value > filterValue;
-		case 'isless':
+		case FilterOptionsEnum.lt:
 			return value < filterValue;
-		case 'isgreaterorequal':
+		case FilterOptionsEnum.gte:
 			return value >= filterValue;
-		case 'islessorequal':
+		case FilterOptionsEnum.lte:
 			return value <= filterValue;
 		default:
 			return false;
@@ -43,93 +45,47 @@ const dateFilter = (filterOption, filterValue, value) => {
 	const filter = new Date(filterValue);
 
 	switch (filterOption) {
-		case 'ison':
-			return value === filter;
-		case 'isstartingfrom':
-			return value >= filter;
-		case 'isafter':
-			return value > filter;
-		case 'isuntil':
-			return value <= filter;
-		case 'isbefore':
-			return value < filter;
-		case 'isnoton':
-			return value !== filter;
+		case FilterOptionsEnum.o:
+			return value.getTime() === filter.getTime();
+		case FilterOptionsEnum.sf:
+			return value.getTime() >= filter.getTime();
+		case FilterOptionsEnum.a:
+			return value.getTime() > filter.getTime();
+		case FilterOptionsEnum.u:
+			return value.getTime() <= filter.getTime();
+		case FilterOptionsEnum.b:
+			return value.getTime() < filter.getTime();
+		case FilterOptionsEnum.no:
+			return value.getTime() !== filter.getTime();
 		default:
 			return false;
 	}
 };
 
-const numericFilter: ColumnFilterFn = ({ filterValue, value }) => {
-	const [firstFilterOption, firstFilterValue, secondFilterOption, secondFilterValue] = filterValue;
-	if (firstFilterValue == null && secondFilterValue == null) {
-		return true;
-	} else if (
-		(firstFilterOption == null || firstFilterValue == null) &&
-		secondFilterOption != null &&
-		secondFilterValue != null
-	) {
-		return numberFilter(secondFilterOption, secondFilterValue, value);
-	} else if (
-		(secondFilterOption == null || secondFilterValue == null) &&
-		firstFilterOption != null &&
-		firstFilterValue != null
-	) {
-		return numberFilter(firstFilterOption, firstFilterValue, value);
-	}
-	return (
-		numberFilter(firstFilterOption, firstFilterValue, value) &&
-		numberFilter(secondFilterOption, secondFilterValue, value)
-	);
-};
+const applyFilter = (filterValue, value, filterFn) => {
+	let result: boolean = true;
 
-const stringFilter: ColumnFilterFn = ({ filterValue, value }) => {
-	const [firstFilterOption, firstFilterValue, secondFilterOption, secondFilterValue] = filterValue;
-	if (!firstFilterValue?.length && !secondFilterValue?.length) {
-		return true;
-	} else if (
-		(!firstFilterOption || !firstFilterValue) &&
-		secondFilterOption &&
-		secondFilterValue?.length
-	) {
-		return textFilter(secondFilterOption, secondFilterValue, value);
-	} else if (
-		(!secondFilterOption || !secondFilterValue?.length) &&
-		firstFilterOption &&
-		firstFilterValue?.length
-	) {
-		return textFilter(firstFilterOption, firstFilterValue, value);
-	}
-	return (
-		textFilter(firstFilterOption, firstFilterValue, value) &&
-		textFilter(secondFilterOption, secondFilterValue, value)
-	);
-};
+	const filters = Object.keys(filterValue).map((key) => ({
+		option: key,
+		value: filterValue[key]
+	}));
 
-const dateTypeFilter: ColumnFilterFn = ({ filterValue, value }) => {
-	const [firstFilterOption, firstFilterValue, secondFilterOption, secondFilterValue] = filterValue;
-	if (!firstFilterValue && !secondFilterValue) {
-		return true;
-	} else if ((!firstFilterOption || !firstFilterValue) && secondFilterOption && secondFilterValue) {
-		return dateFilter(secondFilterOption, secondFilterValue, value);
-	} else if ((!secondFilterOption || !secondFilterValue) && firstFilterOption && firstFilterValue) {
-		return dateFilter(firstFilterOption, firstFilterValue, value);
-	}
+	filters.forEach((filter) => {
+		result = result && (filter.value ? filterFn(filter.option, filter.value, value) : true);
+	});
 
-	return (
-		dateFilter(firstFilterOption, firstFilterValue, value) &&
-		dateFilter(secondFilterOption, secondFilterValue, value)
-	);
+	return result;
 };
 
 export const columnFilter: ColumnFilterFn = ({ filterValue, value }) => {
-	if (typeof value === 'string') {
-		return stringFilter({ filterValue, value });
+	if (typeof value === 'object' && value instanceof Date) {
+		return applyFilter(filterValue, value, dateFilter);
 	} else if (typeof value === 'number') {
-		return numericFilter({ filterValue, value });
-	} else if (typeof value === 'object' && value instanceof Date) {
-		return dateTypeFilter({ filterValue, value });
+		return applyFilter(filterValue, value, numberFilter);
+	} else if (typeof value === 'string') {
+		return applyFilter(filterValue, value, textFilter);
 	}
+
 	return false;
 };
 
