@@ -1,6 +1,9 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 	import { readable, writable } from 'svelte/store';
+
+	import Fa from 'svelte-fa';
+	import { faXmark } from '@fortawesome/free-solid-svg-icons';
 	import { createTable, Subscribe, Render, createRender } from 'svelte-headless-table';
 	import {
 		addSortBy,
@@ -56,6 +59,8 @@
 		entityId = 0, // Entity ID to send with the request
 		versionId = 0 // Version ID to send with the request
 	} = config;
+
+	let searchValue = '';
 
 	const filters = writable<{
 		[key: string]: { [key in FilterOptionsEnum]?: number | string | Date };
@@ -330,13 +335,31 @@
 		<!-- Enable the search filter if table is not empty -->
 		{#if $data.length > 0}
 			{#if !serverSide}
-				<input
-					class="input p-2 border border-primary-500"
-					type="text"
-					bind:value={$filterValue}
-					placeholder="Search rows..."
-					id="{tableId}-search"
-				/>
+				<div class="flex gap-2">
+					<div class="relative w-full flex items-center">
+						<input
+							class="input p-2 border border-primary-500"
+							type="text"
+							bind:value={searchValue}
+							placeholder="Search rows..."
+							id="{tableId}-search"
+						/><button
+							type="reset"
+							class="absolute right-3 items-center"
+							on:click|preventDefault={() => {
+								searchValue = '';
+								$filterValue = '';
+							}}><Fa icon={faXmark} /></button
+						>
+					</div>
+					<button
+						type="button"
+						class="btn variant-filled-primary"
+						on:click|preventDefault={() => {
+							$filterValue = searchValue;
+						}}>Search</button
+					>
+				</div>
 			{/if}
 			<div class="flex justify-between items-center py-2 w-full">
 				<div>
