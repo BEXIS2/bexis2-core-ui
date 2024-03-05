@@ -194,7 +194,8 @@
 														tableId,
 														values,
 														toFilterableValueFn,
-														filters
+														filters,
+														toStringFn
 												  });
 										}
 								  }
