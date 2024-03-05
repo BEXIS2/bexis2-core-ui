@@ -79,7 +79,7 @@
     "svelte": "^3.54.0",
     "svelte-codemirror-editor": "^1.1.0",
     "svelte-fa": "^3.0.4",
-    "svelte-file-dropzone": "^2.0.1",
+    "svelte-file-dropzone": "^2.0.4",
     "svelte-headless-table": "^0.17.3",
     "svelte-select": "^5.6.1",
     "vest": "^4.6.11"

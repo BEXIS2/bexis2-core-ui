@@ -6,7 +6,7 @@
 		fileUploaderType
 	} from '../../models/Models.js';
 
-	import DropZone from 'svelte-file-dropzone/Dropzone.svelte';
+	import Dropzone from 'svelte-file-dropzone';
 	import Fa from 'svelte-fa/src/fa.svelte';
 
 	import Spinner from '../page/Spinner.svelte';
@@ -169,7 +169,7 @@
 	{#if model}
 		<!--if model exist  -->
 		<div>
-			<DropZone
+			<Dropzone
 				on:drop={handleFilesSelect}
 				accept={model.accept}
 				multiple={model.multiple}
@@ -187,7 +187,7 @@
 						{/each}
 					{/if}
 				</p>
-			</DropZone>
+			</Dropzone>
 			{#if isUploading}
 					<ProgressBar  value={undefined}/>
 			{/if}
