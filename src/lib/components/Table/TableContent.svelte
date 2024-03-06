@@ -19,6 +19,7 @@
 
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
+	import Spinner from '../page/Spinner.svelte';
 	import TableFilter from './TableFilter.svelte';
 	import TableFilterServer from './TableFilterServer.svelte';
 	import TablePagination from './TablePagination.svelte';
@@ -61,6 +62,7 @@
 	} = config;
 
 	let searchValue = '';
+	let isFetching = false;
 
 	const filters = writable<{
 		[key: string]: { [key in FilterOptionsEnum]?: number | string | Date };
@@ -281,7 +283,6 @@
 	// Page configuration
 	const { pageIndex, pageSize } = pluginStates.page;
 
-	// TODO: Add loading animation for server-side fetch requests
 	const updateTable = async () => {
 		sendModel.limit = $pageSize;
 		sendModel.offset = $pageSize * $pageIndex;
@@ -289,14 +290,27 @@
 		sendModel.id = entityId;
 		sendModel.filter = normalizeFilters($filters);
 
-		const fetchData = await fetch(URL, {
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `Bearer ${token}`
-			},
-			method: 'POST',
-			body: JSON.stringify(sendModel)
-		});
+		let fetchData;
+
+		try {
+			isFetching = true;
+			fetchData = await fetch(URL, {
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${token}`
+				},
+				method: 'POST',
+				body: JSON.stringify(sendModel)
+			});
+		} catch (error) {
+			throw new Error(`Network error: ${(error as Error).message}`);
+		} finally {
+			isFetching = false;
+		}
+
+		if (!fetchData.ok) {
+			throw new Error('Failed to fetch data');
+		}
 
 		const response: Receive = await fetchData.json();
 
@@ -461,6 +475,8 @@
 								</tr>
 							</Subscribe>
 						{/each}
+					{:else if isFetching}
+						<div class="p-10"><Spinner /></div>
 					{:else}
 						<!-- Table is empty -->
 						<p class="items-center justify-center flex w-full p-10 italic">Nothing to show here.</p>
