@@ -13,6 +13,7 @@
 	export let toStringFn: undefined | ((value: any) => string) = undefined;
 	export let filterValue;
 	export let filters;
+	export let pageIndex;
 
 	// If the filter is applied and the displayed values are filtered
 	let active = false;
@@ -234,6 +235,7 @@
 					addFilter(options[type][0].value, undefined);
 					$filterValue = $filters[id];
 					active = false;
+					$pageIndex = 0;
 				}}>Clear Filters</button
 			>
 
@@ -268,7 +270,7 @@
 							{/if}
 						</div>
 
-						{#if type === 'number' || type === 'text'}
+						{#if type === 'number' || type === 'string'}
 							<input
 								type="text"
 								class="input p-1 border border-primary-500"
@@ -307,6 +309,7 @@
 				class="btn variant-filled-primary btn-sm"
 				type="button"
 				on:click|preventDefault={() => {
+					$pageIndex = 0;
 					$filterValue = $filters[id];
 					active = true;
 				}}>Apply</button

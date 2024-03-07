@@ -197,7 +197,8 @@
 														values,
 														toFilterableValueFn,
 														filters,
-														toStringFn
+														toStringFn,
+														pageIndex
 												  });
 										}
 								  }
@@ -240,7 +241,8 @@
 												id,
 												tableId,
 												values,
-												filters
+												filters,
+												pageIndex
 										  });
 								}
 							}
