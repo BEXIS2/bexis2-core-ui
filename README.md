@@ -1,4 +1,13 @@
 # bexis-core-ui
+## 0.3.12
+- table
+  - Server-side data fetching
+  - Server-side filtering
+  - Server-side sorting
+  - Server-side pagination
+  - New filtering workflow & UI
+  - New pagination component
+
 ## 0.3.11
 - add on:change passthrough to TextInput, TextArea, DateInput, NumberInput, CheckBox
   
