@@ -1,5 +1,9 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
+	import { readable, writable } from 'svelte/store';
+
+	import Fa from 'svelte-fa';
+	import { faXmark } from '@fortawesome/free-solid-svg-icons';
 	import { createTable, Subscribe, Render, createRender } from 'svelte-headless-table';
 	import {
 		addSortBy,
@@ -11,13 +15,26 @@
 	} from 'svelte-headless-table/plugins';
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
 	import { SlideToggle, storePopup } from '@skeletonlabs/skeleton';
+	import type { PaginationConfig } from 'svelte-headless-table/lib/plugins/addPagination';
 
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
 	import TableFilter from './TableFilter.svelte';
+	import TableFilterServer from './TableFilterServer.svelte';
 	import TablePagination from './TablePagination.svelte';
+	import TablePaginationServer from './TablePaginationServer.svelte';
 	import { columnFilter, searchFilter } from './filter';
+	import {
+		cellStyle,
+		exportAsCsv,
+		fixedWidth,
+		normalizeFilters,
+		resetResize,
+		convertServerColumns
+	} from './shared';
+	import { Receive, Send } from '$lib/models/Models';
 	import type { TableConfig } from '$lib/models/Models';
+	import type { FilterOptionsEnum } from '$models/Enums';
 
 	export let config: TableConfig<any>;
 
@@ -34,8 +51,20 @@
 		toggle = false, // Whether to display the fitToScreen toggle
 		pageSizes = [5, 10, 15, 20], // Page sizes to display in the pagination component
 		fitToScreen = true, // Whether to fit the table to the screen,
-		exportable = false // Whether to display the export button and enable export functionality
+		exportable = false, // Whether to display the export button and enable export functionality
+		serverSide = false, // Whether the table is client or server-side
+		URL = '', // URL to fetch data from
+		token = '', // Bearer token to authenticate the request
+		sendModel = new Send(), // Model to send requests
+		entityId = 0, // Entity ID to send with the request
+		versionId = 0 // Version ID to send with the request
 	} = config;
+
+	let searchValue = '';
+
+	const filters = writable<{
+		[key: string]: { [key in FilterOptionsEnum]?: number | string | Date };
+	}>({});
 
 	// Creatign a type to access keys of the objects in the data store
 	type AccessorType = keyof (typeof $data)[number];
@@ -44,14 +73,29 @@
 	const dispatch = createEventDispatcher();
 	const actionDispatcher = (obj) => dispatch('action', obj);
 
+	const serverItems = serverSide ? writable<Number>(0) : undefined;
+	const serverItemCount = serverSide
+		? readable<Number>(0, (set) => {
+				serverItems!.subscribe((val) => set(val));
+		  })
+		: undefined;
+
 	// Initializing the table
 	const table = createTable(data, {
 		colFilter: addColumnFilters(),
 		tableFilter: addTableFilter({
-			fn: searchFilter
+			fn: searchFilter,
+			serverSide
 		}),
-		sort: addSortBy({ disableMultiSort: true }),
-		page: addPagination({ initialPageSize: defaultPageSize }),
+		sort: addSortBy({
+			disableMultiSort: true,
+			serverSide
+		}),
+		page: addPagination({
+			initialPageSize: defaultPageSize,
+			serverSide,
+			serverItemCount
+		} as PaginationConfig),
 		expand: addExpandedRows(),
 		export: addDataExport({ format: 'csv' })
 	});
@@ -66,8 +110,14 @@
 			}
 		});
 	});
+
+	Object.keys(allCols).forEach((key) => {
+		$filters = { ...$filters, [key]: {} };
+	});
+
 	// Creating an array of all the keys
 	const accessors: AccessorType[] = Object.keys(allCols) as AccessorType[];
+
 	// Configuring every table column with the provided options
 	const tableColumns = [
 		...accessors
@@ -111,7 +161,6 @@
 							// Sorting config
 							sort: {
 								disable: disableSorting,
-								invert: true,
 								getSortValue: (row) => {
 									// If provided, use the custom sorting function toSortableValueFn(), or just use the value
 									return toSortableValueFn ? toSortableValueFn(row) : row;
@@ -128,14 +177,25 @@
 												: columnFilter({ filterValue, value: val });
 										},
 										render: ({ filterValue, values, id }) => {
-											// If provided, use the custom filter component, or use the default TableFilter component
-											return createRender(colFilterComponent ?? TableFilter, {
-												filterValue,
-												id,
-												tableId,
-												values,
-												toFilterableValueFn
-											});
+											filterValue.set($filters[key]);
+											return serverSide
+												? createRender(TableFilterServer, {
+														id,
+														tableId,
+														values,
+														updateTable,
+														pageIndex,
+														toFilterableValueFn,
+														filters
+												  })
+												: createRender(colFilterComponent ?? TableFilter, {
+														filterValue,
+														id,
+														tableId,
+														values,
+														toFilterableValueFn,
+														filters
+												  });
 										}
 								  }
 								: undefined,
@@ -149,7 +209,6 @@
 						}
 					});
 				} else {
-					// Default configuration for unconfigured columns
 					return table.column({
 						header: key,
 						accessor: accessor,
@@ -159,19 +218,28 @@
 						},
 						plugins: {
 							// Sorting enabled by default
-							sort: {
-								invert: true
-							},
+							sort: {},
 							// Filtering enabled by default
 							colFilter: {
 								fn: columnFilter,
-								render: ({ filterValue, values, id }) =>
-									createRender(TableFilter, {
-										filterValue,
-										id,
-										tableId,
-										values
-									})
+								render: ({ filterValue, values, id }) => {
+									return serverSide
+										? createRender(TableFilterServer, {
+												id,
+												tableId,
+												values,
+												updateTable,
+												pageIndex,
+												filters
+										  })
+										: createRender(TableFilter, {
+												filterValue,
+												id,
+												tableId,
+												values,
+												filters
+										  });
+								}
 							}
 						}
 					});
@@ -209,96 +277,90 @@
 	const { filterValue } = pluginStates.tableFilter;
 	// CSV content to be exported. If unexportable, then null
 	const { exportedData } = pluginStates.export;
+	// Page configuration
+	const { pageIndex, pageSize } = pluginStates.page;
 
-	// Function to determine minWidth for a column to simplify the logic in the HTML
-	const minWidth = (id: string) => {
-		if (columns && id in columns) {
-			return columns[id].minWidth ?? 0;
-		}
-		return 0;
-	};
-	// Function to determine fixedWidth for a column to simplify the logic in the HTML
-	const fixedWidth = (id: string) => {
-		if (columns && id in columns) {
-			return columns[id].fixedWidth ?? 0;
-		}
-		return 0;
-	};
-	// Function to create custom styles for the columns to simplify the logic in the HTML
-	const cellStyle = (id: string) => {
-		const minW = minWidth(id);
-		const fixedW = fixedWidth(id);
-		const styles: string[] = [];
+	// TODO: Add loading animation for server-side fetch requests
+	const updateTable = async () => {
+		sendModel.limit = $pageSize;
+		sendModel.offset = $pageSize * $pageIndex;
+		sendModel.version = versionId;
+		sendModel.id = entityId;
+		sendModel.filter = normalizeFilters($filters);
 
-		// If minWidth is provided, add to styles
-		minW && styles.push(`min-width: ${minW}px`);
-		// If fixedWidth is provided, add to styles
-		fixedW && styles.push(`width: ${fixedW}px`);
-		// Create and return styles separated by ';'
-		return styles.join(';');
-	};
+		const fetchData = await fetch(URL, {
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`
+			},
+			method: 'POST',
+			body: JSON.stringify(sendModel)
+		});
 
-	// Resetting the resized columns and/or rows
-	const resetResize = () => {
-		// Run only if resizable is not none
-		if (resizable === 'columns' || resizable === 'both') {
-			$headerRows.forEach((row) => {
-				row.cells.forEach((cell) => {
-					const minW = minWidth(cell.id);
-					const fixedW = fixedWidth(cell.id);
-					// If a fixedWidth is provided for a column, then reset the width to that value
-					fixedW &&
-						document
-							.getElementById(`th-${tableId}-${cell.id}`)
-							?.style.setProperty('width', `${fixedW}px`);
-					// If a minWidth is provided for a column, then reset the width to that value
-					minW &&
-						document
-							.getElementById(`th-${tableId}-${cell.id}`)
-							?.style.setProperty('min-width', `${minW}px`);
-					// If neither minWidth nor fixedWidth provided for a column, then reset the width to auto
-					!minW &&
-						!fixedW &&
-						document.getElementById(`th-${tableId}-${cell.id}`)?.style.setProperty('width', 'auto');
-				});
-			});
+		const response: Receive = await fetchData.json();
+
+		// Format server columns to the client columns
+		if (response.columns !== undefined) {
+			columns = convertServerColumns(response.columns);
 		}
 
-		if (resizable === 'rows' || resizable === 'both') {
-			$pageRows.forEach((row) => {
-				row.cells.forEach((cell) => {
-					// Reset all row heights to auto
-					document
-						.getElementById(`${tableId}-${cell.id}-${row.id}`)
-						?.style.setProperty('height', 'auto');
-				});
-			});
-		}
+		// Update data store
+		$data = response.data;
+		$serverItems = response.count;
+
+		return response;
 	};
 
-	const exportAsCsv = () => {
-		// Creating a hidden anchor element to download the CSV file
-		const anchor = document.createElement('a');
-		anchor.style.display = 'none';
-		anchor.href = `data:text/csv;charset=utf-8,${encodeURIComponent($exportedData)}`;
-		anchor.download = `${tableId}.csv`;
-		document.body.appendChild(anchor);
-		anchor.click();
-		document.body.removeChild(anchor);
+	const sortServer = (order: 'asc' | 'desc' | undefined, id: string) => {
+		// Set parameter for sorting
+		if (order === undefined) {
+			sendModel.order = [];
+		} else {
+			sendModel.order = [{ column: id, direction: order }];
+		}
+
+		// Reset pagination
+		$pageIndex = 0;
+
+		updateTable();
 	};
+
+	$: sortKeys = pluginStates.sort.sortKeys;
+	$: serverSide && updateTable();
+	$: serverSide && sortServer($sortKeys[0]?.order, $sortKeys[0]?.id);
 </script>
 
 <div class="grid gap-2 overflow-auto" class:w-fit={!fitToScreen} class:w-full={fitToScreen}>
 	<div class="table-container">
 		<!-- Enable the search filter if table is not empty -->
 		{#if $data.length > 0}
-			<input
-				class="input p-2 border border-primary-500"
-				type="text"
-				bind:value={$filterValue}
-				placeholder="Search rows..."
-				id="{tableId}-search"
-			/>
+			{#if !serverSide}
+				<div class="flex gap-2">
+					<div class="relative w-full flex items-center">
+						<input
+							class="input p-2 border border-primary-500"
+							type="text"
+							bind:value={searchValue}
+							placeholder="Search rows..."
+							id="{tableId}-search"
+						/><button
+							type="reset"
+							class="absolute right-3 items-center"
+							on:click|preventDefault={() => {
+								searchValue = '';
+								$filterValue = '';
+							}}><Fa icon={faXmark} /></button
+						>
+					</div>
+					<button
+						type="button"
+						class="btn variant-filled-primary"
+						on:click|preventDefault={() => {
+							$filterValue = searchValue;
+						}}>Search</button
+					>
+				</div>
+			{/if}
 			<div class="flex justify-between items-center py-2 w-full">
 				<div>
 					<!-- Enable the fitToScreen toggle if toggle === true -->
@@ -319,14 +381,17 @@
 						<button
 							type="button"
 							class="btn btn-sm variant-filled-primary rounded-full order-last"
-							on:click|preventDefault={resetResize}>Reset sizing</button
+							on:click|preventDefault={() =>
+								resetResize($headerRows, $pageRows, tableId, columns, resizable)}
+							>Reset sizing</button
 						>
 					{/if}
 					{#if exportable}
 						<button
 							type="button"
 							class="btn btn-sm variant-filled-primary rounded-full order-last"
-							on:click|preventDefault={exportAsCsv}>Export as CSV</button
+							on:click|preventDefault={() => exportAsCsv(tableId, $exportedData)}
+							>Export as CSV</button
 						>
 					{/if}
 				</div>
@@ -349,46 +414,45 @@
 								rowProps={headerRow.props()}
 								let:rowProps
 							>
-								<tr {...rowAttrs} class="bg-primary-300 dark:bg-primary-500 items-stretch">
+								<tr {...rowAttrs} class="bg-primary-300 dark:bg-primary-500">
 									{#each headerRow.cells as cell (cell.id)}
 										<Subscribe attrs={cell.attrs()} props={cell.props()} let:props let:attrs>
-											<th
-												scope="col"
-												class="!p-2 overflow-auto"
-												class:resize-x={(resizable === 'columns' || resizable === 'both') &&
-													!fixedWidth(cell.id)}
-												{...attrs}
-												id="th-{tableId}-{cell.id}"
-												style={cellStyle(cell.id)}
-											>
-												<div class="flex justify-between items-center">
-													<div class="flex gap-1 whitespace-pre-wrap">
-														<!-- Adding sorting config and styling -->
-														<span
-															class:underline={props.sort.order}
-															class:normal-case={cell.id !== cell.label}
-															class:cursor-pointer={!props.sort.disabled}
-															on:click={props.sort.toggle}
-															on:keydown={props.sort.toggle}
-														>
-															{cell.render()}
-														</span>
-														<div class="w-2">
-															{#if props.sort.order === 'asc'}
-																▾
-															{:else if props.sort.order === 'desc'}
-																▴
-															{/if}
-														</div>
-													</div>
-													<!-- Adding column filter config -->
-													{#if cell.isData()}
-														{#if props.colFilter?.render}
-															<div class="">
-																<Render of={props.colFilter.render} />
+											<th scope="col" class="!p-2" {...attrs} style={cellStyle(cell.id, columns)}>
+												<div
+													class="overflow-auto"
+													class:resize-x={(resizable === 'columns' || resizable === 'both') &&
+														!fixedWidth(cell.id, columns)}
+													id="th-{tableId}-{cell.id}"
+												>
+													<div class="flex justify-between items-center">
+														<div class="flex gap-1 whitespace-pre-wrap">
+															<!-- Adding sorting config and styling -->
+															<span
+																class:underline={props.sort.order}
+																class:normal-case={cell.id !== cell.label}
+																class:cursor-pointer={!props.sort.disabled}
+																on:click={props.sort.toggle}
+																on:keydown={props.sort.toggle}
+															>
+																{cell.render()}
+															</span>
+															<div class="w-2">
+																{#if props.sort.order === 'asc'}
+																	▴
+																{:else if props.sort.order === 'desc'}
+																	▾
+																{/if}
 															</div>
+														</div>
+														<!-- Adding column filter config -->
+														{#if cell.isData()}
+															{#if props.colFilter?.render}
+																<div class="">
+																	<Render of={props.colFilter.render} />
+																</div>
+															{/if}
 														{/if}
-													{/if}
+													</div>
 												</div>
 											</th>
 										</Subscribe>
@@ -409,20 +473,21 @@
 								<tr {...rowAttrs} id="{tableId}-row-{row.id}" class="">
 									{#each row.cells as cell, index (cell?.id)}
 										<Subscribe attrs={cell.attrs()} let:attrs>
-											<td
-												{...attrs}
-												class="!p-2 overflow-auto {index === 0 &&
-												(resizable === 'rows' || resizable === 'both')
-													? 'resize-y'
-													: ''}"
-												id="{tableId}-{cell.id}-{row.id}"
-											>
-												<!-- Adding config for initial rowHeight, if provided -->
+											<td {...attrs} class="!p-2">
 												<div
-													class="flex items-center"
-													style="height: {rowHeight ? `${rowHeight}px` : 'auto'};"
+													class=" overflow-auto h-max {index === 0 &&
+													(resizable === 'rows' || resizable === 'both')
+														? 'resize-y'
+														: ''}"
+													id="{tableId}-{cell.id}-{row.id}"
 												>
-													<div class="grow h-full"><Render of={cell.render()} /></div>
+													<!-- Adding config for initial rowHeight, if provided -->
+													<div
+														class="flex items-center overflow-auto"
+														style="height: {rowHeight ? `${rowHeight}px` : 'auto'};"
+													>
+														<div class="grow h-full"><Render of={cell.render()} /></div>
+													</div>
 												</div>
 											</td>
 										</Subscribe>
@@ -437,6 +502,17 @@
 	</div>
 	{#if $data.length > 0}
 		<!-- Adding pagination, if table is not empty -->
-		<TablePagination pageConfig={pluginStates.page} {pageSizes} id={tableId} />
+		{#if serverSide}
+			<TablePaginationServer
+				{pageIndex}
+				{pageSize}
+				{serverItemCount}
+				{updateTable}
+				{pageSizes}
+				id={tableId}
+			/>
+		{:else}
+			<TablePagination pageConfig={pluginStates.page} {pageSizes} id={tableId} />
+		{/if}
 	{/if}
 </div>

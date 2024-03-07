@@ -7,34 +7,65 @@
 		faAngleLeft
 	} from '@fortawesome/free-solid-svg-icons';
 
-	export let pageConfig;
-	export let pageSizes;
-	export let id;
+	export let id; // Unique table ID
+	export let pageIndex;
+	export let pageSize;
+	export let pageSizes; // Available page sizes
+	export let serverItemCount; // Total number of items expected from the server. `serverSide` must be true on table config.
+	export let updateTable; // Function to update table
 
-	const { pageIndex, pageCount, pageSize, hasNextPage, hasPreviousPage } = pageConfig;
-
-	const goToFirstPage = () => ($pageIndex = 0);
-	const goToLastPage = () => ($pageIndex = $pageCount - 1);
-	const goToNextPage = () => ($pageIndex += 1);
-	const goToPreviousPage = () => ($pageIndex -= 1);
+	// Flags for disabling buttons
+	let goToFirstPageDisabled = true;
+	let goToLastPageDisabled = true;
+	let goToNextPageDisabled = true;
+	let goToPreviousPageDisabled = true;
 
 	// Handles the input change event
 	const handleChange = (e) => {
 		const value = e.target.value;
 
-		if (value > $pageCount) {
-			$pageIndex = $pageCount - 1;
+		if (value > pageCount) {
+			$pageIndex = pageCount - 1;
 		} else if (value < 1) {
 			$pageIndex = 0;
 		} else {
 			$pageIndex = value - 1;
 		}
+
+		updateTable();
 	};
 
+	// Main navigation function
+	const goTo = (dst: string) => {
+		switch (dst) {
+			case 'first':
+				$pageIndex = 0;
+				break;
+			case 'last':
+				$pageIndex = pageCount - 1;
+				break;
+			case 'next':
+				$pageIndex += 1;
+				break;
+			case 'previous':
+				$pageIndex -= 1;
+				break;
+			default:
+				break;
+		}
+
+		// Fetch data for new parameters
+		updateTable();
+	};
+
+	$: pageCount = Math.ceil($serverItemCount / $pageSize);
 	$: goToFirstPageDisabled = !$pageIndex;
-	$: goToLastPageDisabled = $pageIndex == $pageCount - 1;
-	$: goToNextPageDisabled = !$hasNextPage;
-	$: goToPreviousPageDisabled = !$hasPreviousPage;
+	$: goToLastPageDisabled = $pageIndex == pageCount - 1;
+	$: goToNextPageDisabled = $pageIndex == pageCount - 1;
+	$: goToPreviousPageDisabled = !$pageIndex;
+	$: $pageSize && updateTable(); // Update query when page size changes
+
+	updateTable();
 </script>
 
 <div class="flex justify-between w-full items-stretch gap-10">
@@ -53,7 +84,7 @@
 	<div class="flex justify-center gap-1">
 		<button
 			class="btn btn-sm variant-filled-primary"
-			on:click|preventDefault={goToFirstPage}
+			on:click|preventDefault={() => goTo('first')}
 			disabled={goToFirstPageDisabled}
 			id="{id}-first"
 		>
@@ -62,37 +93,37 @@
 		<button
 			class="btn btn-sm variant-filled-primary"
 			id="{id}-previous"
-			on:click|preventDefault={goToPreviousPage}
+			on:click|preventDefault={() => goTo('previous')}
 			disabled={goToPreviousPageDisabled}><Fa icon={faAngleLeft} /></button
 		>
 		<input
 			type="number"
 			class="input border border-primary-500 rounded flex w-24"
 			value={$pageIndex + 1}
-			max={$pageCount}
+			max={pageCount}
 			min={1}
 			on:change={handleChange}
 		/>
 		<button
 			class="btn btn-sm variant-filled-primary"
 			id="{id}-next"
-			on:click|preventDefault={goToNextPage}
+			on:click|preventDefault={() => goTo('next')}
 			disabled={goToNextPageDisabled}><Fa icon={faAngleRight} /></button
 		>
 		<button
 			class="btn btn-sm variant-filled-primary"
 			id="{id}-last"
-			on:click|preventDefault={goToLastPage}
+			on:click|preventDefault={() => goTo('last')}
 			disabled={goToLastPageDisabled}><Fa icon={faAnglesRight} /></button
 		>
 	</div>
 	<div class="flex justify-end items-center">
 		<span class="text-sm text-gray-500">
-			{#if $pageCount > 0}
-				{#if $pageCount == 1}
+			{#if pageCount > 0}
+				{#if pageCount == 1}
 					1 page
 				{:else}
-					{$pageCount} pages
+					{pageCount} pages
 				{/if}
 			{:else}
 				No pages
