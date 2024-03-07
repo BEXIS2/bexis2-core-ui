@@ -1,4 +1,5 @@
 # bexis-core-ui
+## 0.3.13
 ## 0.3.12
 - table
   - Server-side data fetching
