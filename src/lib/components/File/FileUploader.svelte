@@ -7,7 +7,7 @@
 	} from '../../models/Models.js';
 
 	import Dropzone from 'svelte-file-dropzone';
-	import Fa from 'svelte-fa/src/fa.svelte';
+	import Fa from 'svelte-fa';
 
 	import Spinner from '../page/Spinner.svelte';
 	import { createEventDispatcher } from 'svelte';

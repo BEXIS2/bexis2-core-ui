@@ -2,7 +2,7 @@
 	import { createEventDispatcher } from 'svelte';
 
 	import CodeMirror from 'svelte-codemirror-editor';
-	import Fa from 'svelte-fa/src/fa.svelte';
+	import Fa from 'svelte-fa';
 	import Linter from 'eslint4b-prebuilt';
 	import { html } from '@codemirror/lang-html';
 	import { javascript, esLint } from '@codemirror/lang-javascript';

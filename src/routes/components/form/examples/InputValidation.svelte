@@ -1,6 +1,6 @@
 <script lang="ts">
 	// icons
-	import Fa from 'svelte-fa/src/fa.svelte';
+	import Fa from 'svelte-fa';
 	import { faSave, faTrashAlt } from '@fortawesome/free-regular-svg-icons/index';
 	import { onMount } from 'svelte';
 

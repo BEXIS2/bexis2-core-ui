@@ -3,7 +3,7 @@
 
 	import { AccordionItem, type PopupSettings } from '@skeletonlabs/skeleton';
 	import type { menuItemType } from '$models/Page';
-	import Fa from 'svelte-fa/src/fa.svelte';
+	import Fa from 'svelte-fa';
 	import { faCog } from '@fortawesome/free-solid-svg-icons';
 
 	export let menuBar: menuItemType[];
