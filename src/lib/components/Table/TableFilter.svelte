@@ -143,7 +143,9 @@
 
 	const getMissingValue = (value: string) => {
 		// if (type === 'number' ||) {
-		return missingValues[value.toLowerCase()];
+		return Object.keys(missingValues).includes(value.toLowerCase())
+			? missingValues[value.toLowerCase()]
+			: value;
 		// }
 		// return value;
 	};
