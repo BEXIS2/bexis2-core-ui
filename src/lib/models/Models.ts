@@ -190,6 +190,7 @@ export class Send {
 	id: number;
 	limit: number;
 	offset: number;
+	q: string;
 	version?: number;
 	filter: Filter[];
 	order: OrderBy[];
@@ -199,6 +200,7 @@ export class Send {
 		this.limit = 10;
 		this.offset = 0;
 		this.version = 0;
+		this.q = '';
 		this.filter = [];
 		this.order = [];
 	}
