@@ -352,7 +352,13 @@
 		<!-- Enable the search filter if table is not empty -->
 		{#if $data.length > 0}
 			{#if !serverSide}
-				<div class="flex gap-2">
+				<form
+					class="flex gap-2"
+					on:submit|preventDefault={() => {
+						sendModel.q = searchValue;
+						$filterValue = searchValue;
+					}}
+				>
 					<div class="relative w-full flex items-center">
 						<input
 							class="input p-2 border border-primary-500"
@@ -365,18 +371,20 @@
 							class="absolute right-3 items-center"
 							on:click|preventDefault={() => {
 								searchValue = '';
+								sendModel.q = '';
 								$filterValue = '';
 							}}><Fa icon={faXmark} /></button
 						>
 					</div>
 					<button
-						type="button"
+						type="submit"
 						class="btn variant-filled-primary"
 						on:click|preventDefault={() => {
 							$filterValue = searchValue;
+							sendModel.q = searchValue;
 						}}>Search</button
 					>
-				</div>
+				</form>
 			{/if}
 			<div class="flex justify-between items-center py-2 w-full">
 				<div>
