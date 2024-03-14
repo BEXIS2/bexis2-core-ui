@@ -10,6 +10,7 @@
 	import TableCombination from '../examples/TableCombination.svelte';
 	import TableGroups from '../examples/TableGroups.svelte';
 	import TableSimple from '../examples/TableSimple.svelte';
+	import TableServer from '../examples/TableServer.svelte';
 </script>
 
 <div class="grid gap-1">
@@ -28,6 +29,9 @@
 		<TableCombination />
 		<TableUrLs />
 		<TableUsersAndAdmins />
+	</div>
+	<div id="Test">
+		<TableServer />
 	</div>
 </div>
 
