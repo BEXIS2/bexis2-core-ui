@@ -10,13 +10,33 @@
 	export let id;
 	export let tableId;
 	export let toFilterableValueFn: undefined | ((value: any) => any) = undefined;
+	export let toStringFn: undefined | ((value: any) => string) = undefined;
 	export let filterValue;
 	export let filters;
+	export let pageIndex;
 
 	// If the filter is applied and the displayed values are filtered
 	let active = false;
+	let type: string = 'string';
+	let isDate = false; // Options for different types of values
+	let dropdowns: {
+		option: FilterOptionsEnum;
+		value: string | number | Date | undefined;
+	}[] = [];
 
-	// Options for different types of values
+	// Check the type of the column
+	$values.forEach((item) => {
+		if (item) {
+			type = typeof (toFilterableValueFn ? toFilterableValueFn(item) : item);
+
+			if (type === 'object') {
+				if (item instanceof Date) {
+					isDate = true;
+				}
+			}
+		}
+	});
+
 	const options = {
 		number: [
 			{
@@ -98,11 +118,6 @@
 		]
 	};
 
-	let dropdowns: {
-		option: FilterOptionsEnum;
-		value: string | number | Date | undefined;
-	}[] = [];
-
 	// Unique ID for the column filter popup
 	const popupId = `${tableId}-${id}`;
 	// Popup config
@@ -112,24 +127,39 @@
 		placement: 'bottom-start'
 	};
 
-	let type: string = 'string';
-	let isDate = false;
-	// Check the type of the column
-	$values.forEach((item) => {
-		if (item) {
-			type = typeof (toFilterableValueFn ? toFilterableValueFn(item) : item);
+	// Converted string values and missingValues mapping
+	const stringValues =
+		// type === 'number' ?
+		$values.map((item) => (toStringFn ? toStringFn(item) : item));
+	// : [];
 
-			if (type === 'object') {
-				if (item instanceof Date) {
-					isDate = true;
-				}
-			}
-		}
-	});
+	const missingValues =
+		// type === 'number' ?
+		stringValues.reduce((acc, item, index) => {
+			acc[typeof item === 'string' ? item.toLowerCase() : item] = $values[index];
+			return acc;
+		}, {});
+	// : {};
+
+	const getMissingValue = (value: string) => {
+		// if (type === 'number' ||) {
+		return Object.keys(missingValues).includes(value.toLowerCase())
+			? missingValues[value.toLowerCase()]
+			: value;
+		// }
+		// return value;
+	};
 
 	const optionChangeHandler = (e, index) => {
 		delete $filters[id][dropdowns[index].option];
-		$filters[id] = { ...$filters[id], [e.target.value]: dropdowns[index].value };
+		$filters[id] = {
+			...$filters[id],
+			[e.target.value]:
+				// type === 'number'
+				// ?
+				getMissingValue(dropdowns[index].value as string)
+			// : dropdowns[index].value
+		};
 		$filters = $filters;
 
 		dropdowns[index] = {
@@ -141,17 +171,18 @@
 	const valueChangeHandler = (e, index) => {
 		dropdowns[index] = {
 			...dropdowns[index],
-			value:
-				type === 'number'
-					? +e.target.value
-					: type === 'date'
-					? new Date(e.target.value)
-					: e.target.value
+			value: type === 'date' ? new Date(e.target.value) : e.target.value
 		};
 
 		$filters = {
 			...$filters,
-			[id]: { ...$filters[id], [dropdowns[index].option]: dropdowns[index].value }
+			[id]: {
+				...$filters[id],
+				[dropdowns[index].option]:
+					// type === 'number' ?
+					getMissingValue(e.target.value)
+				//  : dropdowns[index].value
+			}
 		};
 	};
 
@@ -212,6 +243,7 @@
 					addFilter(options[type][0].value, undefined);
 					$filterValue = $filters[id];
 					active = false;
+					$pageIndex = 0;
 				}}>Clear Filters</button
 			>
 
@@ -246,14 +278,7 @@
 							{/if}
 						</div>
 
-						{#if type === 'number'}
-							<input
-								type="number"
-								class="input p-1 border border-primary-500"
-								on:input={(e) => valueChangeHandler(e, index)}
-								bind:value={dropdown.value}
-							/>
-						{:else if type === 'string'}
+						{#if type === 'number' || type === 'string'}
 							<input
 								type="text"
 								class="input p-1 border border-primary-500"
@@ -292,6 +317,7 @@
 				class="btn variant-filled-primary btn-sm"
 				type="button"
 				on:click|preventDefault={() => {
+					$pageIndex = 0;
 					$filterValue = $filters[id];
 					active = true;
 				}}>Apply</button

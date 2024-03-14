@@ -19,6 +19,7 @@
 
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
+	import Spinner from '../page/Spinner.svelte';
 	import TableFilter from './TableFilter.svelte';
 	import TableFilterServer from './TableFilterServer.svelte';
 	import TablePagination from './TablePagination.svelte';
@@ -61,6 +62,7 @@
 	} = config;
 
 	let searchValue = '';
+	let isFetching = false;
 
 	const filters = writable<{
 		[key: string]: { [key in FilterOptionsEnum]?: number | string | Date };
@@ -194,7 +196,9 @@
 														tableId,
 														values,
 														toFilterableValueFn,
-														filters
+														filters,
+														toStringFn,
+														pageIndex
 												  });
 										}
 								  }
@@ -237,7 +241,8 @@
 												id,
 												tableId,
 												values,
-												filters
+												filters,
+												pageIndex
 										  });
 								}
 							}
@@ -280,7 +285,6 @@
 	// Page configuration
 	const { pageIndex, pageSize } = pluginStates.page;
 
-	// TODO: Add loading animation for server-side fetch requests
 	const updateTable = async () => {
 		sendModel.limit = $pageSize;
 		sendModel.offset = $pageSize * $pageIndex;
@@ -288,14 +292,27 @@
 		sendModel.id = entityId;
 		sendModel.filter = normalizeFilters($filters);
 
-		const fetchData = await fetch(URL, {
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `Bearer ${token}`
-			},
-			method: 'POST',
-			body: JSON.stringify(sendModel)
-		});
+		let fetchData;
+
+		try {
+			isFetching = true;
+			fetchData = await fetch(URL, {
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${token}`
+				},
+				method: 'POST',
+				body: JSON.stringify(sendModel)
+			});
+		} catch (error) {
+			throw new Error(`Network error: ${(error as Error).message}`);
+		} finally {
+			isFetching = false;
+		}
+
+		if (!fetchData.ok) {
+			throw new Error('Failed to fetch data');
+		}
 
 		const response: Receive = await fetchData.json();
 
@@ -335,7 +352,13 @@
 		<!-- Enable the search filter if table is not empty -->
 		{#if $data.length > 0}
 			{#if !serverSide}
-				<div class="flex gap-2">
+				<form
+					class="flex gap-2"
+					on:submit|preventDefault={() => {
+						sendModel.q = searchValue;
+						$filterValue = searchValue;
+					}}
+				>
 					<div class="relative w-full flex items-center">
 						<input
 							class="input p-2 border border-primary-500"
@@ -348,18 +371,20 @@
 							class="absolute right-3 items-center"
 							on:click|preventDefault={() => {
 								searchValue = '';
+								sendModel.q = '';
 								$filterValue = '';
 							}}><Fa icon={faXmark} /></button
 						>
 					</div>
 					<button
-						type="button"
+						type="submit"
 						class="btn variant-filled-primary"
 						on:click|preventDefault={() => {
 							$filterValue = searchValue;
+							sendModel.q = searchValue;
 						}}>Search</button
 					>
-				</div>
+				</form>
 			{/if}
 			<div class="flex justify-between items-center py-2 w-full">
 				<div>
@@ -460,6 +485,8 @@
 								</tr>
 							</Subscribe>
 						{/each}
+					{:else if isFetching}
+						<div class="p-10"><Spinner /></div>
 					{:else}
 						<!-- Table is empty -->
 						<p class="items-center justify-center flex w-full p-10 italic">Nothing to show here.</p>
