@@ -1,4 +1,17 @@
 # bexis-core-ui
+## 0.4.1
+- table
+  - Server-side searching
+  - Case-insensitive filtering of missing values
+  - Date formatting for display patterns
+  - Handle missing values regardless of the data type
+
+## 0.4.0
+-  update dependency libaries
+   -  svelte
+   -  sveltekit
+   -  vite
+
 ## 0.3.13
 ## 0.3.12
 - table
