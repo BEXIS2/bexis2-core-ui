@@ -351,77 +351,74 @@
 	<div class="table-container">
 		<!-- Enable the search filter if table is not empty -->
 		{#if $data.length > 0}
-			{#if !serverSide}
-				<form
-					class="flex gap-2"
-					on:submit|preventDefault={() => {
-						sendModel.q = searchValue;
-						$filterValue = searchValue;
-					}}
-				>
-					<div class="relative w-full flex items-center">
-						<input
-							class="input p-2 border border-primary-500"
-							type="text"
-							bind:value={searchValue}
-							placeholder="Search rows..."
-							id="{tableId}-search"
-						/><button
-							type="reset"
-							class="absolute right-3 items-center"
-							on:click|preventDefault={() => {
-								searchValue = '';
-								sendModel.q = '';
-								$filterValue = '';
-							}}><Fa icon={faXmark} /></button
-						>
-					</div>
-					<button
-						type="submit"
-						class="btn variant-filled-primary"
+			<form
+				class="flex gap-2"
+				on:submit|preventDefault={() => {
+					sendModel.q = searchValue;
+					$filterValue = searchValue;
+				}}
+			>
+				<div class="relative w-full flex items-center">
+					<input
+						class="input p-2 border border-primary-500"
+						type="text"
+						bind:value={searchValue}
+						placeholder="Search rows..."
+						id="{tableId}-search"
+					/><button
+						type="reset"
+						class="absolute right-3 items-center"
 						on:click|preventDefault={() => {
-							$filterValue = searchValue;
-							sendModel.q = searchValue;
-						}}>Search</button
+							searchValue = '';
+							sendModel.q = '';
+							$filterValue = '';
+						}}><Fa icon={faXmark} /></button
 					>
-				</form>
-			{/if}
-			<div class="flex justify-between items-center py-2 w-full">
-				<div>
-					<!-- Enable the fitToScreen toggle if toggle === true -->
-					{#if toggle}
-						<SlideToggle
-							name="slider-label"
-							active="bg-primary-500"
-							size="sm"
-							checked={fitToScreen}
-							id="{tableId}-toggle"
-							on:change={() => (fitToScreen = !fitToScreen)}>Fit to screen</SlideToggle
-						>
-					{/if}
 				</div>
-				<div class="flex gap-2">
-					<!-- Enable the resetResize button if resizable !== 'none' -->
-					{#if resizable !== 'none'}
-						<button
-							type="button"
-							class="btn btn-sm variant-filled-primary rounded-full order-last"
-							on:click|preventDefault={() =>
-								resetResize($headerRows, $pageRows, tableId, columns, resizable)}
-							>Reset sizing</button
-						>
-					{/if}
-					{#if exportable}
-						<button
-							type="button"
-							class="btn btn-sm variant-filled-primary rounded-full order-last"
-							on:click|preventDefault={() => exportAsCsv(tableId, $exportedData)}
-							>Export as CSV</button
-						>
-					{/if}
-				</div>
-			</div>
+				<button
+					type="submit"
+					class="btn variant-filled-primary"
+					on:click|preventDefault={() => {
+						$filterValue = searchValue;
+						sendModel.q = searchValue;
+					}}>Search</button
+				>
+			</form>
 		{/if}
+		<div class="flex justify-between items-center py-2 w-full">
+			<div>
+				<!-- Enable the fitToScreen toggle if toggle === true -->
+				{#if toggle}
+					<SlideToggle
+						name="slider-label"
+						active="bg-primary-500"
+						size="sm"
+						checked={fitToScreen}
+						id="{tableId}-toggle"
+						on:change={() => (fitToScreen = !fitToScreen)}>Fit to screen</SlideToggle
+					>
+				{/if}
+			</div>
+			<div class="flex gap-2">
+				<!-- Enable the resetResize button if resizable !== 'none' -->
+				{#if resizable !== 'none'}
+					<button
+						type="button"
+						class="btn btn-sm variant-filled-primary rounded-full order-last"
+						on:click|preventDefault={() =>
+							resetResize($headerRows, $pageRows, tableId, columns, resizable)}>Reset sizing</button
+					>
+				{/if}
+				{#if exportable}
+					<button
+						type="button"
+						class="btn btn-sm variant-filled-primary rounded-full order-last"
+						on:click|preventDefault={() => exportAsCsv(tableId, $exportedData)}
+						>Export as CSV</button
+					>
+				{/if}
+			</div>
+		</div>
 
 		<div class="overflow-auto" style="height: {height}px">
 			<table
