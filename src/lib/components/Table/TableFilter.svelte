@@ -129,20 +129,23 @@
 
 	// Converted string values and missingValues mapping
 	const stringValues =
-		type === 'number' ? $values.map((item) => (toStringFn ? toStringFn(item) : item)) : [];
+		// type === 'number' ?
+		$values.map((item) => (toStringFn ? toStringFn(item) : item));
+	// : [];
+
 	const missingValues =
-		type === 'number'
-			? stringValues.reduce((acc, item, index) => {
-					acc[item] = $values[index];
-					return acc;
-			  }, {})
-			: {};
+		// type === 'number' ?
+		stringValues.reduce((acc, item, index) => {
+			acc[typeof item === 'string' ? item.toLowerCase() : item] = $values[index];
+			return acc;
+		}, {});
+	// : {};
 
 	const getMissingValue = (value: string) => {
-		if (type === 'number') {
-			return missingValues[value];
-		}
-		return value;
+		// if (type === 'number' ||) {
+		return missingValues[value.toLowerCase()];
+		// }
+		// return value;
 	};
 
 	const optionChangeHandler = (e, index) => {
@@ -150,9 +153,10 @@
 		$filters[id] = {
 			...$filters[id],
 			[e.target.value]:
-				type === 'number'
-					? getMissingValue(dropdowns[index].value as string)
-					: dropdowns[index].value
+				// type === 'number'
+				// ?
+				getMissingValue(dropdowns[index].value as string)
+			// : dropdowns[index].value
 		};
 		$filters = $filters;
 
@@ -173,7 +177,9 @@
 			[id]: {
 				...$filters[id],
 				[dropdowns[index].option]:
-					type === 'number' ? getMissingValue(e.target.value) : dropdowns[index].value
+					// type === 'number' ?
+					getMissingValue(e.target.value)
+				//  : dropdowns[index].value
 			}
 		};
 	};
