@@ -1,3 +1,5 @@
+import dateFormat from 'dateformat';
+
 import type { FilterOptionsEnum } from '$models/Enums';
 import type { Columns, Filter, ServerColumn } from '$models/Models';
 
@@ -115,14 +117,13 @@ export const convertServerColumns = (columns: ServerColumn[]) => {
 	columns.forEach((col) => {
 		let instructions = {};
 
-		// if (col.instructions?.displayPattern) {
-		// 	instructions = {
-		// 		toStringFn: (date: Date) =>
-		// 			date.toLocaleString('en-US', col.instructions?.displayPattern || {}),
-		// 		toSortableValueFn: (date: Date) => date.getTime(),
-		// 		toFilterableValueFn: (date: Date) => date
-		// 	};
-		// }
+		if (col.instructions?.displayPattern) {
+			instructions = {
+				toStringFn: (date: Date) => dateFormat(date, col.instructions?.displayPattern || ''),
+				toSortableValueFn: (date: Date) => date.getTime(),
+				toFilterableValueFn: (date: Date) => date
+			};
+		}
 
 		if (col.instructions?.missingValues) {
 			instructions = {
