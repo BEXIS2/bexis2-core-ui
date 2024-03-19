@@ -1,4 +1,5 @@
 # bexis-core-ui
+## 0.4.2
 ## 0.4.1
 - table
   - Server-side searching
