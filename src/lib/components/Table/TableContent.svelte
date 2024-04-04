@@ -33,8 +33,8 @@
 		resetResize,
 		convertServerColumns
 	} from './shared';
-	import { Receive, Send } from '$lib/models/Models';
-	import type { TableConfig } from '$lib/models/Models';
+	import { Receive, Send } from '$models/Models';
+	import type { TableConfig } from '$models/Models';
 	import type { FilterOptionsEnum } from '$models/Enums';
 
 	export let config: TableConfig<any>;
@@ -58,7 +58,7 @@
 		token = '', // Bearer token to authenticate the request
 		sendModel = new Send(), // Model to send requests
 		entityId = 0, // Entity ID to send with the request
-		versionId = 0 // Version ID to send with the request
+		versionId = 0 // Version ID to send with the request,
 	} = config;
 
 	let searchValue = '';
@@ -188,7 +188,8 @@
 														updateTable,
 														pageIndex,
 														toFilterableValueFn,
-														filters
+														filters,
+														toStringFn
 												  })
 												: createRender(colFilterComponent ?? TableFilter, {
 														filterValue,
@@ -318,11 +319,28 @@
 
 		// Format server columns to the client columns
 		if (response.columns !== undefined) {
-			columns = convertServerColumns(response.columns);
+			console.log(response);
+
+			columns = convertServerColumns(response.columns, columns);
+
+			const clientCols = response.columns.reduce((acc, col) => {
+				acc[col.key] = col.column;
+				return acc;
+			}, {});
+
+			const tmpArr: any[] = [];
+
+			response.data.forEach((row, index) => {
+				const tmp: { [key: string]: any } = {};
+				Object.keys(row).forEach((key) => {
+					tmp[clientCols[key]] = row[key];
+				});
+				tmpArr.push(tmp);
+			});
+			dispatch('fetch', columns);
+			$data = tmpArr;
 		}
 
-		// Update data store
-		$data = response.data;
 		$serverItems = response.count;
 
 		return response;
@@ -350,41 +368,41 @@
 <div class="grid gap-2 overflow-auto" class:w-fit={!fitToScreen} class:w-full={fitToScreen}>
 	<div class="table-container">
 		<!-- Enable the search filter if table is not empty -->
-		{#if $data.length > 0}
-			<form
-				class="flex gap-2"
-				on:submit|preventDefault={() => {
-					sendModel.q = searchValue;
-					$filterValue = searchValue;
-				}}
-			>
-				<div class="relative w-full flex items-center">
-					<input
-						class="input p-2 border border-primary-500"
-						type="text"
-						bind:value={searchValue}
-						placeholder="Search rows..."
-						id="{tableId}-search"
-					/><button
-						type="reset"
-						class="absolute right-3 items-center"
-						on:click|preventDefault={() => {
-							searchValue = '';
-							sendModel.q = '';
-							$filterValue = '';
-						}}><Fa icon={faXmark} /></button
-					>
-				</div>
-				<button
-					type="submit"
-					class="btn variant-filled-primary"
+
+		<form
+			class="flex gap-2"
+			on:submit|preventDefault={() => {
+				sendModel.q = searchValue;
+				$filterValue = searchValue;
+			}}
+		>
+			<div class="relative w-full flex items-center">
+				<input
+					class="input p-2 border border-primary-500"
+					type="text"
+					bind:value={searchValue}
+					placeholder="Search rows..."
+					id="{tableId}-search"
+				/><button
+					type="reset"
+					class="absolute right-3 items-center"
 					on:click|preventDefault={() => {
-						$filterValue = searchValue;
-						sendModel.q = searchValue;
-					}}>Search</button
+						searchValue = '';
+						sendModel.q = '';
+						$filterValue = '';
+					}}><Fa icon={faXmark} /></button
 				>
-			</form>
-		{/if}
+			</div>
+			<button
+				type="submit"
+				class="btn variant-filled-primary"
+				on:click|preventDefault={() => {
+					$filterValue = searchValue;
+					sendModel.q = searchValue;
+				}}>Search</button
+			>
+		</form>
+
 		<div class="flex justify-between items-center py-2 w-full">
 			<div>
 				<!-- Enable the fitToScreen toggle if toggle === true -->
@@ -428,115 +446,110 @@
 			>
 				<!-- If table height is provided, making the top row sticky -->
 				<thead class=" {height != null ? `sticky top-0` : ''}">
-					{#if $data.length > 0}
-						{#each $headerRows as headerRow (headerRow.id)}
-							<Subscribe
-								rowAttrs={headerRow.attrs()}
-								let:rowAttrs
-								rowProps={headerRow.props()}
-								let:rowProps
-							>
-								<tr {...rowAttrs} class="bg-primary-300 dark:bg-primary-500">
-									{#each headerRow.cells as cell (cell.id)}
-										<Subscribe attrs={cell.attrs()} props={cell.props()} let:props let:attrs>
-											<th scope="col" class="!p-2" {...attrs} style={cellStyle(cell.id, columns)}>
-												<div
-													class="overflow-auto"
-													class:resize-x={(resizable === 'columns' || resizable === 'both') &&
-														!fixedWidth(cell.id, columns)}
-													id="th-{tableId}-{cell.id}"
-												>
-													<div class="flex justify-between items-center">
-														<div class="flex gap-1 whitespace-pre-wrap">
-															<!-- Adding sorting config and styling -->
-															<span
-																class:underline={props.sort.order}
-																class:normal-case={cell.id !== cell.label}
-																class:cursor-pointer={!props.sort.disabled}
-																on:click={props.sort.toggle}
-																on:keydown={props.sort.toggle}
-															>
-																{cell.render()}
-															</span>
-															<div class="w-2">
-																{#if props.sort.order === 'asc'}
-																	▴
-																{:else if props.sort.order === 'desc'}
-																	▾
-																{/if}
-															</div>
-														</div>
-														<!-- Adding column filter config -->
-														{#if cell.isData()}
-															{#if props.colFilter?.render}
-																<div class="">
-																	<Render of={props.colFilter.render} />
-																</div>
+					<!-- {#if $data.length > 0} -->
+					{#each $headerRows as headerRow (headerRow.id)}
+						<Subscribe
+							rowAttrs={headerRow.attrs()}
+							let:rowAttrs
+							rowProps={headerRow.props()}
+							let:rowProps
+						>
+							<tr {...rowAttrs} class="bg-primary-300 dark:bg-primary-800">
+								{#each headerRow.cells as cell (cell.id)}
+									<Subscribe attrs={cell.attrs()} props={cell.props()} let:props let:attrs>
+										<th scope="col" class="!p-2" {...attrs} style={cellStyle(cell.id, columns)}>
+											<div
+												class="overflow-auto"
+												class:resize-x={(resizable === 'columns' || resizable === 'both') &&
+													!fixedWidth(cell.id, columns)}
+												id="th-{tableId}-{cell.id}"
+											>
+												<div class="flex justify-between items-center">
+													<div class="flex gap-1 whitespace-pre-wrap">
+														<!-- Adding sorting config and styling -->
+														<span
+															class:underline={props.sort.order}
+															class:normal-case={cell.id !== cell.label}
+															class:cursor-pointer={!props.sort.disabled}
+															on:click={props.sort.toggle}
+															on:keydown={props.sort.toggle}
+														>
+															{cell.render()}
+														</span>
+														<div class="w-2">
+															{#if props.sort.order === 'asc'}
+																▴
+															{:else if props.sort.order === 'desc'}
+																▾
 															{/if}
-														{/if}
+														</div>
 													</div>
+													<!-- Adding column filter config -->
+													{#if cell.isData()}
+														{#if props.colFilter?.render}
+															<div class="">
+																<Render of={props.colFilter.render} />
+															</div>
+														{/if}
+													{/if}
 												</div>
-											</th>
-										</Subscribe>
-									{/each}
-								</tr>
-							</Subscribe>
-						{/each}
-					{:else if isFetching}
-						<div class="p-10"><Spinner /></div>
-					{:else}
-						<!-- Table is empty -->
-						<p class="items-center justify-center flex w-full p-10 italic">Nothing to show here.</p>
-					{/if}
+											</div>
+										</th>
+									</Subscribe>
+								{/each}
+							</tr>
+						</Subscribe>
+					{/each}
 				</thead>
 
 				<tbody class="overflow-auto" {...$tableBodyAttrs}>
-					{#if $data.length > 0}
-						{#each $pageRows as row (row.id)}
-							<Subscribe rowAttrs={row.attrs()} let:rowAttrs>
-								<tr {...rowAttrs} id="{tableId}-row-{row.id}" class="">
-									{#each row.cells as cell, index (cell?.id)}
-										<Subscribe attrs={cell.attrs()} let:attrs>
-											<td {...attrs} class="!p-2">
+					{#each $pageRows as row (row.id)}
+						<Subscribe rowAttrs={row.attrs()} let:rowAttrs>
+							<tr {...rowAttrs} id="{tableId}-row-{row.id}" class="">
+								{#each row.cells as cell, index (cell?.id)}
+									<Subscribe attrs={cell.attrs()} let:attrs>
+										<td {...attrs} class="!p-2">
+											<div
+												class=" overflow-auto h-max {index === 0 &&
+												(resizable === 'rows' || resizable === 'both')
+													? 'resize-y'
+													: ''}"
+												id="{tableId}-{cell.id}-{row.id}"
+											>
+												<!-- Adding config for initial rowHeight, if provided -->
 												<div
-													class=" overflow-auto h-max {index === 0 &&
-													(resizable === 'rows' || resizable === 'both')
-														? 'resize-y'
-														: ''}"
-													id="{tableId}-{cell.id}-{row.id}"
+													class="flex items-center overflow-auto"
+													style="height: {rowHeight ? `${rowHeight}px` : 'auto'};"
 												>
-													<!-- Adding config for initial rowHeight, if provided -->
-													<div
-														class="flex items-center overflow-auto"
-														style="height: {rowHeight ? `${rowHeight}px` : 'auto'};"
-													>
-														<div class="grow h-full"><Render of={cell.render()} /></div>
-													</div>
+													<div class="grow h-full"><Render of={cell.render()} /></div>
 												</div>
-											</td>
-										</Subscribe>
-									{/each}
-								</tr>
-							</Subscribe>
-						{/each}
-					{/if}
+											</div>
+										</td>
+									</Subscribe>
+								{/each}
+							</tr>
+						</Subscribe>
+					{/each}
 				</tbody>
 			</table>
 		</div>
 	</div>
-	{#if $data.length > 0}
-		<!-- Adding pagination, if table is not empty -->
-		{#if serverSide}
-			<TablePaginationServer
-				{pageIndex}
-				{pageSize}
-				{serverItemCount}
-				{updateTable}
-				{pageSizes}
-				id={tableId}
-			/>
-		{:else}
-			<TablePagination pageConfig={pluginStates.page} {pageSizes} id={tableId} />
-		{/if}
+
+	{#if isFetching}
+		<div class="p-10 w-full h-full flex justify-center items-center"><Spinner /></div>
+	{/if}
+
+	<!-- Adding pagination, if table is not empty -->
+	{#if serverSide}
+		<TablePaginationServer
+			{pageIndex}
+			{pageSize}
+			{serverItemCount}
+			{updateTable}
+			{pageSizes}
+			id={tableId}
+		/>
+	{:else}
+		<TablePagination pageConfig={pluginStates.page} {pageSizes} id={tableId} />
 	{/if}
 </div>
