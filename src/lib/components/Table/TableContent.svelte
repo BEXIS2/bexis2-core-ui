@@ -445,7 +445,7 @@
 				id="{tableId}-table"
 			>
 				<!-- If table height is provided, making the top row sticky -->
-				<thead class=" {height != null ? `sticky top-0` : ''}">
+				<thead class={height != null && $pageRows.length > 0 ? `sticky top-0` : ''}>
 					<!-- {#if $data.length > 0} -->
 					{#each $headerRows as headerRow (headerRow.id)}
 						<Subscribe
