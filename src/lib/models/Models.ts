@@ -167,7 +167,8 @@ export interface notificationStoreType {
 
 // Table column type for server-side table
 export type ServerColumn = {
-	column: string;
+	column: string; // column name on client side
+	key: string; // column name received from the server
 	exclude?: boolean; // false by default
 	instructions?: {
 		missingValues?: { [key: string | number]: string };
