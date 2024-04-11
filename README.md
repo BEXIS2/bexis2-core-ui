@@ -3,7 +3,7 @@
 - update libs
   - remove eslint-plugin-svelte3
   - update svelte, sveltekit, typescript, tailwind ...
-  - 
+  
 ## 0.4.3
 - table
   - Enable searching on server-side
