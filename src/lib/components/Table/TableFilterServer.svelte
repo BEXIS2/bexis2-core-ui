@@ -112,10 +112,11 @@
 				value: FilterOptionsEnum.b,
 				label: 'Is before'
 			},
-			{
-				value: FilterOptionsEnum.no,
-				label: 'Is not on'
-			}
+			// TODO: 'Not on' filter should be fixed on the server side
+			// {
+			// 	value: FilterOptionsEnum.no,
+			// 	label: 'Is not on'
+			// }
 		]
 	};
 
