@@ -107,35 +107,79 @@ export const resetResize = (
 	}
 };
 
-export const missingValuesFn = (key: number, missingValues: { [key: string | number]: string }) => {
-	return key in missingValues ? missingValues[key] : key.toString();
+export const missingValuesFn = (
+	key: number | string,
+	missingValues: { [key: string | number]: string }
+) => {
+	const foundKey =
+		typeof key === 'number' && key.toString().includes('e')
+			? Object.keys(missingValues).find((item) => {
+					return (item as string).toLowerCase() === key.toString().toLowerCase();
+			  })
+			: typeof key === 'string' && parseInt(key).toString().length !== key.length && new Date(key)
+			? Object.keys(missingValues).find(
+					(item) => new Date(item).getTime() === new Date(key).getTime()
+			  )
+			: key in missingValues
+			? key
+			: undefined;
+
+	return foundKey ? missingValues[foundKey] : key;
 };
 
-export const convertServerColumns = (columns: ServerColumn[]) => {
+export const convertServerColumns = (
+	serverColumns: ServerColumn[],
+	columns: Columns | undefined
+) => {
 	const columnsConfig: Columns = {};
 
-	columns.forEach((col) => {
+	serverColumns.forEach((col) => {
 		let instructions = {};
 
 		if (col.instructions?.displayPattern) {
-			instructions = {
-				toStringFn: (date: Date) => dateFormat(date, col.instructions?.displayPattern || ''),
-				toSortableValueFn: (date: Date) => date.getTime(),
-				toFilterableValueFn: (date: Date) => date
-			};
-		}
+			let dp = col.instructions.displayPattern;
 
-		if (col.instructions?.missingValues) {
+			// Swap 'm' and 'M' to match the backend date format
+			for (let i = 0; i < col.instructions.displayPattern.length; i++) {
+				if (col.instructions.displayPattern[i] === 'm') {
+					dp = `${dp.slice(0, i)}M${dp.slice(i + 1)}`;
+				} else if (col.instructions.displayPattern[i] === 'M') {
+					dp = `${dp.slice(0, i)}m${dp.slice(i + 1)}`;
+				}
+			}
+
+			instructions = {
+				toStringFn: (date: string) => {
+					if (col.instructions?.missingValues) {
+						const missingValue = missingValuesFn(date, col.instructions?.missingValues || {});
+						if (missingValue === date) {
+							return dateFormat(new Date(date), dp);
+						}
+						return missingValue;
+					} else {
+						return dateFormat(new Date(date), dp);
+					}
+				},
+				toSortableValueFn: (date: string) => new Date(date).getTime(),
+				toFilterableValueFn: (date: string) => new Date(date)
+			};
+		} else if (col.instructions?.missingValues) {
 			instructions = {
 				...instructions,
 				toStringFn: (key) => missingValuesFn(key, col.instructions?.missingValues || {})
 			};
 		}
 
-		columnsConfig[col.column] = {
-			exclude: col.exclude,
-			instructions
-		};
+		if (columns && col.column in columns) {
+			columnsConfig[col.column] = {
+				...columns[col.column],
+				instructions
+			};
+		} else {
+			columnsConfig[col.column] = {
+				instructions
+			};
+		}
 	});
 
 	return columnsConfig;

@@ -13,9 +13,29 @@
 	export let filters;
 	export let updateTable;
 	export let pageIndex;
+	export let toStringFn: undefined | ((value: any) => string) = undefined;
 
 	// If the filter is applied and the displayed values are filtered
 	let active = false;
+	let type: string = 'string';
+	let isDate = false;
+	let dropdowns: {
+		option: FilterOptionsEnum;
+		value: string | number | Date | undefined;
+	}[] = [];
+
+	// Check the type of the column
+	$values.forEach((item) => {
+		if (item) {
+			type = typeof (toFilterableValueFn ? toFilterableValueFn(item) : item);
+
+			if (type === 'object') {
+				if ((toFilterableValueFn ? toFilterableValueFn(item) : item) instanceof Date) {
+					isDate = true;
+				}
+			}
+		}
+	});
 
 	// Options for different types of values
 	const options = {
@@ -92,17 +112,13 @@
 				value: FilterOptionsEnum.b,
 				label: 'Is before'
 			},
-			{
-				value: FilterOptionsEnum.no,
-				label: 'Is not on'
-			}
+			// TODO: 'Not on' filter should be fixed on the server side
+			// {
+			// 	value: FilterOptionsEnum.no,
+			// 	label: 'Is not on'
+			// }
 		]
 	};
-
-	let dropdowns: {
-		option: FilterOptionsEnum;
-		value: string | number | Date | undefined;
-	}[] = [];
 
 	// Unique ID for the column filter popup
 	const popupId = `${tableId}-${id}`;
@@ -113,24 +129,25 @@
 		placement: 'bottom-start'
 	};
 
-	let type: string = 'string';
-	let isDate = false;
-	// Check the type of the column
-	$values.forEach((item) => {
-		if (item) {
-			type = typeof (toFilterableValueFn ? toFilterableValueFn(item) : item);
+	const stringValues = $values.map((item) => (toStringFn ? toStringFn(item) : item));
 
-			if (type === 'object') {
-				if (item instanceof Date) {
-					isDate = true;
-				}
-			}
-		}
-	});
+	const missingValues = stringValues.reduce((acc, item, index) => {
+		acc[typeof item === 'string' ? item.toLowerCase() : item] = $values[index];
+		return acc;
+	}, {});
+
+	const getMissingValue = (value: string) => {
+		return Object.keys(missingValues).includes(value.toLowerCase())
+			? missingValues[value.toLowerCase()]
+			: value;
+	};
 
 	const optionChangeHandler = (e, index) => {
 		delete $filters[id][dropdowns[index].option];
-		$filters[id] = { ...$filters[id], [e.target.value]: dropdowns[index].value };
+		$filters[id] = {
+			...$filters[id],
+			[e.target.value]: getMissingValue(dropdowns[index].value as string)
+		};
 		$filters = $filters;
 
 		dropdowns[index] = {
@@ -142,17 +159,18 @@
 	const valueChangeHandler = (e, index) => {
 		dropdowns[index] = {
 			...dropdowns[index],
-			value:
-				type === 'number'
-					? +e.target.value
-					: type === 'date'
-					? new Date(e.target.value)
-					: e.target.value
+			value: type === 'date' ? new Date(e.target.value) : e.target.value
 		};
 
 		$filters = {
 			...$filters,
-			[id]: { ...$filters[id], [dropdowns[index].option]: dropdowns[index].value }
+			[id]: {
+				...$filters[id],
+				[dropdowns[index].option]:
+					type === 'number'
+						? parseFloat(getMissingValue(e.target.value)) || undefined
+						: getMissingValue(e.target.value)
+			}
 		};
 	};
 
@@ -201,6 +219,8 @@
 
 	// Start by adding the default filter
 	$: addFilter(options[type][0].value, undefined);
+
+	$: console.log($filters);
 </script>
 
 <form class="">
@@ -258,14 +278,14 @@
 							{/if}
 						</div>
 
-						{#if type === 'number'}
+						<!-- {#if type === 'number'}
 							<input
 								type="number"
 								class="input p-1 border border-primary-500"
 								on:input={(e) => valueChangeHandler(e, index)}
 								bind:value={dropdown.value}
-							/>
-						{:else if type === 'string'}
+							/> -->
+						{#if type === 'number' || type === 'string'}
 							<input
 								type="text"
 								class="input p-1 border border-primary-500"

@@ -33,8 +33,8 @@
 		resetResize,
 		convertServerColumns
 	} from './shared';
-	import { Receive, Send } from '$lib/models/Models';
-	import type { TableConfig } from '$lib/models/Models';
+	import { Receive, Send } from '$models/Models';
+	import type { TableConfig } from '$models/Models';
 	import type { FilterOptionsEnum } from '$models/Enums';
 
 	export let config: TableConfig<any>;
@@ -58,7 +58,7 @@
 		token = '', // Bearer token to authenticate the request
 		sendModel = new Send(), // Model to send requests
 		entityId = 0, // Entity ID to send with the request
-		versionId = 0 // Version ID to send with the request
+		versionId = 0 // Version ID to send with the request,
 	} = config;
 
 	let searchValue = '';
@@ -188,7 +188,8 @@
 														updateTable,
 														pageIndex,
 														toFilterableValueFn,
-														filters
+														filters,
+														toStringFn
 												  })
 												: createRender(colFilterComponent ?? TableFilter, {
 														filterValue,
@@ -318,11 +319,28 @@
 
 		// Format server columns to the client columns
 		if (response.columns !== undefined) {
-			columns = convertServerColumns(response.columns);
+			console.log(response);
+
+			columns = convertServerColumns(response.columns, columns);
+
+			const clientCols = response.columns.reduce((acc, col) => {
+				acc[col.key] = col.column;
+				return acc;
+			}, {});
+
+			const tmpArr: any[] = [];
+
+			response.data.forEach((row, index) => {
+				const tmp: { [key: string]: any } = {};
+				Object.keys(row).forEach((key) => {
+					tmp[clientCols[key]] = row[key];
+				});
+				tmpArr.push(tmp);
+			});
+			dispatch('fetch', columns);
+			$data = tmpArr;
 		}
 
-		// Update data store
-		$data = response.data;
 		$serverItems = response.count;
 
 		return response;
@@ -348,87 +366,90 @@
 </script>
 
 <div class="grid gap-2 overflow-auto" class:w-fit={!fitToScreen} class:w-full={fitToScreen}>
-	<div class="table-container">
-		<!-- Enable the search filter if table is not empty -->
-		{#if $data.length > 0}
-			<form
-				class="flex gap-2"
-				on:submit|preventDefault={() => {
-					sendModel.q = searchValue;
-					$filterValue = searchValue;
-				}}
-			>
-				<div class="relative w-full flex items-center">
-					<input
-						class="input p-2 border border-primary-500"
-						type="text"
-						bind:value={searchValue}
-						placeholder="Search rows..."
-						id="{tableId}-search"
-					/><button
-						type="reset"
-						class="absolute right-3 items-center"
-						on:click|preventDefault={() => {
-							searchValue = '';
-							sendModel.q = '';
-							$filterValue = '';
-						}}><Fa icon={faXmark} /></button
-					>
-				</div>
-				<button
-					type="submit"
-					class="btn variant-filled-primary"
-					on:click|preventDefault={() => {
-						$filterValue = searchValue;
+	{#if $data.length > 0 || (columns && Object.keys(columns).length > 0)}
+		<div class="table-container">
+			<!-- Enable the search filter if table is not empty -->
+			{#if !serverSide}
+				<form
+					class="flex gap-2"
+					on:submit|preventDefault={() => {
 						sendModel.q = searchValue;
-					}}>Search</button
+						$filterValue = searchValue;
+					}}
 				>
-			</form>
-		{/if}
-		<div class="flex justify-between items-center py-2 w-full">
-			<div>
-				<!-- Enable the fitToScreen toggle if toggle === true -->
-				{#if toggle}
-					<SlideToggle
-						name="slider-label"
-						active="bg-primary-500"
-						size="sm"
-						checked={fitToScreen}
-						id="{tableId}-toggle"
-						on:change={() => (fitToScreen = !fitToScreen)}>Fit to screen</SlideToggle
-					>
-				{/if}
-			</div>
-			<div class="flex gap-2">
-				<!-- Enable the resetResize button if resizable !== 'none' -->
-				{#if resizable !== 'none'}
+					<div class="relative w-full flex items-center">
+						<input
+							class="input p-2 border border-primary-500"
+							type="text"
+							bind:value={searchValue}
+							placeholder="Search rows..."
+							id="{tableId}-search"
+						/><button
+							type="reset"
+							class="absolute right-3 items-center"
+							on:click|preventDefault={() => {
+								searchValue = '';
+								sendModel.q = '';
+								$filterValue = '';
+							}}><Fa icon={faXmark} /></button
+						>
+					</div>
 					<button
-						type="button"
-						class="btn btn-sm variant-filled-primary rounded-full order-last"
-						on:click|preventDefault={() =>
-							resetResize($headerRows, $pageRows, tableId, columns, resizable)}>Reset sizing</button
+						type="submit"
+						class="btn variant-filled-primary"
+						on:click|preventDefault={() => {
+							$filterValue = searchValue;
+							sendModel.q = searchValue;
+						}}>Search</button
 					>
-				{/if}
-				{#if exportable}
-					<button
-						type="button"
-						class="btn btn-sm variant-filled-primary rounded-full order-last"
-						on:click|preventDefault={() => exportAsCsv(tableId, $exportedData)}
-						>Export as CSV</button
-					>
-				{/if}
-			</div>
-		</div>
+				</form>
+			{/if}
 
-		<div class="overflow-auto" style="height: {height}px">
-			<table
-				{...$tableAttrs}
-				class="table table-auto table-compact bg-tertiary-500/30 dark:bg-tertiary-900/10 overflow-clip"
-				id="{tableId}-table"
-			>
-				<!-- If table height is provided, making the top row sticky -->
-				<thead class=" {height != null ? `sticky top-0` : ''}">
-					{#if $data.length > 0}
+			<div class="flex justify-between items-center py-2 w-full">
+				<div>
+					<!-- Enable the fitToScreen toggle if toggle === true -->
+					{#if toggle}
+						<SlideToggle
+							name="slider-label"
+							active="bg-primary-500"
+							size="sm"
+							checked={fitToScreen}
+							id="{tableId}-toggle"
+							on:change={() => (fitToScreen = !fitToScreen)}>Fit to screen</SlideToggle
+						>
+					{/if}
+				</div>
+				<div class="flex gap-2">
+					<!-- Enable the resetResize button if resizable !== 'none' -->
+					{#if resizable !== 'none'}
+						<button
+							type="button"
+							class="btn btn-sm variant-filled-primary rounded-full order-last"
+							on:click|preventDefault={() =>
+								resetResize($headerRows, $pageRows, tableId, columns, resizable)}
+							>Reset sizing</button
+						>
+					{/if}
+					{#if exportable}
+						<button
+							type="button"
+							class="btn btn-sm variant-filled-primary rounded-full order-last"
+							on:click|preventDefault={() => exportAsCsv(tableId, $exportedData)}
+							>Export as CSV</button
+						>
+					{/if}
+				</div>
+			</div>
+
+			<div class="overflow-auto" style="height: {height}px">
+				<table
+					{...$tableAttrs}
+					class="table table-auto table-compact bg-tertiary-500/30 dark:bg-tertiary-900/10 overflow-clip"
+					id="{tableId}-table"
+				>
+					<!-- If table height is provided, making the top row sticky -->
+					<thead class={height != null && $pageRows.length > 0 ? `sticky top-0` : ''}>
+						<!-- {#if $data.length > 0} -->
 						{#each $headerRows as headerRow (headerRow.id)}
 							<Subscribe
 								rowAttrs={headerRow.attrs()}
@@ -436,7 +457,7 @@
 								rowProps={headerRow.props()}
 								let:rowProps
 							>
-								<tr {...rowAttrs} class="bg-primary-300 dark:bg-primary-500">
+								<tr {...rowAttrs} class="bg-primary-300 dark:bg-primary-800">
 									{#each headerRow.cells as cell (cell.id)}
 										<Subscribe attrs={cell.attrs()} props={cell.props()} let:props let:attrs>
 											<th scope="col" class="!p-2" {...attrs} style={cellStyle(cell.id, columns)}>
@@ -482,16 +503,9 @@
 								</tr>
 							</Subscribe>
 						{/each}
-					{:else if isFetching}
-						<div class="p-10"><Spinner /></div>
-					{:else}
-						<!-- Table is empty -->
-						<p class="items-center justify-center flex w-full p-10 italic">Nothing to show here.</p>
-					{/if}
-				</thead>
+					</thead>
 
-				<tbody class="overflow-auto" {...$tableBodyAttrs}>
-					{#if $data.length > 0}
+					<tbody class="overflow-auto" {...$tableBodyAttrs}>
 						{#each $pageRows as row (row.id)}
 							<Subscribe rowAttrs={row.attrs()} let:rowAttrs>
 								<tr {...rowAttrs} id="{tableId}-row-{row.id}" class="">
@@ -519,13 +533,22 @@
 								</tr>
 							</Subscribe>
 						{/each}
-					{/if}
-				</tbody>
-			</table>
+					</tbody>
+				</table>
+			</div>
 		</div>
-	</div>
-	{#if $data.length > 0}
-		<!-- Adding pagination, if table is not empty -->
+	{:else}
+		<div class="p-10 w-full h-full flex justify-center items-center bg-neutral-200 rounded">
+			<p>No data available</p>
+		</div>
+	{/if}
+
+	{#if isFetching}
+		<div class="p-10 w-full h-full flex justify-center items-center"><Spinner /></div>
+	{/if}
+
+	<!-- Adding pagination, if table is not empty -->
+	{#if $data.length > 0 || (columns && Object.keys(columns).length > 0)}
 		{#if serverSide}
 			<TablePaginationServer
 				{pageIndex}
