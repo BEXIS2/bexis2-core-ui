@@ -1,4 +1,10 @@
 # bexis-core-ui
+## 0.4.5
+- table
+  - adds searching for missing values in the filters #744
+  - missing values for every data type
+  - display patterns for date/time/datetime types
+
 ## 0.4.4
 - update libs
   - remove eslint-plugin-svelte3
