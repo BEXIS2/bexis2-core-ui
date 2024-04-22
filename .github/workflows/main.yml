@@ -28,7 +28,7 @@ jobs:
             ${{ runner.os }}-
       - uses: pnpm/action-setup@v2.0.1
         with:
-          version: 10.5.0
+          version: 9.0.5
           run_install: true
 
       - run: pnpm i # Run install
