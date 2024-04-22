@@ -30,7 +30,9 @@
 			type = typeof (toFilterableValueFn ? toFilterableValueFn(item) : item);
 
 			if (type === 'object') {
-				if (item instanceof Date) {
+				if (toFilterableValueFn && toFilterableValueFn(item) instanceof Date) {
+					isDate = true;
+				} else if (item instanceof Date) {
 					isDate = true;
 				}
 			}
