@@ -49,6 +49,19 @@
 
 	<div class="items-center">
 		<div class="flex gap-2">
+			<div class="italic">search:</div>
+			<div class="font-bold">boolean</div>
+		</div>
+
+		<p class="text-xl pl-10">
+			Whether the table should have a search bar. <code
+			class="!text-xl bg-blue-100 dark:bg-blue-600/30 rounded-md p-0.5 text-blue-500">true</code
+		> by default.
+		</p>
+	</div>
+
+	<div class="items-center">
+		<div class="flex gap-2">
 			<div class="italic">exportable:</div>
 			<div class="font-bold">boolean</div>
 		</div>
