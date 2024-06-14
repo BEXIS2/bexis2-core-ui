@@ -50,6 +50,7 @@
 		optionsComponent, // Custom component to render in the last column
 		defaultPageSize = 10, // Default page size - number of rows to display per page
 		toggle = false, // Whether to display the fitToScreen toggle
+		search = true, // Whether to display the search input
 		pageSizes = [5, 10, 15, 20], // Page sizes to display in the pagination component
 		fitToScreen = true, // Whether to fit the table to the screen,
 		exportable = false, // Whether to display the export button and enable export functionality
@@ -154,7 +155,7 @@
 						// Render the cell with the provided component, or use the toStringFn if provided, or just use the value
 						cell: ({ value, row }) => {
 							return renderComponent
-								? createRender(renderComponent, { value, row })
+								? createRender(renderComponent, { value, row, dispatchFn: actionDispatcher })
 								: toStringFn
 								? toStringFn(value)
 								: value;
@@ -319,8 +320,6 @@
 
 		// Format server columns to the client columns
 		if (response.columns !== undefined) {
-			console.log(response);
-
 			columns = convertServerColumns(response.columns, columns);
 
 			const clientCols = response.columns.reduce((acc, col) => {
@@ -369,7 +368,7 @@
 	{#if $data.length > 0 || (columns && Object.keys(columns).length > 0)}
 		<div class="table-container">
 			<!-- Enable the search filter if table is not empty -->
-			{#if !serverSide}
+			{#if !serverSide && search}
 				<form
 					class="flex gap-2"
 					on:submit|preventDefault={() => {
@@ -386,6 +385,7 @@
 							id="{tableId}-search"
 						/><button
 							type="reset"
+							id="{tableId}-searchReset"
 							class="absolute right-3 items-center"
 							on:click|preventDefault={() => {
 								searchValue = '';
@@ -396,6 +396,7 @@
 					</div>
 					<button
 						type="submit"
+						id="{tableId}-searchSubmit"
 						class="btn variant-filled-primary"
 						on:click|preventDefault={() => {
 							$filterValue = searchValue;
@@ -405,7 +406,7 @@
 				</form>
 			{/if}
 
-			<div class="flex justify-between items-center py-2 w-full">
+			<div class="flex justify-between items-center w-full {search && 'py-2'}">
 				<div>
 					<!-- Enable the fitToScreen toggle if toggle === true -->
 					{#if toggle}

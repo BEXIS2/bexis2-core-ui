@@ -110,6 +110,7 @@ export interface TableConfig<T> {
 	data: Writable<T[]>;
 	resizable?: 'none' | 'rows' | 'columns' | 'both'; // none by default
 	toggle?: boolean; // false by default
+	search?: boolean; // true by default
 	fitToScreen?: boolean; // true by default
 	height?: null | number; // null by default
 	rowHeight?: number; // auto by default
