@@ -385,6 +385,7 @@
 							id="{tableId}-search"
 						/><button
 							type="reset"
+							id="{tableId}-searchReset"
 							class="absolute right-3 items-center"
 							on:click|preventDefault={() => {
 								searchValue = '';
@@ -395,6 +396,7 @@
 					</div>
 					<button
 						type="submit"
+						id="{tableId}-searchSubmit"
 						class="btn variant-filled-primary"
 						on:click|preventDefault={() => {
 							$filterValue = searchValue;
