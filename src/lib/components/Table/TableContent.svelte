@@ -155,7 +155,7 @@
 						// Render the cell with the provided component, or use the toStringFn if provided, or just use the value
 						cell: ({ value, row }) => {
 							return renderComponent
-								? createRender(renderComponent, { value, row })
+								? createRender(renderComponent, { value, row, dispatchFn: actionDispatcher })
 								: toStringFn
 								? toStringFn(value)
 								: value;
