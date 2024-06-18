@@ -1,4 +1,14 @@
 # bexis-core-ui
+## 0.4.7
+- menu
+  - remove capitalization from menu item
+
+## 0.4.6
+- table
+  - Adds config for enabling and disabling Search field on Table.
+  - Adds action dispatcher as prop for the renderComponent.
+  - Adds unique IDs for Search reset and submit buttons.
+
 ## 0.4.5
 - table
   - adds searching for missing values in the filters #744
