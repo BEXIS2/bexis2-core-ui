@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
-	import type { linkType } from '$lib/models/Models';
-	import { pageContentLayoutType } from '$lib/models/Enums';
+	import type { errorType, linkType } from '$lib/models/Models';
+	import { pageContentLayoutType, notificationType } from '$lib/models/Enums';
 
 	// ui components
 	import { AppShell, AppBar } from '@skeletonlabs/skeleton';
@@ -16,7 +16,8 @@
 	//popup
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
 	import { storePopup } from '@skeletonlabs/skeleton';
-	import { breadcrumbStore } from '$store/pageStores';
+	import { breadcrumbStore,notificationStore } from '$store/pageStores';
+	import { errorStore } from '$store/apiStores';
 
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
@@ -37,6 +38,14 @@ import type { helpItemType, helpStoreType } from '$models/Models';
 	export let help: boolean = false;
 	export let contentLayoutType: pageContentLayoutType = pageContentLayoutType.center;
 	export let fixLeft: boolean = true;
+
+	errorStore.subscribe((error:errorType) => {
+			console.log("🚀 ~ errorStore.subscribe ~ value:", error.error)
+			notificationStore.showNotification({
+				notificationType: notificationType.error,
+				message: error.error
+			})
+		})
 
 	onMount(async () => {
 		console.log('page');
