@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Fa from 'svelte-fa/src/fa.svelte';
+	import { onMount } from 'svelte';
 	import { faFilter, faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
 	import { popup } from '@skeletonlabs/skeleton';
 	import type { PopupSettings } from '@skeletonlabs/skeleton';
@@ -221,9 +222,17 @@
 
 	// Start by adding the default filter
 	$: addFilter(options[type][0].value, undefined);
+
+	onMount(() => {
+		const element = document.getElementById(popupId);
+		if (element && element.parentElement?.id === `parent-${popupId}`) {
+			element.parentElement?.removeChild(element);
+			document.getElementById(`${tableId}-popups`)?.appendChild(element);
+		}
+	});
 </script>
 
-<form class="">
+<div id="parent-{popupId}">
 	<button
 		class:variant-filled-primary={active}
 		class="btn w-max p-2"
@@ -234,7 +243,7 @@
 		<Fa icon={faFilter} size="12" />
 	</button>
 
-	<div data-popup={`${popupId}`} id={popupId} class="z-50">
+	<div data-popup={popupId} id={popupId} class="">
 		<div class="card p-3 grid gap-2 shadow-lg w-max bg-base-100">
 			<button
 				class="btn variant-filled-primary btn-sm"
@@ -326,4 +335,4 @@
 			>
 		</div>
 	</div>
-</form>
+</div>

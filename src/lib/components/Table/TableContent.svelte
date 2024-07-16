@@ -491,9 +491,7 @@
 														<!-- Adding column filter config -->
 														{#if cell.isData()}
 															{#if props.colFilter?.render}
-																<div class="">
-																	<Render of={props.colFilter.render} />
-																</div>
+																<Render of={props.colFilter.render} />
 															{/if}
 														{/if}
 													</div>
@@ -564,3 +562,5 @@
 		{/if}
 	{/if}
 </div>
+
+<div id="{tableId}-popups" />
