@@ -51,7 +51,7 @@
 		defaultPageSize = 10, // Default page size - number of rows to display per page
 		toggle = false, // Whether to display the fitToScreen toggle
 		search = true, // Whether to display the search input
-		pageSizes = [5, 10, 15, 20], // Page sizes to display in the pagination component
+		pageSizes = [5, 10, 20, 50, 100], // Page sizes to display in the pagination component
 		fitToScreen = true, // Whether to fit the table to the screen,
 		exportable = false, // Whether to display the export button and enable export functionality
 		serverSide = false, // Whether the table is client or server-side
