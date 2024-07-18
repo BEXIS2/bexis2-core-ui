@@ -225,10 +225,8 @@
 
 	onMount(() => {
 		const element = document.getElementById(popupId);
-		if (element && element.parentElement?.id === `parent-${popupId}`) {
-			element.parentElement?.removeChild(element);
-			document.getElementById(`${tableId}-popups`)?.appendChild(element);
-		}
+		element?.parentElement?.removeChild(element);
+		element && document.getElementById(`${tableId}-popups`)?.appendChild(element);
 	});
 </script>
 
