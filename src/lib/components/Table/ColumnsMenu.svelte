@@ -24,7 +24,11 @@
 >
 	{#each columns as column}
 		<div class="flex gap-3 items-center">
-			<input type="checkbox" bind:checked={column.visible} />
+			<input
+				type="checkbox"
+				bind:checked={column.visible}
+				disabled={columns.filter((c) => c.visible).length === 1 && column.visible}
+			/>
 			<span>{column.label}</span>
 		</div>
 	{/each}
