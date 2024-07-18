@@ -23,6 +23,7 @@
 	let dropdowns: {
 		option: FilterOptionsEnum;
 		value: string | number | Date | undefined;
+		formValue: string | number | undefined;
 	}[] = [];
 
 	// Check the type of the column
@@ -174,7 +175,8 @@
 	const valueChangeHandler = (e, index) => {
 		dropdowns[index] = {
 			...dropdowns[index],
-			value: type === 'date' ? new Date(e.target.value) : e.target.value
+			value: type === 'date' ? new Date(e.target.value) : e.target.value,
+			formValue: e.target.value
 		};
 
 		$filters = {
@@ -196,7 +198,8 @@
 			...dropdowns,
 			{
 				option: option,
-				value: undefined
+				value: undefined,
+				formValue: undefined
 			}
 		];
 	};
@@ -299,7 +302,7 @@
 								type="date"
 								class="input p-1 border border-primary-500"
 								on:input={(e) => valueChangeHandler(e, index)}
-								bind:value={dropdown.value}
+								bind:value={dropdown.formValue}
 							/>
 						{/if}
 					</div>
