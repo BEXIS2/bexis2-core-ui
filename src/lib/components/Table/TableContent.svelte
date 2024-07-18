@@ -457,7 +457,9 @@
 							>Export as CSV</button
 						>
 					{/if}
-					<ColumnsMenu bind:columns={shownColumns} {tableId} />
+					{#if shownColumns.length > 0}
+						<ColumnsMenu bind:columns={shownColumns} {tableId} />
+					{/if}
 				</div>
 			</div>
 
