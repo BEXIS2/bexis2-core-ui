@@ -1,4 +1,8 @@
 # bexis-core-ui
+## 0.4.8
+- page
+  - add notification if api call to backend faild
+
 ## 0.4.7
 - menu
   - remove capitalization from menu item
