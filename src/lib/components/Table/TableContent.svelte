@@ -56,16 +56,13 @@
 		pageSizes = [5, 10, 20, 50, 100], // Page sizes to display in the pagination component
 		fitToScreen = true, // Whether to fit the table to the screen,
 		exportable = false, // Whether to display the export button and enable export functionality
-		serverSide = false, // Whether the table is client or server-side
-		URL = '', // URL to fetch data from
-		token = '', // Bearer token to authenticate the request
-		sendModel = new Send(), // Model to send requests
-		entityId = 0, // Entity ID to send with the request
-		versionId = 0 // Version ID to send with the request,
+		server
 	} = config;
 
 	let searchValue = '';
 	let isFetching = false;
+	const serverSide = server !== undefined;
+	const { baseUrl, sendModel, entityId, versionId } = server ?? {};
 
 	const filters = writable<{
 		[key: string]: { [key in FilterOptionsEnum]?: number | string | Date };
@@ -305,20 +302,21 @@
 	const { hiddenColumnIds } = pluginStates.hideColumns;
 
 	const updateTable = async () => {
+		if (!sendModel) throw new Error('Server-side configuration is missing');
+
 		sendModel.limit = $pageSize;
 		sendModel.offset = $pageSize * $pageIndex;
-		sendModel.version = versionId;
-		sendModel.id = entityId;
+		sendModel.version = versionId || -1;
+		sendModel.id = entityId || -1;
 		sendModel.filter = normalizeFilters($filters);
 
 		let fetchData;
 
 		try {
 			isFetching = true;
-			fetchData = await fetch(URL, {
+			fetchData = await fetch(baseUrl || '', {
 				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `Bearer ${token}`
+					'Content-Type': 'application/json'
 				},
 				method: 'POST',
 				body: JSON.stringify(sendModel)
@@ -363,6 +361,7 @@
 	};
 
 	const sortServer = (order: 'asc' | 'desc' | undefined, id: string) => {
+		if (!sendModel) throw new Error('Server-side configuration is missing');
 		// Set parameter for sorting
 		if (order === undefined) {
 			sendModel.order = [];
@@ -386,10 +385,12 @@
 	{#if $data.length > 0 || (columns && Object.keys(columns).length > 0)}
 		<div class="table-container">
 			<!-- Enable the search filter if table is not empty -->
-			{#if !serverSide && search}
+			{#if search}
 				<form
 					class="flex gap-2"
 					on:submit|preventDefault={() => {
+						if (!sendModel) throw new Error('Server-side configuration is missing');
+
 						sendModel.q = searchValue;
 						$filterValue = searchValue;
 					}}
@@ -406,6 +407,8 @@
 							id="{tableId}-searchReset"
 							class="absolute right-3 items-center"
 							on:click|preventDefault={() => {
+								if (!sendModel) throw new Error('Server-side configuration is missing');
+
 								searchValue = '';
 								sendModel.q = '';
 								$filterValue = '';
@@ -417,6 +420,8 @@
 						id="{tableId}-searchSubmit"
 						class="btn variant-filled-primary"
 						on:click|preventDefault={() => {
+							if (!sendModel) throw new Error('Server-side configuration is missing');
+
 							$filterValue = searchValue;
 							sendModel.q = searchValue;
 						}}>Search</button

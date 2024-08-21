@@ -107,7 +107,7 @@ export interface Columns {
 // Server config type for the table 
 export type ServerConfig = {
 	baseUrl?: string; // Base URL for server-side table
-	sendModel?: Send; // Send model for server-side table
+	sendModel: Send; // Send model for server-side table
 	entityId?: number; // Entity ID for server-side table
 	versionId?: number; // Version ID for server-side table
 };
