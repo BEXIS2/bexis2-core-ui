@@ -34,7 +34,8 @@ export const menuNavLinks: any = [
 			{ href: base + '/components/form', label: 'Form', keywords: '' },
 			{ href: base + '/components/table', label: 'Table', keywords: '' },
 			{ href: base + '/components/codeEditor', label: 'Code Editor', keywords: '' },
-			{ href: base + '/components/fileupload', label: 'File Upload', keywords: '' }
+			{ href: base + '/components/fileupload', label: 'File Upload', keywords: '' },
+			{ href: base + '/components/facets', label: 'Facets', keywords: '' }
 		]
 	},
 	{

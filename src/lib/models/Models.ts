@@ -104,6 +104,14 @@ export interface Columns {
 	[key: string]: Column;
 }
 
+// Server config type for the table 
+export type ServerConfig = {
+	baseUrl?: string; // Base URL for server-side table
+	sendModel?: Send; // Send model for server-side table
+	entityId?: number; // Entity ID for server-side table
+	versionId?: number; // Version ID for server-side table
+};
+
 // Table config type
 export interface TableConfig<T> {
 	id: string;
@@ -120,12 +128,7 @@ export interface TableConfig<T> {
 	defaultPageSize?: number; // 10 by default
 	optionsComponent?: typeof SvelteComponent;
 
-	serverSide?: boolean; // false by default
-	URL?: string; // Base URL for server-side table
-	token?: string; // Authorization token for server-side table
-	sendModel?: Send; // Send model for server-side table
-	entityId?: number; // Entity ID for server-side table
-	versionId?: number; // Version ID for server-side table
+	server?: ServerConfig;
 }
 
 // lists
@@ -186,6 +189,15 @@ export type Filter = {
 	column: string;
 	filterBy: FilterOptionsEnum;
 	value: string | number | Date | boolean;
+};
+
+export type FacetOption = {
+	value: string;
+	count?: number;
+};
+
+export type FacetGroup = {
+	[key: string]: FacetOption[];
 };
 
 export class Send {
