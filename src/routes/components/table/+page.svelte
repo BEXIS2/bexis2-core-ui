@@ -1,5 +1,6 @@
 <script lang="ts">
 	import '$lib/css/themes/theme-bexis2.css';
+	import TableProps from './docs/TableProps.svelte';
 	import TableConfigDocs from './docs/TableConfigDocs.svelte';
 	import ColumnsDocs from './docs/ColumnsDocs.svelte';
 	import ColumnDocs from './docs/ColumnDocs.svelte';
@@ -15,6 +16,8 @@
 >
 	<div class="grid gap-5">
 		<h1 class="font-bold !text-6xl">Table</h1>
+		<h2 class="h2">Props</h2>
+		<TableProps />
 		<h2 class="h2">Types</h2>
 		<TableConfigDocs />
 	</div>

@@ -155,7 +155,7 @@
 		</div>
 
 		<p class="text-xl pl-10">
-			An array of page sizes to be used for the table. By default, page sizes are 5, 10, 15, 20.
+			An array of page sizes to be used for the table. By default, page sizes are 5, 10, 20, 50, 100.
 		</p>
 	</div>
 
