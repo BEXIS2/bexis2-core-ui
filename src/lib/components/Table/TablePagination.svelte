@@ -4,8 +4,10 @@
 		faAnglesRight,
 		faAngleRight,
 		faAnglesLeft,
-		faAngleLeft
+		faAngleLeft,
+		faChevronDown
 	} from '@fortawesome/free-solid-svg-icons';
+	import { ListBox, ListBoxItem, popup, type PopupSettings } from '@skeletonlabs/skeleton';
 
 	export let pageConfig;
 	export let pageSizes;
@@ -31,24 +33,50 @@
 		}
 	};
 
+	let pageSizeDropdownValue: string = $pageSize;
+
+	const pageSizePopup: PopupSettings = {
+		event: 'click',
+		target: `#${id}-pageSizeDropdown`,
+		placement: 'bottom',
+		closeQuery: '.listbox-item'
+	};
+
 	$: goToFirstPageDisabled = !$pageIndex;
 	$: goToLastPageDisabled = $pageIndex == $pageCount - 1;
 	$: goToNextPageDisabled = !$hasNextPage;
 	$: goToPreviousPageDisabled = !$hasPreviousPage;
+	$: $pageSize = pageSizeDropdownValue;
 </script>
 
-<div class="flex justify-between w-full items-stretch gap-10">
+<div class="flex justify-between w-full items-stretch gap-10 z-50">
 	<div class="flex justify-start">
-		<select
+		<!-- <select
 			name="pageSize"
 			id="{id}-pageSize"
 			class="select variant-filled-primary w-min font-bold"
 			bind:value={$pageSize}
 		>
 			{#each pageSizes as size}
-				<option value={size} class="!bg-primary-700">{size}</option>
+				<option value={size} class="">{size}</option>
 			{/each}
-		</select>
+		</select> -->
+
+		<button class="btn variant-filled-primary w-20 justify-between" use:popup={pageSizePopup}>
+			<span class="capitalize font-semibold">{pageSizeDropdownValue}</span>
+			<Fa icon={faChevronDown} size="xs" />
+		</button>
+
+		<div class="card w-20 shadow-xl py-2" data-popup={`#${id}-pageSizeDropdown`}>
+			<ListBox rounded="rounded-none">
+				{#each pageSizes as size}
+					<ListBoxItem bind:group={pageSizeDropdownValue} name="medium" value={size}
+						>{size}</ListBoxItem
+					>
+				{/each}
+			</ListBox>
+			<div class="arrow bg-surface-100-800-token" />
+		</div>
 	</div>
 	<div class="flex justify-center gap-1">
 		<button
