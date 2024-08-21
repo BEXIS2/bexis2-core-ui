@@ -11,9 +11,11 @@
 	import TableGroups from '../examples/TableGroups.svelte';
 	import TableSimple from '../examples/TableSimple.svelte';
 	import TableServer from '../examples/TableServer.svelte';
+	import TableUsersServer from '../examples/TableUsersServer.svelte';
+	import TableGroupsServer from '../examples/TableGroupsServer.svelte';
 </script>
 
-<div class="grid gap-1">
+<div class="grid gap-1 w-full overflow-auto">
 	<h2 class="h2">Examples</h2>
 	<TableSimple />
 	<TableGroups />
@@ -30,8 +32,11 @@
 		<TableUrLs />
 		<TableUsersAndAdmins />
 	</div>
-	<div id="Test">
-		<TableServer />
+	<div id="Server-side">
+		<h2 class="h2">Server-side tables</h2>
+		<!-- <TableServer /> -->
+		<TableUsersServer />
+		<TableGroupsServer />
 	</div>
 </div>
 
