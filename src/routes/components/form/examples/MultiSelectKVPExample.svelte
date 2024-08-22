@@ -10,6 +10,7 @@
 	$: targetGroup = [];
 
 	import { Countries, MetadatastructuresGrouped } from './exampleData';
+	import Select from 'svelte-select/Select.svelte';
 </script>
 
 <div class="grid gap-10">

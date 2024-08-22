@@ -1,4 +1,5 @@
 import { writable } from 'svelte/store';
+import { errorType } from '$models/Models'
 
 export let host = 'window.location.origin';
 export let username = '';
@@ -7,6 +8,8 @@ export let password = '';
 const hostStore = writable(''); //writable(window.location.origin);
 const usernameStore = writable('');
 const passwordStore = writable('');
+
+export const errorStore = writable(new errorType());
 
 hostStore.subscribe((value) => {
 	host = value;

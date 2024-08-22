@@ -117,7 +117,7 @@ function createBreadcrumbStore() {
 				value = value === undefined ? new BreadcrumbModel() : value;
 
 				let v = value.items.find((i) => i.link === item.link);
-				console.log(value.items, v);
+				//console.log(value.items, v);
 
 				if (v) {
 					const i = value.items.indexOf(v);

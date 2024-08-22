@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { helpStore } from '$store/pageStores';
 	import type { helpItemType, helpStoreType } from '$models/Models';
-	import Fa from 'svelte-fa/src/fa.svelte';
+	import Fa from 'svelte-fa';
 	import { faQuestion } from '@fortawesome/free-solid-svg-icons';
 
 	//popup

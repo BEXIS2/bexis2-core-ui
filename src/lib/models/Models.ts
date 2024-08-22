@@ -233,3 +233,18 @@ export class Receive {
 		this.columns = [];
 	}
 }
+
+export class errorType {
+	statusText: string;
+	status: number;
+	error:string;
+	stackTrace:string
+
+	constructor() {
+		this.statusText = "";
+		this.status = 0;
+		this.error = "";
+		this.stackTrace = "";
+	}
+
+};
