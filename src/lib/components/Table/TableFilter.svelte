@@ -1,5 +1,6 @@
 <script lang="ts">
-	import Fa from 'svelte-fa';
+	import Fa from 'svelte-fa/src/fa.svelte';
+	import { onMount } from 'svelte';
 	import { faFilter, faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
 	import { popup } from '@skeletonlabs/skeleton';
 	import type { PopupSettings } from '@skeletonlabs/skeleton';
@@ -22,6 +23,7 @@
 	let dropdowns: {
 		option: FilterOptionsEnum;
 		value: string | number | Date | undefined;
+		formValue: string | number | undefined;
 	}[] = [];
 
 	// Check the type of the column
@@ -173,7 +175,8 @@
 	const valueChangeHandler = (e, index) => {
 		dropdowns[index] = {
 			...dropdowns[index],
-			value: type === 'date' ? new Date(e.target.value) : e.target.value
+			value: type === 'date' ? new Date(e.target.value) : e.target.value,
+			formValue: e.target.value
 		};
 
 		$filters = {
@@ -195,7 +198,8 @@
 			...dropdowns,
 			{
 				option: option,
-				value: undefined
+				value: undefined,
+				formValue: undefined
 			}
 		];
 	};
@@ -221,9 +225,15 @@
 
 	// Start by adding the default filter
 	$: addFilter(options[type][0].value, undefined);
+
+	onMount(() => {
+		const element = document.getElementById(popupId);
+		element?.parentElement?.removeChild(element);
+		element && document.getElementById(`${tableId}-popups`)?.appendChild(element);
+	});
 </script>
 
-<form class="">
+<div id="parent-{popupId}">
 	<button
 		class:variant-filled-primary={active}
 		class="btn w-max p-2"
@@ -234,7 +244,7 @@
 		<Fa icon={faFilter} size="12" />
 	</button>
 
-	<div data-popup={`${popupId}`} id={popupId} class="z-50">
+	<div data-popup={popupId} id={popupId} class="">
 		<div class="card p-3 grid gap-2 shadow-lg w-max bg-base-100">
 			<button
 				class="btn variant-filled-primary btn-sm"
@@ -292,7 +302,7 @@
 								type="date"
 								class="input p-1 border border-primary-500"
 								on:input={(e) => valueChangeHandler(e, index)}
-								bind:value={dropdown.value}
+								bind:value={dropdown.formValue}
 							/>
 						{/if}
 					</div>
@@ -326,4 +336,4 @@
 			>
 		</div>
 	</div>
-</form>
+</div>

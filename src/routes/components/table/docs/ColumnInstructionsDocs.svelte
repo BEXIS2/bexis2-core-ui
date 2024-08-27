@@ -60,16 +60,21 @@
 
 		<div class="ml-5">
 			<p class="underline">
-				<code class="!text-xl bg-tertiary-300 dark:bg-tertiary-700/50 rounded-md p-0.5 text-primary-500"
+				<code
+					class="!text-xl bg-tertiary-300 dark:bg-tertiary-700/50 rounded-md p-0.5 text-primary-500"
 					>renderComponent</code
 				>
 				overrides
-				<code class="!text-xl bg-tertiary-300 dark:bg-tertiary-700/50 rounded-md p-0.5 text-primary-500">toStringFn</code>.
+				<code
+					class="!text-xl bg-tertiary-300 dark:bg-tertiary-700/50 rounded-md p-0.5 text-primary-500"
+					>toStringFn</code
+				>.
 			</p>
 			<p class="">
-				Every <code class="!text-xl bg-tertiary-300 dark:bg-tertiary-700/50 rounded-md p-0.5 text-primary-500"
+				Every <code
+					class="!text-xl bg-tertiary-300 dark:bg-tertiary-700/50 rounded-md p-0.5 text-primary-500"
 					>renderComponent</code
-				> will get 2 props:
+				> will get 3 props:
 			</p>
 			<div class="items-center mt-2">
 				<div class="flex gap-2">
@@ -86,6 +91,22 @@
 					<div class="font-bold">any</div>
 				</div>
 				<p class="text-xl pl-10">The value of the current cell.</p>
+			</div>
+			<div class="items-center mt-2">
+				<div class="flex gap-2">
+					<div class="italic">dispatchFn:</div>
+					<div class="font-bold">{`(obj: any) => dispatch('action', obj)`}</div>
+				</div>
+				<p class="text-xl pl-10">
+					A function that takes an object and dispatches an action with the name <code
+						class="!text-xl bg-tertiary-300 dark:bg-tertiary-700/50 rounded-md p-0.5 text-primary-500"
+						>action</code
+					>. The passed object is accessible by the parent component through the
+					<code
+						class="!text-xl bg-tertiary-300 dark:bg-tertiary-700/50 rounded-md p-0.5 text-primary-500"
+						>action.detail</code
+					> property.
+				</p>
 			</div>
 		</div>
 	</div>

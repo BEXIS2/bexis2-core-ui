@@ -77,7 +77,7 @@
 			bind:value={$pageSize}
 		>
 			{#each pageSizes as size}
-				<option value={size}>{size}</option>
+				<option value={size} class="!bg-primary-700">{size}</option>
 			{/each}
 		</select>
 	</div>

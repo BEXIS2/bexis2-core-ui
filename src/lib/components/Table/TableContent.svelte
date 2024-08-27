@@ -11,7 +11,8 @@
 		addExpandedRows,
 		addColumnFilters,
 		addTableFilter,
-		addDataExport
+		addDataExport,
+		addHiddenColumns
 	} from 'svelte-headless-table/plugins';
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
 	import { SlideToggle, storePopup } from '@skeletonlabs/skeleton';
@@ -24,6 +25,7 @@
 	import TableFilterServer from './TableFilterServer.svelte';
 	import TablePagination from './TablePagination.svelte';
 	import TablePaginationServer from './TablePaginationServer.svelte';
+	import ColumnsMenu from './ColumnsMenu.svelte';
 	import { columnFilter, searchFilter } from './filter';
 	import {
 		cellStyle,
@@ -51,19 +53,16 @@
 		defaultPageSize = 10, // Default page size - number of rows to display per page
 		toggle = false, // Whether to display the fitToScreen toggle
 		search = true, // Whether to display the search input
-		pageSizes = [5, 10, 15, 20], // Page sizes to display in the pagination component
+		pageSizes = [5, 10, 20, 50, 100], // Page sizes to display in the pagination component
 		fitToScreen = true, // Whether to fit the table to the screen,
 		exportable = false, // Whether to display the export button and enable export functionality
-		serverSide = false, // Whether the table is client or server-side
-		URL = '', // URL to fetch data from
-		token = '', // Bearer token to authenticate the request
-		sendModel = new Send(), // Model to send requests
-		entityId = 0, // Entity ID to send with the request
-		versionId = 0 // Version ID to send with the request,
+		server
 	} = config;
 
 	let searchValue = '';
 	let isFetching = false;
+	const serverSide = server !== undefined;
+	const { baseUrl, sendModel, entityId, versionId } = server ?? {};
 
 	const filters = writable<{
 		[key: string]: { [key in FilterOptionsEnum]?: number | string | Date };
@@ -90,6 +89,7 @@
 			fn: searchFilter,
 			serverSide
 		}),
+		hideColumns: addHiddenColumns(),
 		sort: addSortBy({
 			disableMultiSort: true,
 			serverSide
@@ -121,137 +121,149 @@
 	// Creating an array of all the keys
 	const accessors: AccessorType[] = Object.keys(allCols) as AccessorType[];
 
+	// Filtering out the excluded columns
+	const unexcludedColumns = accessors.filter((accessor) => {
+		// Filtering only unexcluded columns
+		const key = accessor as string;
+		if (columns !== undefined && key in columns && columns[key].exclude === true) {
+			return false;
+		}
+		return true;
+	});
+
+	// To control the visibility of columns in menu
+	let shownColumns = unexcludedColumns.map((c) => {
+		const key = c as string;
+		const label = key.charAt(0).toUpperCase() + key.slice(1);
+		return {
+			id: c as string,
+			label: columns && columns[key] && columns[key].header ? columns[key].header : label,
+			visible: true
+		};
+	});
+
 	// Configuring every table column with the provided options
 	const tableColumns = [
-		...accessors
-			.filter((accessor) => {
-				// Filtering only unexcluded columns
-				const key = accessor as string;
-				if (columns !== undefined && key in columns && columns[key].exclude === true) {
-					return false;
-				}
-				return true;
-			})
-			.map((accessor) => {
-				const key = accessor as string;
-				// Applying configuration options for configured columns
-				if (columns !== undefined && key in columns) {
-					const {
-						header, // Custom header to display
-						colFilterFn, // Custom column filter function
-						colFilterComponent, // Custom column filter component
-						instructions, // Custom instructions for the column cells (sorting, filtering, searching, rendering)
-						disableFiltering = false, // Whether to disable filtering for the column
-						disableSorting = false // Whether to disable sorting for the column
-					} = columns[key];
+		...unexcludedColumns.map((accessor) => {
+			const key = accessor as string;
+			// Applying configuration options for configured columns
+			if (columns !== undefined && key in columns) {
+				const {
+					header, // Custom header to display
+					colFilterFn, // Custom column filter function
+					colFilterComponent, // Custom column filter component
+					instructions, // Custom instructions for the column cells (sorting, filtering, searching, rendering)
+					disableFiltering = false, // Whether to disable filtering for the column
+					disableSorting = false // Whether to disable sorting for the column
+				} = columns[key];
 
-					const { toSortableValueFn, toFilterableValueFn, toStringFn, renderComponent } =
-						instructions ?? {};
+				const { toSortableValueFn, toFilterableValueFn, toStringFn, renderComponent } =
+					instructions ?? {};
 
-					return table.column({
-						// If header is not provided, use the key as the header
-						header: header ?? key,
-						accessor: accessor,
-						// Render the cell with the provided component, or use the toStringFn if provided, or just use the value
-						cell: ({ value, row }) => {
-							return renderComponent
-								? createRender(renderComponent, { value, row, dispatchFn: actionDispatcher })
-								: toStringFn
-								? toStringFn(value)
-								: value;
+				return table.column({
+					// If header is not provided, use the key as the header
+					header: header ?? key,
+					accessor: accessor,
+					// Render the cell with the provided component, or use the toStringFn if provided, or just use the value
+					cell: ({ value, row }) => {
+						return renderComponent
+							? createRender(renderComponent, { value, row, dispatchFn: actionDispatcher })
+							: toStringFn
+							? toStringFn(value)
+							: value;
+					},
+					plugins: {
+						// Sorting config
+						sort: {
+							disable: disableSorting,
+							getSortValue: (row) => {
+								// If provided, use the custom sorting function toSortableValueFn(), or just use the value
+								return toSortableValueFn ? toSortableValueFn(row) : row;
+							}
 						},
-						plugins: {
-							// Sorting config
-							sort: {
-								disable: disableSorting,
-								getSortValue: (row) => {
-									// If provided, use the custom sorting function toSortableValueFn(), or just use the value
-									return toSortableValueFn ? toSortableValueFn(row) : row;
-								}
-							},
-							colFilter: !disableFiltering
-								? {
-										fn: ({ filterValue, value }) => {
-											// If provided, use the custom filtering function toFilterableValueFn(), or just use the value
-											const val = toFilterableValueFn ? toFilterableValueFn(value) : value;
-											// If provided, use the custom filtering function colFilterFn(), or just use the default columnFilter()
-											return colFilterFn
-												? colFilterFn({ filterValue, value: val })
-												: columnFilter({ filterValue, value: val });
-										},
-										render: ({ filterValue, values, id }) => {
-											filterValue.set($filters[key]);
-											return serverSide
-												? createRender(TableFilterServer, {
-														id,
-														tableId,
-														values,
-														updateTable,
-														pageIndex,
-														toFilterableValueFn,
-														filters,
-														toStringFn
-												  })
-												: createRender(colFilterComponent ?? TableFilter, {
-														filterValue,
-														id,
-														tableId,
-														values,
-														toFilterableValueFn,
-														filters,
-														toStringFn,
-														pageIndex
-												  });
-										}
-								  }
-								: undefined,
-							tableFilter: {
-								// Search filter config
-								getFilterValue: (row) => {
-									// If provided, use the custom toString function toStringFn(), or just use the value
-									return toStringFn ? toStringFn(row) : row;
-								}
+						colFilter: !disableFiltering
+							? {
+									fn: ({ filterValue, value }) => {
+										// If provided, use the custom filtering function toFilterableValueFn(), or just use the value
+										const val = toFilterableValueFn ? toFilterableValueFn(value) : value;
+										// If provided, use the custom filtering function colFilterFn(), or just use the default columnFilter()
+										return colFilterFn
+											? colFilterFn({ filterValue, value: val })
+											: columnFilter({ filterValue, value: val });
+									},
+									render: ({ filterValue, values, id }) => {
+										filterValue.set($filters[key]);
+										return serverSide
+											? createRender(TableFilterServer, {
+													id,
+													tableId,
+													values,
+													updateTable,
+													pageIndex,
+													toFilterableValueFn,
+													filters,
+													toStringFn
+											  })
+											: createRender(colFilterComponent ?? TableFilter, {
+													filterValue,
+													id,
+													tableId,
+													values,
+													toFilterableValueFn,
+													filters,
+													toStringFn,
+													pageIndex
+											  });
+									}
+							  }
+							: undefined,
+						tableFilter: {
+							// Search filter config
+							getFilterValue: (row) => {
+								// If provided, use the custom toString function toStringFn(), or just use the value
+								return toStringFn ? toStringFn(row) : row;
 							}
 						}
-					});
-				} else {
-					return table.column({
-						header: key,
-						accessor: accessor,
-						cell: ({ value }) => {
-							// If null or undefined, return an empty string
-							return value ? value : '';
-						},
-						plugins: {
-							// Sorting enabled by default
-							sort: {},
-							// Filtering enabled by default
-							colFilter: {
-								fn: columnFilter,
-								render: ({ filterValue, values, id }) => {
-									return serverSide
-										? createRender(TableFilterServer, {
-												id,
-												tableId,
-												values,
-												updateTable,
-												pageIndex,
-												filters
-										  })
-										: createRender(TableFilter, {
-												filterValue,
-												id,
-												tableId,
-												values,
-												filters,
-												pageIndex
-										  });
-								}
+					}
+				});
+			} else {
+				return table.column({
+					header: key,
+					accessor: accessor,
+					cell: ({ value }) => {
+						// If null or undefined, return an empty string
+						return value ? value : '';
+					},
+					plugins: {
+						// Sorting enabled by default
+						sort: {},
+						// Filtering enabled by default
+						colFilter: {
+							fn: columnFilter,
+							render: ({ filterValue, values, id }) => {
+								return serverSide
+									? createRender(TableFilterServer, {
+											id,
+											tableId,
+											values,
+											updateTable,
+											pageIndex,
+											filters
+									  })
+									: createRender(TableFilter, {
+											filterValue,
+											id,
+											tableId,
+											values,
+											filters,
+											pageIndex
+									  });
 							}
 						}
-					});
-				}
-			})
+					}
+				});
+			}
+		})
 	];
 
 	// If optionsComponent is provided, add a column for it at the end
@@ -286,22 +298,25 @@
 	const { exportedData } = pluginStates.export;
 	// Page configuration
 	const { pageIndex, pageSize } = pluginStates.page;
+	// Column visibility configuration
+	const { hiddenColumnIds } = pluginStates.hideColumns;
 
 	const updateTable = async () => {
+		if (!sendModel) throw new Error('Server-side configuration is missing');
+
 		sendModel.limit = $pageSize;
 		sendModel.offset = $pageSize * $pageIndex;
-		sendModel.version = versionId;
-		sendModel.id = entityId;
+		sendModel.version = versionId || -1;
+		sendModel.id = entityId || -1;
 		sendModel.filter = normalizeFilters($filters);
 
 		let fetchData;
 
 		try {
 			isFetching = true;
-			fetchData = await fetch(URL, {
+			fetchData = await fetch(baseUrl || '', {
 				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `Bearer ${token}`
+					'Content-Type': 'application/json'
 				},
 				method: 'POST',
 				body: JSON.stringify(sendModel)
@@ -346,6 +361,7 @@
 	};
 
 	const sortServer = (order: 'asc' | 'desc' | undefined, id: string) => {
+		if (!sendModel) throw new Error('Server-side configuration is missing');
 		// Set parameter for sorting
 		if (order === undefined) {
 			sendModel.order = [];
@@ -362,16 +378,19 @@
 	$: sortKeys = pluginStates.sort.sortKeys;
 	$: serverSide && updateTable();
 	$: serverSide && sortServer($sortKeys[0]?.order, $sortKeys[0]?.id);
+	$: $hiddenColumnIds = shownColumns.filter((col) => !col.visible).map((col) => col.id);
 </script>
 
 <div class="grid gap-2 overflow-auto" class:w-fit={!fitToScreen} class:w-full={fitToScreen}>
 	{#if $data.length > 0 || (columns && Object.keys(columns).length > 0)}
 		<div class="table-container">
 			<!-- Enable the search filter if table is not empty -->
-			{#if !serverSide && search}
+			{#if search}
 				<form
 					class="flex gap-2"
 					on:submit|preventDefault={() => {
+						if (!sendModel) throw new Error('Server-side configuration is missing');
+
 						sendModel.q = searchValue;
 						$filterValue = searchValue;
 					}}
@@ -388,6 +407,8 @@
 							id="{tableId}-searchReset"
 							class="absolute right-3 items-center"
 							on:click|preventDefault={() => {
+								if (!sendModel) throw new Error('Server-side configuration is missing');
+
 								searchValue = '';
 								sendModel.q = '';
 								$filterValue = '';
@@ -399,6 +420,8 @@
 						id="{tableId}-searchSubmit"
 						class="btn variant-filled-primary"
 						on:click|preventDefault={() => {
+							if (!sendModel) throw new Error('Server-side configuration is missing');
+
 							$filterValue = searchValue;
 							sendModel.q = searchValue;
 						}}>Search</button
@@ -438,6 +461,9 @@
 							on:click|preventDefault={() => exportAsCsv(tableId, $exportedData)}
 							>Export as CSV</button
 						>
+					{/if}
+					{#if shownColumns.length > 0}
+						<ColumnsMenu bind:columns={shownColumns} {tableId} />
 					{/if}
 				</div>
 			</div>
@@ -491,9 +517,7 @@
 														<!-- Adding column filter config -->
 														{#if cell.isData()}
 															{#if props.colFilter?.render}
-																<div class="">
-																	<Render of={props.colFilter.render} />
-																</div>
+																<Render of={props.colFilter.render} />
 															{/if}
 														{/if}
 													</div>
@@ -564,3 +588,5 @@
 		{/if}
 	{/if}
 </div>
+
+<div id="{tableId}-popups" />

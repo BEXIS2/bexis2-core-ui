@@ -22,6 +22,7 @@
 	let dropdowns: {
 		option: FilterOptionsEnum;
 		value: string | number | Date | undefined;
+		formValue: string | number | undefined;
 	}[] = [];
 
 	// Check the type of the column
@@ -111,7 +112,7 @@
 			{
 				value: FilterOptionsEnum.b,
 				label: 'Is before'
-			},
+			}
 			// TODO: 'Not on' filter should be fixed on the server side
 			// {
 			// 	value: FilterOptionsEnum.no,
@@ -159,7 +160,8 @@
 	const valueChangeHandler = (e, index) => {
 		dropdowns[index] = {
 			...dropdowns[index],
-			value: type === 'date' ? new Date(e.target.value) : e.target.value
+			value: type === 'date' ? new Date(e.target.value) : e.target.value,
+			formValue: e.target.value
 		};
 
 		$filters = {
@@ -181,7 +183,8 @@
 			...dropdowns,
 			{
 				option: option,
-				value: undefined
+				value: undefined,
+				formValue: undefined
 			}
 		];
 	};
