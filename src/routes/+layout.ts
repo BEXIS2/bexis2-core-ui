@@ -11,7 +11,7 @@ export async function load({ fetch }) {
 	if (import.meta.env.DEV) {
 		console.log('dev');
 
-		setApiConfig('http://localhost:44345/', 'davidschoene', '123456');
+		setApiConfig('http://localhost:44345/', 'admin', '123456');
 
 	} else if (import.meta.env.PROD) {
 		console.log('PROD');

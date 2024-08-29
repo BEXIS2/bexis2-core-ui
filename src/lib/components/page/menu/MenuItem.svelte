@@ -6,9 +6,9 @@
 
 	//types
 	import type { PopupSettings } from '@skeletonlabs/skeleton';
-	import type { menuItemType } from '$models/Page';
+	import type { menuItemType } from '../../../models/Page';
 
-	import { goTo } from '$services/BaseCaller';
+	import { goTo } from '../../../services/BaseCaller';
 
 	export let menubarItem: menuItemType;
 	export let comboboxValue;
@@ -40,7 +40,8 @@
 			>
 			<svelte:fragment slot="content"
 				><MenuSublist {id} items={menubarItem.Items} /></svelte:fragment
-			></AccordionItem
+			>
+			</AccordionItem
 		>
 	</div>
 	<div class="hidden sm:block place-self-center" use:popup={popupCombobox}>
