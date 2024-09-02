@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { ListBox, ListBoxItem } from '@skeletonlabs/skeleton';
-	import type { menuItemType } from '$models/Page';
-	import { goTo } from '$services/BaseCaller';
+	import type { menuItemType } from '../../../models/Page';
+	import { goTo } from '../../../services/BaseCaller';
 
 	export let items: menuItemType[];
 
@@ -22,19 +22,64 @@
 			return true;
 		}
 	}
+
+	function clickFn(item)
+	{
+		if(item.Title =="Logoff")
+		{
+					logOffFn();
+			return;
+		}
+		else{
+				goTo(item.Url)
+		}
+	}
+
+	
+	async function logOffFn() {
+
+		 console.log('logoff');
+				// Prepare the body content for the POST request
+			
+
+			let bodyContent = '__RequestVerificationToken='+ window.antiForgeryToken;
+
+				try {
+									const response = await fetch('/Account/logoff', {
+													method: 'POST',
+													credentials: 'include', // Include cookies for authentication
+													headers: {
+																	'Content-Type': 'application/x-www-form-urlencoded'
+													},
+													body:bodyContent
+									});
+									if (response.ok) {
+													// Redirect to login page after logout
+													window.location.href = '/Account/Login'; 
+									} else {
+													console.error('Logout failed');
+									}
+					} catch (error) {
+									console.error('Error during logout:', error);
+					}
+			}
+
+
 </script>
 
 <ListBox class="sm:bg-white sm:border overflow-y-auto max-h-[500px]">
 	{#each items as item}
 		{#if isNewModule(item.Module)}<hr class="text-surface-800" />{/if}
+
 		<ListBoxItem
 			class="text-md sm:text-sm text-surface-800 py-1 hover:text-secondary-500 bg-transparent hover:bg-surface-200"
 			bind:group={item.Title}
 			name="medium"
 			value={item.Title}
-			on:click={() => goTo(item.Url)}
+			on:click={() => clickFn(item)}
 		>
 			{item.Title}
 		</ListBoxItem>
+
 	{/each}
 </ListBox>

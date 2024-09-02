@@ -1,4 +1,20 @@
 # bexis-core-ui
+## 0.4.11
+- Menu
+  - fix log off
+
+## 0.4.10
+- Table:
+  - Fixes issue with sticky Tables not rendering the filters correctly.
+  - Fixes issues related to date picker in Tables with date filters.
+  - Updates default Table page sizes to [5, 10, 20, 50, 100].
+  - Updates the structure of server-side configuration for Tables.
+  - Adds new page size dropdown in Table for to fix contrast issues in the component.
+  - Adds showing/hiding Table columns.
+  
+- Facets:
+  - Adds Facets component.
+
 ## 0.4.8
 - page
   - add notification if api call to backend faild

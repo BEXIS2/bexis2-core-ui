@@ -9,12 +9,17 @@
 	export let menuBar: menuItemType[];
 
 	let comboboxValue: string;
+	
 </script>
 
 {#if menuBar}
 	<div class="h-full place-self-center sm:flex gap-2 w-full sm:w-auto">
+
 		{#each menuBar as menubarItem}
-			<Item {menubarItem} {comboboxValue} />
+
+				<Item {menubarItem} {comboboxValue} />
+
 		{/each}
+
 	</div>
 {/if}

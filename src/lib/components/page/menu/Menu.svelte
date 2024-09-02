@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { getMenuItems } from './MenuDataCaller';
-	import { menuStore } from '$store/pageStores';
+	import { menuStore } from "../../../stores/pageStores";
 
 	import MenuBar from './MenuBar.svelte';
+	import MenuAccountBar from './MenuAccountBar.svelte';
 	import SettingsBar from './SettingsBar.svelte';
 	import Fa from 'svelte-fa';
 	import { faBars } from '@fortawesome/free-solid-svg-icons';
@@ -49,7 +50,7 @@
 						<!-- </div> -->
 						<!-- <div class="sm:flex items-center sm:gap-5 px-1 text-lg justify-end gap-2"> -->
 						<div class="grid w-full sm:flex gap-2 justify-auto sm:justify-end">
-							<MenuBar menuBar={$menuStore.AccountBar} />
+							<MenuAccountBar menuBar={$menuStore.AccountBar} />
 							<MenuBar menuBar={$menuStore.LaunchBar} />
 							<SettingsBar menuBar={$menuStore.Settings} />
 							<!-- </div> -->
