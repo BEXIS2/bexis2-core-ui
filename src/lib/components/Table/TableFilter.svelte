@@ -244,7 +244,7 @@
 		<Fa icon={faFilter} size="12" />
 	</button>
 
-	<div data-popup={popupId} id={popupId} class="">
+	<div data-popup={popupId} id={popupId} class="z-50">
 		<div class="card p-3 grid gap-2 shadow-lg w-max bg-base-100">
 			<button
 				class="btn variant-filled-primary btn-sm"
