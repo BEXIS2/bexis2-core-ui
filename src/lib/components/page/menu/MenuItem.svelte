@@ -45,7 +45,7 @@
 	</div>
 	<div class="hidden sm:block place-self-center" use:popup={popupCombobox}>
 		<button class="flex items-center gap-x-1 px-2">
-			<span class="capitalize">{menubarItem.Title}▾</span>
+			<span>{menubarItem.Title}▾</span>
 		</button>
 
 		<div class="z-50 w-max" data-popup={id}>

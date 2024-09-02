@@ -20,5 +20,6 @@
 		class:input-error={invalid}
 		bind:checked
 		on:input
+		on:change
 	/>
 </InputContainer>

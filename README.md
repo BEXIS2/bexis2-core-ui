@@ -1,4 +1,65 @@
 # bexis-core-ui
+## 0.4.8
+- page
+  - add notification if api call to backend faild
+
+## 0.4.7
+- menu
+  - remove capitalization from menu item
+
+## 0.4.6
+- table
+  - Adds config for enabling and disabling Search field on Table.
+  - Adds action dispatcher as prop for the renderComponent.
+  - Adds unique IDs for Search reset and submit buttons.
+
+## 0.4.5
+- table
+  - adds searching for missing values in the filters #744
+  - missing values for every data type
+  - display patterns for date/time/datetime types
+
+## 0.4.4
+- update libs
+  - remove eslint-plugin-svelte3
+  - update svelte, sveltekit, typescript, tailwind ...
+  
+## 0.4.3
+- table
+  - Enable searching on server-side
+
+## 0.4.2
+## 0.4.1
+- table
+  - Server-side searching
+  - Case-insensitive filtering of missing values
+  - Date formatting for display patterns
+  - Handle missing values regardless of the data type
+
+## 0.4.0
+-  update dependency libaries
+   -  svelte
+   -  sveltekit
+   -  vite
+
+## 0.3.13
+## 0.3.12
+- table
+  - Server-side data fetching
+  - Server-side filtering
+  - Server-side sorting
+  - Server-side pagination
+  - New filtering workflow & UI
+  - New pagination component
+
+## 0.3.11
+- add on:change passthrough to TextInput, TextArea, DateInput, NumberInput, CheckBox
+  
+## 0.3.10
+- multi select
+  - update svelte-select libary
+  - refactor filterFn (new order - > exact, start, includes)
+  - fix issues with clearable
 
 ## 0.3.9
 

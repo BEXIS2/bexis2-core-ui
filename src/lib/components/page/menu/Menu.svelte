@@ -5,7 +5,7 @@
 
 	import MenuBar from './MenuBar.svelte';
 	import SettingsBar from './SettingsBar.svelte';
-	import Fa from 'svelte-fa/src/fa.svelte';
+	import Fa from 'svelte-fa';
 	import { faBars } from '@fortawesome/free-solid-svg-icons';
 	import { Accordion } from '@skeletonlabs/skeleton';
 

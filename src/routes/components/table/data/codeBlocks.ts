@@ -644,7 +644,7 @@ export const tableCRUDEditGroupHTML = `
 
 export const tableCRUDOptionsHTML = `
 <script lang="ts">
-	import Fa from 'svelte-fa/src/fa.svelte';
+	import Fa from 'svelte-fa';
 	import { faPlus, faEye, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 	export let row;

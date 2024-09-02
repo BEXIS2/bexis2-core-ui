@@ -1,6 +1,7 @@
 // Api.js
 import axios from 'axios';
-import { host, username, password } from '../stores/apiStores';
+import { host, username, password, errorStore } from '../stores/apiStores';
+import type { errorType } from '$models/Models';
 
 console.log('setup axios');
 
@@ -23,9 +24,24 @@ const apiRequest = (method, url, request) => {
 		headers
 	})
 		.then((res) => {
+			// console.log("res",res);
+			
 			return Promise.resolve(res);
+
 		})
-		.catch((err) => {
+		.catch((er) => {
+		//console.log("🚀 ~ apiRequest ~ err:", er)
+			const err = er.response;
+			
+			let error:errorType = {
+							status: err.status,
+							statusText: err.statusText,
+							error: err.data.error,
+							stackTrace: err.data.stackTrace,
+			}
+
+			errorStore.set(error);
+
 			return Promise.reject(err);
 		});
 };
