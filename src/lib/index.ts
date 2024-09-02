@@ -30,6 +30,9 @@ import TableFilter from './components/Table/TableFilter.svelte';
 import { columnFilter, searchFilter } from './components/Table/filter';
 import type { TableConfig, Columns, Column } from './models/Models';
 
+//Facets
+import Facets from './components/Facets/Facets.svelte';
+
 // CodeEditor
 import CodeEditor from './components/CodeEditor/CodeEditor.svelte';
 
@@ -102,6 +105,9 @@ export {
 
 // Table
 export { Table, TableFilter, columnFilter, searchFilter };
+
+// Facets
+export { Facets };
 
 // CodeEditor
 export { CodeEditor };
