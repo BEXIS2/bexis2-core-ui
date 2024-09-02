@@ -1,4 +1,12 @@
 # bexis-core-ui
+## 0.4.13
+- menu
+  - fix code isses
+
+## 0.4.11
+- Table
+  - fix lib issue
+
 ## 0.4.11
 - Menu
   - fix log off
