@@ -62,7 +62,7 @@
 	let searchValue = '';
 	let isFetching = false;
 	const serverSide = server !== undefined;
-	const { baseUrl, sendModel, entityId, versionId } = server ?? {};
+	const { baseUrl, entityId, versionId, sendModel = new Send() } = server ?? {};
 
 	const filters = writable<{
 		[key: string]: { [key in FilterOptionsEnum]?: number | string | Date };
@@ -429,7 +429,11 @@
 				</form>
 			{/if}
 
-			<div class="flex justify-between items-center w-full {search && 'py-2'}">
+			<div
+				class="flex justify-between items-center w-full {search && 'py-2'} {!search &&
+					(shownColumns.length > 0 || toggle || resizable !== 'none' || exportable) &&
+					'pb-2'}"
+			>
 				<div>
 					<!-- Enable the fitToScreen toggle if toggle === true -->
 					{#if toggle}

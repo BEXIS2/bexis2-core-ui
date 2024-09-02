@@ -107,7 +107,7 @@ export interface Columns {
 // Server config type for the table 
 export type ServerConfig = {
 	baseUrl?: string; // Base URL for server-side table
-	sendModel: Send; // Send model for server-side table
+	sendModel?: Send; // Send model for server-side table
 	entityId?: number; // Entity ID for server-side table
 	versionId?: number; // Version ID for server-side table
 };
@@ -124,7 +124,7 @@ export interface TableConfig<T> {
 	rowHeight?: number; // auto by default
 	columns?: Columns;
 	exportable?: boolean; // false by default
-	pageSizes?: number[]; // [5, 10, 15, 20] by default
+	pageSizes?: number[]; // [5, 10, 20, 50, 100] by default
 	defaultPageSize?: number; // 10 by default
 	optionsComponent?: typeof SvelteComponent;
 
