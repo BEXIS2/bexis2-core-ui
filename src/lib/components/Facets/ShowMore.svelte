@@ -1,42 +1,34 @@
 <script lang="ts">
-	import type { FacetOption } from '$models/Models';
+	import type { SelectedFacetGroup } from '$models/Models';
 
-	export let group: string; // Group name
-	export let items: FacetOption[]; // All possible choices
-	export let selected: FacetOption[]; // Initially selected items
-	export let handleSave: (group: string, selectedItems: FacetOption[]) => {};
+	export let group: SelectedFacetGroup;
+	export let handleSave: (group: SelectedFacetGroup) => {};
 	export let handleCancel: () => {};
 
-	// This local variable is needed for resetting the Modal when the user cancels selection.
-	let selectedItems = selected; // Selected items in the Modal.
-
-	const handleCheck = (e, index: number) => {
-		const target = e.target as HTMLInputElement;
-		if (target.checked) {
-			selectedItems = [...selectedItems, items[index]];
-		} else {
-			selectedItems = selectedItems.filter((item) => item !== items[index]);
-		}
-	};
+	let selected = structuredClone(group.children);
 
 	const selectAll = () => {
-		selectedItems = items;
+		Object.keys(selected).forEach((key) => (selected[key].selected = true));
 	};
 
 	const selectNone = () => {
-		selectedItems = [];
+		Object.keys(selected).forEach((key) => (selected[key].selected = false));
 	};
 
 	const onSave = () => {
-		handleSave(group, selectedItems);
+		handleSave({
+			...group,
+			children: selected
+		});
 	};
 
 	const onCancel = () => {
-		selectedItems = selected;
+		console.log(selected, group.children);
+		selected = structuredClone(group.children);
 		handleCancel();
 	};
 
-	const gridClass = (items: FacetOption[]) => {
+	const gridClass = (items: any[]) => {
 		if (items.length >= 50) {
 			return 'grid-cols-5';
 		} else if (items.length >= 30) {
@@ -51,24 +43,20 @@
 
 <div class="p-5 rounded-md bg-surface-50 dark:bg-surface-800 border-primary-500 border-2">
 	<!-- Header -->
-	<h2 class="text-xl font-semibold">{group}</h2>
+	<h2 class="text-xl font-semibold">{group.displayName}</h2>
 
 	<!-- Items -->
 	<div
 		class="grid {gridClass(
-			items
+			Object.keys(selected)
 		)} !gap-x-20 gap-y-2 py-10 px-2 max-h-[1000px] overflow-x-auto max-w-6xl"
 	>
-		{#each items as item, index}
+		{#each Object.keys(selected) as key}
 			<label class="flex gap-3 items-center">
-				<input
-					type="checkbox"
-					class="checkbox"
-					value={item.value}
-					on:click={(e) => handleCheck(e, index)}
-					checked={selectedItems.includes(item)}
-				/>
-				<span class="whitespace-nowrap break-before-avoid break-after-avoid">{item.value}</span>
+				<input type="checkbox" class="checkbox" bind:checked={selected[key].selected} />
+				<span class="whitespace-nowrap break-before-avoid break-after-avoid"
+					>{selected[key].displayName}</span
+				>
 			</label>
 		{/each}
 	</div>
