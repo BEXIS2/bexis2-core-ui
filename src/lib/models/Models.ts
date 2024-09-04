@@ -195,23 +195,20 @@ export interface FacetOption {
 	name: string;
 	displayName: string;
 	count?: number;
+	selected?: boolean;
 }
 
 export interface FacetGroup {
 	name: string;
 	displayName: string;
+	selected?: boolean;
 	children: FacetOption[];
 	count?: number;
 }
 
-export interface SelectedFacetOption extends FacetOption {
-	selected: boolean;
-}
-
 export interface SelectedFacetGroup extends Omit<FacetGroup, 'children'> {
-	selected: boolean;
 	children: {
-		[key: string]: SelectedFacetOption;
+		[key: string]: FacetOption;
 	};
 }
 
