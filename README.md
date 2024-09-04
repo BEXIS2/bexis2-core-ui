@@ -1,4 +1,22 @@
 # bexis-core-ui
+
+## 0.4.16
+- Facets
+  - Replaces groups array with a writable store to re-render component on data manipulation.
+  - Adds selected attribute to the type so that Facets can be initialized with some selected values.
+
+## 0.4.15
+- Update Facets with new params and add onChange action
+  - Changes structure of Facets data
+  - Adds on:change action
+
+## 0.4.14
+- Table 
+  - fixes rendering issues with Table filters and different components
+  
+- Facets
+  - Exports Facets component
+
 ## 0.4.13
 - menu
   - fix code isses
