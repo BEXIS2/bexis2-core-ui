@@ -32,6 +32,7 @@ import type { TableConfig, Columns, Column } from './models/Models';
 
 //Facets
 import Facets from './components/Facets/Facets.svelte';
+import type { FacetGroup, FacetOption, SelectedFacetGroup } from './models/Models';
 
 // CodeEditor
 import CodeEditor from './components/CodeEditor/CodeEditor.svelte';
@@ -108,6 +109,7 @@ export { Table, TableFilter, columnFilter, searchFilter };
 
 // Facets
 export { Facets };
+export type { FacetGroup, FacetOption, SelectedFacetGroup };
 
 // CodeEditor
 export { CodeEditor };
