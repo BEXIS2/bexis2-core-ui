@@ -104,7 +104,7 @@ export interface Columns {
 	[key: string]: Column;
 }
 
-// Server config type for the table 
+// Server config type for the table
 export type ServerConfig = {
 	baseUrl?: string; // Base URL for server-side table
 	sendModel?: Send; // Send model for server-side table
@@ -191,14 +191,29 @@ export type Filter = {
 	value: string | number | Date | boolean;
 };
 
-export type FacetOption = {
-	value: string;
+export interface FacetOption {
+	name: string;
+	displayName: string;
 	count?: number;
-};
+}
 
-export type FacetGroup = {
-	[key: string]: FacetOption[];
-};
+export interface FacetGroup {
+	name: string;
+	displayName: string;
+	children: FacetOption[];
+	count?: number;
+}
+
+export interface SelectedFacetOption extends FacetOption {
+	selected: boolean;
+}
+
+export interface SelectedFacetGroup extends Omit<FacetGroup, 'children'> {
+	selected: boolean;
+	children: {
+		[key: string]: SelectedFacetOption;
+	};
+}
 
 export class Send {
 	id: number;
@@ -237,14 +252,13 @@ export class Receive {
 export class errorType {
 	statusText: string;
 	status: number;
-	error:string;
-	stackTrace:string
+	error: string;
+	stackTrace: string;
 
 	constructor() {
-		this.statusText = "";
+		this.statusText = '';
 		this.status = 0;
-		this.error = "";
-		this.stackTrace = "";
+		this.error = '';
+		this.stackTrace = '';
 	}
-
-};
+}

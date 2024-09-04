@@ -1,36 +1,71 @@
 <script lang="ts">
+	import { createEventDispatcher } from 'svelte';
 	import { getModalStore, Modal, TreeView, TreeViewItem } from '@skeletonlabs/skeleton';
 
 	import ShowMore from './ShowMore.svelte';
-	import type { FacetOption, FacetGroup } from '$models/Models';
+	import type { FacetGroup, SelectedFacetGroup } from '$models/Models';
 
 	export let groupSelection = false;
-	export let groups: FacetGroup;
-	export let selected: FacetGroup;
-	export let selectedGroups: { [key: string]: boolean } = {};
+	export let groups: FacetGroup[];
 	export let showAll = false;
 	export let open = false;
 
+	let displayedGroups = structuredClone(groups);
+
+	let selected: { [key: string]: SelectedFacetGroup } = groups.reduce((acc, g) => {
+		const children = g.children.reduce((acc, c) => {
+			acc[c.name] = {
+				...c,
+				selected: false
+			};
+			return acc;
+		}, {});
+
+		acc[g.name] = {
+			...g,
+			children,
+			selected: false
+		};
+
+		return acc;
+	}, {});
+	let selectedItems: {
+		[key: string]: {
+			[key: string]: boolean;
+		};
+	} = {};
+	let selectedGroups: { [key: string]: boolean } = {};
+
+	Object.keys(selected).forEach((groupName) => {
+		selectedItems[groupName] = {};
+		Object.keys(selected[groupName].children).forEach((itemName) => {
+			selectedItems[groupName][itemName] = false;
+		});
+		selectedGroups[groupName] = false;
+	});
+
+	const dispatch = createEventDispatcher();
+	
 	const modalStore = getModalStore();
-	const showMore = (group: string) => {
+	const showMore = (group: SelectedFacetGroup) => {
 		modalStore.trigger({
 			type: 'component',
-			title: `${group}`,
+			title: `${group.displayName}`,
 			component: {
 				ref: ShowMore,
 				props: {
 					group,
 					handleSave,
-					handleCancel,
-					selected: selected[group],
-					items: groups[group].sort((a, b) => a.value.localeCompare(b.value))
+					handleCancel
 				}
 			}
 		});
 	};
 
-	const handleSave = (group: string, selectedItems: FacetOption[]) => {
-		selected[group] = selectedItems;
+	const handleSave = (group: SelectedFacetGroup) => {
+		Object.keys(group.children).forEach((key) => {
+			selectedItems[group.name][key] = group.children[key].selected;
+		});
 		modalStore.close();
 	};
 
@@ -38,77 +73,120 @@
 		modalStore.close();
 	};
 
+	const mapSelected = (type: 'items' | 'groups') => {
+		const changed: any = [];
+
+		if (type === 'items') {
+			Object.keys(selectedItems).forEach((group) => {
+				Object.keys(selectedItems[group]).forEach((item) => {
+					if (selectedItems[group][item] !== selected[group].children[item].selected) {
+						changed.push({
+							parent: group,
+							selectedItem: item
+						});
+						selected[group].children[item].selected = selectedItems[group][item];
+					}
+				});
+			});
+		} else {
+			Object.keys(selectedGroups).forEach((group) => {
+				if (selectedGroups[group] !== selected[group].selected) {
+					changed.push({
+						parent: null,
+						selectedItem: group
+					});
+					selected[group].selected = selectedGroups[group];
+				}
+			});
+		}
+
+		dispatch('change', changed);
+	};
+
 	const sortOptions = () => {
 		// Sort facets in a descending order if count exits, or sort alphabetically
-		Object.keys(groups).forEach((group) => {
-			groups[group] = [
-				...selected[group].sort((a, b) => {
+		Object.keys(selected).forEach((group) => {
+			const checked = Object.keys(selected[group].children)
+				.filter((item) => selected[group].children[item].selected)
+				.map((item) => selected[group].children[item])
+				.sort((a, b) => {
 					if (a.count != undefined && b.count != undefined) {
 						return b.count - a.count;
 					}
-					return a.value.localeCompare(b.value);
-				}),
-				...groups[group]
-					.filter((item) => !selected[group].includes(item))
-					.sort((a, b) => {
-						if (a.count != undefined && b.count != undefined) {
-							return b.count - a.count;
-						}
-						return a.value.localeCompare(b.value);
-					})
+					return a.displayName.localeCompare(b.displayName);
+				})
+				.map((item) => item.name);
+
+			const unchecked = Object.keys(selected[group].children).filter(
+				(item) => !checked.includes(item)
+			);
+
+			const groupIndex = displayedGroups.findIndex((g) => g.name === group);
+
+			displayedGroups[groupIndex].children = [
+				...checked.map(
+					(item) => displayedGroups[groupIndex].children.find((i) => i.name === item)!
+				),
+				...unchecked.map(
+					(item) => displayedGroups[groupIndex].children.find((i) => i.name === item)!
+				)
 			];
 		});
 	};
 
-	$: selected, sortOptions();
+	$: selectedItems, mapSelected('items'), sortOptions();
+	$: selectedGroups, mapSelected('groups');
 </script>
 
 <TreeView selection={groupSelection} multiple={groupSelection} padding="p-1" hover="">
-	{#each Object.keys(groups) as group}
+	{#each displayedGroups as group}
 		<TreeViewItem
-			name="groups"
-			value={group}
+			name={group.name}
+			value={group.name}
 			{open}
 			hyphenOpacity="opacity-0"
+			bind:checked={selectedGroups[group.name]}
 			bind:group={selectedGroups}
-			bind:checked={selectedGroups[group]}
 		>
-			<p class="font-semibold">{group}</p>
+			<p class="font-semibold">{group.displayName}</p>
 
 			<svelte:fragment slot="children">
 				<!-- If more than 5 choices, show the remaining in the Modal -->
 				{#if !showAll}
-					{#each groups[group].slice(0, 5) as item}
+					{#each group.children.slice(0, 5) as item}
 						<TreeViewItem
-							bind:group={selected[group]}
-							name={group}
-							value={item}
+							bind:group={selectedItems[group.name]}
+							name={item.name}
+							value={item.displayName}
 							hyphenOpacity="opacity-0"
+							bind:checked={selectedItems[group.name][item.name]}
 							spacing="space-x-3"
 							selection
 							multiple
 						>
-							<p>{item.value} ({item.count})</p>
+							<p>{item.displayName} ({item.count})</p>
 						</TreeViewItem>
 					{/each}
 					<!-- Trigger for the Modal to view all options -->
-					{#if groups[group].length > 5}
+					{#if group.children.length > 5}
 						<TreeViewItem hyphenOpacity="opacity-0">
-							<button class="anchor" on:click={() => showMore(group)}>more</button></TreeViewItem
+							<button class="anchor" on:click={() => showMore(selected[group.name])}>more</button
+							></TreeViewItem
 						>
 					{/if}
 				{:else}
-					{#each groups[group] as item}
+					{#each group.children as item}
 						<TreeViewItem
-							bind:group={selected[group]}
-							name={group}
-							value={item}
+							bind:group={selectedItems[group.name]}
+							bind:checked={selectedItems[group.name][item.name]}
+							name={item.name}
+							value={item.displayName}
 							hyphenOpacity="opacity-0"
 							spacing="space-x-3"
 							selection
 							multiple
 						>
-							<p>{item.value} ({item.count})</p>
+							<p>{item.displayName} ({item.count})</p>
 						</TreeViewItem>
 					{/each}
 				{/if}
