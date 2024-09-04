@@ -1,34 +1,17 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 	import { getModalStore, Modal, TreeView, TreeViewItem } from '@skeletonlabs/skeleton';
+	import type { Writable } from 'svelte/store';
 
 	import ShowMore from './ShowMore.svelte';
 	import type { FacetGroup, SelectedFacetGroup } from '$models/Models';
 
 	export let groupSelection = false;
-	export let groups: FacetGroup[];
+	export let groups: Writable<FacetGroup[]>;
 	export let showAll = false;
 	export let open = false;
 
-	let displayedGroups = structuredClone(groups);
-
-	let selected: { [key: string]: SelectedFacetGroup } = groups.reduce((acc, g) => {
-		const children = g.children.reduce((acc, c) => {
-			acc[c.name] = {
-				...c,
-				selected: false
-			};
-			return acc;
-		}, {});
-
-		acc[g.name] = {
-			...g,
-			children,
-			selected: false
-		};
-
-		return acc;
-	}, {});
+	let selected: { [key: string]: SelectedFacetGroup };
 	let selectedItems: {
 		[key: string]: {
 			[key: string]: boolean;
@@ -36,16 +19,8 @@
 	} = {};
 	let selectedGroups: { [key: string]: boolean } = {};
 
-	Object.keys(selected).forEach((groupName) => {
-		selectedItems[groupName] = {};
-		Object.keys(selected[groupName].children).forEach((itemName) => {
-			selectedItems[groupName][itemName] = false;
-		});
-		selectedGroups[groupName] = false;
-	});
-
 	const dispatch = createEventDispatcher();
-	
+
 	const modalStore = getModalStore();
 	const showMore = (group: SelectedFacetGroup) => {
 		modalStore.trigger({
@@ -64,7 +39,7 @@
 
 	const handleSave = (group: SelectedFacetGroup) => {
 		Object.keys(group.children).forEach((key) => {
-			selectedItems[group.name][key] = group.children[key].selected;
+			selectedItems[group.name][key] = group.children[key].selected || false;
 		});
 		modalStore.close();
 	};
@@ -100,7 +75,7 @@
 			});
 		}
 
-		dispatch('change', changed);
+		changed.length && dispatch('change', changed);
 	};
 
 	const sortOptions = () => {
@@ -134,6 +109,36 @@
 		});
 	};
 
+	groups.subscribe((data) => {
+		selected = data.reduce((acc, g) => {
+			const children = g.children.reduce((acc, c) => {
+				acc[c.name] = {
+					...c,
+					selected: c.selected || false
+				};
+				return acc;
+			}, {});
+
+			acc[g.name] = {
+				...g,
+				children,
+				selected: g.selected || false
+			};
+
+			return acc;
+		}, {});
+
+		Object.keys(selected).forEach((groupName) => {
+			selectedItems[groupName] = {};
+			Object.keys(selected[groupName].children).forEach((itemName) => {
+				selectedItems[groupName][itemName] =
+					selected[groupName].children[itemName].selected || false;
+			});
+			selectedGroups[groupName] = selected[groupName].selected || false;
+		});
+	});
+
+	$: displayedGroups = structuredClone($groups);
 	$: selectedItems, mapSelected('items'), sortOptions();
 	$: selectedGroups, mapSelected('groups');
 </script>
@@ -148,7 +153,9 @@
 			bind:checked={selectedGroups[group.name]}
 			bind:group={selectedGroups}
 		>
-			<p class="font-semibold">{group.displayName}</p>
+			<p class="font-semibold">
+				{group.displayName}{group.count !== undefined ? ` (${group.count})` : ''}
+			</p>
 
 			<svelte:fragment slot="children">
 				<!-- If more than 5 choices, show the remaining in the Modal -->
