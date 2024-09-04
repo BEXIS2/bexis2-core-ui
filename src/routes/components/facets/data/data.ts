@@ -64,9 +64,10 @@ export const groups: FacetGroup[] = [
 			{ name: 'Stephen King', displayName: 'Stephen King', count: 10 },
 			{ name: 'J.K. Rowling', displayName: 'J.K. Rowling', count: 3 },
 			{ name: 'Agatha Christie', displayName: 'Agatha Christie', count: 4 },
-			{ name: 'Dan Brown', displayName: 'Dan Brown', count: 7 }
+			{ name: 'Dan Brown', displayName: 'Dan Brown', count: 7, selected: true },
 		],
 		name: 'authors',
-		displayName: 'Authors'
+		displayName: 'Authors',
+		count: 24
 	}
 ];

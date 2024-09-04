@@ -1,20 +1,12 @@
 <script lang="ts">
+	import { writable } from 'svelte/store';
+
 	import CodeContainer from '$docs/components/CodeContainer.svelte';
 	import Facets from '$lib/components/Facets/Facets.svelte';
 	import { facetsNoGroupSelectionData, facetsGroupSelectionSvelte } from '../data/codeBlocks';
 	import { groups } from '../data/data';
 
-	let selected = {
-		Mediums: [],
-		Genres: [],
-		Authors: []
-	};
-
-	let selectedGroups = {
-		Mediums: true,
-		Genres: false,
-		Authors: false
-	};
+	const groupsStore = writable(groups);
 </script>
 
 <div id="facetsGroupSelection">
@@ -23,6 +15,6 @@
 		svelte={facetsGroupSelectionSvelte}
 		data={facetsNoGroupSelectionData}
 	>
-		<Facets {groups} bind:selected bind:selectedGroups groupSelection open />
+		<Facets groups={groupsStore} groupSelection open on:change={(e) => console.log(e)} />
 	</CodeContainer>
 </div>
