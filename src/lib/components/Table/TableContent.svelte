@@ -389,9 +389,11 @@
 				<form
 					class="flex gap-2"
 					on:submit|preventDefault={() => {
-						if (!sendModel) throw new Error('Server-side configuration is missing');
-
-						sendModel.q = searchValue;
+						if (serverSide && !sendModel) {
+throw new Error('Server-side configuration is missing');
+} else {
+sendModel.q = searchValue;
+}
 						$filterValue = searchValue;
 					}}
 				>
@@ -407,10 +409,15 @@
 							id="{tableId}-searchReset"
 							class="absolute right-3 items-center"
 							on:click|preventDefault={() => {
-								if (!sendModel) throw new Error('Server-side configuration is missing');
+								if (serverSide && !sendModel) {
+throw new Error('Server-side configuration is missing');
+} else {
+sendModel.q = '';
+}
+
+							$filterValue = searchValue;
 
 								searchValue = '';
-								sendModel.q = '';
 								$filterValue = '';
 							}}><Fa icon={faXmark} /></button
 						>
@@ -420,10 +427,13 @@
 						id="{tableId}-searchSubmit"
 						class="btn variant-filled-primary"
 						on:click|preventDefault={() => {
-							if (!sendModel) throw new Error('Server-side configuration is missing');
+							if (serverSide && !sendModel) {
+throw new Error('Server-side configuration is missing');
+} else {
+sendModel.q = searchValue;
+}
 
 							$filterValue = searchValue;
-							sendModel.q = searchValue;
 						}}>Search</button
 					>
 				</form>
