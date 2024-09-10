@@ -25,7 +25,7 @@
 
 	function clickFn(item)
 	{
-		if(item.Title =="Logoff")
+		if(item.Title =="Log Off")
 		{
 					logOffFn();
 			return;
