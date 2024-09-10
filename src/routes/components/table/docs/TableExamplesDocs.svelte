@@ -13,7 +13,7 @@
 	import TableServer from '../examples/TableServer.svelte';
 </script>
 
-<div class="grid gap-1">
+<div class="grid gap-1 w-full overflow-auto">
 	<h2 class="h2">Examples</h2>
 	<TableSimple />
 	<TableGroups />
@@ -30,7 +30,8 @@
 		<TableUrLs />
 		<TableUsersAndAdmins />
 	</div>
-	<div id="Test">
+	<div id="Server-side">
+		<h2 class="h2">Server-side tables</h2>
 		<TableServer />
 	</div>
 </div>
