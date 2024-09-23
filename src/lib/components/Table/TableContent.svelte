@@ -394,7 +394,7 @@
 						} else {
 							sendModel.q = searchValue;
 						}
-
+            
 						$filterValue = searchValue;
 					}}
 				>
