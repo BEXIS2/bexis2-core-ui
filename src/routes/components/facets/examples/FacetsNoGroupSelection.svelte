@@ -15,6 +15,6 @@
 		svelte={facetsNoGroupSelectionSvelte}
 		data={facetsNoGroupSelectionData}
 	>
-		<Facets groups={groupsStore} showAll on:change={(e) => console.log(e)} />
+		<Facets groups={groupsStore} showAll on:facetSelect={(e) => console.log(e)} />
 	</CodeContainer>
 </div>

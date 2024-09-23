@@ -3,7 +3,7 @@
 
 	export let group: SelectedFacetGroup;
 	export let handleSave: (group: SelectedFacetGroup) => {};
-	export let handleCancel: () => {};
+	export let handleCancel: (groupName: string) => {};
 
 	let selected = structuredClone(group.children);
 
@@ -25,7 +25,7 @@
 	const onCancel = () => {
 		console.log(selected, group.children);
 		selected = structuredClone(group.children);
-		handleCancel();
+		handleCancel(group.name);
 	};
 
 	const gridClass = (items: any[]) => {

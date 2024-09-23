@@ -390,10 +390,11 @@
 					class="flex gap-2"
 					on:submit|preventDefault={() => {
 						if (serverSide && !sendModel) {
-throw new Error('Server-side configuration is missing');
-} else {
-sendModel.q = searchValue;
-}
+							throw new Error('Server-side configuration is missing');
+						} else {
+							sendModel.q = searchValue;
+						}
+            
 						$filterValue = searchValue;
 					}}
 				>
@@ -410,12 +411,10 @@ sendModel.q = searchValue;
 							class="absolute right-3 items-center"
 							on:click|preventDefault={() => {
 								if (serverSide && !sendModel) {
-throw new Error('Server-side configuration is missing');
-} else {
-sendModel.q = '';
-}
-
-							$filterValue = searchValue;
+									throw new Error('Server-side configuration is missing');
+								} else {
+									sendModel.q = '';
+								}
 
 								searchValue = '';
 								$filterValue = '';
@@ -428,10 +427,10 @@ sendModel.q = '';
 						class="btn variant-filled-primary"
 						on:click|preventDefault={() => {
 							if (serverSide && !sendModel) {
-throw new Error('Server-side configuration is missing');
-} else {
-sendModel.q = searchValue;
-}
+								throw new Error('Server-side configuration is missing');
+							} else {
+								sendModel.q = searchValue;
+							}
 
 							$filterValue = searchValue;
 						}}>Search</button
@@ -574,6 +573,13 @@ sendModel.q = searchValue;
 						{/each}
 					</tbody>
 				</table>
+				{#if $pageRows.length === 0}
+					<div
+						class="p-8 flex items-center justify-center bg-tertiary-500/30 dark:bg-tertiary-900/10"
+					>
+						No rows available
+					</div>
+				{/if}
 			</div>
 		</div>
 	{:else}

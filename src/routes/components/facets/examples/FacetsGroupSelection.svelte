@@ -15,6 +15,13 @@
 		svelte={facetsGroupSelectionSvelte}
 		data={facetsNoGroupSelectionData}
 	>
-		<Facets groups={groupsStore} groupSelection open on:change={(e) => console.log(e)} />
+		<Facets
+			groups={groupsStore}
+			groupSelection
+			open
+			on:facetSelect={(e) => console.log(e)}
+			on:showMoreSelect={(e) => console.log(e)}
+			on:showMoreOpenChange={(e) => console.log(e)}
+		/>
 	</CodeContainer>
 </div>

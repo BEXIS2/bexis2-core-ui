@@ -117,11 +117,7 @@
 	<div class="flex justify-end items-center">
 		<span class="text-sm text-gray-500">
 			{#if $pageCount > 0}
-				{#if $pageCount == 1}
-					1 page
-				{:else}
-					{$pageCount} pages
-				{/if}
+				Page {$pageIndex + 1} of {$pageCount}
 			{:else}
 				No pages
 			{/if}
