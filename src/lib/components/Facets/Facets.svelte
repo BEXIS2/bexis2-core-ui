@@ -11,18 +11,14 @@
 	export let showAll = false;
 	export let open = false;
 
-	let selected: { [key: string]: SelectedFacetGroup };
-	let selectedItems: {
-		[key: string]: {
-			[key: string]: boolean;
-		};
-	} = {};
-	let selectedGroups: { [key: string]: boolean } = {};
+	export const showMore = (groupName: string) => {
+		const group: SelectedFacetGroup = selected[groupName];
 
-	const dispatch = createEventDispatcher();
+		dispatch('showMoreOpenChange', {
+			group: group.name,
+			open: true
+		});
 
-	const modalStore = getModalStore();
-	const showMore = (group: SelectedFacetGroup) => {
 		modalStore.trigger({
 			type: 'component',
 			title: `${group.displayName}`,
@@ -37,14 +33,50 @@
 		});
 	};
 
+	let selected: { [key: string]: SelectedFacetGroup };
+	let selectedItems: {
+		[key: string]: {
+			[key: string]: boolean;
+		};
+	} = {};
+	let selectedGroups: { [key: string]: boolean } = {};
+
+	const dispatch = createEventDispatcher();
+
+	const modalStore = getModalStore();
+
 	const handleSave = (group: SelectedFacetGroup) => {
-		Object.keys(group.children).forEach((key) => {
-			selectedItems[group.name][key] = group.children[key].selected || false;
+		const { name: groupName, children } = group;
+
+		dispatch('showMoreOpenChange', {
+			group: groupName,
+			open: false
 		});
+
+		for (const key in children) {
+			const selectedValue = children[key].selected || false;
+			selectedItems[groupName][key] = selectedValue;
+
+			if (selected[groupName].children[key].selected !== selectedValue) {
+				selected[groupName].children[key].selected = selectedValue;
+			}
+		}
+
+		dispatch('showMoreSelect', [
+			{
+				parent: groupName,
+				selected: Object.keys(children).map((key) => children[key].selected)
+			}
+		]);
+
 		modalStore.close();
 	};
 
-	const handleCancel = () => {
+	const handleCancel = (groupName: string) => {
+		dispatch('showMoreOpenChange', {
+			group: groupName,
+			open: false
+		});
 		modalStore.close();
 	};
 
@@ -75,9 +107,10 @@
 			});
 		}
 
-		changed.length && dispatch('change', changed);
+		changed.length && dispatch('facetSelect', changed);
 	};
 
+	// Keeping the sorting function, but stays unused for now
 	const sortOptions = () => {
 		// Sort facets in a descending order if count exits, or sort alphabetically
 		Object.keys(selected).forEach((group) => {
@@ -139,7 +172,7 @@
 	});
 
 	$: displayedGroups = structuredClone($groups);
-	$: selectedItems, mapSelected('items'), sortOptions();
+	$: selectedItems, mapSelected('items'); // sortOptions(); // Sorting is not used for now
 	$: selectedGroups, mapSelected('groups');
 </script>
 
@@ -177,7 +210,7 @@
 					<!-- Trigger for the Modal to view all options -->
 					{#if group.children.length > 5}
 						<TreeViewItem hyphenOpacity="opacity-0">
-							<button class="anchor" on:click={() => showMore(selected[group.name])}>more</button
+							<button class="anchor" on:click={() => showMore(group.name)}>more</button
 							></TreeViewItem
 						>
 					{/if}
