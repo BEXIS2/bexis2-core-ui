@@ -238,6 +238,7 @@
 		class:variant-filled-primary={active}
 		class="btn w-max p-2"
 		type="button"
+		title="Filter"
 		use:popup={popupFeatured}
 		id="{popupId}-button"
 	>
@@ -249,6 +250,7 @@
 			<button
 				class="btn variant-filled-primary btn-sm"
 				type="button"
+				title="Clear Filters"
 				on:click|preventDefault={() => {
 					// Set the defaults when cleared
 					clearFilters();
@@ -281,7 +283,10 @@
 							</select>
 							{#if dropdowns.length > 1}
 								<div
+									role="button"
+									tabindex="0"
 									class="btn variant-filled-warning btn-sm h-full"
+									title="Remove filter"
 									on:click|preventDefault={() => removeFilter(dropdown.option)}
 									on:keydown|preventDefault={() => removeFilter(dropdown.option)}
 								>
@@ -293,6 +298,7 @@
 						{#if type === 'number' || type === 'string'}
 							<input
 								type="text"
+								title="Filter value"
 								class="input p-1 border border-primary-500"
 								on:input={(e) => valueChangeHandler(e, index)}
 								bind:value={dropdown.value}
@@ -300,6 +306,7 @@
 						{:else}
 							<input
 								type="date"
+								title="Filter value"
 								class="input p-1 border border-primary-500"
 								on:input={(e) => valueChangeHandler(e, index)}
 								bind:value={dropdown.formValue}
@@ -315,6 +322,8 @@
 			{#if remainingFilters.length}
 				<div
 					class="btn variant-filled-secondary btn-sm cursor-pointer"
+					role="button"
+					tabindex="0"
 					on:click|stopPropagation={() => {
 						addFilter(remainingFilters[0].value, undefined);
 					}}
@@ -328,6 +337,7 @@
 			<button
 				class="btn variant-filled-primary btn-sm"
 				type="button"
+				title="Apply"
 				on:click|preventDefault={() => {
 					$pageIndex = 0;
 					$filterValue = $filters[id];

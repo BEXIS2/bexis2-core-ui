@@ -16,7 +16,7 @@
 	function onMouseOut() {}
 </script>
 
-<div id="{id}-container" on:mouseover={onMouseOver} on:focus={onMouseOver} on:mouseout={onMouseOut} on:blur={onMouseOut}>
+<div id="{id}-container" role="group" on:mouseover={onMouseOver} on:focus={onMouseOver} on:mouseout={onMouseOut} on:blur={onMouseOut}>
 	<label class="label">
 		<span
 			>{label}

@@ -14,6 +14,7 @@
 
 <button
 	type="button"
+	title="Hide or show columns"
 	class="btn btn-sm variant-filled-primary rounded-full order-last"
 	use:popup={popupCombobox}>Columns</button
 >
@@ -24,8 +25,10 @@
 >
 	{#each columns as column}
 		<div class="flex gap-3 items-center">
+			<label for={column.id} class="cursor-pointer" title={column.label}></label>
 			<input
 				type="checkbox"
+				id = {column.id}
 				bind:checked={column.visible}
 				disabled={columns.filter((c) => c.visible).length === 1 && column.visible}
 			/>

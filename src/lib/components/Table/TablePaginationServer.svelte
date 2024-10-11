@@ -84,6 +84,7 @@
 	<div class="flex justify-center gap-1">
 		<button
 			class="btn btn-sm variant-filled-primary"
+			title="Go to first page"
 			on:click|preventDefault={() => goTo('first')}
 			disabled={goToFirstPageDisabled}
 			id="{id}-first"
@@ -92,6 +93,7 @@
 		>
 		<button
 			class="btn btn-sm variant-filled-primary"
+			title="Go to previous page"
 			id="{id}-previous"
 			on:click|preventDefault={() => goTo('previous')}
 			disabled={goToPreviousPageDisabled}><Fa icon={faAngleLeft} /></button
@@ -99,6 +101,7 @@
 		<input
 			type="number"
 			class="input border border-primary-500 rounded flex w-24"
+			title="Go to page"
 			value={$pageIndex + 1}
 			max={pageCount}
 			min={1}
@@ -106,12 +109,14 @@
 		/>
 		<button
 			class="btn btn-sm variant-filled-primary"
+			title="Go to next page"
 			id="{id}-next"
 			on:click|preventDefault={() => goTo('next')}
 			disabled={goToNextPageDisabled}><Fa icon={faAngleRight} /></button
 		>
 		<button
 			class="btn btn-sm variant-filled-primary"
+			title="Go to last page"
 			id="{id}-last"
 			on:click|preventDefault={() => goTo('last')}
 			disabled={goToLastPageDisabled}><Fa icon={faAnglesRight} /></button
