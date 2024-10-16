@@ -39,7 +39,7 @@
 <InputContainer {id} label={title} {feedback} {required} {help}>
 	<select
 		{id}
-		class="select variant-form-material"
+		class="select variant-form-material dark:bg-zinc-700 bg-zinc-50 placeholder:text-gray-400"
 		class:input-success={valid}
 		class:input-error={invalid}
 		bind:value={selected}
