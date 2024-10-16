@@ -15,6 +15,7 @@
 <button
 	type="button"
 	class="btn btn-sm variant-filled-primary rounded-full order-last"
+	aria-label="Open menu to hide/show columns"
 	use:popup={popupCombobox}>Columns</button
 >
 
@@ -25,6 +26,7 @@
 	{#each columns as column}
 		<div class="flex gap-3 items-center">
 			<input
+				aria-label="Toggle column visibility for column {column.label}"
 				type="checkbox"
 				bind:checked={column.visible}
 				disabled={columns.filter((c) => c.visible).length === 1 && column.visible}

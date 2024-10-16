@@ -394,7 +394,7 @@
 						} else {
 							sendModel.q = searchValue;
 						}
-            
+
 						$filterValue = searchValue;
 					}}
 				>
@@ -409,6 +409,7 @@
 							type="reset"
 							id="{tableId}-searchReset"
 							class="absolute right-3 items-center"
+							aria-label="Clear search"
 							on:click|preventDefault={() => {
 								if (serverSide && !sendModel) {
 									throw new Error('Server-side configuration is missing');
