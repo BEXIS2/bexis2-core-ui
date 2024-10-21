@@ -54,7 +54,7 @@
 		{#each Object.keys(selected) as key}
 			<label class="flex gap-3 items-center w-52">
 				<input type="checkbox" class="checkbox" bind:checked={selected[key].selected} />
-				<span class="whitespace-nowrap break-before-avoid break-after-avoid"
+				<span title={selected[key].displayName} class="whitespace-nowrap break-before-avoid break-after-avoid truncate"
 					>{selected[key].displayName}</span
 				>
 			</label>
