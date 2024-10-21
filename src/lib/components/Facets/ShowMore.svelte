@@ -2,7 +2,7 @@
 	import type { SelectedFacetGroup } from '$models/Models';
 
 	export let group: SelectedFacetGroup;
-	export let handleSave: (group: SelectedFacetGroup) => {};
+	export let handleApply: (group: SelectedFacetGroup) => {};
 	export let handleCancel: (groupName: string) => {};
 
 	let selected = structuredClone(group.children);
@@ -15,8 +15,8 @@
 		Object.keys(selected).forEach((key) => (selected[key].selected = false));
 	};
 
-	const onSave = () => {
-		handleSave({
+	const onApply = () => {
+		handleApply({
 			...group,
 			children: selected
 		});
@@ -82,7 +82,7 @@
 			<button class="btn btn-sm variant-filled-tertiary" on:click={selectAll}>All</button>
 		</div>
 		<div class="flex gap-3">
-			<button class="btn btn-sm variant-filled-primary" on:click={onSave}>Save</button>
+			<button class="btn btn-sm variant-filled-primary" on:click={onApply}>Apply</button>
 			<button class="btn btn-sm variant-filled-secondary" on:click={onCancel}>Cancel</button>
 		</div>
 	</div>

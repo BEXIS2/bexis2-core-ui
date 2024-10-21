@@ -26,7 +26,7 @@
 				ref: ShowMore,
 				props: {
 					group,
-					handleSave,
+					handleApply,
 					handleCancel
 				}
 			}
@@ -45,7 +45,7 @@
 
 	const modalStore = getModalStore();
 
-	const handleSave = (group: SelectedFacetGroup) => {
+	const handleApply = (group: SelectedFacetGroup) => {
 		const { name: groupName, children } = group;
 
 		dispatch('showMoreOpenChange', {
