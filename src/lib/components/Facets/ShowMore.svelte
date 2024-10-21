@@ -28,33 +28,47 @@
 		handleCancel(group.name);
 	};
 
-	const maxHeightClass = (items: any[]) => {
-		if (items.length >= 50) {
-			return 'max-h-[500px]';
-		} else if (items.length >= 30) {
-			return 'max-h-[400px]';
-		} else if (items.length >= 20) {
-			return 'max-h-[300px]';
-		}
+	const gridClass = (items: any[]) => {
+		const ceil = Math.ceil(Math.sqrt(items.length));
+		const max = Math.max(ceil, Math.floor(items.length / 3));
 
-		return 'max-h-[200px]';
+		const classes = [
+			'grid-rows-1',
+			'grid-rows-2',
+			'grid-rows-3',
+			'grid-rows-4',
+			'grid-rows-5',
+			'grid-rows-6',
+			'grid-rows-7',
+			'grid-rows-8',
+			'grid-rows-9',
+			'grid-rows-10',
+			'grid-rows-11',
+			'grid-rows-12'
+		];
+
+		if (max > 12) {
+			return 'grid-rows-12';
+		} else return classes[max - 1 || 1];
 	};
 </script>
 
-<div class="p-5 rounded-md bg-surface-50 dark:bg-surface-800 border-primary-500 border-2">
+<div class="p-5 rounded-md max-w-6xl bg-surface-50 dark:bg-surface-800 border-primary-500 border-2">
 	<!-- Header -->
 	<h2 class="text-xl font-semibold">{group.displayName}</h2>
 
 	<!-- Items -->
 	<div
-		class="flex flex-wrap flex-col overflow-x-auto !gap-x-20 gap-y-2 py-10 px-2 max-w-6xl h-min {maxHeightClass(
+		class="{gridClass(
 			Object.keys(selected)
-		)}"
+		)} grid grid-flow-col gap-x-10 gap-y-2 py-10 px-2 h-full overflow-x-auto"
 	>
 		{#each Object.keys(selected) as key}
-			<label class="flex gap-3 items-center w-52">
+			<label class="flex gap-3 items-center w-48">
 				<input type="checkbox" class="checkbox" bind:checked={selected[key].selected} />
-				<span title={selected[key].displayName} class="whitespace-nowrap break-before-avoid break-after-avoid truncate"
+				<span
+					title={selected[key].displayName}
+					class="whitespace-nowrap break-before-avoid break-after-avoid truncate"
 					>{selected[key].displayName}</span
 				>
 			</label>
