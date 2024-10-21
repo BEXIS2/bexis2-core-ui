@@ -28,16 +28,16 @@
 		handleCancel(group.name);
 	};
 
-	const gridClass = (items: any[]) => {
+	const maxHeightClass = (items: any[]) => {
 		if (items.length >= 50) {
-			return 'grid-cols-5';
+			return 'max-h-[500px]';
 		} else if (items.length >= 30) {
-			return 'grid-cols-4';
+			return 'max-h-[400px]';
 		} else if (items.length >= 20) {
-			return 'grid-cols-3';
+			return 'max-h-[300px]';
 		}
 
-		return 'grid-cols-2';
+		return 'max-h-[200px]';
 	};
 </script>
 
@@ -47,12 +47,12 @@
 
 	<!-- Items -->
 	<div
-		class="grid {gridClass(
+		class="flex flex-wrap flex-col overflow-x-auto !gap-x-20 gap-y-2 py-10 px-2 max-w-6xl h-min {maxHeightClass(
 			Object.keys(selected)
-		)} !gap-x-20 gap-y-2 py-10 px-2 max-h-[1000px] overflow-x-auto max-w-6xl"
+		)}"
 	>
 		{#each Object.keys(selected) as key}
-			<label class="flex gap-3 items-center">
+			<label class="flex gap-3 items-center w-52">
 				<input type="checkbox" class="checkbox" bind:checked={selected[key].selected} />
 				<span class="whitespace-nowrap break-before-avoid break-after-avoid"
 					>{selected[key].displayName}</span
