@@ -204,7 +204,12 @@
 							selection
 							multiple
 						>
-							<p>{item.displayName} ({item.count})</p>
+							<div class="flex gap-2">
+								<p class="w-max grow truncate">
+									<span title={item.displayName}>{item.displayName}</span>
+								</p>
+								<span>({item.count})</span>
+							</div>
 						</TreeViewItem>
 					{/each}
 					<!-- Trigger for the Modal to view all options -->
