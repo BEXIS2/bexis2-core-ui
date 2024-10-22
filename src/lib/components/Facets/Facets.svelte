@@ -186,7 +186,7 @@
 			bind:checked={selectedGroups[group.name]}
 			bind:group={selectedGroups}
 		>
-			<p class="font-semibold">
+			<p class="font-semibold whitespace-nowrap">
 				{group.displayName}{group.count !== undefined ? ` (${group.count})` : ''}
 			</p>
 
@@ -231,7 +231,12 @@
 							selection
 							multiple
 						>
-							<p>{item.displayName} ({item.count})</p>
+							<div class="flex gap-2">
+								<p class="w-max grow truncate">
+									<span title={item.displayName}>{item.displayName}</span>
+								</p>
+								<span>({item.count})</span>
+							</div>
 						</TreeViewItem>
 					{/each}
 				{/if}
