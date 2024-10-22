@@ -110,9 +110,8 @@
 		changed.length && dispatch('facetSelect', changed);
 	};
 
-	// Keeping the sorting function, but stays unused for now
 	const sortOptions = () => {
-		// Sort facets in a descending order if count exits, or sort alphabetically
+		// Sort facets in a descending order if count exits
 		Object.keys(selected).forEach((group) => {
 			const checked = Object.keys(selected[group].children)
 				.filter((item) => selected[group].children[item].selected)
@@ -121,13 +120,20 @@
 					if (a.count != undefined && b.count != undefined) {
 						return b.count - a.count;
 					}
-					return a.displayName.localeCompare(b.displayName);
+					return 0;
 				})
 				.map((item) => item.name);
 
-			const unchecked = Object.keys(selected[group].children).filter(
-				(item) => !checked.includes(item)
-			);
+			const unchecked = Object.keys(selected[group].children)
+				.filter((item) => !checked.includes(item))
+				.map((item) => selected[group].children[item])
+				.sort((a, b) => {
+					if (a.count != undefined && b.count != undefined) {
+						return b.count - a.count;
+					}
+					return 0;
+				})
+				.map((item) => item.name);
 
 			const groupIndex = displayedGroups.findIndex((g) => g.name === group);
 
@@ -172,7 +178,7 @@
 	});
 
 	$: displayedGroups = structuredClone($groups);
-	$: selectedItems, mapSelected('items'); // sortOptions(); // Sorting is not used for now
+	$: selectedItems, mapSelected('items'), sortOptions();
 	$: selectedGroups, mapSelected('groups');
 </script>
 
