@@ -4,8 +4,6 @@
 	import Select from 'svelte-select';
 	import { onMount } from 'svelte';
 
-
-
 	export let source;
 	export let target;
 	export let id;
@@ -35,16 +33,14 @@
 	$: groupBy;
 
 	function updateTarget(selection) {
+		console.log('updateTarget', target, selection, isMulti);
+		if (selection == undefined) {
+			console.log('no update');
 
-		console.log("updateTarget", target, selection, isMulti);
-  if(selection == undefined)
-		{
-		  console.log("no update");
-
-				return;
+			return;
 		}
 
-		console.log("update");
+		console.log('update');
 		//different cases
 		//a) source is complex model is simple return array
 		if (complexSource && !complexTarget && isLoaded && isMulti) {
@@ -75,8 +71,8 @@
 		}
 
 		if (!complexSource && !complexTarget && isLoaded && !isMulti) {
-			console.log("🚀 ~ updateTarget ~ selection:", selection)
-			if(selection){
+			console.log('🚀 ~ updateTarget ~ selection:', selection);
+			if (selection) {
 				target = selection.value;
 			}
 		}
@@ -167,118 +163,116 @@
 		//console.log(t,value)
 	}
 
-function filterItemStartFn(label, filterText, option) {
-	// console.log(label, filterText, option);
-	let itemFilter = label.toLowerCase().startsWith(filterText.toLowerCase());
+	function filterItemStartFn(label, filterText, option) {
+		// console.log(label, filterText, option);
+		let itemFilter = label.toLowerCase().startsWith(filterText.toLowerCase());
 
-	return itemFilter;
-}
+		return itemFilter;
+	}
 
-function filterItemExactFn(label, filterText, option) {
-	// console.log(label, filterText, option);
-	let itemFilter = label.toLowerCase() == filterText.toLowerCase();
+	function filterItemExactFn(label, filterText, option) {
+		// console.log(label, filterText, option);
+		let itemFilter = label.toLowerCase() == filterText.toLowerCase();
 
-	return itemFilter;
-}
+		return itemFilter;
+	}
 
-function filterItemIncludesFn(label, filterText, option) {
-	// console.log(label, filterText, option);
-	let itemFilter = label.toLowerCase().includes(filterText.toLowerCase());
+	function filterItemIncludesFn(label, filterText, option) {
+		// console.log(label, filterText, option);
+		let itemFilter = label.toLowerCase().includes(filterText.toLowerCase());
 
-	return itemFilter;
-}
+		return itemFilter;
+	}
 
-function filterFn({
-    loadOptions,
-    filterText,
-    items,
-    multiple,
-    value,
-    itemId,
-    groupBy,
-    filterSelectedItems,
-    itemFilter,
-    convertStringItemsToObjects,
-    filterGroupedItems,
-    label,
-}) {
-    if (items && loadOptions) return items;
-    if (!items) return [];
+	function filterFn({
+		loadOptions,
+		filterText,
+		items,
+		multiple,
+		value,
+		itemId,
+		groupBy,
+		filterSelectedItems,
+		itemFilter,
+		convertStringItemsToObjects,
+		filterGroupedItems,
+		label
+	}) {
+		if (items && loadOptions) return items;
+		if (!items) return [];
 
-    if (items && items.length > 0 && typeof items[0] !== 'object') {
-        items = convertStringItemsToObjects(items);
-    }
+		if (items && items.length > 0 && typeof items[0] !== 'object') {
+			items = convertStringItemsToObjects(items);
+		}
 
-    let filterResults = filterListFn(items, label, filterText,multiple,value,filterSelectedItems, itemId)
+		let filterResults = filterListFn(
+			items,
+			label,
+			filterText,
+			multiple,
+			value,
+			filterSelectedItems,
+			itemId
+		);
 
-    if (groupBy) {
-        filterResults = filterGroupedItems(filterResults, label, filterText);
-    }
+		if (groupBy) {
+			filterResults = filterGroupedItems(filterResults, label, filterText);
+		}
 
-    return filterResults;
-}
+		return filterResults;
+	}
 
-// filter checks 3 types, exact, starts, includes
-function filterListFn(items ,label , filterText, multiple, value, filterSelectedItems, itemId)
-{
-
-	 if (!items) return [];
+	// filter checks 3 types, exact, starts, includes
+	function filterListFn(items, label, filterText, multiple, value, filterSelectedItems, itemId) {
+		if (!items) return [];
 
 		let exact = items.filter((item) => {
-						let matchesFilter = filterItemExactFn(item[label], filterText, item);
-						if (matchesFilter && multiple && value?.length) {
-            matchesFilter = !value.some((x) => {
-                return filterSelectedItems ? x[itemId] === item[itemId] : false;
-            });
-        }
+			let matchesFilter = filterItemExactFn(item[label], filterText, item);
+			if (matchesFilter && multiple && value?.length) {
+				matchesFilter = !value.some((x) => {
+					return filterSelectedItems ? x[itemId] === item[itemId] : false;
+				});
+			}
 
-							return matchesFilter;
-    });
+			return matchesFilter;
+		});
 
 		let starts = items.filter((item) => {
-				let matchesFilter = filterItemStartFn(item[label], filterText, item);
-						if (matchesFilter && multiple && value?.length) {
-            matchesFilter = !value.some((x) => {
-                return filterSelectedItems ? x[itemId] === item[itemId] : false;
-            });
-        }
+			let matchesFilter = filterItemStartFn(item[label], filterText, item);
+			if (matchesFilter && multiple && value?.length) {
+				matchesFilter = !value.some((x) => {
+					return filterSelectedItems ? x[itemId] === item[itemId] : false;
+				});
+			}
 
-							return matchesFilter;
+			return matchesFilter;
+		});
 
-    });
+		let includes = items.filter((item) => {
+			let matchesFilter = filterItemIncludesFn(item[label], filterText, item);
+			if (matchesFilter && multiple && value?.length) {
+				matchesFilter = !value.some((x) => {
+					return filterSelectedItems ? x[itemId] === item[itemId] : false;
+				});
+			}
 
-			let includes = items.filter((item) => {
-				let matchesFilter = filterItemIncludesFn(item[label], filterText, item);
-						if (matchesFilter && multiple && value?.length) {
-            matchesFilter = !value.some((x) => {
-                return filterSelectedItems ? x[itemId] === item[itemId] : false;
-            });
-        }
+			return matchesFilter;
+		});
 
-							return matchesFilter;
-    });
+		let result = [...exact, ...starts, ...includes];
+		return [...new Set(result)];
+	}
 
-	 
-				let result =  [...exact,...starts,...includes];
-				return [...new Set(result)];
-}
-
-function clearFn(e)
-{
-	 console.log("clear", target, e);
-		if(isMulti)
-		{
-				target = [];
-		}
-		else
-		{
-			target="";
+	function clearFn(e) {
+		console.log('clear', target, e);
+		if (isMulti) {
+			target = [];
+		} else {
+			target = '';
 		}
 
-	 console.log("after clear", target);
-}
-
-
+		console.log('after clear', target);
+	}
 </script>
 
 <InputContainer {id} label={title} {feedback} {required} {help}>
@@ -295,7 +289,7 @@ function clearFn(e)
 		{loading}
 		{clearable}
 		{disabled}
-  filter={filterFn}
+		filter={filterFn}
 		on:change
 		on:input
 		on:focus

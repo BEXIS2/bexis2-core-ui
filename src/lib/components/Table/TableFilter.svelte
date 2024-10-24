@@ -238,9 +238,9 @@
 		class:variant-filled-primary={active}
 		class="btn w-max p-2"
 		type="button"
-		title="Filter"
 		use:popup={popupFeatured}
 		id="{popupId}-button"
+		aria-label="Open filter menu for column {id}"
 	>
 		<Fa icon={faFilter} size="12" />
 	</button>
@@ -250,7 +250,7 @@
 			<button
 				class="btn variant-filled-primary btn-sm"
 				type="button"
-				title="Clear Filters"
+				aria-label="Clear Filters"
 				on:click|preventDefault={() => {
 					// Set the defaults when cleared
 					clearFilters();
@@ -275,6 +275,7 @@
 								{#each options[type] as option (option)}
 									<option
 										value={option.value}
+										aria-label={option.label}
 										selected={dropdown.option === option.value}
 										disabled={Object.keys($filters[id]).includes(option.value) &&
 											dropdown.option !== option.value}>{option.label}</option
@@ -286,7 +287,7 @@
 									role="button"
 									tabindex="0"
 									class="btn variant-filled-warning btn-sm h-full"
-									title="Remove filter"
+									aria-label="Remove filter"
 									on:click|preventDefault={() => removeFilter(dropdown.option)}
 									on:keydown|preventDefault={() => removeFilter(dropdown.option)}
 								>
@@ -298,18 +299,18 @@
 						{#if type === 'number' || type === 'string'}
 							<input
 								type="text"
-								title="Filter value"
 								class="input p-1 border border-primary-500"
 								on:input={(e) => valueChangeHandler(e, index)}
 								bind:value={dropdown.value}
+								aria-label="Filter value"
 							/>
 						{:else}
 							<input
 								type="date"
-								title="Filter value"
 								class="input p-1 border border-primary-500"
 								on:input={(e) => valueChangeHandler(e, index)}
 								bind:value={dropdown.formValue}
+								aria-label="Filter value"
 							/>
 						{/if}
 					</div>
@@ -330,6 +331,7 @@
 					on:keydown|stopPropagation={() => {
 						addFilter(remainingFilters[0].value, undefined);
 					}}
+					aria-label="Add filter"
 				>
 					<div class="flex gap-1 items-center"><Fa icon={faPlus} />Add Filter</div>
 				</div>
@@ -337,7 +339,7 @@
 			<button
 				class="btn variant-filled-primary btn-sm"
 				type="button"
-				title="Apply"
+				aria-label="Apply filters"
 				on:click|preventDefault={() => {
 					$pageIndex = 0;
 					$filterValue = $filters[id];

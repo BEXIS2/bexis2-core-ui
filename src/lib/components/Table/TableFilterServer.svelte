@@ -233,6 +233,7 @@
 		type="button"
 		use:popup={popupFeatured}
 		id="{popupId}-button"
+		aria-label="Open filter menu for column {id}"
 	>
 		<Fa icon={faFilter} size="12" />
 	</button>
@@ -242,6 +243,7 @@
 			<button
 				class="btn variant-filled-primary btn-sm"
 				type="button"
+				aria-label="Clear Filters"
 				on:click|preventDefault={() => {
 					// Set the defaults when cleared
 					clearFilters();
@@ -264,6 +266,7 @@
 								{#each options[type] as option (option)}
 									<option
 										value={option.value}
+										aria-label={option.label}
 										selected={dropdown.option === option.value}
 										disabled={Object.keys($filters[id]).includes(option.value) &&
 											dropdown.option !== option.value}>{option.label}</option
@@ -277,7 +280,8 @@
 									class="btn variant-filled-warning btn-sm h-full"
 									on:click|preventDefault={() => removeFilter(dropdown.option)}
 									on:keydown|preventDefault={() => removeFilter(dropdown.option)}
-								>
+									aria-label="Remove filter"
+									>
 									<Fa icon={faXmark} />
 								</div>
 							{/if}
@@ -296,6 +300,7 @@
 								class="input p-1 border border-primary-500"
 								on:input={(e) => valueChangeHandler(e, index)}
 								bind:value={dropdown.value}
+								aria-label="Filter value"
 							/>
 						{:else}
 							<input
@@ -303,6 +308,7 @@
 								class="input p-1 border border-primary-500"
 								on:input={(e) => valueChangeHandler(e, index)}
 								bind:value={dropdown.value}
+								aria-label="Filter value"
 							/>
 						{/if}
 					</div>
@@ -315,6 +321,7 @@
 			{#if remainingFilters.length}
 				<div
 					class="btn variant-filled-secondary btn-sm cursor-pointer"
+					aria-label="Add filter"
 					role="button"
 					tabindex="0"
 					on:click|stopPropagation={() => {
@@ -330,6 +337,7 @@
 			<button
 				class="btn variant-filled-primary btn-sm"
 				type="button"
+				aria-label="Apply filters"
 				on:click|preventDefault={applyFilters}>Apply</button
 			>
 		</div>
