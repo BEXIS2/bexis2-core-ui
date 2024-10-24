@@ -15,7 +15,7 @@
 <InputContainer {id} {label} {feedback} {required} {help}>
 	<input
 		{id}
-		class="input variant-form-material"
+		class="input variant-form-material bg-zinc-50 dark:bg-zinc-700 placeholder:text-gray-400"
 		type="date"
 		class:input-success={valid}
 		class:input-error={invalid}

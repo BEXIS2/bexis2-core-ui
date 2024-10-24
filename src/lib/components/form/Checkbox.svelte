@@ -14,7 +14,7 @@
 <InputContainer {label} {feedback} {required}>
 	<input
 		{id}
-		class="input variant-form-material"
+		class="input variant-form-material bg-zinc-50 dark:bg-zinc-50"
 		type="checkbox"
 		class:input-success={valid}
 		class:input-error={invalid}
