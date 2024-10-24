@@ -165,9 +165,9 @@
 					header: header ?? key,
 					accessor: accessor,
 					// Render the cell with the provided component, or use the toStringFn if provided, or just use the value
-					cell: ({ value, row }) => {
+					cell: ({ value, row, column }) => {
 						return renderComponent
-							? createRender(renderComponent, { value, row, dispatchFn: actionDispatcher })
+							? createRender(renderComponent, { value, row, column, dispatchFn: actionDispatcher })
 							: toStringFn
 							? toStringFn(value)
 							: value;
