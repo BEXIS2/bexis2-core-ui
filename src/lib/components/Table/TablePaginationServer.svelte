@@ -85,6 +85,7 @@
 	<div class="flex justify-center gap-1">
 		<button
 			class="btn btn-sm variant-filled-primary"
+			title="Go to first page"
 			on:click|preventDefault={() => goTo('first')}
 			disabled={goToFirstPageDisabled}
 			aria-label="Go to first page"
@@ -94,6 +95,7 @@
 		>
 		<button
 			class="btn btn-sm variant-filled-primary"
+			title="Go to previous page"
 			id="{id}-previous"
 			aria-label="Go to previous page"
 			on:click|preventDefault={() => goTo('previous')}

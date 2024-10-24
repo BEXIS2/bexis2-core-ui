@@ -402,11 +402,13 @@
 						<input
 							class="input p-2 border border-primary-500"
 							type="text"
+							title="Search within all table rows"
 							bind:value={searchValue}
 							placeholder="Search rows..."
 							id="{tableId}-search"
 						/><button
 							type="reset"
+							title="Clear search"
 							id="{tableId}-searchReset"
 							class="absolute right-3 items-center"
 							aria-label="Clear search"
@@ -424,6 +426,7 @@
 					</div>
 					<button
 						type="submit"
+						title="Search"
 						id="{tableId}-searchSubmit"
 						class="btn variant-filled-primary"
 						on:click|preventDefault={() => {
@@ -449,6 +452,7 @@
 					{#if toggle}
 						<SlideToggle
 							name="slider-label"
+							label="Fit to screen"
 							active="bg-primary-500"
 							size="sm"
 							checked={fitToScreen}
@@ -462,6 +466,7 @@
 					{#if resizable !== 'none'}
 						<button
 							type="button"
+							title="Reset column and row sizing"
 							class="btn btn-sm variant-filled-primary rounded-full order-last"
 							on:click|preventDefault={() =>
 								resetResize($headerRows, $pageRows, tableId, columns, resizable)}
@@ -471,6 +476,7 @@
 					{#if exportable}
 						<button
 							type="button"
+							title="Export table data as CSV"
 							class="btn btn-sm variant-filled-primary rounded-full order-last"
 							on:click|preventDefault={() => exportAsCsv(tableId, $exportedData)}
 							>Export as CSV</button
@@ -487,6 +493,7 @@
 					{...$tableAttrs}
 					class="table table-auto table-compact bg-tertiary-500/30 dark:bg-tertiary-900/10 overflow-clip"
 					id="{tableId}-table"
+					title="Table"
 				>
 					<!-- If table height is provided, making the top row sticky -->
 					<thead class={height != null && $pageRows.length > 0 ? `sticky top-0` : ''}>
@@ -512,6 +519,8 @@
 														<div class="flex gap-1 whitespace-pre-wrap">
 															<!-- Adding sorting config and styling -->
 															<span
+																role="button"
+																tabindex="0"
 																class:underline={props.sort.order}
 																class:normal-case={cell.id !== cell.label}
 																class:cursor-pointer={!props.sort.disabled}

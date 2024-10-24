@@ -60,13 +60,13 @@
 			><div class="flex justify-center py-2">
 				<LightSwitch />
 			</div>
-			<AppRailTile label="General" title="Tile" value={'general'} on:click={onListItemClick}
+			<AppRailTile label="General" title="General" value={'general'} on:click={onListItemClick}
 				><i class="fa-solid fa-screwdriver-wrench text-2xl" /></AppRailTile
 			>
-			<AppRailTile label="Theme" title="Tile" value={'theme'} on:click={onListItemClick}
+			<AppRailTile label="Theme" title="Theme" value={'theme'} on:click={onListItemClick}
 				><i class="fa-solid fa-code-compare text-2xl" /></AppRailTile
 			>
-			<AppRailTile label="Components" title="Tile" value={'components'} on:click={onListItemClick}
+			<AppRailTile label="Components" title="Components" value={'components'} on:click={onListItemClick}
 				><i class="fa-solid fa-list-check text-2xl" /></AppRailTile
 			>
 		</svelte:fragment>
@@ -85,8 +85,8 @@
 				<nav class="list-nav">
 					<ul>
 						{#each list as { href, label, badge }}
-							<li on:click={onListItemClick} on:keypress>
-								<a {href} class={classesActive(href)} data-sveltekit-preload-data="hover">
+							<li>
+								<a {href} class={classesActive(href)} data-sveltekit-preload-data="hover" on:click={onListItemClick} on:keypress>
 									<span class="flex-auto">{@html label}</span>
 									{#if badge}<span class="badge variant-filled-secondary">{badge}</span>{/if}
 								</a>
