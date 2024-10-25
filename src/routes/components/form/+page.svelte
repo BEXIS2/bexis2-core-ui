@@ -56,7 +56,7 @@
 	import Page from '$lib/components/page/Page.svelte';
 </script>
 
-<div id="toc-target">
+<div id="toc-target" class="bg-surface-50 dark:bg-surface-800">
 	<Page
 		title="Form components"
 		note="This page lists all the form components and shows how to develop a validation."

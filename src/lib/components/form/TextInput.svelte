@@ -16,7 +16,7 @@
 <InputContainer {id} {label} {feedback} {required} {help}>
 	<input
 		{id}
-		class="input variant-form-material"
+		class="input variant-form-material dark:bg-zinc-700 bg-zinc-50 placeholder:text-gray-400"
 		type="text"
 		class:input-success={valid}
 		class:input-error={invalid}

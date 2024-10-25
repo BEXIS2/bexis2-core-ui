@@ -100,6 +100,7 @@
 		<div class="flex gap-2">
 			<button
 				class="btn variant-filled-warning"
+				title="Reset"
 				id="{id}-reset"
 				on:click|preventDefault={() => modalStore.trigger(modal)}
 				><Fa icon={faArrowRotateLeft} /></button
@@ -108,6 +109,7 @@
 					class="btn border"
 					class:bg-slate-700={dark}
 					class:bg-white={!dark}
+					title="Toggle dark mode"
 					id="{id}-toggle"
 					on:click|preventDefault={() => (dark = !dark)}
 				>
@@ -124,11 +126,13 @@
 			<div class="flex gap-2">
 				<button
 					class="btn variant-filled-warning"
+					title="Cancel"
 					id="{id}-cancel"
 					on:click|preventDefault={() => dispatch('cancel')}><Fa icon={faXmark} /></button
 				>
 				<button
 					class="btn variant-filled-primary"
+					title="Save"
 					id="{id}-save"
 					disabled={!isValid}
 					on:click|preventDefault={() => dispatch('save')}><Fa icon={faSave} /></button

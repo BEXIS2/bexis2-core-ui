@@ -73,6 +73,7 @@
 		<select
 			name="pageSize"
 			id="{id}-pageSize"
+			aria-label="Open menu to select number of items per page"
 			class="select variant-filled-primary w-min font-bold"
 			bind:value={$pageSize}
 		>
@@ -84,21 +85,26 @@
 	<div class="flex justify-center gap-1">
 		<button
 			class="btn btn-sm variant-filled-primary"
+			title="Go to first page"
 			on:click|preventDefault={() => goTo('first')}
 			disabled={goToFirstPageDisabled}
+			aria-label="Go to first page"
 			id="{id}-first"
 		>
 			<Fa icon={faAnglesLeft} /></button
 		>
 		<button
 			class="btn btn-sm variant-filled-primary"
+			title="Go to previous page"
 			id="{id}-previous"
+			aria-label="Go to previous page"
 			on:click|preventDefault={() => goTo('previous')}
 			disabled={goToPreviousPageDisabled}><Fa icon={faAngleLeft} /></button
 		>
 		<input
 			type="number"
 			class="input border border-primary-500 rounded flex w-24"
+			aria-label="Current page"
 			value={$pageIndex + 1}
 			max={pageCount}
 			min={1}
@@ -108,11 +114,13 @@
 			class="btn btn-sm variant-filled-primary"
 			id="{id}-next"
 			on:click|preventDefault={() => goTo('next')}
+			aria-label="Go to next page"
 			disabled={goToNextPageDisabled}><Fa icon={faAngleRight} /></button
 		>
 		<button
 			class="btn btn-sm variant-filled-primary"
 			id="{id}-last"
+			aria-label="Go to last page"
 			on:click|preventDefault={() => goTo('last')}
 			disabled={goToLastPageDisabled}><Fa icon={faAnglesRight} /></button
 		>

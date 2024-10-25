@@ -32,7 +32,7 @@
 			<slot name="actions" />
 
 			{#if deleteBtn}
-				<button class="btn hover:text-primary-100" on:click={() => (show = false)}>
+				<button class="btn hover:text-primary-100" title="Close alert" on:click={() => (show = false)}>
 					<Fa icon={faXmark} />
 				</button>
 			{/if}
