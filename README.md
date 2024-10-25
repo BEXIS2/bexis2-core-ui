@@ -1,6 +1,6 @@
 # bexis-core-ui
 
-## 0.4.17
+## 0.4.20
 - Add aria-label to Table and other components
 - Facets
   - Add aria-label to Facets component
@@ -8,6 +8,12 @@
 - Search
   - Add aria-label to Search component
 - Table: add column
+## 0.4.19
+
+## 0.4.18
+- Updates indicator text for current page and possible number of pages in a Table
+- Fixes client-side search on Table
+- Adds "No rows available" text in Table if search or filter returns no rows.
 
 ## 0.4.16
 - Facets
