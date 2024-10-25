@@ -1,5 +1,14 @@
 # bexis-core-ui
 
+## 0.4.17
+- Add aria-label to Table and other components
+- Facets
+  - Add aria-label to Facets component
+  - sort by count if exists, reorder more view, truncate long names,
+- Search
+  - Add aria-label to Search component
+- Table: add column
+
 ## 0.4.16
 - Facets
   - Replaces groups array with a writable store to re-render component on data manipulation.
@@ -11,9 +20,9 @@
   - Adds on:change action
 
 ## 0.4.14
-- Table 
+- Table
   - fixes rendering issues with Table filters and different components
-  
+
 - Facets
   - Exports Facets component
 
@@ -37,7 +46,7 @@
   - Updates the structure of server-side configuration for Tables.
   - Adds new page size dropdown in Table for to fix contrast issues in the component.
   - Adds showing/hiding Table columns.
-  
+
 - Facets:
   - Adds Facets component.
 
@@ -65,7 +74,7 @@
 - update libs
   - remove eslint-plugin-svelte3
   - update svelte, sveltekit, typescript, tailwind ...
-  
+
 ## 0.4.3
 - table
   - Enable searching on server-side
@@ -96,7 +105,7 @@
 
 ## 0.3.11
 - add on:change passthrough to TextInput, TextArea, DateInput, NumberInput, CheckBox
-  
+
 ## 0.3.10
 - multi select
   - update svelte-select libary
