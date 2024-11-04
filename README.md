@@ -1,5 +1,8 @@
 # bexis-core-ui
 
+## 0.4.21
+- change footer position in page component
+
 ## 0.4.20
 - Add aria-label to Table and other components
 - Facets
