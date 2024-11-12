@@ -5,7 +5,10 @@
 	export let handleApply: (group: SelectedFacetGroup) => {};
 	export let handleCancel: (groupName: string) => {};
 
-	let selected = structuredClone(group.children);
+	let selected = Object.keys(group.children)
+		.sort((a, b) => group.children[a].displayName.localeCompare(group.children[b].displayName))
+		.map((key) => ({ [key]: { ...group.children[key] } }))
+		.reduce((acc, val) => ({ ...acc, ...val }), {});
 
 	const selectAll = () => {
 		Object.keys(selected).forEach((key) => (selected[key].selected = true));
@@ -37,7 +40,7 @@
 			<h2 class="text-xl font-semibold">{group.displayName}</h2>
 
 			<!-- Items -->
-			<div class="gap-x-10 gap-y-3 py-10 px-2 max-h-[500px] columns-[192px] overflow-auto">
+			<div class="gap-x-10 space-y-2 py-6 px-[2px] max-h-[500px] columns-[192px] overflow-auto min-h">
 				{#each Object.keys(selected) as key}
 					<label class="flex gap-3 items-center w-48">
 						<input type="checkbox" class="checkbox" bind:checked={selected[key].selected} />
