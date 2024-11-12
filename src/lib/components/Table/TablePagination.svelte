@@ -64,7 +64,6 @@
 
 		<button
 			aria-label="Open menu to select number of items to display per page"
-			title="Open menu to select number of items to display per page"
 			class="btn variant-filled-primary w-20 justify-between"
 			use:popup={pageSizePopup}
 		>
@@ -88,7 +87,6 @@
 			class="btn btn-sm variant-filled-primary"
 			on:click|preventDefault={goToFirstPage}
 			aria-label="Go to first page"
-			title="Go to first page"
 			disabled={goToFirstPageDisabled}
 			id="{id}-first"
 		>
@@ -98,7 +96,6 @@
 			class="btn btn-sm variant-filled-primary"
 			id="{id}-previous"
 			aria-label="Go to previous page"
-			title="Go to previous page"
 			on:click|preventDefault={goToPreviousPage}
 			disabled={goToPreviousPageDisabled}><Fa icon={faAngleLeft} /></button
 		>
@@ -108,7 +105,6 @@
 			value={$pageIndex + 1}
 			max={$pageCount}
 			aria-label="Current page"
-			title="Current page"
 			min={1}
 			on:change={handleChange}
 		/>
@@ -116,14 +112,12 @@
 			class="btn btn-sm variant-filled-primary"
 			id="{id}-next"
 			aria-label="Go to next page"
-			title="Go to next page"
 			on:click|preventDefault={goToNextPage}
 			disabled={goToNextPageDisabled}><Fa icon={faAngleRight} /></button
 		>
 		<button
 			class="btn btn-sm variant-filled-primary"
 			aria-label="Go to last page"
-			title="Go to last page"
 			id="{id}-last"
 			on:click|preventDefault={goToLastPage}
 			disabled={goToLastPageDisabled}><Fa icon={faAnglesRight} /></button

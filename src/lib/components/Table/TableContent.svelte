@@ -413,7 +413,6 @@
 							id="{tableId}-searchReset"
 							class="absolute right-3 items-center"
 							aria-label="Clear search"
-							title="Clear search"
 							on:click|preventDefault={() => {
 								if (serverSide && !sendModel) {
 									throw new Error('Server-side configuration is missing');
@@ -431,7 +430,7 @@
 						title="Search"
 						id="{tableId}-searchSubmit"
 						class="btn variant-filled-primary"
-						title="Search"
+						aria-label="Search"
 						on:click|preventDefault={() => {
 							if (serverSide && !sendModel) {
 								throw new Error('Server-side configuration is missing');
@@ -475,7 +474,7 @@
 							type="button"
 							title="Reset column and row sizing"
 							class="btn btn-sm variant-filled-primary rounded-full order-last"
-							title="Reset sizing of columns and rows"
+							aria-label="Reset sizing of columns and rows"
 							on:click|preventDefault={() =>
 								resetResize($headerRows, $pageRows, tableId, columns, resizable)}
 							>Reset sizing</button
@@ -486,7 +485,7 @@
 							type="button"
 							title="Export table data as CSV"
 							class="btn btn-sm variant-filled-primary rounded-full order-last"
-							title="Export table data as CSV"
+							aria-label="Export table data as CSV"
 							on:click|preventDefault={() => exportAsCsv(tableId, $exportedData)}
 							>Export as CSV</button
 						>

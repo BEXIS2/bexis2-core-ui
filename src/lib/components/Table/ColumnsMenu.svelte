@@ -17,7 +17,6 @@
 	title="Hide or show columns"
 	class="btn btn-sm variant-filled-primary rounded-full order-last"
 	aria-label="Open menu to hide/show columns"
-	title="Open menu to hide/show columns"
 	use:popup={popupCombobox}>Columns</button
 >
 
