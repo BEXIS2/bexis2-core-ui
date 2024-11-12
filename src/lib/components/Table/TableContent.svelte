@@ -404,7 +404,7 @@
 							type="text"
 							bind:value={searchValue}
 							placeholder="Search rows..."
-							title="Search rows"
+							title="Searchbox for searching rows"
 							id="{tableId}-search"
 						/><button
 							type="reset"
