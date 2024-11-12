@@ -49,7 +49,7 @@
 	$: $pageSize = pageSizeDropdownValue;
 </script>
 
-<div class="flex justify-between w-full items-stretch gap-10 z-50">
+<div class="flex justify-between w-full items-stretch gap-10">
 	<div class="flex justify-start">
 		<!-- <select
 			name="pageSize"
