@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 	import { readable, writable } from 'svelte/store';
 
 	import Fa from 'svelte-fa';
@@ -33,7 +33,8 @@
 		fixedWidth,
 		normalizeFilters,
 		resetResize,
-		convertServerColumns
+		convertServerColumns,
+		minWidth
 	} from './shared';
 	import { Receive, Send } from '$models/Models';
 	import type { TableConfig } from '$models/Models';
@@ -61,6 +62,8 @@
 
 	let searchValue = '';
 	let isFetching = false;
+	let tableRef: HTMLTableElement;
+
 	const serverSide = server !== undefined;
 	const { baseUrl, entityId, versionId, sendModel = new Send() } = server ?? {};
 
@@ -75,6 +78,16 @@
 	const dispatch = createEventDispatcher();
 	const actionDispatcher = (obj) => dispatch('action', obj);
 
+	// Stores to hold the width and height information for resizing
+	const rowHeights = writable<
+		{
+			max: number;
+			min: number;
+		}[]
+	>([]);
+	const colWidths = writable<number[]>([]);
+
+	// Server-side variables
 	const serverItems = serverSide ? writable<Number>(0) : undefined;
 	const serverItemCount = serverSide
 		? readable<Number>(0, (set) => {
@@ -375,10 +388,97 @@
 		updateTable();
 	};
 
+	const getMaxCellHeightInRow = () => {
+		if (!tableRef || resizable === 'columns' || resizable === 'none') return;
+
+		// Initialize the rowHeights array if it is empty
+		if ($rowHeights.length === 0) {
+			$rowHeights = Array.from({ length: $pageRows.length }, () => ({ max: 44, min: 20 }));
+		}
+
+		tableRef.querySelectorAll('tbody tr').forEach((row, index) => {
+			const cells = row.querySelectorAll('td');
+
+			let maxHeight = optionsComponent ? 56 : 44;
+			let minHeight = optionsComponent ? 56 : 44;
+
+			cells.forEach((cell) => {
+				const cellHeight = cell.getBoundingClientRect().height;
+				// + 2 pixels for rendering borders correctly
+				if (cellHeight > maxHeight) {
+					maxHeight = cellHeight + 2;
+				}
+				if (cellHeight < minHeight) {
+					minHeight = cellHeight + 2;
+				}
+			});
+
+			rowHeights.update((rh) => {
+				rh[index].max = maxHeight - 24;
+				rh[index].min = Math.max(minHeight - 24, rowHeight ?? 20);
+				return rh;
+			});
+		});
+	};
+
+	const getMinCellWidthInColumn = () => {
+		if (!tableRef || resizable === 'rows' || resizable === 'none') return;
+
+		// Initialize the colWidths array if it is empty
+		if ($colWidths.length === 0) {
+			$colWidths = Array.from({ length: $headerRows[0].cells.length }, () => 100);
+		}
+
+		colWidths.update((cw) => {
+			tableRef.querySelectorAll('thead tr th span').forEach((cell, index) => {
+				// + 12 pixels for padding and + 32 pixels for filter icon
+				// If the column width is 100, which means it has not been initialized, then calculate the width
+				cw[index] = cw[index] === 100 ? cell.getBoundingClientRect().width + 12 + 32 : cw[index];
+			});
+			return cw;
+		});
+	};
+
+	const resizeObserver = new ResizeObserver(() => {
+		getMaxCellHeightInRow();
+		getMinCellWidthInColumn();
+	});
+
+	const observeFirstCells = () => {
+		if (!tableRef) return;
+
+		tableRef.querySelectorAll('tbody tr td:first-child').forEach((cell) => {
+			resizeObserver.observe(cell);
+		});
+	};
+
+	const observeHeaderColumns = () => {
+		if (!tableRef) return;
+
+		tableRef.querySelectorAll('thead tr th').forEach((cell) => {
+			resizeObserver.observe(cell);
+		});
+	};
+
+	const getDimensions = () => {
+		if (resizable === 'none') return;
+		else if (resizable === 'columns') {
+			observeHeaderColumns();
+		} else if (resizable === 'rows') {
+			observeFirstCells();
+		} else {
+			observeHeaderColumns();
+			observeFirstCells();
+		}
+	};
+
 	$: sortKeys = pluginStates.sort.sortKeys;
 	$: serverSide && updateTable();
 	$: serverSide && sortServer($sortKeys[0]?.order, $sortKeys[0]?.id);
 	$: $hiddenColumnIds = shownColumns.filter((col) => !col.visible).map((col) => col.id);
+	$: tableRef && getDimensions();
+	$: $headerRows.length > 0 && getMinCellWidthInColumn();
+	$: $pageRows.length > 0 && getMaxCellHeightInRow();
 </script>
 
 <div class="grid gap-2 overflow-auto" class:w-fit={!fitToScreen} class:w-full={fitToScreen}>
@@ -492,6 +592,7 @@
 
 			<div class="overflow-auto" style="height: {height}px">
 				<table
+					bind:this={tableRef}
 					{...$tableAttrs}
 					class="table table-auto table-compact bg-tertiary-500/30 dark:bg-tertiary-900/10 overflow-clip"
 					id="{tableId}-table"
@@ -507,14 +608,25 @@
 								let:rowProps
 							>
 								<tr {...rowAttrs} class="bg-primary-300 dark:bg-primary-800">
-									{#each headerRow.cells as cell (cell.id)}
+									{#each headerRow.cells as cell, index (cell.id)}
 										<Subscribe attrs={cell.attrs()} props={cell.props()} let:props let:attrs>
-											<th scope="col" class="!p-2" {...attrs} style={cellStyle(cell.id, columns)}>
+											<th
+												scope="col"
+												class="!p-2"
+												{...attrs}
+												style={`
+													width: ${cell.isData() ? 'auto' : '0'};
+													${cellStyle(cell.id, columns)}
+												`}
+											>
 												<div
 													class="overflow-auto"
 													class:resize-x={(resizable === 'columns' || resizable === 'both') &&
 														!fixedWidth(cell.id, columns)}
 													id="th-{tableId}-{cell.id}"
+													style={`
+														min-width: ${minWidth(cell.id, columns) ? minWidth(cell.id, columns) : $colWidths[index]}px;
+													`}
 												>
 													<div class="flex justify-between items-center">
 														<div class="flex gap-1 whitespace-pre-wrap">
@@ -563,20 +675,42 @@
 								<tr {...rowAttrs} id="{tableId}-row-{row.id}" class="">
 									{#each row.cells as cell, index (cell?.id)}
 										<Subscribe attrs={cell.attrs()} let:attrs>
-											<td {...attrs} class="!p-2">
+											<td {...attrs} class="">
 												<div
-													class=" overflow-auto h-max {index === 0 &&
+													class=" h-full {index === 0 &&
 													(resizable === 'rows' || resizable === 'both')
-														? 'resize-y'
+														? 'resize-y overflow-auto'
 														: ''}"
 													id="{tableId}-{cell.id}-{row.id}"
+													style={`
+														min-height: ${$rowHeights && $rowHeights[row.id] ? `${$rowHeights[row.id].min}px` : 'auto'};
+														max-height: ${
+															index !== 0 && $rowHeights && $rowHeights[row.id]
+																? `${$rowHeights[row.id].max}px`
+																: 'auto'
+														};
+														height: ${$rowHeights && $rowHeights[+row.id] ? `${$rowHeights[+row.id].min}px` : 'auto'};
+													`}
 												>
 													<!-- Adding config for initial rowHeight, if provided -->
 													<div
-														class="flex items-center overflow-auto"
-														style="height: {rowHeight ? `${rowHeight}px` : 'auto'};"
+														class="flex items-start overflow-auto"
+														style={`
+															max-height: ${$rowHeights && $rowHeights[row.id] ? `${$rowHeights[row.id].max}px` : 'auto'};
+														`}
 													>
-														<div class="grow h-full"><Render of={cell.render()} /></div>
+														<div
+															class="grow overflow-auto"
+															style={cell.isData()
+																? `width: ${
+																		minWidth(cell.id, columns)
+																			? minWidth(cell.id, columns)
+																			: $colWidths[index]
+																  }px;`
+																: 'max-width: min-content;'}
+														>
+															<Render of={cell.render()} />
+														</div>
 													</div>
 												</div>
 											</td>
