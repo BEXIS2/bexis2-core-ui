@@ -30,6 +30,7 @@
 	import {
 		cellStyle,
 		exportAsCsv,
+		jsonToCsv,
 		fixedWidth,
 		normalizeFilters,
 		resetResize,
@@ -580,7 +581,7 @@
 							type="button"
 							class="btn btn-sm variant-filled-primary rounded-full order-last"
 							aria-label="Export table data as CSV"
-							on:click|preventDefault={() => exportAsCsv(tableId, $exportedData)}
+							on:click|preventDefault={() => exportAsCsv(tableId, jsonToCsv($exportedData))}
 							>Export as CSV</button
 						>
 					{/if}
