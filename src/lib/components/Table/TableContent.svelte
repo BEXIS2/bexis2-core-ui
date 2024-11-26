@@ -113,7 +113,7 @@
 			serverItemCount
 		} as PaginationConfig),
 		expand: addExpandedRows(),
-		export: addDataExport({ format: 'csv' })
+		export: addDataExport({ format: 'json' })
 	});
 
 	// A variable to hold all the keys
