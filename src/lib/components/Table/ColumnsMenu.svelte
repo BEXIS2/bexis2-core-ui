@@ -38,7 +38,7 @@
 		<button
 			on:click|preventDefault={selectAll}
 			type="button"
-			class="btn p-0 text-sm grow underline text-primary-500"
+			class="btn p-0 text-sm grow underline text-primary-600"
 		>
 			Select All
 		</button>
