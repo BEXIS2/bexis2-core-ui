@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { createEventDispatcher, onMount } from 'svelte';
+	import { createEventDispatcher } from 'svelte';
 	import { readable, writable } from 'svelte/store';
 
 	import Fa from 'svelte-fa';
-	import { faXmark } from '@fortawesome/free-solid-svg-icons';
+	import { faCompress, faDownload, faXmark } from '@fortawesome/free-solid-svg-icons';
 	import { createTable, Subscribe, Render, createRender } from 'svelte-headless-table';
 	import {
 		addSortBy,
@@ -543,7 +543,8 @@
 			{/if}
 
 			<div
-				class="flex justify-between items-center w-full {search && 'py-2'} {!search &&
+				class="flex justify-between overflow-x-auto items-center w-full {search &&
+					'py-2'} {!search &&
 					(shownColumns.length > 0 || toggle || resizable !== 'none' || exportable) &&
 					'pb-2'}"
 			>
@@ -569,20 +570,20 @@
 					{#if resizable !== 'none'}
 						<button
 							type="button"
-							class="btn btn-sm variant-filled-primary rounded-full order-last"
+							class="btn btn-sm variant-filled-primary rounded-full order-last flex gap-2 items-center"
 							aria-label="Reset sizing of columns and rows"
 							on:click|preventDefault={() =>
 								resetResize($headerRows, $pageRows, tableId, columns, resizable)}
-							>Reset sizing</button
+							><Fa icon={faCompress} /> Reset sizing</button
 						>
 					{/if}
 					{#if exportable}
 						<button
 							type="button"
-							class="btn btn-sm variant-filled-primary rounded-full order-last"
+							class="btn btn-sm variant-filled-primary rounded-full order-last flex items-center gap-2"
 							aria-label="Export table data as CSV"
 							on:click|preventDefault={() => exportAsCsv(tableId, jsonToCsv($exportedData))}
-							>Export as CSV</button
+							><Fa icon={faDownload} /> Export as CSV</button
 						>
 					{/if}
 					{#if shownColumns.length > 0}
