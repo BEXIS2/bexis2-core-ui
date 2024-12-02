@@ -36,6 +36,7 @@
 <div class="flex gap-2 w-min">
 	{#each buttons as button}
 		<button
+			title="{button.type}"
 			class={`btn btn-sm btn-icon rounded-md ${button.color}`}
 			on:click|preventDefault={() => eventDispatchFn(button.type)}
 		>

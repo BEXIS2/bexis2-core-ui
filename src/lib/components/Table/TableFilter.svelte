@@ -284,6 +284,8 @@
 							</select>
 							{#if dropdowns.length > 1}
 								<div
+									role="button"
+									tabindex="0"
 									class="btn variant-filled-warning btn-sm h-full"
 									aria-label="Remove filter"
 									on:click|preventDefault={() => removeFilter(dropdown.option)}
@@ -321,6 +323,8 @@
 			{#if remainingFilters.length}
 				<div
 					class="btn variant-filled-secondary btn-sm cursor-pointer"
+					role="button"
+					tabindex="0"
 					on:click|stopPropagation={() => {
 						addFilter(remainingFilters[0].value, undefined);
 					}}

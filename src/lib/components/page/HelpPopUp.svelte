@@ -45,6 +45,7 @@
 {#if active}
 	<button
 		id="helpButton"
+		title="Open help window"
 		class="chip variant-filled-warning fixed bottom-5 right-10 shadow-md"
 		use:popup={helpClick}><Fa icon={faQuestion} /></button
 	>

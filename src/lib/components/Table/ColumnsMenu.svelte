@@ -53,10 +53,12 @@
 	</div>
 	{#each columns as column}
 		<div class="flex gap-3 items-center">
+			<label for={column.id} class="cursor-pointer" title={column.label}></label>
 			<input
 				aria-label={`${column.visible ? 'Hide' : 'Show'} ${column.label} column`}
 				type="checkbox"
 				class="checkbox"
+				id={column.id}
 				bind:checked={column.visible}
 				title={`${column.visible ? 'Hide' : 'Show'} ${column.label} column`}
 				disabled={columns.filter((c) => c.visible).length === 1 && column.visible}
