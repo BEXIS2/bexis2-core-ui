@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
+	import { afterUpdate, onDestroy, createEventDispatcher } from 'svelte';
 	import { readable, writable } from 'svelte/store';
 
 	import Fa from 'svelte-fa';
-	import { faXmark } from '@fortawesome/free-solid-svg-icons';
+	import { faCompress, faDownload, faXmark } from '@fortawesome/free-solid-svg-icons';
 	import { createTable, Subscribe, Render, createRender } from 'svelte-headless-table';
 	import {
 		addSortBy,
@@ -30,10 +30,12 @@
 	import {
 		cellStyle,
 		exportAsCsv,
+		jsonToCsv,
 		fixedWidth,
 		normalizeFilters,
 		resetResize,
-		convertServerColumns
+		convertServerColumns,
+		minWidth
 	} from './shared';
 	import { Receive, Send } from '$models/Models';
 	import type { TableConfig } from '$models/Models';
@@ -61,6 +63,8 @@
 
 	let searchValue = '';
 	let isFetching = false;
+	let tableRef: HTMLTableElement;
+
 	const serverSide = server !== undefined;
 	const { baseUrl, entityId, versionId, sendModel = new Send() } = server ?? {};
 
@@ -75,6 +79,11 @@
 	const dispatch = createEventDispatcher();
 	const actionDispatcher = (obj) => dispatch('action', obj);
 
+	// Stores to hold the width and height information for resizing
+	const rowHeights = writable<{ [key: number]: { max: number; min: number } }>({});
+	const colWidths = writable<number[]>([]);
+
+	// Server-side variables
 	const serverItems = serverSide ? writable<Number>(0) : undefined;
 	const serverItemCount = serverSide
 		? readable<Number>(0, (set) => {
@@ -100,7 +109,7 @@
 			serverItemCount
 		} as PaginationConfig),
 		expand: addExpandedRows(),
-		export: addDataExport({ format: 'csv' })
+		export: addDataExport({ format: 'json' })
 	});
 
 	// A variable to hold all the keys
@@ -375,6 +384,119 @@
 		updateTable();
 	};
 
+	const getMaxCellHeightInRow = () => {
+		if (!tableRef || resizable === 'columns' || resizable === 'none') return;
+
+		tableRef.querySelectorAll('tbody tr').forEach((row, index) => {
+			const cells = row.querySelectorAll('td');
+
+			let maxHeight = optionsComponent ? 56 : 44;
+			let minHeight = optionsComponent ? 56 : 44;
+
+			cells.forEach((cell) => {
+				const cellHeight = cell.getBoundingClientRect().height;
+				// + 2 pixels for rendering borders correctly
+				if (cellHeight > maxHeight) {
+					maxHeight = cellHeight + 2;
+				}
+				if (cellHeight < minHeight) {
+					minHeight = cellHeight + 2;
+				}
+			});
+
+			rowHeights.update((rh) => {
+				const id = +row.id.split(`${tableId}-row-`)[1];
+				return {
+					...rh,
+					[id]: {
+						max: maxHeight - 24,
+						min: Math.max(minHeight - 24, rowHeight ?? 20)
+					}
+				};
+			});
+		});
+	};
+
+	const getMinCellWidthInColumn = () => {
+		if (!tableRef || resizable === 'rows' || resizable === 'none') return;
+
+		// Initialize the colWidths array if it is empty
+		if ($colWidths.length === 0) {
+			$colWidths = Array.from({ length: $headerRows[0].cells.length }, () => 100);
+		}
+
+		colWidths.update((cw) => {
+			tableRef?.querySelectorAll('thead tr th span').forEach((cell, index) => {
+				// + 12 pixels for padding and + 32 pixels for filter icon
+				// If the column width is 100, which means it has not been initialized, then calculate the width
+				cw[index] = cw[index] === 100 ? cell.getBoundingClientRect().width + 12 + 32 : cw[index];
+			});
+			return cw;
+		});
+	};
+
+	const resizeRowsObserver = new ResizeObserver(() => {
+		getMaxCellHeightInRow();
+	});
+
+	const resizeColumnsObserver = new ResizeObserver(() => {
+		getMinCellWidthInColumn();
+	});
+
+	const observeFirstCells = () => {
+		if (!tableRef) return;
+
+		$pageRows.forEach((row) => {
+			const cell = tableRef.querySelector(`#${tableId}-row-${row.id}`);
+			if (cell) {
+				resizeRowsObserver.observe(cell);
+			}
+		});
+
+		tableRef.querySelectorAll('tbody tr td:first-child').forEach((cell) => {
+			resizeRowsObserver.observe(cell);
+		});
+	};
+
+	const observeHeaderColumns = () => {
+		if (!tableRef) return;
+
+		tableRef.querySelectorAll('thead tr th').forEach((cell) => {
+			resizeColumnsObserver.observe(cell);
+		});
+	};
+
+	afterUpdate(() => {
+		if (resizable !== 'rows' && resizable !== 'both') {
+			return;
+		}
+		// Making sure tableRef is up to date and contains the new rows
+		// If it contains even one element, it means it contains them all
+		const e = tableRef?.querySelector(`#${tableId}-row-${$pageRows[0].id}`);
+		if (e) {
+			getDimensions();
+		}
+	});
+
+	// Remove the resize observer when the component is destroyed for performance reasons
+	onDestroy(() => {
+		resizeRowsObserver.disconnect();
+		resizeColumnsObserver.disconnect();
+	});
+
+	const getDimensions = () => {
+		if (!tableRef) return;
+		if (resizable === 'none') return;
+		else if (resizable === 'columns') {
+			observeHeaderColumns();
+		} else if (resizable === 'rows') {
+			observeFirstCells();
+		} else {
+			observeHeaderColumns();
+			observeFirstCells();
+		}
+	};
+
 	$: sortKeys = pluginStates.sort.sortKeys;
 	$: serverSide && updateTable();
 	$: serverSide && sortServer($sortKeys[0]?.order, $sortKeys[0]?.id);
@@ -445,7 +567,8 @@
 			{/if}
 
 			<div
-				class="flex justify-between items-center w-full {search && 'py-2'} {!search &&
+				class="flex justify-between overflow-x-auto items-center w-full {search &&
+					'py-2'} {!search &&
 					(shownColumns.length > 0 || toggle || resizable !== 'none' || exportable) &&
 					'pb-2'}"
 			>
@@ -472,22 +595,20 @@
 					{#if resizable !== 'none'}
 						<button
 							type="button"
-							title="Reset column and row sizing"
-							class="btn btn-sm variant-filled-primary rounded-full order-last"
+							class="btn btn-sm variant-filled-primary rounded-full order-last flex gap-2 items-center"
 							aria-label="Reset sizing of columns and rows"
 							on:click|preventDefault={() =>
 								resetResize($headerRows, $pageRows, tableId, columns, resizable)}
-							>Reset sizing</button
+							><Fa icon={faCompress} /> Reset sizing</button
 						>
 					{/if}
 					{#if exportable}
 						<button
 							type="button"
-							title="Export table data as CSV"
-							class="btn btn-sm variant-filled-primary rounded-full order-last"
+							class="btn btn-sm variant-filled-primary rounded-full order-last flex items-center gap-2"
 							aria-label="Export table data as CSV"
-							on:click|preventDefault={() => exportAsCsv(tableId, $exportedData)}
-							>Export as CSV</button
+							on:click|preventDefault={() => exportAsCsv(tableId, jsonToCsv($exportedData))}
+							><Fa icon={faDownload} /> Export as CSV</button
 						>
 					{/if}
 					{#if shownColumns.length > 0}
@@ -498,6 +619,7 @@
 
 			<div class="overflow-auto" style="height: {height}px">
 				<table
+					bind:this={tableRef}
 					{...$tableAttrs}
 					class="table table-auto table-compact bg-tertiary-500/30 dark:bg-tertiary-900/10 overflow-clip"
 					id="{tableId}-table"
@@ -514,14 +636,25 @@
 								let:rowProps
 							>
 								<tr {...rowAttrs} class="bg-primary-300 dark:bg-primary-800">
-									{#each headerRow.cells as cell (cell.id)}
+									{#each headerRow.cells as cell, index (cell.id)}
 										<Subscribe attrs={cell.attrs()} props={cell.props()} let:props let:attrs>
-											<th scope="col" class="!p-2" {...attrs} style={cellStyle(cell.id, columns)}>
+											<th
+												scope="col"
+												class="!p-2"
+												{...attrs}
+												style={`
+													width: ${cell.isData() ? 'auto' : '0'};
+													${cellStyle(cell.id, columns)}
+												`}
+											>
 												<div
 													class="overflow-auto"
 													class:resize-x={(resizable === 'columns' || resizable === 'both') &&
 														!fixedWidth(cell.id, columns)}
 													id="th-{tableId}-{cell.id}"
+													style={`
+														min-width: ${minWidth(cell.id, columns) ? minWidth(cell.id, columns) : $colWidths[index]}px;
+													`}
 												>
 													<div class="flex justify-between items-center">
 														<div class="flex gap-1 whitespace-pre-wrap">
@@ -572,20 +705,42 @@
 								<tr {...rowAttrs} id="{tableId}-row-{row.id}" class="">
 									{#each row.cells as cell, index (cell?.id)}
 										<Subscribe attrs={cell.attrs()} let:attrs>
-											<td {...attrs} class="!p-2">
+											<td {...attrs} class="">
 												<div
-													class=" overflow-auto h-max {index === 0 &&
+													class=" h-full {index === 0 &&
 													(resizable === 'rows' || resizable === 'both')
-														? 'resize-y'
-														: ''}"
+														? 'resize-y overflow-auto'
+														: 'block'}"
 													id="{tableId}-{cell.id}-{row.id}"
+													style={`
+														min-height: ${$rowHeights && $rowHeights[+row.id] ? `${$rowHeights[+row.id].min}px` : 'auto'};
+														max-height: ${
+															index !== 0 && $rowHeights && $rowHeights[+row.id]
+																? `${$rowHeights[+row.id].max}px`
+																: 'auto'
+														};
+														height: ${$rowHeights && $rowHeights[+row.id] ? `${$rowHeights[+row.id].min}px` : 'auto'};
+													`}
 												>
 													<!-- Adding config for initial rowHeight, if provided -->
 													<div
-														class="flex items-center overflow-auto"
-														style="height: {rowHeight ? `${rowHeight}px` : 'auto'};"
+														class="flex items-start overflow-auto"
+														style={`
+															max-height: ${$rowHeights && $rowHeights[+row.id] ? `${$rowHeights[+row.id].max}px` : 'auto'};
+														`}
 													>
-														<div class="grow h-full"><Render of={cell.render()} /></div>
+														<div
+															class="grow overflow-auto"
+															style={cell.isData()
+																? `width: ${
+																		minWidth(cell.id, columns)
+																			? minWidth(cell.id, columns)
+																			: $colWidths[index]
+																  }px;`
+																: 'max-width: min-content;'}
+														>
+															<Render of={cell.render()} />
+														</div>
 													</div>
 												</div>
 											</td>

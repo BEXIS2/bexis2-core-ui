@@ -63,6 +63,37 @@ export const exportAsCsv = (tableId: string, exportedData: string) => {
 	document.body.removeChild(anchor);
 };
 
+export const jsonToCsv = (data: string): string => {
+	const json = JSON.parse(data);
+
+	if (json.length === 0) return '';
+
+	// Extract headers (keys)
+	const headers = Object.keys(json[0]);
+
+	// Escape and format a single cell
+	const escapeCsvCell = (value: any): string => {
+		if (value === null || value === undefined) return '';
+		let cell = String(value);
+		// Escape quotes by doubling them, and wrap the value in quotes if it contains special characters
+		if (/[",\n]/.test(cell)) {
+			cell = `"${cell.replace(/"/g, '""')}"`;
+		}
+		return cell;
+	};
+
+	// Create CSV rows
+	const rows = [
+		headers.join(','), // Header row
+		...json.map((row) =>
+			headers.map(header => escapeCsvCell(row[header])).join(',')
+		) // Data rows
+	];
+
+	// Join rows with newlines
+	return rows.join('\n');
+}
+
 // Resetting the resized columns and/or rows
 export const resetResize = (
 	headerRows: any,
@@ -114,15 +145,15 @@ export const missingValuesFn = (
 	const foundKey =
 		typeof key === 'number' && key.toString().includes('e')
 			? Object.keys(missingValues).find((item) => {
-					return (item as string).toLowerCase() === key.toString().toLowerCase();
-			  })
+				return (item as string).toLowerCase() === key.toString().toLowerCase();
+			})
 			: typeof key === 'string' && parseInt(key).toString().length !== key.length && new Date(key)
-			? Object.keys(missingValues).find(
+				? Object.keys(missingValues).find(
 					(item) => new Date(item).getTime() === new Date(key).getTime()
-			  )
-			: key in missingValues
-			? key
-			: undefined;
+				)
+				: key in missingValues
+					? key
+					: undefined;
 
 	return foundKey ? missingValues[foundKey] : key;
 };

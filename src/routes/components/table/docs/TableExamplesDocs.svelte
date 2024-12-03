@@ -11,6 +11,7 @@
 	import TableGroups from '../examples/TableGroups.svelte';
 	import TableSimple from '../examples/TableSimple.svelte';
 	import TableServer from '../examples/TableServer.svelte';
+	import TableTest from '../examples/TableTest.svelte';
 </script>
 
 <div class="grid gap-1 w-full overflow-auto">
@@ -34,6 +35,10 @@
 		<h2 class="h2">Server-side tables</h2>
 		<TableServer />
 	</div>
+	<!-- <div id="Testing">
+		<h2 class="h2">Test tables</h2>
+		<TableTest />
+	</div> -->
 </div>
 
 <Modal />
