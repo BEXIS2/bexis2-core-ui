@@ -1,4 +1,11 @@
 # bexis-core-ui
+## 0.4.22
+- Facets
+  - Replace column class function with more efficient solution
+  - Sort options in ShowMore alphabetically
+Table
+  - Add titles for components for better accessibility
+  - Remove z-index from pagination buttons
 
 ## 0.4.21
 - change footer position in page component

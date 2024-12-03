@@ -71,7 +71,7 @@
 		}
 
 		if (!complexSource && !complexTarget && isLoaded && !isMulti) {
-			console.log('🚀 ~ updateTarget ~ selection:', selection);
+			//console.log('🚀 ~ updateTarget ~ selection:', selection);
 			if (selection) {
 				target = selection.value;
 			}
