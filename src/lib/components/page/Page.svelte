@@ -79,10 +79,6 @@ import type { helpItemType, helpStoreType } from '$models/Models';
 		</AppBar>
 	</svelte:fragment>
 
-	<svelte:fragment slot="footer">
-		<Footer />
-	</svelte:fragment>
-
 	<slot name="description" />
 
 	<div class="flex flex-initial space-x-5">
@@ -118,6 +114,11 @@ import type { helpItemType, helpStoreType } from '$models/Models';
 	<GoToTop/>
 	<HelpPopUp active={help} />
 	<Notification />
+	
+	<svelte:fragment slot="footer">
+		<Footer />
+	</svelte:fragment>
+
 </AppShell>
 </div>
 

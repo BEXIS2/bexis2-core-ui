@@ -17,6 +17,7 @@
 {#if showGotoTop}
  <button
  id="gotToTop"
+ title="Go to top"
  class="chip variant-filled-warning fixed bottom-5 right-20 shadow-md"
  on:click={gotoTop}
  ><Fa icon={faAngleUp}/></button >

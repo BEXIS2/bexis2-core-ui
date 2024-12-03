@@ -275,6 +275,8 @@
 							</select>
 							{#if dropdowns.length > 1}
 								<div
+									role="button"
+									tabindex="0"
 									class="btn variant-filled-warning btn-sm h-full"
 									on:click|preventDefault={() => removeFilter(dropdown.option)}
 									on:keydown|preventDefault={() => removeFilter(dropdown.option)}
@@ -320,6 +322,8 @@
 				<div
 					class="btn variant-filled-secondary btn-sm cursor-pointer"
 					aria-label="Add filter"
+					role="button"
+					tabindex="0"
 					on:click|stopPropagation={() => {
 						addFilter(remainingFilters[0].value, undefined);
 					}}

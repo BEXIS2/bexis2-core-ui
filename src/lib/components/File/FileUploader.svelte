@@ -193,7 +193,7 @@
 			{/if}
 		</div>
 
-		<button id={submitBt} color="primary" style="display:none"><Fa icon={faSave} /></button>
+		<button title="Submit" id={submitBt} color="primary" style="display:none"><Fa icon={faSave} /></button>
 	{:else}
 		<!-- while data is not loaded show a loading information -->
 

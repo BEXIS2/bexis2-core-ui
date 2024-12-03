@@ -26,5 +26,5 @@
 <svelte:window on:scroll={handleOnScroll} />
 
 <div class="w-full items-center">
-	<button class="btn ring back-to-top" on:click={goTop} class:hidden>Back to top</button>
+	<button class="btn ring back-to-top" title="Back to top" on:click={goTop} class:hidden>Back to top</button>
 </div>
