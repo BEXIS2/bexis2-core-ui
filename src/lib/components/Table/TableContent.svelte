@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
+	import { afterUpdate, onDestroy, createEventDispatcher } from 'svelte';
 	import { readable, writable } from 'svelte/store';
 
 	import Fa from 'svelte-fa';
@@ -80,12 +80,7 @@
 	const actionDispatcher = (obj) => dispatch('action', obj);
 
 	// Stores to hold the width and height information for resizing
-	const rowHeights = writable<
-		{
-			max: number;
-			min: number;
-		}[]
-	>([]);
+	const rowHeights = writable<{ [key: number]: { max: number; min: number } }>({});
 	const colWidths = writable<number[]>([]);
 
 	// Server-side variables
@@ -392,11 +387,6 @@
 	const getMaxCellHeightInRow = () => {
 		if (!tableRef || resizable === 'columns' || resizable === 'none') return;
 
-		// Initialize the rowHeights array if it is empty
-		if ($rowHeights.length === 0) {
-			$rowHeights = Array.from({ length: $pageRows.length }, () => ({ max: 44, min: 20 }));
-		}
-
 		tableRef.querySelectorAll('tbody tr').forEach((row, index) => {
 			const cells = row.querySelectorAll('td');
 
@@ -415,9 +405,14 @@
 			});
 
 			rowHeights.update((rh) => {
-				rh[index].max = maxHeight - 24;
-				rh[index].min = Math.max(minHeight - 24, rowHeight ?? 20);
-				return rh;
+				const id = +row.id.split(`${tableId}-row-`)[1];
+				return {
+					...rh,
+					[id]: {
+						max: maxHeight - 24,
+						min: Math.max(minHeight - 24, rowHeight ?? 20)
+					}
+				};
 			});
 		});
 	};
@@ -431,7 +426,7 @@
 		}
 
 		colWidths.update((cw) => {
-			tableRef.querySelectorAll('thead tr th span').forEach((cell, index) => {
+			tableRef?.querySelectorAll('thead tr th span').forEach((cell, index) => {
 				// + 12 pixels for padding and + 32 pixels for filter icon
 				// If the column width is 100, which means it has not been initialized, then calculate the width
 				cw[index] = cw[index] === 100 ? cell.getBoundingClientRect().width + 12 + 32 : cw[index];
@@ -440,16 +435,26 @@
 		});
 	};
 
-	const resizeObserver = new ResizeObserver(() => {
+	const resizeRowsObserver = new ResizeObserver(() => {
 		getMaxCellHeightInRow();
+	});
+
+	const resizeColumnsObserver = new ResizeObserver(() => {
 		getMinCellWidthInColumn();
 	});
 
 	const observeFirstCells = () => {
 		if (!tableRef) return;
 
+		$pageRows.forEach((row) => {
+			const cell = tableRef.querySelector(`#${tableId}-row-${row.id}`);
+			if (cell) {
+				resizeRowsObserver.observe(cell);
+			}
+		});
+
 		tableRef.querySelectorAll('tbody tr td:first-child').forEach((cell) => {
-			resizeObserver.observe(cell);
+			resizeRowsObserver.observe(cell);
 		});
 	};
 
@@ -457,11 +462,30 @@
 		if (!tableRef) return;
 
 		tableRef.querySelectorAll('thead tr th').forEach((cell) => {
-			resizeObserver.observe(cell);
+			resizeColumnsObserver.observe(cell);
 		});
 	};
 
+	afterUpdate(() => {
+		if (resizable !== 'rows' && resizable !== 'both') {
+			return;
+		}
+		// Making sure tableRef is up to date and contains the new rows
+		// If it contains even one element, it means it contains them all
+		const e = tableRef?.querySelector(`#${tableId}-row-${$pageRows[0].id}`);
+		if (e) {
+			getDimensions();
+		}
+	});
+
+	// Remove the resize observer when the component is destroyed for performance reasons
+	onDestroy(() => {
+		resizeRowsObserver.disconnect();
+		resizeColumnsObserver.disconnect();
+	});
+
 	const getDimensions = () => {
+		if (!tableRef) return;
 		if (resizable === 'none') return;
 		else if (resizable === 'columns') {
 			observeHeaderColumns();
@@ -477,9 +501,6 @@
 	$: serverSide && updateTable();
 	$: serverSide && sortServer($sortKeys[0]?.order, $sortKeys[0]?.id);
 	$: $hiddenColumnIds = shownColumns.filter((col) => !col.visible).map((col) => col.id);
-	$: tableRef && getDimensions();
-	$: $headerRows.length > 0 && getMinCellWidthInColumn();
-	$: $pageRows.length > 0 && getMaxCellHeightInRow();
 </script>
 
 <div class="grid gap-2 overflow-auto" class:w-fit={!fitToScreen} class:w-full={fitToScreen}>
@@ -682,13 +703,13 @@
 													class=" h-full {index === 0 &&
 													(resizable === 'rows' || resizable === 'both')
 														? 'resize-y overflow-auto'
-														: ''}"
+														: 'block'}"
 													id="{tableId}-{cell.id}-{row.id}"
 													style={`
-														min-height: ${$rowHeights && $rowHeights[row.id] ? `${$rowHeights[row.id].min}px` : 'auto'};
+														min-height: ${$rowHeights && $rowHeights[+row.id] ? `${$rowHeights[+row.id].min}px` : 'auto'};
 														max-height: ${
-															index !== 0 && $rowHeights && $rowHeights[row.id]
-																? `${$rowHeights[row.id].max}px`
+															index !== 0 && $rowHeights && $rowHeights[+row.id]
+																? `${$rowHeights[+row.id].max}px`
 																: 'auto'
 														};
 														height: ${$rowHeights && $rowHeights[+row.id] ? `${$rowHeights[+row.id].min}px` : 'auto'};
@@ -698,7 +719,7 @@
 													<div
 														class="flex items-start overflow-auto"
 														style={`
-															max-height: ${$rowHeights && $rowHeights[row.id] ? `${$rowHeights[row.id].max}px` : 'auto'};
+															max-height: ${$rowHeights && $rowHeights[+row.id] ? `${$rowHeights[+row.id].max}px` : 'auto'};
 														`}
 													>
 														<div
