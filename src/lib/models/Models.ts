@@ -117,6 +117,7 @@ export interface TableConfig<T> {
 	id: string;
 	data: Writable<T[]>;
 	resizable?: 'none' | 'rows' | 'columns' | 'both'; // none by default
+	showColumnsMenu?: boolean; // false by default
 	toggle?: boolean; // false by default
 	search?: boolean; // true by default
 	fitToScreen?: boolean; // true by default

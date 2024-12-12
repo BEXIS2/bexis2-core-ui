@@ -203,15 +203,19 @@ export interface TableConfig<T> {
 	id: string;
 	data: Writable<T[]>;
 	resizable?: 'rows' | 'columns' | 'both'; // none by default
+	showColumnsMenu?: boolean; // false by default
 	toggle?: boolean; // false by default
+	search?: boolean; // true by default
 	fitToScreen?: boolean; // true by default
 	height?: null | number; // null by default
 	rowHeight?: number; // auto by default
 	columns?: Columns;
 	exportable?: boolean; // false by default
-	pageSizes?: number[]; // [5, 10, 15, 20] by default
+	pageSizes?: number[]; // [5, 10, 20, 50, 100] by default
 	defaultPageSize?: number; // 10 by default
 	optionsComponent?: typeof SvelteComponent;
+
+	server?: ServerConfig;
 }`;
 
 export const columnsTypeCode = `
@@ -332,6 +336,7 @@ export const websitesHTML = `
 	const websitesConfig: TableConfig<Website> = {
 		id: 'websites',
 		data: websitesStore,
+		showColumnsMenu: true,
 		toggle: true,
 		fitToScreen: false,
 		columns: {
@@ -707,13 +712,13 @@ export const serverSideTableHTML = `
 
 	const serverTableConfig: TableConfig<ServerTableType> = {
 		id: 'serverTable', // a unique id for the table
-		entityId: 3, // dataset ID
-		versionId: -1, // vesion ID
 		data: tableStore, // store to hold and retrieve data
-		serverSide: true, // serverSide needs to be set to true
-		// URL for the table to be fetched from
-		URL: 'https://dev.bexis2.uni-jena.de/api/datatable/',
-		token: '<your_token>' // API token to access the datasets
+		server: {
+			// URL for the table to be fetched from
+			baseUrl: 'https://dev.bexis2.uni-jena.de/api/datatable/',
+			entityId: 1, // dataset ID
+			versionId: -1, // version ID
+		}
 	};
 </script>
 

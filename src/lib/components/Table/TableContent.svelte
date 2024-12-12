@@ -48,6 +48,7 @@
 		id: tableId, // Unique table ID
 		data, // Data store
 		columns, // Column configuration
+		showColumnsMenu = false, // Whether to display the columns menu
 		resizable = 'none', // Resizability config
 		height = null, // Table height
 		rowHeight = null, // Row height
@@ -611,7 +612,7 @@
 							><Fa icon={faDownload} /> Export as CSV</button
 						>
 					{/if}
-					{#if shownColumns.length > 0}
+					{#if showColumnsMenu && shownColumns.length > 0}
 						<ColumnsMenu bind:columns={shownColumns} {tableId} />
 					{/if}
 				</div>
