@@ -11,7 +11,10 @@
 
 	export let pageConfig;
 	export let pageSizes;
+	export let pageIndexStringType;
 	export let id;
+	
+	let indexInformation = '';
 
 	const { pageIndex, pageCount, pageSize, hasNextPage, hasPreviousPage } = pageConfig;
 
@@ -42,11 +45,22 @@
 		closeQuery: '.listbox-item'
 	};
 
+	const getIndexInfomationString = () => {
+		if (pageIndexStringType === 'pages') {
+			return $pageCount > 0 ? `Page ${$pageIndex + 1} of ${$pageCount}` : 'No pages';
+		} else {
+			return `Displaying items ${$pageIndex * $pageSize + 1} - ${($pageIndex + 1) * $pageSize} of ${
+				$pageCount * $pageSize
+			}`;
+		}
+	};
+
 	$: goToFirstPageDisabled = !$pageIndex;
 	$: goToLastPageDisabled = $pageIndex == $pageCount - 1;
 	$: goToNextPageDisabled = !$hasNextPage;
 	$: goToPreviousPageDisabled = !$hasPreviousPage;
 	$: $pageSize = pageSizeDropdownValue;
+	$: $pageCount, $pageIndex, $pageSize, (indexInformation = getIndexInfomationString());
 </script>
 
 <div class="flex justify-between w-full items-stretch gap-10">
@@ -124,12 +138,6 @@
 		>
 	</div>
 	<div class="flex justify-end items-center">
-		<span class="text-sm text-gray-500">
-			{#if $pageCount > 0}
-				Page {$pageIndex + 1} of {$pageCount}
-			{:else}
-				No pages
-			{/if}
-		</span>
+		<span class="text-sm text-gray-500">{indexInformation}</span>
 	</div>
 </div>

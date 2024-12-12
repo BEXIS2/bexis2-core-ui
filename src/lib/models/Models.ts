@@ -127,6 +127,7 @@ export interface TableConfig<T> {
 	exportable?: boolean; // false by default
 	pageSizes?: number[]; // [5, 10, 20, 50, 100] by default
 	defaultPageSize?: number; // 10 by default
+	pageIndexStringType?: 'items' | 'pages'; // pages by default
 	optionsComponent?: typeof SvelteComponent;
 
 	server?: ServerConfig;

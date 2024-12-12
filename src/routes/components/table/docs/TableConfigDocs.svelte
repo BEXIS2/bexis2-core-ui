@@ -192,6 +192,21 @@
 
 	<div class="items-center">
 		<div class="flex gap-2">
+			<div class="italic">pageIndexStringType:</div>
+			<div class="font-bold"><i>"items"</i> or <i>"pages"</i></div>
+		</div>
+
+		<p class="text-xl pl-10">
+			Whether the table should display page index information by number of items or pages. <code
+				class="!text-xl bg-tertiary-300 dark:bg-tertiary-700/50 rounded-md p-0.5 text-primary-500"
+				>"pages"</code
+			>
+			by default.
+		</p>
+	</div>
+
+	<div class="items-center">
+		<div class="flex gap-2">
 			<div class="italic">optionsComponent:</div>
 			<div class="font-bold">{`SvelteComponent`}</div>
 		</div>
