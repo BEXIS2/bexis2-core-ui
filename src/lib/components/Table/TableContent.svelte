@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { afterUpdate, onDestroy, createEventDispatcher } from 'svelte';
+	import { afterUpdate, createEventDispatcher, onDestroy } from 'svelte';
 	import { readable, writable } from 'svelte/store';
 
 	import Fa from 'svelte-fa';
@@ -26,18 +26,9 @@
 	import TablePagination from './TablePagination.svelte';
 	import TablePaginationServer from './TablePaginationServer.svelte';
 	import ColumnsMenu from './ColumnsMenu.svelte';
+	import * as utils from './utils';
 	import { columnFilter, searchFilter } from './filter';
-	import {
-		cellStyle,
-		exportAsCsv,
-		jsonToCsv,
-		fixedWidth,
-		normalizeFilters,
-		resetResize,
-		convertServerColumns,
-		minWidth
-	} from './shared';
-	import { Receive, Send } from '$models/Models';
+	import { Send } from '$models/Models';
 	import type { TableConfig } from '$models/Models';
 	import type { FilterOptionsEnum } from '$models/Enums';
 
@@ -68,7 +59,7 @@
 	let tableRef: HTMLTableElement;
 
 	const serverSide = server !== undefined;
-	const { baseUrl, entityId, versionId, sendModel = new Send() } = server ?? {};
+	const { sendModel = new Send() } = server ?? {};
 
 	const filters = writable<{
 		[key: string]: { [key in FilterOptionsEnum]?: number | string | Date };
@@ -86,7 +77,7 @@
 	const colWidths = writable<number[]>([]);
 
 	// Server-side variables
-	const serverItems = serverSide ? writable<Number>(0) : undefined;
+	const serverItems = serverSide ? writable<number>(0) : undefined;
 	const serverItemCount = serverSide
 		? readable<Number>(0, (set) => {
 				serverItems!.subscribe((val) => set(val));
@@ -209,7 +200,7 @@
 													id,
 													tableId,
 													values,
-													updateTable,
+													updateTable: updateTableWithParams,
 													pageIndex,
 													toFilterableValueFn,
 													filters,
@@ -257,7 +248,7 @@
 											id,
 											tableId,
 											values,
-											updateTable,
+											updateTable: updateTableWithParams,
 											pageIndex,
 											filters
 									  })
@@ -312,65 +303,6 @@
 	// Column visibility configuration
 	const { hiddenColumnIds } = pluginStates.hideColumns;
 
-	const updateTable = async () => {
-		if (!sendModel) throw new Error('Server-side configuration is missing');
-
-		sendModel.limit = $pageSize;
-		sendModel.offset = $pageSize * $pageIndex;
-		sendModel.version = versionId || -1;
-		sendModel.id = entityId || -1;
-		sendModel.filter = normalizeFilters($filters);
-
-		let fetchData;
-
-		try {
-			isFetching = true;
-			fetchData = await fetch(baseUrl || '', {
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				method: 'POST',
-				body: JSON.stringify(sendModel)
-			});
-		} catch (error) {
-			throw new Error(`Network error: ${(error as Error).message}`);
-		} finally {
-			isFetching = false;
-		}
-
-		if (!fetchData.ok) {
-			throw new Error('Failed to fetch data');
-		}
-
-		const response: Receive = await fetchData.json();
-
-		// Format server columns to the client columns
-		if (response.columns !== undefined) {
-			columns = convertServerColumns(response.columns, columns);
-
-			const clientCols = response.columns.reduce((acc, col) => {
-				acc[col.key] = col.column;
-				return acc;
-			}, {});
-
-			const tmpArr: any[] = [];
-
-			response.data.forEach((row, index) => {
-				const tmp: { [key: string]: any } = {};
-				Object.keys(row).forEach((key) => {
-					tmp[clientCols[key]] = row[key];
-				});
-				tmpArr.push(tmp);
-			});
-			dispatch('fetch', columns);
-			$data = tmpArr;
-		}
-
-		$serverItems = response.count;
-
-		return response;
-	};
-
 	const sortServer = (order: 'asc' | 'desc' | undefined, id: string) => {
 		if (!sendModel) throw new Error('Server-side configuration is missing');
 		// Set parameter for sorting
@@ -383,109 +315,28 @@
 		// Reset pagination
 		$pageIndex = 0;
 
-		updateTable();
+		updateTableWithParams();
 	};
 
-	const getMaxCellHeightInRow = () => {
-		if (!tableRef || resizable === 'columns' || resizable === 'none') return;
+	// Function to update the table with the provided parameters for easily passing to other components
+	const updateTableWithParams = async () => {
+		isFetching = true;
+		const result = await utils.updateTable(
+			$pageSize,
+			$pageIndex,
+			server,
+			$filters,
+			data,
+			serverItems,
+			columns,
+			dispatch
+		);
+		isFetching = false;
 
-		tableRef.querySelectorAll('tbody tr').forEach((row, index) => {
-			const cells = row.querySelectorAll('td');
-
-			let maxHeight = optionsComponent ? 56 : 44;
-			let minHeight = optionsComponent ? 56 : 44;
-
-			cells.forEach((cell) => {
-				const cellHeight = cell.getBoundingClientRect().height;
-				// + 2 pixels for rendering borders correctly
-				if (cellHeight > maxHeight) {
-					maxHeight = cellHeight + 2;
-				}
-				if (cellHeight < minHeight) {
-					minHeight = cellHeight + 2;
-				}
-			});
-
-			rowHeights.update((rh) => {
-				const id = +row.id.split(`${tableId}-row-`)[1];
-				return {
-					...rh,
-					[id]: {
-						max: maxHeight - 24,
-						min: Math.max(minHeight - 24, rowHeight ?? 20)
-					}
-				};
-			});
-		});
+		return result;
 	};
 
-	const getMinCellWidthInColumn = () => {
-		if (!tableRef || resizable === 'rows' || resizable === 'none') return;
-
-		// Initialize the colWidths array if it is empty
-		if ($colWidths.length === 0) {
-			$colWidths = Array.from({ length: $headerRows[0].cells.length }, () => 100);
-		}
-
-		colWidths.update((cw) => {
-			tableRef?.querySelectorAll('thead tr th span').forEach((cell, index) => {
-				// + 12 pixels for padding and + 32 pixels for filter icon
-				// If the column width is 100, which means it has not been initialized, then calculate the width
-				cw[index] = cw[index] === 100 ? cell.getBoundingClientRect().width + 12 + 32 : cw[index];
-			});
-			return cw;
-		});
-	};
-
-	const resizeRowsObserver = new ResizeObserver(() => {
-		getMaxCellHeightInRow();
-	});
-
-	const resizeColumnsObserver = new ResizeObserver(() => {
-		getMinCellWidthInColumn();
-	});
-
-	const observeFirstCells = () => {
-		if (!tableRef) return;
-
-		$pageRows.forEach((row) => {
-			const cell = tableRef.querySelector(`#${tableId}-row-${row.id}`);
-			if (cell) {
-				resizeRowsObserver.observe(cell);
-			}
-		});
-
-		tableRef.querySelectorAll('tbody tr td:first-child').forEach((cell) => {
-			resizeRowsObserver.observe(cell);
-		});
-	};
-
-	const observeHeaderColumns = () => {
-		if (!tableRef) return;
-
-		tableRef.querySelectorAll('thead tr th').forEach((cell) => {
-			resizeColumnsObserver.observe(cell);
-		});
-	};
-
-	afterUpdate(() => {
-		if (resizable !== 'rows' && resizable !== 'both') {
-			return;
-		}
-		// Making sure tableRef is up to date and contains the new rows
-		// If it contains even one element, it means it contains them all
-		const e = tableRef?.querySelector(`#${tableId}-row-${$pageRows[0].id}`);
-		if (e) {
-			getDimensions();
-		}
-	});
-
-	// Remove the resize observer when the component is destroyed for performance reasons
-	onDestroy(() => {
-		resizeRowsObserver.disconnect();
-		resizeColumnsObserver.disconnect();
-	});
-
+	// Initializes observers for rows and columns
 	const getDimensions = () => {
 		if (!tableRef) return;
 		if (resizable === 'none') return;
@@ -499,8 +350,63 @@
 		}
 	};
 
+	// Resize observer for rows
+	const resizeRowsObserver = new ResizeObserver(() => {
+		utils.getMaxCellHeightInRow(
+			tableRef,
+			resizable,
+			optionsComponent,
+			rowHeights,
+			tableId,
+			rowHeight
+		);
+	});
+
+	// Resize observers for columns
+	const resizeColumnsObserver = new ResizeObserver(() => {
+		utils.getMinCellWidthInColumn(tableRef, colWidths, $headerRows[0].cells.length, resizable);
+	});
+
+	// Adds observers on the first cells of each row to resize rows
+	const observeFirstCells = () => {
+		if (!tableRef) return;
+
+		tableRef.querySelectorAll('tbody tr td:first-child').forEach((cell) => {
+			resizeRowsObserver.observe(cell);
+		});
+
+		return resizeRowsObserver;
+	};
+
+	// Adds observers on the header columns to resize columns
+	const observeHeaderColumns = () => {
+		if (!tableRef) return;
+
+		tableRef.querySelectorAll('thead tr th').forEach((cell) => {
+			resizeColumnsObserver.observe(cell);
+		});
+	};
+
+	afterUpdate(() => {
+		// If not resizable, return
+		if (resizable !== 'rows' && resizable !== 'both') {
+			return;
+		}
+		// Making sure tableRef is up to date and contains the new rows
+		// If it contains even one element, it means it contains them all
+		const e = tableRef?.querySelector(`#${tableId}-row-${$pageRows[0].id}`);
+		if (e) {
+			getDimensions();
+		}
+	});
+
+	onDestroy(() => {
+		resizeColumnsObserver.disconnect();
+		resizeRowsObserver.disconnect();
+	});
+
 	$: sortKeys = pluginStates.sort.sortKeys;
-	$: serverSide && updateTable();
+	$: serverSide && updateTableWithParams();
 	$: serverSide && sortServer($sortKeys[0]?.order, $sortKeys[0]?.id);
 	$: $hiddenColumnIds = shownColumns.filter((col) => !col.visible).map((col) => col.id);
 </script>
@@ -600,19 +506,22 @@
 							class="btn btn-sm variant-filled-primary rounded-full order-last flex gap-2 items-center"
 							aria-label="Reset sizing of columns and rows"
 							on:click|preventDefault={() =>
-								resetResize($headerRows, $pageRows, tableId, columns, resizable)}
+								utils.resetResize($headerRows, $pageRows, tableId, columns, resizable)}
 							><Fa icon={faCompress} /> Reset sizing</button
 						>
 					{/if}
+					<!-- Enable export as CSV button if exportable === true -->
 					{#if exportable}
 						<button
 							type="button"
 							class="btn btn-sm variant-filled-primary rounded-full order-last flex items-center gap-2"
 							aria-label="Export table data as CSV"
-							on:click|preventDefault={() => exportAsCsv(tableId, jsonToCsv($exportedData))}
+							on:click|preventDefault={() =>
+								utils.exportAsCsv(tableId, utils.jsonToCsv($exportedData))}
 							><Fa icon={faDownload} /> Export as CSV</button
 						>
 					{/if}
+					<!-- Enable show/hide columns menu if showColumnsMenu === true -->
 					{#if showColumnsMenu && shownColumns.length > 0}
 						<ColumnsMenu bind:columns={shownColumns} {tableId} />
 					{/if}
@@ -646,16 +555,20 @@
 												{...attrs}
 												style={`
 													width: ${cell.isData() ? 'auto' : '0'};
-													${cellStyle(cell.id, columns)}
+													${utils.cellStyle(cell.id, columns)}
 												`}
 											>
 												<div
 													class="overflow-auto"
 													class:resize-x={(resizable === 'columns' || resizable === 'both') &&
-														!fixedWidth(cell.id, columns)}
+														!utils.fixedWidth(cell.id, columns)}
 													id="th-{tableId}-{cell.id}"
 													style={`
-														min-width: ${minWidth(cell.id, columns) ? minWidth(cell.id, columns) : $colWidths[index]}px;
+														min-width: ${
+															utils.minWidth(cell.id, columns)
+																? utils.minWidth(cell.id, columns)
+																: $colWidths[index]
+														}px;
 													`}
 												>
 													<div class="flex justify-between items-center">
@@ -714,15 +627,7 @@
 														? 'resize-y overflow-auto'
 														: 'block'}"
 													id="{tableId}-{cell.id}-{row.id}"
-													style={`
-														min-height: ${$rowHeights && $rowHeights[+row.id] ? `${$rowHeights[+row.id].min}px` : 'auto'};
-														max-height: ${
-															index !== 0 && $rowHeights && $rowHeights[+row.id]
-																? `${$rowHeights[+row.id].max}px`
-																: 'auto'
-														};
-														height: ${$rowHeights && $rowHeights[+row.id] ? `${$rowHeights[+row.id].min}px` : 'auto'};
-													`}
+													style={utils.getResizeStyles($rowHeights, row.id, index)}
 												>
 													<!-- Adding config for initial rowHeight, if provided -->
 													<div
@@ -735,8 +640,8 @@
 															class="grow overflow-auto"
 															style={cell.isData()
 																? `width: ${
-																		minWidth(cell.id, columns)
-																			? minWidth(cell.id, columns)
+																		utils.minWidth(cell.id, columns)
+																			? utils.minWidth(cell.id, columns)
 																			: $colWidths[index]
 																  }px;`
 																: 'max-width: min-content;'}
@@ -779,13 +684,18 @@
 				{pageIndex}
 				{pageSize}
 				{serverItemCount}
-				{updateTable}
+				updateTable={updateTableWithParams}
 				{pageSizes}
 				{pageIndexStringType}
 				id={tableId}
 			/>
 		{:else}
-			<TablePagination pageConfig={pluginStates.page} {pageSizes} id={tableId} {pageIndexStringType} />
+			<TablePagination
+				pageConfig={pluginStates.page}
+				{pageSizes}
+				id={tableId}
+				{pageIndexStringType}
+			/>
 		{/if}
 	{/if}
 </div>
