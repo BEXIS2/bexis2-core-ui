@@ -10,6 +10,7 @@
 	const websitesConfig: TableConfig<Website> = {
 		id: 'websites',
 		data: websitesStore,
+		showColumnsMenu: true,
 		toggle: true,
 		fitToScreen: false,
 		columns: {
@@ -31,7 +32,7 @@
 </script>
 
 <div id="URLs">
-	<CustomCodeContainer title="URLs" tabs={websitesTabs}>
+	<CustomCodeContainer title="URLs (+ show columns menu)" tabs={websitesTabs}>
 		<Table config={websitesConfig} />
 	</CustomCodeContainer>
 </div>

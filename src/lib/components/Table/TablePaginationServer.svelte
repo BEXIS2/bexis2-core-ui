@@ -10,6 +10,7 @@
 	export let id; // Unique table ID
 	export let pageIndex;
 	export let pageSize;
+	export let pageIndexStringType;
 	export let pageSizes; // Available page sizes
 	export let serverItemCount; // Total number of items expected from the server. `serverSide` must be true on table config.
 	export let updateTable; // Function to update table
@@ -19,6 +20,9 @@
 	let goToLastPageDisabled = true;
 	let goToNextPageDisabled = true;
 	let goToPreviousPageDisabled = true;
+
+	// Index information string
+	let indexInformation = '';
 
 	// Handles the input change event
 	const handleChange = (e) => {
@@ -58,12 +62,23 @@
 		updateTable();
 	};
 
+	const getIndexInfomationString = () => {
+		if (pageIndexStringType === 'pages') {
+			return pageCount > 0 ? `Page ${$pageIndex + 1} of ${pageCount}` : 'No pages';
+		} else {
+			return `Showing ${$pageIndex * $pageSize + 1} - ${($pageIndex + 1) * $pageSize} of ${
+				pageCount * $pageSize
+			} items`;
+		}
+	};
+
 	$: pageCount = Math.ceil($serverItemCount / $pageSize);
 	$: goToFirstPageDisabled = !$pageIndex;
 	$: goToLastPageDisabled = $pageIndex == pageCount - 1;
 	$: goToNextPageDisabled = $pageIndex == pageCount - 1;
 	$: goToPreviousPageDisabled = !$pageIndex;
 	$: $pageSize && updateTable(); // Update query when page size changes
+	$: pageCount, $pageIndex, $pageSize, (indexInformation = getIndexInfomationString());
 
 	updateTable();
 </script>
@@ -127,15 +142,7 @@
 	</div>
 	<div class="flex justify-end items-center">
 		<span class="text-sm text-gray-500">
-			{#if pageCount > 0}
-				{#if pageCount == 1}
-					1 page
-				{:else}
-					{pageCount} pages
-				{/if}
-			{:else}
-				No pages
-			{/if}
+			{indexInformation}
 		</span>
 	</div>
 </div>

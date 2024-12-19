@@ -1,7 +1,10 @@
 import dateFormat from 'dateformat';
+import { SvelteComponent } from 'svelte';
+import type { Writable } from 'svelte/store';
 
+import { Send, Receive } from '$models/Models';
 import type { FilterOptionsEnum } from '$models/Enums';
-import type { Columns, Filter, ServerColumn } from '$models/Models';
+import type { Columns, Filter, ServerColumn, ServerConfig } from '$models/Models';
 
 // Function to determine minWidth for a column to simplify the logic in the HTML
 export const minWidth = (id: string, columns: Columns | undefined) => {
@@ -158,6 +161,76 @@ export const missingValuesFn = (
 	return foundKey ? missingValues[foundKey] : key;
 };
 
+// Function to update the server-side table data
+export const updateTable = async (
+	pageSize: number,
+	pageIndex: number,
+	server: ServerConfig | undefined,
+	filters: {
+		[key: string]: { [key in FilterOptionsEnum]?: number | string | Date }
+	},
+	data: Writable<any[]>,
+	serverItems: Writable<number> | undefined,
+	columns: Columns | undefined,
+	dispatch: any
+) => {
+	const { baseUrl, entityId, versionId, sendModel = new Send() } = server ?? {};
+
+	if (!sendModel) throw new Error('Server-side configuration is missing');
+
+	sendModel.limit = pageSize;
+	sendModel.offset = pageSize * pageIndex;
+	sendModel.version = versionId || -1;
+	sendModel.id = entityId || -1;
+	sendModel.filter = normalizeFilters(filters);
+
+	let fetchData;
+
+	try {
+		fetchData = await fetch(baseUrl || '', {
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			method: 'POST',
+			body: JSON.stringify(sendModel)
+		});
+	} catch (error) {
+		throw new Error(`Network error: ${(error as Error).message}`);
+	}
+
+	if (!fetchData.ok) {
+		throw new Error('Failed to fetch data');
+	}
+
+	const response: Receive = await fetchData.json();
+
+	// Format server columns to the client columns
+	if (response.columns !== undefined) {
+		columns = convertServerColumns(response.columns, columns);
+
+		const clientCols = response.columns.reduce((acc, col) => {
+			acc[col.key] = col.column;
+			return acc;
+		}, {});
+
+		const tmpArr: any[] = [];
+
+		response.data.forEach((row, index) => {
+			const tmp: { [key: string]: any } = {};
+			Object.keys(row).forEach((key) => {
+				tmp[clientCols[key]] = row[key];
+			});
+			tmpArr.push(tmp);
+		});
+		dispatch('fetch', columns);
+		data.set(tmpArr);
+	}
+
+	serverItems?.set(response.count);
+
+	return response;
+};
+
 export const convertServerColumns = (
 	serverColumns: ServerColumn[],
 	columns: Columns | undefined
@@ -215,3 +288,86 @@ export const convertServerColumns = (
 
 	return columnsConfig;
 };
+
+// Calculates the maximum height of the cells in each row
+export const getMaxCellHeightInRow = (
+	tableRef: HTMLTableElement,
+	resizable: 'columns' | 'rows' | 'none' | 'both',
+	optionsComponent: typeof SvelteComponent | undefined,
+	rowHeights: Writable<{ [key: number]: { max: number; min: number } }>,
+	tableId: string,
+	rowHeight: number | null
+) => {
+	if (!tableRef || resizable === 'columns' || resizable === 'none') return;
+
+	tableRef.querySelectorAll('tbody tr').forEach((row, index) => {
+		const cells = row.querySelectorAll('td');
+
+		let maxHeight = optionsComponent ? 56 : 44;
+		let minHeight = optionsComponent ? 56 : 44;
+
+		cells.forEach((cell) => {
+			const cellHeight = cell.getBoundingClientRect().height;
+			// + 2 pixels for rendering borders correctly
+			if (cellHeight > maxHeight) {
+				maxHeight = cellHeight + 2;
+			}
+			if (cellHeight < minHeight) {
+				minHeight = cellHeight + 2;
+			}
+		});
+
+		rowHeights.update((rh) => {
+			const id = +row.id.split(`${tableId}-row-`)[1];
+			return {
+				...rh,
+				[id]: {
+					max: maxHeight - 24,
+					min: Math.max(minHeight - 24, rowHeight ?? 20)
+				}
+			};
+		});
+	});
+};
+
+// Calculates the minimum width of the cells in each column
+export const getMinCellWidthInColumn = (
+	tableRef: HTMLTableElement,
+	colWidths: Writable<number[]>,
+	headerRowsLength: number,
+	resizable: 'columns' | 'rows' | 'none' | 'both'
+) => {
+	if (!tableRef || resizable === 'rows' || resizable === 'none') return;
+
+	// Initialize the column widths if they are not already initialized
+	colWidths.update((cw) => {
+		if (cw.length === 0) {
+			return Array.from({ length: headerRowsLength }, () => 100);
+		}
+		return cw;
+	});
+
+	colWidths.update((cw) => {
+		tableRef?.querySelectorAll('thead tr th span').forEach((cell, index) => {
+			// + 12 pixels for padding and + 32 pixels for filter icon
+			// If the column width is 100, which means it has not been initialized, then calculate the width
+			cw[index] = cw[index] === 100 ? cell.getBoundingClientRect().width + 12 + 32 : cw[index];
+		});
+		return cw;
+	});
+};
+
+export const getResizeStyles = (
+	rowHeights: { [key: number]: { max: number; min: number } },
+	id: string | number,
+	index: number
+) => {
+	return `
+	min-height: ${rowHeights && rowHeights[+id] ? `${rowHeights[+id].min}px` : 'auto'};
+	max-height: ${index !== 0 && rowHeights && rowHeights[+id]
+			? `${rowHeights[+id].max}px`
+			: 'auto'
+		};
+	height: ${rowHeights && rowHeights[+id] ? `${rowHeights[+id].min}px` : 'auto'};
+	`;
+}
