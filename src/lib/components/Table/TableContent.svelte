@@ -292,7 +292,7 @@
 	// Creating the table columns
 	const createdTableColumns = table.createColumns(tableColumns);
 	// Creating the table view model
-	const { headerRows, pageRows, tableAttrs, tableBodyAttrs, pluginStates } =
+	const { headerRows, pageRows, tableAttrs, tableBodyAttrs, pluginStates, rows } =
 		table.createViewModel(createdTableColumns);
 	// Extracting filterValue to bind it for the search input and search immediately on input
 	const { filterValue } = pluginStates.tableFilter;
@@ -691,6 +691,7 @@
 			/>
 		{:else}
 			<TablePagination
+				itemCount={$rows.length}
 				pageConfig={pluginStates.page}
 				{pageSizes}
 				id={tableId}

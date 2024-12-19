@@ -9,11 +9,12 @@
 	} from '@fortawesome/free-solid-svg-icons';
 	import { ListBox, ListBoxItem, popup, type PopupSettings } from '@skeletonlabs/skeleton';
 
+	export let itemCount;
 	export let pageConfig;
 	export let pageSizes;
 	export let pageIndexStringType;
 	export let id;
-	
+
 	let indexInformation = '';
 
 	const { pageIndex, pageCount, pageSize, hasNextPage, hasPreviousPage } = pageConfig;
@@ -49,9 +50,10 @@
 		if (pageIndexStringType === 'pages') {
 			return $pageCount > 0 ? `Page ${$pageIndex + 1} of ${$pageCount}` : 'No pages';
 		} else {
-			return `Displaying items ${$pageIndex * $pageSize + 1} - ${($pageIndex + 1) * $pageSize} of ${
-				$pageCount * $pageSize
-			}`;
+			return itemCount === 0 ? 'No items' : `Displaying items ${$pageIndex * $pageSize + 1} - ${Math.min(
+				($pageIndex + 1) * $pageSize,
+				itemCount
+			)} of ${Math.min($pageCount * $pageSize, itemCount)}`;
 		}
 	};
 
