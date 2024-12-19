@@ -234,7 +234,7 @@
 					accessor: accessor,
 					cell: ({ value }) => {
 						// If null or undefined, return an empty string
-						return value ? value : '';
+						return value != undefined && value != null ? value : '';
 					},
 					plugins: {
 						// Sorting enabled by default
