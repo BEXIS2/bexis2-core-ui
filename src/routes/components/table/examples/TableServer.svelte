@@ -22,13 +22,11 @@
 		serverTableConfig = {
 			id: 'serverTable', // a unique id for the table
 			data: tableStore, // store to hold and retrieve data
-			// URL for the table to be fetched from
-			pageSizes: [10, 25, 50, 100],
-			
 			server: {
+				// URL for the table to be fetched from
 				baseUrl: 'https://dev.bexis2.uni-jena.de/api/datatable/',
 				entityId: 1, // dataset ID
-				versionId: -1, // version ID
+				versionId: -1 // version ID
 			}
 		};
 	});

@@ -191,10 +191,14 @@
 			hyphenOpacity="opacity-0"
 			bind:checked={selectedGroups[group.name]}
 			bind:group={selectedGroups}
+			regionSymbol="shrink-0"
 		>
-			<p class="font-semibold whitespace-nowrap">
-				{group.displayName}{group.count !== undefined ? ` (${group.count})` : ''}
-			</p>
+			<div class="grid grid-flow-col gap-2">
+				<p class="font-semibold whitespace-nowrap truncate" title={group.displayName}>
+					{group.displayName}
+				</p>
+				<span>{group.count !== undefined ? ` (${group.count})` : ''}</span>
+			</div>
 
 			<svelte:fragment slot="children">
 				<!-- If more than 5 choices, show the remaining in the Modal -->
@@ -210,9 +214,9 @@
 							selection
 							multiple
 						>
-							<div class="flex gap-2">
-								<p class="w-max grow truncate">
-									<span title={item.displayName}>{item.displayName}</span>
+							<div class="grid grid-flow-col gap-2">
+								<p class="truncate">
+									<span class="" title={item.displayName}>{item.displayName}</span>
 								</p>
 								<span>({item.count})</span>
 							</div>
@@ -237,9 +241,9 @@
 							selection
 							multiple
 						>
-							<div class="flex gap-2">
-								<p class="w-max grow truncate">
-									<span title={item.displayName}>{item.displayName}</span>
+							<div class="grid grid-flow-col gap-2">
+								<p class="truncate">
+									<span class="" title={item.displayName}>{item.displayName}</span>
 								</p>
 								<span>({item.count})</span>
 							</div>

@@ -117,6 +117,7 @@ export interface TableConfig<T> {
 	id: string;
 	data: Writable<T[]>;
 	resizable?: 'none' | 'rows' | 'columns' | 'both'; // none by default
+	showColumnsMenu?: boolean; // false by default
 	toggle?: boolean; // false by default
 	search?: boolean; // true by default
 	fitToScreen?: boolean; // true by default
@@ -126,6 +127,7 @@ export interface TableConfig<T> {
 	exportable?: boolean; // false by default
 	pageSizes?: number[]; // [5, 10, 20, 50, 100] by default
 	defaultPageSize?: number; // 10 by default
+	pageIndexStringType?: 'items' | 'pages'; // pages by default
 	optionsComponent?: typeof SvelteComponent;
 
 	server?: ServerConfig;
