@@ -62,7 +62,7 @@
 	$: goToNextPageDisabled = !$hasNextPage;
 	$: goToPreviousPageDisabled = !$hasPreviousPage;
 	$: $pageSize = pageSizeDropdownValue;
-	$: $pageCount, $pageIndex, $pageSize, (indexInformation = getIndexInfomationString());
+	$: $pageCount, $pageIndex, $pageSize, itemCount, (indexInformation = getIndexInfomationString());
 </script>
 
 <div class="flex justify-between w-full items-stretch gap-10">

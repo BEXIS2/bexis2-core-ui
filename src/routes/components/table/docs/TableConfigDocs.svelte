@@ -199,7 +199,7 @@
 		<p class="text-xl pl-10">
 			Whether the table should display page index information by number of items or pages. <code
 				class="!text-xl bg-tertiary-300 dark:bg-tertiary-700/50 rounded-md p-0.5 text-primary-500"
-				>"pages"</code
+				>"items"</code
 			>
 			by default.
 		</p>
