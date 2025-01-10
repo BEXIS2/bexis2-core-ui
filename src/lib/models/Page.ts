@@ -29,6 +29,7 @@ export interface menuItemType {
 	Url: string;
 	Target: string;
 	Module: string;
+	Internal: boolean;
 	Items: menuItemType[];
 }
 

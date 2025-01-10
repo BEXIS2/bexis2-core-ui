@@ -3,11 +3,11 @@
 import { host } from '$store/apiStores';
 
 // go to a internal action
-export const goTo = async (url, intern = true) => {
+export const goTo = async (url, intern = true, target="_self") => {
 	if (intern == true) {
 		// go to inside bexis2
 		if (window != null && host != null && url != null) {
-			window.open(host + url, '_self')?.focus();
+			window.open(host + url, target)?.focus();
 		}
 	} // go to a external page
 	else {

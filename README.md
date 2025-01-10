@@ -1,4 +1,28 @@
 # bexis-core-ui
+## 0.4.26
+- menu
+  - change submenu buttons to a link and add link menuitems to support right click menu
+  
+## 0.4.25
+- menu
+  - add internal & target to menuItemType to support handle menuEntries open in same or other window
+
+## 0.4.24
+- Table
+  - Adds option for enabling/disabling show/hide column menu in table.  
+  - Adds option to show number of items displayed instead of number of pages.
+  - Fixes an issue where "0" values return empty string.
+
+- Facets
+  - Fixes an issue with truncation of text in Facet headers and options.
+
+## 0.4.23
+- Table
+  - fix resizing issues after page size or page index changes
+  - Add Select All and Deselect All in columns menu
+  - Convert JSON to CSV and export as CSV
+  - Export as JSON to fix special characters and encoding issues
+
 ## 0.4.22
 - Facets
   - Replace column class function with more efficient solution

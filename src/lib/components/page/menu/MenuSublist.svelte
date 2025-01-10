@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ListBox, ListBoxItem } from '@skeletonlabs/skeleton';
+	import { ListBox, ListBoxItem, TreeViewItem } from '@skeletonlabs/skeleton';
 	import type { menuItemType } from '../../../models/Page';
 	import { goTo } from '../../../services/BaseCaller';
 
@@ -31,7 +31,7 @@
 			return;
 		}
 		else{
-				goTo(item.Url)
+				goTo(item.Url, item.Internal, item.Target);	
 		}
 	}
 
@@ -76,9 +76,9 @@
 			bind:group={item.Title}
 			name="medium"
 			value={item.Title}
-			on:click={() => clickFn(item)}
+	
 		>
-			{item.Title}
+			<a href={item.Url} target="{item.Target}">{item.Title}</a>
 		</ListBoxItem>
 
 	{/each}
