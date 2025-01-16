@@ -1,13 +1,8 @@
 <script lang="ts">
 	import Fa from 'svelte-fa';
-	import {
-		faAnglesRight,
-		faAngleRight,
-		faAnglesLeft,
-		faAngleLeft,
-		faChevronDown
-	} from '@fortawesome/free-solid-svg-icons';
-	import { ListBox, ListBoxItem, popup, type PopupSettings } from '@skeletonlabs/skeleton';
+	import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+	import { ListBox, ListBoxItem, Paginator, popup } from '@skeletonlabs/skeleton';
+	import type { PopupSettings } from '@skeletonlabs/skeleton';
 
 	export let itemCount;
 	export let pageConfig;
@@ -17,25 +12,7 @@
 
 	let indexInformation = '';
 
-	const { pageIndex, pageCount, pageSize, hasNextPage, hasPreviousPage } = pageConfig;
-
-	const goToFirstPage = () => ($pageIndex = 0);
-	const goToLastPage = () => ($pageIndex = $pageCount - 1);
-	const goToNextPage = () => ($pageIndex += 1);
-	const goToPreviousPage = () => ($pageIndex -= 1);
-
-	// Handles the input change event
-	const handleChange = (e) => {
-		const value = e.target.value;
-
-		if (value > $pageCount) {
-			$pageIndex = $pageCount - 1;
-		} else if (value < 1) {
-			$pageIndex = 0;
-		} else {
-			$pageIndex = value - 1;
-		}
-	};
+	const { pageIndex, pageCount, pageSize } = pageConfig;
 
 	let pageSizeDropdownValue: string = $pageSize;
 
@@ -50,43 +27,35 @@
 		if (pageIndexStringType === 'pages') {
 			return $pageCount > 0 ? `Page ${$pageIndex + 1} of ${$pageCount}` : 'No pages';
 		} else {
-			return itemCount === 0 ? 'No items' : `Displaying items ${$pageIndex * $pageSize + 1} - ${Math.min(
-				($pageIndex + 1) * $pageSize,
-				itemCount
-			)} of ${Math.min($pageCount * $pageSize, itemCount)}`;
+			return itemCount === 0
+				? 'No items'
+				: `Displaying items ${$pageIndex * $pageSize + 1} - ${Math.min(
+						($pageIndex + 1) * $pageSize,
+						itemCount
+				  )} of ${Math.min($pageCount * $pageSize, itemCount)}`;
 		}
 	};
 
-	$: goToFirstPageDisabled = !$pageIndex;
-	$: goToLastPageDisabled = $pageIndex == $pageCount - 1;
-	$: goToNextPageDisabled = !$hasNextPage;
-	$: goToPreviousPageDisabled = !$hasPreviousPage;
+	$: paginationSettings = {
+		size: itemCount,
+		limit: $pageSize,
+		page: $pageIndex,
+		amounts: pageSizes
+	};
 	$: $pageSize = pageSizeDropdownValue;
 	$: $pageCount, $pageIndex, $pageSize, itemCount, (indexInformation = getIndexInfomationString());
 </script>
 
-<div class="flex justify-between w-full items-stretch gap-10">
+<div class="grid grid-cols-3 w-full items-stretch gap-10">
 	<div class="flex justify-start">
-		<!-- <select
-			name="pageSize"
-			id="{id}-pageSize"
-			class="select variant-filled-primary w-min font-bold"
-			bind:value={$pageSize}
-		>
-			{#each pageSizes as size}
-				<option value={size} class="">{size}</option>
-			{/each}
-		</select> -->
-
 		<button
 			aria-label="Open menu to select number of items to display per page"
-			class="btn variant-filled-primary w-20 justify-between"
+			class="btn variant-filled-primary w-20 !px-3 !py-1.5 justify-between"
 			use:popup={pageSizePopup}
 		>
 			<span class="capitalize font-semibold">{pageSizeDropdownValue}</span>
 			<Fa icon={faChevronDown} size="xs" />
 		</button>
-
 		<div class="card w-20 shadow-xl py-2" data-popup={`#${id}-pageSizeDropdown`}>
 			<ListBox rounded="rounded-none">
 				{#each pageSizes as size}
@@ -98,48 +67,18 @@
 			<div class="arrow bg-surface-100-800-token" />
 		</div>
 	</div>
-	<div class="flex justify-center gap-1">
-		<button
-			class="btn btn-sm variant-filled-primary"
-			on:click|preventDefault={goToFirstPage}
-			aria-label="Go to first page"
-			disabled={goToFirstPageDisabled}
-			id="{id}-first"
-		>
-			<Fa icon={faAnglesLeft} /></button
-		>
-		<button
-			class="btn btn-sm variant-filled-primary"
-			id="{id}-previous"
-			aria-label="Go to previous page"
-			on:click|preventDefault={goToPreviousPage}
-			disabled={goToPreviousPageDisabled}><Fa icon={faAngleLeft} /></button
-		>
-		<input
-			type="number"
-			class="input border border-primary-500 rounded flex w-24"
-			value={$pageIndex + 1}
-			max={$pageCount}
-			aria-label="Current page"
-			min={1}
-			on:change={handleChange}
+	<div class="flex justify-center">
+		<Paginator
+			on:page={(page) => ($pageIndex = page.detail)}
+			settings={paginationSettings}
+			select="hidden"
+			buttonClasses="disabled:!variant-filled-surface !px-3 !py-1.5 !fill-current !variant-filled-primary"
+			active="!variant-filled-secondary"
+			maxNumerals={1}
+			showNumerals
 		/>
-		<button
-			class="btn btn-sm variant-filled-primary"
-			id="{id}-next"
-			aria-label="Go to next page"
-			on:click|preventDefault={goToNextPage}
-			disabled={goToNextPageDisabled}><Fa icon={faAngleRight} /></button
-		>
-		<button
-			class="btn btn-sm variant-filled-primary"
-			aria-label="Go to last page"
-			id="{id}-last"
-			on:click|preventDefault={goToLastPage}
-			disabled={goToLastPageDisabled}><Fa icon={faAnglesRight} /></button
-		>
 	</div>
 	<div class="flex justify-end items-center">
-		<span class="text-sm text-gray-500">{indexInformation}</span>
+		<span class="text-xs text-gray-500">{indexInformation}</span>
 	</div>
 </div>
