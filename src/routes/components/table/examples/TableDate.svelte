@@ -9,7 +9,6 @@
 	const usersBDConfig: TableConfig<UserBD> = {
 		id: 'usersBD',
 		data: usersBDStore,
-		pageIndexStringType: 'items',
 		columns: {
 			dateOfBirth: {
 				header: 'Date of birth',
@@ -25,7 +24,7 @@
 </script>
 
 <div id="usersBD">
-	<CodeContainer title="Date (+ page index type of items)" svelte={usersBDHTML} data={usersBDStoreCode}>
+	<CodeContainer title="Date" svelte={usersBDHTML} data={usersBDStoreCode}>
 		<Table config={usersBDConfig} />
 	</CodeContainer>
 </div>

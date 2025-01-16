@@ -33,6 +33,21 @@ export const cellStyle = (id: string, columns: Columns | undefined) => {
 	// Create and return styles separated by ';'
 	return styles.join(';');
 };
+// Styles for resizing the cells
+export const getResizeStyles = (
+	rowHeights: { [key: number]: { max: number; min: number } },
+	id: string | number,
+	index: number
+) => {
+	return `
+	min-height: ${rowHeights && rowHeights[+id] ? `${rowHeights[+id].min}px` : 'auto'};
+	max-height: ${index !== 0 && rowHeights && rowHeights[+id]
+			? `${rowHeights[+id].max}px`
+			: 'auto'
+		};
+	height: ${rowHeights && rowHeights[+id] ? `${rowHeights[+id].min}px` : 'auto'};
+	`;
+}
 // Function to normalize the filters for back-end
 export const normalizeFilters = (filters: {
 	[key: string]: { [key in FilterOptionsEnum]?: number | string | Date };
@@ -54,7 +69,7 @@ export const normalizeFilters = (filters: {
 
 	return filter;
 };
-
+// Creates a CSV file and downloads it
 export const exportAsCsv = (tableId: string, exportedData: string) => {
 	// Creating a hidden anchor element to download the CSV file
 	const anchor = document.createElement('a');
@@ -65,7 +80,7 @@ export const exportAsCsv = (tableId: string, exportedData: string) => {
 	anchor.click();
 	document.body.removeChild(anchor);
 };
-
+// Function to convert JSON data to CSV format
 export const jsonToCsv = (data: string): string => {
 	const json = JSON.parse(data);
 
@@ -96,7 +111,6 @@ export const jsonToCsv = (data: string): string => {
 	// Join rows with newlines
 	return rows.join('\n');
 }
-
 // Resetting the resized columns and/or rows
 export const resetResize = (
 	headerRows: any,
@@ -140,7 +154,7 @@ export const resetResize = (
 		});
 	}
 };
-
+// Finds the mapping for missing values
 export const missingValuesFn = (
 	key: number | string,
 	missingValues: { [key: string | number]: string }
@@ -160,7 +174,6 @@ export const missingValuesFn = (
 
 	return foundKey ? missingValues[foundKey] : key;
 };
-
 // Function to update the server-side table data
 export const updateTable = async (
 	pageSize: number,
@@ -230,7 +243,7 @@ export const updateTable = async (
 
 	return response;
 };
-
+// Function to convert server data to client data
 export const convertServerColumns = (
 	serverColumns: ServerColumn[],
 	columns: Columns | undefined
@@ -288,7 +301,6 @@ export const convertServerColumns = (
 
 	return columnsConfig;
 };
-
 // Calculates the maximum height of the cells in each row
 export const getMaxCellHeightInRow = (
 	tableRef: HTMLTableElement,
@@ -329,7 +341,6 @@ export const getMaxCellHeightInRow = (
 		});
 	});
 };
-
 // Calculates the minimum width of the cells in each column
 export const getMinCellWidthInColumn = (
 	tableRef: HTMLTableElement,
@@ -356,18 +367,3 @@ export const getMinCellWidthInColumn = (
 		return cw;
 	});
 };
-
-export const getResizeStyles = (
-	rowHeights: { [key: number]: { max: number; min: number } },
-	id: string | number,
-	index: number
-) => {
-	return `
-	min-height: ${rowHeights && rowHeights[+id] ? `${rowHeights[+id].min}px` : 'auto'};
-	max-height: ${index !== 0 && rowHeights && rowHeights[+id]
-			? `${rowHeights[+id].max}px`
-			: 'auto'
-		};
-	height: ${rowHeights && rowHeights[+id] ? `${rowHeights[+id].min}px` : 'auto'};
-	`;
-}
