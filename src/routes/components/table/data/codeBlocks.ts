@@ -146,7 +146,6 @@ export const usersBDHTML = `
 	const usersBDConfig: TableConfig<UserBD> = {
 		id: 'usersBD',
 		data: usersBDStore,
-		pageIndexStringType: 'items',
 		columns: {
 			dateOfBirth: {
 				header: 'Date of birth',
@@ -214,7 +213,6 @@ export interface TableConfig<T> {
 	exportable?: boolean; // false by default
 	pageSizes?: number[]; // [5, 10, 20, 50, 100] by default
 	defaultPageSize?: number; // 10 by default
-	pageIndexStringType?: 'items' | 'pages'; // items by default
 	optionsComponent?: typeof SvelteComponent;
 
 	server?: ServerConfig;

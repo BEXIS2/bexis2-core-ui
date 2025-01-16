@@ -48,7 +48,6 @@
 		toggle = false, // Whether to display the fitToScreen toggle
 		search = true, // Whether to display the search input
 		pageSizes = [5, 10, 20, 50, 100], // Page sizes to display in the pagination component
-		pageIndexStringType = 'items', // items by default
 		fitToScreen = true, // Whether to fit the table to the screen,
 		exportable = false, // Whether to display the export button and enable export functionality
 		server
@@ -686,7 +685,6 @@
 				{serverItemCount}
 				updateTable={updateTableWithParams}
 				{pageSizes}
-				{pageIndexStringType}
 				id={tableId}
 			/>
 		{:else}
@@ -695,7 +693,6 @@
 				pageConfig={pluginStates.page}
 				{pageSizes}
 				id={tableId}
-				{pageIndexStringType}
 			/>
 		{/if}
 	{/if}

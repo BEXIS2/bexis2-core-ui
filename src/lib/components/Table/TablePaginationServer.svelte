@@ -10,7 +10,6 @@
 	export let id; // Unique table ID
 	export let pageIndex;
 	export let pageSize;
-	export let pageIndexStringType;
 	export let pageSizes; // Available page sizes
 	export let serverItemCount; // Total number of items expected from the server. `serverSide` must be true on table config.
 	export let updateTable; // Function to update table
@@ -63,13 +62,12 @@
 	};
 
 	const getIndexInfomationString = () => {
-		if (pageIndexStringType === 'pages') {
-			return pageCount > 0 ? `Page ${$pageIndex + 1} of ${pageCount}` : 'No pages';
-		} else {
-			return `Showing ${$pageIndex * $pageSize + 1} - ${($pageIndex + 1) * $pageSize} of ${
-				pageCount * $pageSize
-			} items`;
-		}
+		return serverItemCount === 0
+			? 'No items'
+			: `Displaying items ${$pageIndex * $pageSize + 1} - ${Math.min(
+					($pageIndex + 1) * $pageSize,
+					serverItemCount
+			  )} of ${Math.min(pageCount * $pageSize, serverItemCount)}`;
 	};
 
 	$: pageCount = Math.ceil($serverItemCount / $pageSize);

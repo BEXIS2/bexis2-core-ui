@@ -7,7 +7,6 @@
 	export let itemCount;
 	export let pageConfig;
 	export let pageSizes;
-	export let pageIndexStringType;
 	export let id;
 
 	let indexInformation = '';
@@ -24,16 +23,12 @@
 	};
 
 	const getIndexInfomationString = () => {
-		if (pageIndexStringType === 'pages') {
-			return $pageCount > 0 ? `Page ${$pageIndex + 1} of ${$pageCount}` : 'No pages';
-		} else {
-			return itemCount === 0
-				? 'No items'
-				: `Displaying items ${$pageIndex * $pageSize + 1} - ${Math.min(
-						($pageIndex + 1) * $pageSize,
-						itemCount
-				  )} of ${Math.min($pageCount * $pageSize, itemCount)}`;
-		}
+		return itemCount === 0
+			? 'No items'
+			: `Displaying items ${$pageIndex * $pageSize + 1} - ${Math.min(
+					($pageIndex + 1) * $pageSize,
+					itemCount
+			  )} of ${Math.min($pageCount * $pageSize, itemCount)}`;
 	};
 
 	$: paginationSettings = {
