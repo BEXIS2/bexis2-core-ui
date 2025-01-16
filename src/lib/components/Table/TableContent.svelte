@@ -644,7 +644,7 @@
 																			? utils.minWidth(cell.id, columns)
 																			: $colWidths[index]
 																  }px;`
-																: 'max-width: min-content;'}
+																: ''}
 														>
 															<Render of={cell.render()} />
 														</div>
