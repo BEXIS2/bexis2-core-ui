@@ -13,7 +13,8 @@ body {
 	--tw-ring-color: #00000;
 }
 
-.svelte-select, .svelte-select-list {
+.svelte-select,
+.svelte-select-list {
 	@apply dark:!bg-zinc-700 border dark:!border-zinc-500;
 }
 
@@ -25,3 +26,22 @@ body {
 	@apply dark:!text-black;
 }
 
+.paginator-controls button {
+	@apply variant-filled-primary !text-on-primary-token;
+}
+
+.paginator-controls button:hover {
+	@apply !variant-filled-primary opacity-90;
+}
+
+.paginator-controls button:disabled:hover {
+	@apply !variant-filled-surface;
+}
+
+.paginator-controls button.active {
+	@apply variant-filled-secondary !text-on-secondary-token;
+}
+
+.paginator-controls button:disabled {
+	@apply variant-filled-surface !text-on-surface-token;
+}
