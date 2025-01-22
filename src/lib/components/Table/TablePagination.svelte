@@ -67,13 +67,14 @@
 			on:page={(page) => ($pageIndex = page.detail)}
 			settings={paginationSettings}
 			select="hidden"
-			buttonClasses="disabled:!variant-filled-surface !px-3 !py-1.5 !fill-current !variant-filled-primary"
-			active="!variant-filled-secondary"
+			active="active"
+			controlVariant=""
+			regionControl="btn-group"
 			maxNumerals={1}
 			showNumerals
 		/>
 	</div>
-	<div class="flex justify-end items-center">
+	<div class="flex justify-end items-center text-on-primary-token">
 		<span class="text-xs text-gray-500">{indexInformation}</span>
 	</div>
 </div>
