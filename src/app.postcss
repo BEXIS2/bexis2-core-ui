@@ -26,22 +26,22 @@ body {
 	@apply dark:!text-black;
 }
 
-.paginator-controls button {
-	@apply variant-filled-primary !text-on-primary-token;
-}
-
-.paginator-controls button:hover {
-	@apply !variant-filled-primary opacity-90;
-}
-
 .paginator-controls button:disabled:hover {
-	@apply !variant-filled-surface;
+	@apply !variant-filled !bg-neutral-400 !text-on-surface-token !opacity-30 !fill-gray-600;
+}
+
+.paginator-controls button:disabled {
+	@apply !variant-filled !bg-neutral-400 !text-on-surface-token !opacity-30 !fill-gray-600;
 }
 
 .paginator-controls button.active {
 	@apply variant-filled-secondary !text-on-secondary-token;
 }
 
-.paginator-controls button:disabled {
-	@apply variant-filled-surface !text-on-surface-token;
+.paginator-controls button {
+	@apply variant-filled-primary !text-on-primary-token;
+}
+
+.paginator-controls button:hover {
+	@apply !variant-filled-primary opacity-90;
 }

@@ -69,6 +69,7 @@
 			select="hidden"
 			active="active"
 			controlVariant=""
+			buttonClasses="!rounded-none !px-3 !py-1.5 fill-current"
 			regionControl="btn-group"
 			maxNumerals={1}
 			showNumerals
