@@ -67,9 +67,9 @@
 			on:page={(page) => ($pageIndex = page.detail)}
 			settings={paginationSettings}
 			select="hidden"
-			active="active"
-			controlVariant=""
-			buttonClasses="!rounded-none !px-3 !py-1.5 fill-current"
+			active="!variant-filled-secondary !text-on-secondary-token"
+			controlVariant="!text-on-primary-token"
+			buttonClasses="!rounded-none !px-3 !py-1.5 fill-current bg-primary-500 hover:!bg-primary-600 !text-on-primary-token disabled:grayscale disabled:!opacity-30"
 			regionControl="btn-group"
 			maxNumerals={1}
 			showNumerals
