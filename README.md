@@ -1,4 +1,30 @@
 # bexis-core-ui
+## 0.4.32
+- Menu
+  - fix log off, add click event o a
+
+## 0.4.31
+- Table
+  - Adds variants for pagination buttons
+
+## 0.4.30
+- Table:
+  - Fixes issue with rounded corners on pagination button under the table
+  - Updates colors scheme for disabled buttons
+
+## 0.4.29
+- table
+  - Fixes the appearance issues related to Table paginator.
+  - 
+## 0.4.28
+- Fixes issue with options component not displaying items correctly
+- New pagination component
+- Removes the option for selecting page index string type of "pages" or "items". "items" will be the default and only option to show pagination info now.
+  
+## 0.4.27
+- Fixes the issue with updating the number of displayed items correctly.
+- Makes "items" the default type for displaying pagination info.
+
 ## 0.4.26
 - menu
   - change submenu buttons to a link and add link menuitems to support right click menu
