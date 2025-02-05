@@ -78,7 +78,8 @@
 			value={item.Title}
 	
 		>
-			<a href={item.Url} target="{item.Target}">{item.Title}</a>
+		<a  href={item.Url} target="{item.Target}" on:click|preventDefault={()=>clickFn(item)}>{item.Title}</a>
+
 		</ListBoxItem>
 
 	{/each}

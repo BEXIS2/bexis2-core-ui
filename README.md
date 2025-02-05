@@ -1,4 +1,8 @@
 # bexis-core-ui
+## 0.4.33
+- Menu
+  - remove alert ("log off") 
+
 ## 0.4.32
 - Menu
   - fix log off, add click event o a
