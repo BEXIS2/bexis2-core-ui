@@ -1,4 +1,8 @@
 # bexis-core-ui
+## 0.4.35
+
+- enlarge help and up to start button
+  
 ## 0.4.33
 - Menu
   - remove alert ("log off") 

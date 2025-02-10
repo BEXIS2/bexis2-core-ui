@@ -114,6 +114,7 @@ import type { helpItemType, helpStoreType } from '$models/Models';
 	<GoToTop/>
 	<HelpPopUp active={help} />
 	<Notification />
+
 	
 	<svelte:fragment slot="footer">
 		<Footer />
