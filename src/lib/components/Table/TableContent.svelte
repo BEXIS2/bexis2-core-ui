@@ -680,11 +680,10 @@
 	{#if $data.length > 0 || (columns && Object.keys(columns).length > 0)}
 		{#if serverSide}
 			<TablePaginationServer
-				{pageIndex}
-				{pageSize}
-				{serverItemCount}
-				updateTable={updateTableWithParams}
+				pageConfig={pluginStates.page}
 				{pageSizes}
+				itemCount={$serverItemCount}
+				updateTable={updateTableWithParams}
 				id={tableId}
 			/>
 		{:else}

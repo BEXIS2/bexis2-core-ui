@@ -1,146 +1,86 @@
 <script lang="ts">
 	import Fa from 'svelte-fa';
-	import {
-		faAnglesRight,
-		faAngleRight,
-		faAnglesLeft,
-		faAngleLeft
-	} from '@fortawesome/free-solid-svg-icons';
+	import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+	import { ListBox, ListBoxItem, Paginator, popup } from '@skeletonlabs/skeleton';
+	import type { PopupSettings } from '@skeletonlabs/skeleton';
 
-	export let id; // Unique table ID
-	export let pageIndex;
-	export let pageSize;
-	export let pageSizes; // Available page sizes
-	export let serverItemCount; // Total number of items expected from the server. `serverSide` must be true on table config.
+	export let itemCount;
+	export let pageConfig;
+	export let pageSizes;
+	export let id;
 	export let updateTable; // Function to update table
 
-	// Flags for disabling buttons
-	let goToFirstPageDisabled = true;
-	let goToLastPageDisabled = true;
-	let goToNextPageDisabled = true;
-	let goToPreviousPageDisabled = true;
-
-	// Index information string
 	let indexInformation = '';
 
-	// Handles the input change event
-	const handleChange = (e) => {
-		const value = e.target.value;
+	const { pageIndex, pageCount, pageSize } = pageConfig;
 
-		if (value > pageCount) {
-			$pageIndex = pageCount - 1;
-		} else if (value < 1) {
-			$pageIndex = 0;
-		} else {
-			$pageIndex = value - 1;
-		}
+	let pageSizeDropdownValue: string = $pageSize;
 
-		updateTable();
-	};
-
-	// Main navigation function
-	const goTo = (dst: string) => {
-		switch (dst) {
-			case 'first':
-				$pageIndex = 0;
-				break;
-			case 'last':
-				$pageIndex = pageCount - 1;
-				break;
-			case 'next':
-				$pageIndex += 1;
-				break;
-			case 'previous':
-				$pageIndex -= 1;
-				break;
-			default:
-				break;
-		}
-
-		// Fetch data for new parameters
-		updateTable();
+	const pageSizePopup: PopupSettings = {
+		event: 'click',
+		target: `#${id}-pageSizeDropdown`,
+		placement: 'bottom',
+		closeQuery: '.listbox-item'
 	};
 
 	const getIndexInfomationString = () => {
-		return serverItemCount === 0
+		return itemCount === 0
 			? 'No items'
 			: `Displaying items ${$pageIndex * $pageSize + 1} - ${Math.min(
 					($pageIndex + 1) * $pageSize,
-					serverItemCount
-			  )} of ${Math.min(pageCount * $pageSize, serverItemCount)}`;
+					itemCount
+			  )} of ${Math.min($pageCount * $pageSize, itemCount)}`;
 	};
 
-	$: pageCount = Math.ceil($serverItemCount / $pageSize);
-	$: goToFirstPageDisabled = !$pageIndex;
-	$: goToLastPageDisabled = $pageIndex == pageCount - 1;
-	$: goToNextPageDisabled = $pageIndex == pageCount - 1;
-	$: goToPreviousPageDisabled = !$pageIndex;
-	$: $pageSize && updateTable(); // Update query when page size changes
-	$: pageCount, $pageIndex, $pageSize, (indexInformation = getIndexInfomationString());
+	$: paginationSettings = {
+		size: itemCount,
+		limit: $pageSize,
+		page: $pageIndex,
+		amounts: pageSizes
+	};
+	$: $pageSize = pageSizeDropdownValue;
+	$: $pageCount, $pageIndex, $pageSize, itemCount, (indexInformation = getIndexInfomationString());
 
 	updateTable();
+
 </script>
 
-<div class="flex justify-between w-full items-stretch gap-10">
+<div class="grid grid-cols-3 w-full items-stretch gap-10">
 	<div class="flex justify-start">
-		<select
-			name="pageSize"
-			id="{id}-pageSize"
-			aria-label="Open menu to select number of items per page"
-			class="select variant-filled-primary w-min font-bold"
-			bind:value={$pageSize}
+		<button
+			aria-label="Open menu to select number of items to display per page"
+			class="btn variant-filled-primary w-20 !px-3 !py-1.5 justify-between"
+			use:popup={pageSizePopup}
 		>
-			{#each pageSizes as size}
-				<option value={size} class="!bg-primary-700">{size}</option>
-			{/each}
-		</select>
+			<span class="capitalize font-semibold">{pageSizeDropdownValue}</span>
+			<Fa icon={faChevronDown} size="xs" />
+		</button>
+		<div class="card w-20 shadow-xl py-2" data-popup={`#${id}-pageSizeDropdown`}>
+			<ListBox rounded="rounded-none">
+				{#each pageSizes as size}
+					<ListBoxItem bind:group={pageSizeDropdownValue} name="medium" value={size}
+						>{size}</ListBoxItem
+					>
+				{/each}
+			</ListBox>
+			<div class="arrow bg-surface-100-800-token" />
+		</div>
 	</div>
-	<div class="flex justify-center gap-1">
-		<button
-			class="btn btn-sm variant-filled-primary"
-			title="Go to first page"
-			on:click|preventDefault={() => goTo('first')}
-			disabled={goToFirstPageDisabled}
-			aria-label="Go to first page"
-			id="{id}-first"
-		>
-			<Fa icon={faAnglesLeft} /></button
-		>
-		<button
-			class="btn btn-sm variant-filled-primary"
-			title="Go to previous page"
-			id="{id}-previous"
-			aria-label="Go to previous page"
-			on:click|preventDefault={() => goTo('previous')}
-			disabled={goToPreviousPageDisabled}><Fa icon={faAngleLeft} /></button
-		>
-		<input
-			type="number"
-			class="input border border-primary-500 rounded flex w-24"
-			aria-label="Current page"
-			value={$pageIndex + 1}
-			max={pageCount}
-			min={1}
-			on:change={handleChange}
+	<div class="flex justify-center">
+		<Paginator
+			on:page={(page) => (updateTable(), $pageIndex = page.detail)}
+			on:amount={(amount) => (updateTable(), ($pageSize = amount.detail))}
+			settings={paginationSettings}
+			select="hidden"
+			active="!variant-filled-secondary !text-on-secondary-token"
+			controlVariant="!text-on-primary-token"
+			buttonClasses="!rounded-none !px-3 !py-1.5 fill-current bg-primary-500 hover:!bg-primary-600 !text-on-primary-token disabled:grayscale disabled:!opacity-30"
+			regionControl="btn-group"
+			maxNumerals={1}
+			showNumerals
 		/>
-		<button
-			class="btn btn-sm variant-filled-primary"
-			id="{id}-next"
-			on:click|preventDefault={() => goTo('next')}
-			aria-label="Go to next page"
-			disabled={goToNextPageDisabled}><Fa icon={faAngleRight} /></button
-		>
-		<button
-			class="btn btn-sm variant-filled-primary"
-			id="{id}-last"
-			aria-label="Go to last page"
-			on:click|preventDefault={() => goTo('last')}
-			disabled={goToLastPageDisabled}><Fa icon={faAnglesRight} /></button
-		>
 	</div>
-	<div class="flex justify-end items-center">
-		<span class="text-sm text-gray-500">
-			{indexInformation}
-		</span>
+	<div class="flex justify-end items-center text-on-primary-token">
+		<span class="text-xs text-gray-500">{indexInformation}</span>
 	</div>
 </div>
