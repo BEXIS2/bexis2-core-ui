@@ -47,6 +47,7 @@
 
 <div class="grid grid-cols-3 w-full items-stretch gap-10">
 	<div class="flex justify-start">
+		<!-- replace default select from Paginator below to be able to style properly -->
 		<button
 			aria-label="Open menu to select number of items to display per page"
 			class="btn variant-filled-primary w-20 !px-3 !py-1.5 justify-between"
@@ -58,7 +59,10 @@
 		<div class="card w-20 shadow-xl py-2" data-popup={`#${id}-pageSizeDropdown`}>
 			<ListBox rounded="rounded-none">
 				{#each pageSizes as size}
-					<ListBoxItem bind:group={pageSizeDropdownValue} name="medium" value={size}
+					<ListBoxItem
+						bind:group={pageSizeDropdownValue}
+						name="medium" value={size}
+						on:click={() => { $pageSize = size; updateTable(); }}
 						>{size}</ListBoxItem
 					>
 				{/each}
@@ -68,8 +72,7 @@
 	</div>
 	<div class="flex justify-center">
 		<Paginator
-			on:page={(page) => (updateTable(), $pageIndex = page.detail)}
-			on:amount={(amount) => (updateTable(), ($pageSize = amount.detail))}
+			on:page={(page) => {$pageIndex = page.detail; updateTable(); }}
 			settings={paginationSettings}
 			select="hidden"
 			active="!variant-filled-secondary !text-on-secondary-token"
