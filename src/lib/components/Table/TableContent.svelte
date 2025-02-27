@@ -303,7 +303,7 @@
 	const { hiddenColumnIds } = pluginStates.hideColumns;
 
 	const sortServer = (order: 'asc' | 'desc' | undefined, id: string) => {
-		console.log('sortServer', order, id);
+
 		if (!sendModel) throw new Error('Server-side configuration is missing');
 		// Set parameter for sorting
 		if (order === undefined) {
