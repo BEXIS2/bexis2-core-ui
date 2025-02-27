@@ -16,7 +16,7 @@
 	<Fa icon={faFileExcel} />
 {/if}
 
-{#if type.includes('text')}
+{#if type.includes('text') || type.includes('plain') || type.includes('csv') || type.includes('application/octet-stream')}
 	<Fa icon={faFileAlt} />
 {/if}
 

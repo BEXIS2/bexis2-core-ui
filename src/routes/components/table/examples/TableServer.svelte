@@ -16,7 +16,7 @@
 	let serverTableConfig: TableConfig<ServerTableType>;
 
 	onMount(async () => {
-		setApiConfig('https://dev.bexis2.uni-jena.de/', 'admin', '123456');
+		setApiConfig('http://localhost:44345', 'admin', '123456');
 		const tableStore = writable<ServerTableType[]>([]);
 
 		serverTableConfig = {
@@ -24,7 +24,7 @@
 			data: tableStore, // store to hold and retrieve data
 			server: {
 				// URL for the table to be fetched from
-				baseUrl: 'https://dev.bexis2.uni-jena.de/api/datatable/',
+				baseUrl: 'http://localhost:44345/api/datatable/',
 				entityId: 1, // dataset ID
 				versionId: -1 // version ID
 			}

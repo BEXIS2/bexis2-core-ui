@@ -1,4 +1,12 @@
 # bexis-core-ui
+## 0.4.37
+- table
+  - Fix server side Pagination
+
+## 0.4.36
+- table
+  - Fix server side Pagination
+
 ## 0.4.35
 
 - enlarge help and up to start button
