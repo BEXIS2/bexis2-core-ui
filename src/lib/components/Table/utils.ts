@@ -4,7 +4,7 @@ import type { Writable } from 'svelte/store';
 
 import { Send, Receive } from '$models/Models';
 import type { FilterOptionsEnum } from '$models/Enums';
-import type { Columns, Filter, ServerColumn, ServerConfig } from '$models/Models';
+import type { Columns, Filter, OrderBy, ServerColumn, ServerConfig } from '$models/Models';
 
 // Function to determine minWidth for a column to simplify the logic in the HTML
 export const minWidth = (id: string, columns: Columns | undefined) => {
@@ -185,7 +185,8 @@ export const updateTable = async (
 	data: Writable<any[]>,
 	serverItems: Writable<number> | undefined,
 	columns: Columns | undefined,
-	dispatch: any
+	dispatch: any,
+	order: OrderBy[] = [],
 ) => {
 	const { baseUrl, entityId, versionId, sendModel = new Send() } = server ?? {};
 
@@ -196,6 +197,7 @@ export const updateTable = async (
 	sendModel.version = versionId || -1;
 	sendModel.id = entityId || -1;
 	sendModel.filter = normalizeFilters(filters);
+	sendModel.order = order;
 
 	let fetchData;
 
@@ -240,7 +242,8 @@ export const updateTable = async (
 	}
 
 	serverItems?.set(response.count);
-
+	console.log('Server data updated');
+	console.log(response);
 	return response;
 };
 // Function to convert server data to client data
