@@ -117,7 +117,10 @@ import type { helpItemType, helpStoreType } from '$models/Models';
 
 	
 	<svelte:fragment slot="footer">
-		<Footer />
+		{#if footer}
+			<Footer />
+		{/if}
+
 	</svelte:fragment>
 
 </AppShell>

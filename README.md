@@ -1,4 +1,12 @@
 # bexis-core-ui
+## 0.4.39
+- page
+  - add option to hide Footer on Page
+
+## 0.4.38
+- table
+  - Fix server side OrderBy
+
 ## 0.4.37
 - table
   - Fix server side Pagination

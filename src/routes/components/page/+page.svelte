@@ -46,6 +46,7 @@
 	{links}
 	help={true}
 	contentLayoutType={pageContentLayoutType.center}
+	footer={true}
 >
 	<svelte:fragment slot="left">
 		<button class="btn variant-filled-error" on:click={updateTitle}>change title </button>
