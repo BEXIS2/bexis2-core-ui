@@ -4,15 +4,13 @@ import type { TableFilterFn } from 'svelte-headless-table/lib/plugins/addTableFi
 import { FilterOptionsEnum } from '$models/Enums';
 
 const textFilter = (filterOption, filterValue, value) => {
-
-    console.log("textFilter", filterOption, filterValue, value);
     // check if filterValue is a object or string
     let filterStr = String(filterValue);
     if (typeof filterValue === 'object' && filterValue !== null) {
         filterStr = filterValue.text;
     }
     const valueStr = String(value);
-	console.log(filterOption, filterStr, valueStr);
+
     switch (filterOption) {
         case FilterOptionsEnum.e:
             return valueStr.toLowerCase() === filterStr.toLowerCase();
