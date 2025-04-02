@@ -60,7 +60,7 @@ export const normalizeFilters = (filters: {
 			.filter((k) => filters[key][k] !== undefined)
 			.forEach((k) => {
 				filter.push({
-					column: key,
+					column: key.replaceAll('%%%', '.'),
 					filterBy: k as FilterOptionsEnum,
 					value: filters[key][k]
 				});
@@ -199,6 +199,16 @@ export const updateTable = async (
 	sendModel.filter = normalizeFilters(filters);
 	sendModel.order = order;
 
+	// remove %%% from the columns object
+	if (sendModel.order) {
+		sendModel.order.forEach((order) => {
+			if (order.column.includes("%%%")) {
+				const newKey = order.column.replaceAll('%%%', '.');
+				order.column = newKey;
+			}
+		});
+	}
+
 	let fetchData;
 
 	try {
@@ -221,28 +231,43 @@ export const updateTable = async (
 
 	// Format server columns to the client columns
 	if (response.columns !== undefined) {
+		console.log('Server columns', response.columns);
 		columns = convertServerColumns(response.columns, columns);
 
 		const clientCols = response.columns.reduce((acc, col) => {
-			acc[col.key] = col.column;
+			console.log(col.key, col.column);
+			// replace the . with empty string
+			//const key = col.key.replaceAll('.' ,'');
+			///console.log(key, col.column);
+			// set the key to the columns object
+			col.column = col.column.replaceAll('.', "%%%");
+			col.key = col.key.replaceAll('.', "%%%");
+			acc[col.key] = col.column
+			//acc[col.column] = col.column;
+
 			return acc;
 		}, {});
 
 		const tmpArr: any[] = [];
-
+		// tmp[clientCols["['" + key.replaceAll('.', ",") +"']"]] = row[key];
 		response.data.forEach((row, index) => {
 			const tmp: { [key: string]: any } = {};
 			Object.keys(row).forEach((key) => {
-				tmp[clientCols[key]] = row[key];
+				tmp[clientCols[key.replaceAll('.', "%%%") ]] = row[key]
 			});
 			tmpArr.push(tmp);
 		});
 		dispatch('fetch', columns);
 		data.set(tmpArr);
+		console.log('Server data', tmpArr);
+		return data;
 	}
 
 	serverItems?.set(response.count);
 	console.log('Server data updated');
+
+
+	// log the columns object
 	console.log(response);
 	return response;
 };
@@ -291,17 +316,17 @@ export const convertServerColumns = (
 		}
 
 		if (columns && col.column in columns) {
-			columnsConfig[col.column] = {
-				...columns[col.column],
+			columnsConfig[col.column.replaceAll('.', "%%%")] = {
+				...columns[col.column.replaceAll('.', "%%%")],
 				instructions
 			};
 		} else {
-			columnsConfig[col.column] = {
+			columnsConfig[col.column.replaceAll('.', "%%%") ] = {
 				instructions
 			};
 		}
 	});
-
+	console.log('Columns config', columnsConfig);
 	return columnsConfig;
 };
 // Calculates the maximum height of the cells in each row

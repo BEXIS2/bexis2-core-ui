@@ -589,7 +589,7 @@
 																	? `Remove sorting by ${cell.label} column`
 																	: `Sort by ${cell.label} column in ascending order`}
 															>
-																{cell.render()}
+																{cell.render().replaceAll("%%%", '.')}
 															</span>
 															<div class="w-2">
 																{#if props.sort.order === 'asc'}
