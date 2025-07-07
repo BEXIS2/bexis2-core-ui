@@ -1,0 +1,1 @@
+import{w as s}from"./CIVVwgPB.js";import{e as p}from"./BPfwCFTf.js";let u="window.location.origin",c="",w="";const r=s(""),t=s(""),a=s(""),d=s(new p);r.subscribe(e=>{u=e});t.subscribe(e=>{c=e});a.subscribe(e=>{w=e});function m(e,i,n){console.log("overwrite api settings"),r.update(o=>e),t.update(o=>i),a.update(o=>n)}export{d as e,u as h,w as p,m as s,c as u};
