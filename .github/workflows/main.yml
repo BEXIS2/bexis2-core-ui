@@ -8,7 +8,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-20.04 # Set platform for runner
+    runs-on: ubuntu-22.04 # Set platform for runner
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
     steps:
