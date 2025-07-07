@@ -26,7 +26,7 @@
 
 {#if menubarItem.Items.length < 1}
 	<div class="p-2">
-		
+
 		<button class="grid" use:popup={popupCombobox} >
 			<a class="grid" href={menubarItem.Url} target="{menubarItem.Target}">
 				<span class="capitalize whitespace-nowrap">{comboboxValue ?? menubarItem.Title}</span>
@@ -49,7 +49,7 @@
 	</div>
 	<div class="hidden sm:block place-self-center" use:popup={popupCombobox}>
 		<button class="flex items-center gap-x-1 px-2">
-			<span>{menubarItem.Title}▾</span>
+			<span class="capitalize whitespace-nowrap">{menubarItem.Title}▾</span>
 		</button>
 
 		<div class="z-50 w-max" data-popup={id}>
