@@ -7,6 +7,7 @@
 	import { faCog } from '@fortawesome/free-solid-svg-icons';
 
 	export let menuBar: menuItemType[];
+	console.log("🚀 ~ menuBar:", menuBar)
 	//uicomponents
 	import MenuSublist from './MenuSublist.svelte';
 
@@ -19,7 +20,7 @@
 	};
 </script>
 
-{#if menuBar}
+{#if menuBar && menuBar.length > 0}
 	<div class="sm:hidden">
 		<AccordionItem padding="p-2">
 			<svelte:fragment slot="summary"

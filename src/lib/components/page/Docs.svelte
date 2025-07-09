@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Fa from 'svelte-fa';
-	import { faQuestion } from '@fortawesome/free-solid-svg-icons';
+	import { faQuestion, faBook } from '@fortawesome/free-solid-svg-icons';
 	import { goTo } from '$services/BaseCaller';
 
 	// links
@@ -39,8 +39,14 @@
 	{/if}
 
 	{#each links as link}
-		<span class="chip variant-soft hover:variant-filled" on:click={() => goTo(link.url, false)} on:keypress={() => goTo(link.url, false)}>
-			<span>{link.label}</span>
+		<span role="button" tabindex="0" title="link" class="chip variant-soft hover:variant-filled" on:click={() => goTo(link.url, false)} on:keypress={() => goTo(link.url, false)}>
+			<span>
+				{#if link.label.toLowerCase()=='manual'}
+					<Fa icon={faBook} />
+				{:else}
+					{link.label}
+				{/if}
+			</span>
 		</span>
 	{/each}
 </div>

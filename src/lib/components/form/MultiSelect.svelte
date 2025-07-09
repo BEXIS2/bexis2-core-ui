@@ -3,6 +3,7 @@
 
 	import Select from 'svelte-select';
 	import { onMount } from 'svelte';
+	import { createEventDispatcher } from 'svelte';
 
 	export let source;
 	export let target;
@@ -32,15 +33,19 @@
 	let groupBy;
 	$: groupBy;
 
+	const dispatch = createEventDispatcher();
+
 	function updateTarget(selection) {
-		console.log('updateTarget', target, selection, isMulti);
+		//console.log('updateTarget', target, selection, isMulti);
 		if (selection == undefined) {
-			console.log('no update');
+			//console.log('no update');
 
 			return;
 		}
 
-		console.log('update');
+		
+
+		//console.log('update');
 		//different cases
 		//a) source is complex model is simple return array
 		if (complexSource && !complexTarget && isLoaded && isMulti) {
@@ -271,7 +276,8 @@
 			target = '';
 		}
 
-		console.log('after clear', target);
+		dispatch('clear', e)
+
 	}
 </script>
 

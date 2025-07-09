@@ -13,6 +13,9 @@
 	onMount(async () => {
 		let m = await getMenuItems();
 		menuStore.set(m);
+
+		console.log("🚀 ~ onMount ~ menuStore:", $menuStore);
+
 	});
 
 	let hamburger = true;

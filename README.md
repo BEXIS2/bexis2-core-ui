@@ -1,4 +1,26 @@
 # bexis-core-ui
+## 0.4.45
+- Menu
+  - hide gear if settings array has no entry
+
+## 0.4.44
+- Page
+  - replace manual link with icon
+## 0.4.43
+- Table
+  - fix header names with dots breaks the table
+
+## 0.4.42
+## 0.4.41
+- Multiselect
+  - remove console.logs
+- Table
+  - fix filter error by exact match with complex object
+
+## 0.4.40
+- Multiselect
+  - add clear event, when selection is deselected
+
 ## 0.4.39
 - page
   - add option to hide Footer on Page
