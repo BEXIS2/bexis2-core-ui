@@ -29,7 +29,7 @@
 
 		<button class="grid" use:popup={popupCombobox} >
 			<a class="grid" href={menubarItem.Url} target="{menubarItem.Target}">
-				<span class="capitalize whitespace-nowrap hover:font-bold">{comboboxValue ?? menubarItem.Title}</span>
+				<span class="capitalize whitespace-nowrap text-lg hover:text-secondary-500">{comboboxValue ?? menubarItem.Title}</span>
 			</a>
 		</button>
 	</div>
@@ -38,7 +38,7 @@
 		<AccordionItem padding="p-2">
 			<svelte:fragment slot="summary"
 				><button class="flex items-center gap-x-1">
-					<span class="capitalize hover:font-bold">{menubarItem.Title}</span>
+					<span class="capitalize text-lg hover:text-primary-500">{menubarItem.Title}</span>
 				</button></svelte:fragment
 			>
 			<svelte:fragment slot="content"
@@ -49,7 +49,7 @@
 	</div>
 	<div class="hidden sm:block place-self-center" use:popup={popupCombobox}>
 		<button class="flex items-center gap-x-1 px-2">
-			<span class="capitalize whitespace-nowrap hover:font-bold">{menubarItem.Title}▾</span>
+			<span class="capitalize text-lg whitespace-nowrap hover:text-primary-500">{menubarItem.Title}▾</span>
 		</button>
 
 		<div class="z-50 w-max" data-popup={id}>
