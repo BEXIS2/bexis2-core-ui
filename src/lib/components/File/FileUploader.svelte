@@ -182,8 +182,8 @@
 				>
 				<p>
 					{#if model.accept}
-						{#each model.accept as ext}
-							{ext} ,
+						{#each model.accept as ext, i}
+							{ext}{#if i < model.accept.length - 1}, {/if}
 						{/each}
 					{/if}
 				</p>
