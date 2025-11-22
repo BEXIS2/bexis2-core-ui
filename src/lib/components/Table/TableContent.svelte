@@ -535,8 +535,8 @@
 					{...$tableAttrs}
 					class="table table-auto table-compact bg-tertiary-500/30 dark:bg-tertiary-900/10 overflow-clip"
 					id="{tableId}-table"
-					title="Table"
 				>
+					<!-- title="Table" removed from top, as this should be handled by the surrounding container for better accessibility -->
 					<!-- If table height is provided, making the top row sticky -->
 					<thead class={height != null && $pageRows.length > 0 ? `sticky top-0` : ''}>
 						<!-- {#if $data.length > 0} -->
@@ -583,11 +583,11 @@
 																class:cursor-pointer={!props.sort.disabled}
 																on:click={props.sort.toggle}
 																on:keydown={props.sort.toggle}
-																title={props.sort.order === 'asc'
+																title={props.sort.disabled ? undefined : (props.sort.order === 'asc'
 																	? `Sort by ${cell.label} column in descending order`
 																	: props.sort.order === 'desc'
 																	? `Remove sorting by ${cell.label} column`
-																	: `Sort by ${cell.label} column in ascending order`}
+																	: `Sort by ${cell.label} column in ascending order`)}
 															>
 																{cell.render().replaceAll("%%%", '.')}
 															</span>

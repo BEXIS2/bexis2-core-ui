@@ -1,4 +1,30 @@
 # bexis-core-ui
+## 0.4.59
+- Table
+  - remove static title "table"
+  - shorten upload text
+  - remove last comma allowed files list
+  - remove title about sorting, if not possible
+
+## 0.4.49 -> 0.4.53
+- Api
+  - remove __RequestVerificationToken from header
+  - change post request to 'application/x-www-form-urlencoded'
+  - add __RequestVerificationToken to data
+  
+## 0.4.48
+- Api
+  - add __RequestVerificationToken if exist
+
+## 0.4.47
+- Menu
+  - change hover over menu items
+  
+## 0.4.46
+- Menu
+  - Add hover to menu
+  - Fix Missing nowrap in menu
+
 ## 0.4.45
 - Menu
   - hide gear if settings array has no entry

@@ -177,7 +177,7 @@
 			>
 				<b style="font-size:xx-large"><Fa icon={faFileUpload} /></b>
 				<span
-					><b>Drag 'n' drop some files here, or click to select files</b>
+					><b>Drag 'n' drop or click to select files</b>
 					<b>(max file size: {model.maxSize} mb)</b></span
 				>
 				<p>
