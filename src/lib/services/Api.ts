@@ -1,6 +1,6 @@
 // Api.js
 import axios from 'axios';
-import { host, username, password, errorStore } from '../stores/apiStores';
+import { host, username, password, errorStore, csrfToken } from '../stores/apiStores';
 import type { errorType } from '$models/Models';
 
 console.log('setup axios');
@@ -12,9 +12,12 @@ const apiRequest = (method, url, request) => {
 		baseURL: host
 	});
 
+	const requestVerificationToken = csrfToken;
 	const headers = {
-		authorization: 'Basic ' + btoa(username + ':' + password)
+		authorization: 'Basic ' + btoa(username + ':' + password),
+		'__RequestVerificationToken': requestVerificationToken
 	};
+
 
 	//using the axios instance to perform the request that received from each http method
 	return axiosAPI({
@@ -24,7 +27,7 @@ const apiRequest = (method, url, request) => {
 		headers
 	})
 		.then((res) => {
-			// console.log("res",res);
+			//console.log("res-test",res);
 			
 			return Promise.resolve(res);
 

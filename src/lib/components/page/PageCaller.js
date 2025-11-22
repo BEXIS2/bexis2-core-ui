@@ -17,3 +17,12 @@ export const getHeader = async () => {
 		console.error(error);
 	}
 };
+
+export const getAntiForgeryToken = async () => {
+	try {
+		const response = await Api.get('/tokens/getAntiForgeryToken');
+		return response.data;
+	} catch (error) {
+		console.error(error);
+	}
+};

@@ -17,7 +17,7 @@
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
 	import { storePopup } from '@skeletonlabs/skeleton';
 	import { breadcrumbStore,notificationStore } from '$store/pageStores';
-	import { errorStore } from '$store/apiStores';
+	import { errorStore,csrfTokenStore } from '$store/apiStores';
 
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
@@ -27,6 +27,8 @@ import type { helpItemType, helpStoreType } from '$models/Models';
 
 	import Docs from './Docs.svelte';
 	import GoToTop from './GoToTop.svelte';
+	import { getAntiForgeryToken } from './PageCaller';
+
 
 	export let title = '';
 	export let note = '';
@@ -38,6 +40,8 @@ import type { helpItemType, helpStoreType } from '$models/Models';
 	export let help: boolean = false;
 	export let contentLayoutType: pageContentLayoutType = pageContentLayoutType.center;
 	export let fixLeft: boolean = true;
+
+	let aftIsReady = false;
 
 	errorStore.subscribe((error:errorType) => {
 			console.log("🚀 ~ errorStore.subscribe ~ value:", error.error)
@@ -51,7 +55,17 @@ import type { helpItemType, helpStoreType } from '$models/Models';
 		console.log('page');
 		breadcrumbStore.clean();
 		breadcrumbStore.addItem({ label: title, link: window.location.pathname });
+		const data = await getAntiForgeryToken();
+		csrfTokenStore.set(data.csrfToken); 		
 	});
+
+
+	csrfTokenStore.subscribe(value => {
+		if(value.length>0){
+			aftIsReady = true;
+		}
+	});
+
 
  let app;
 	function scrollToTop() {
@@ -81,6 +95,8 @@ import type { helpItemType, helpStoreType } from '$models/Models';
 
 	<slot name="description" />
 
+	{#if aftIsReady}
+
 	<div class="flex flex-initial space-x-5">
 		{#if $$slots.left}
 			<div class="p-5 flex-shrink-0 w-96 w-min-96 border-y border-solid border-surface-500">
@@ -109,7 +125,7 @@ import type { helpItemType, helpStoreType } from '$models/Models';
 		{/if}
 	</div>
 
-
+	{/if}
 
 	<GoToTop/>
 	<HelpPopUp active={help} />
