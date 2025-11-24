@@ -35,6 +35,12 @@
 		title += Date.now();
 	}
 
+	async function getQuery() {
+		await Api.post('/ddm/PublicSearch/Query', {
+						searchType: 'new'
+					});
+	}
+
 	onMount(async()=>{
 		var res = await Api.get("test/errortest");
 	})
@@ -50,6 +56,7 @@
 >
 	<svelte:fragment slot="left">
 		<button class="btn variant-filled-error" on:click={updateTitle}>change title </button>
+		<button class="btn variant-filled-error" on:click={getQuery}>get query </button>
 		<div class="w-screen">
 
 		</div>
