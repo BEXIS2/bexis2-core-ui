@@ -29,6 +29,10 @@
 		selected = structuredClone(group.children);
 		handleCancel(group.name);
 	};
+
+	const NumberOfSelected = Object.keys(selected).length;
+	$: width = NumberOfSelected > 20 ? 'w-48' : 'w-max';
+
 </script>
 
 <div class="w-full flex justify-center max-w-[800px]">
@@ -42,11 +46,11 @@
 			<!-- Items -->
 			<div class="gap-x-10 space-y-2 py-6 px-[2px] max-h-[500px] columns-[192px] overflow-auto min-h">
 				{#each Object.keys(selected) as key}
-					<label class="flex gap-3 items-center w-48">
+					<label class="flex gap-3 items-center">
 						<input type="checkbox" class="checkbox" bind:checked={selected[key].selected} />
 						<span
 							title={selected[key].displayName}
-							class="whitespace-nowrap break-before-avoid break-after-avoid truncate"
+							class=""
 							>{selected[key].displayName}</span
 						>
 					</label>
