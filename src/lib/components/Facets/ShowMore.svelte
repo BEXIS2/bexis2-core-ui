@@ -29,10 +29,6 @@
 		selected = structuredClone(group.children);
 		handleCancel(group.name);
 	};
-
-	const NumberOfSelected = Object.keys(selected).length;
-	$: width = NumberOfSelected > 20 ? 'w-48' : 'w-max';
-
 </script>
 
 <div class="w-full flex justify-center max-w-[800px]">
