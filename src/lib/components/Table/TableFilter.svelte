@@ -2,8 +2,6 @@
 	import Fa from 'svelte-fa';
 	import { onMount } from 'svelte';
 	import { faFilter, faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
-	import { popup } from '@skeletonlabs/skeleton';
-	import type { PopupSettings } from '@skeletonlabs/skeleton';
 
 	import { FilterOptionsEnum } from '$models/Enums';
 
@@ -25,6 +23,7 @@
 		value: string | number | Date | undefined;
 		formValue: string | number | undefined;
 	}[] = [];
+	let showFilter = false;
 
 	// Check the type of the column
 	$values.forEach((item) => {
@@ -120,15 +119,6 @@
 				label: 'Is not on'
 			}
 		]
-	};
-
-	// Unique ID for the column filter popup
-	const popupId = `${tableId}-${id}`;
-	// Popup config
-	const popupFeatured: PopupSettings = {
-		event: 'click',
-		target: popupId,
-		placement: 'bottom-start'
 	};
 
 	// Converted string values and missingValues mapping
@@ -227,27 +217,25 @@
 	$: addFilter(options[type][0].value, undefined);
 
 	onMount(() => {
-		const element = document.getElementById(popupId);
-		element?.parentElement?.removeChild(element);
-		element && document.getElementById(`${tableId}-popups`)?.appendChild(element);
+		// no-op in shimmed version; kept to mirror original lifecycle
 	});
 </script>
 
-<div id="parent-{popupId}">
+<div class="relative inline-block z-50">
 	<button
 		class:variant-filled-primary={active}
 		class="btn w-max p-2"
 		type="button"
-		use:popup={popupFeatured}
-		id="{popupId}-button"
 		aria-label="Open filter menu for {id} column"
+		on:click={() => (showFilter = !showFilter)}
 	>
 		<Fa icon={faFilter} size="sm" />
 	</button>
 
-	<div data-popup={popupId} id={popupId} class="z-50">
-		<div class="card p-3 grid gap-2 shadow-lg w-max bg-base-100">
-			<button
+	{#if showFilter}
+		<div class="absolute left-0 mt-1 z-50">
+			<div class="card p-3 grid gap-2 shadow-lg w-max bg-base-100">
+				<button
 				class="btn variant-filled-primary btn-sm"
 				type="button"
 				aria-label="Clear Filters"
@@ -258,8 +246,9 @@
 					$filterValue = $filters[id];
 					active = false;
 					$pageIndex = 0;
+					showFilter = false;
 				}}>Clear Filters</button
-			>
+				>
 
 			<label for="" class="label normal-case text-sm">Show rows with value that</label>
 			<div class="grid gap-2 overflow-auto">
@@ -344,8 +333,10 @@
 					$pageIndex = 0;
 					$filterValue = $filters[id];
 					active = true;
+					showFilter = false;
 				}}>Apply</button
 			>
+			</div>
 		</div>
-	</div>
+	{/if}
 </div>

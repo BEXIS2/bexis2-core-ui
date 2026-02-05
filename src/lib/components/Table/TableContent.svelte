@@ -535,7 +535,7 @@
 				<table
 					bind:this={tableRef}
 					{...$tableAttrs}
-					class="table table-auto table-compact bg-tertiary-500/30 dark:bg-tertiary-900/10 overflow-clip"
+					class="table table-auto table-compact bg-tertiary-500/30 dark:bg-tertiary-900/10"
 					id="{tableId}-table"
 				>
 					<!-- title="Table" removed from top, as this should be handled by the surrounding container for better accessibility -->
@@ -562,7 +562,7 @@
 												`}
 											>
 												<div
-													class="overflow-auto"
+													class="overflow-visible"
 													class:resize-x={(resizable === 'columns' || resizable === 'both') &&
 														!utils.fixedWidth(cell.id, columns)}
 													id="th-{tableId}-{cell.id}"

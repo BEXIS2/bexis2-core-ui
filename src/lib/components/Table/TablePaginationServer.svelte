@@ -1,8 +1,7 @@
 <script lang="ts">
 	import Fa from 'svelte-fa';
 	import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
-	import { ListBox, ListBoxItem, Paginator, popup } from '@skeletonlabs/skeleton';
-	import type { PopupSettings } from '@skeletonlabs/skeleton';
+	import { ListBox, ListBoxItem, Paginator } from '@skeletonlabs/skeleton';
 
 	export let itemCount;
 	export let pageConfig;
@@ -11,17 +10,9 @@
 	export let updateTable; // Function to update table
 
 	let indexInformation = '';
+	let showPageSizeDropdown = false;
 
 	const { pageIndex, pageCount, pageSize } = pageConfig;
-
-	let pageSizeDropdownValue: string = $pageSize;
-
-	const pageSizePopup: PopupSettings = {
-		event: 'click',
-		target: `#${id}-pageSizeDropdown`,
-		placement: 'bottom',
-		closeQuery: '.listbox-item'
-	};
 
 	const getIndexInfomationString = () => {
 		return itemCount === 0
@@ -38,36 +29,43 @@
 		page: $pageIndex,
 		amounts: pageSizes
 	};
-	$: $pageSize = pageSizeDropdownValue;
 	$: $pageCount, $pageIndex, $pageSize, itemCount, (indexInformation = getIndexInfomationString());
-
-	updateTable();
 
 </script>
 
 <div class="grid grid-cols-3 w-full items-stretch gap-10">
 	<div class="flex justify-start">
 		<!-- replace default select from Paginator below to be able to style properly -->
-		<button
-			aria-label="Open menu to select number of items to display per page"
-			class="btn variant-filled-primary w-20 !px-3 !py-1.5 justify-between"
-			use:popup={pageSizePopup}
-		>
-			<span class="capitalize font-semibold">{pageSizeDropdownValue}</span>
-			<Fa icon={faChevronDown} size="xs" />
-		</button>
-		<div class="card w-20 shadow-xl py-2" data-popup={`#${id}-pageSizeDropdown`}>
-			<ListBox rounded="rounded-none">
-				{#each pageSizes as size}
-					<ListBoxItem
-						bind:group={pageSizeDropdownValue}
-						name="medium" value={size}
-						on:click={() => { $pageSize = size; updateTable(); }}
-						>{size}</ListBoxItem
-					>
-				{/each}
-			</ListBox>
-			<div class="arrow bg-surface-100-800-token" />
+		<div class="relative inline-block z-40">
+			<button
+				aria-label="Open menu to select number of items to display per page"
+				class="btn variant-filled-primary w-20 !px-3 !py-1.5 justify-between"
+				type="button"
+				on:click={() => (showPageSizeDropdown = !showPageSizeDropdown)}
+			>
+				<span class="capitalize font-semibold">{$pageSize}</span>
+				<Fa icon={faChevronDown} size="xs" />
+			</button>
+			{#if showPageSizeDropdown}
+				<div class="absolute left-0 mt-1 card w-20 shadow-xl py-2 z-50">
+					<ListBox rounded="rounded-none">
+						{#each pageSizes as size}
+							<ListBoxItem
+								name="medium"
+								value={size}
+								on:click={() => {
+									$pageSize = size;
+									showPageSizeDropdown = false;
+									updateTable();
+								}}
+							>
+								{size}
+							</ListBoxItem>
+						{/each}
+					</ListBox>
+					<div class="arrow bg-surface-100-800-token" />
+				</div>
+			{/if}
 		</div>
 	</div>
 	<div class="flex justify-center">

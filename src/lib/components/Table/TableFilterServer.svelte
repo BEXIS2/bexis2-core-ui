@@ -1,8 +1,6 @@
 <script lang="ts">
 	import Fa from 'svelte-fa';
 	import { faFilter, faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
-	import { popup } from '@skeletonlabs/skeleton';
-	import type { PopupSettings } from '@skeletonlabs/skeleton';
 
 	import { FilterOptionsEnum } from '$models/Enums';
 
@@ -17,6 +15,7 @@
 
 	// If the filter is applied and the displayed values are filtered
 	let active = false;
+	let showFilter = false;
 	let type: string = 'string';
 	let isDate = false;
 	let dropdowns: {
@@ -121,15 +120,6 @@
 		]
 	};
 
-	// Unique ID for the column filter popup
-	const popupId = `${tableId}-${id}`;
-	// Popup config
-	const popupFeatured: PopupSettings = {
-		event: 'click',
-		target: popupId,
-		placement: 'bottom-start'
-	};
-
 	const stringValues = $values.map((item) => (toStringFn ? toStringFn(item) : item));
 
 	const missingValues = stringValues.reduce((acc, item, index) => {
@@ -224,23 +214,25 @@
 	$: addFilter(options[type][0].value, undefined);
 
 	$: console.log($filters);
+	$: console.log($filters);
 </script>
 
 <form class="">
-	<button
-		class:variant-filled-primary={active}
-		class="btn w-max p-2"
-		type="button"
-		use:popup={popupFeatured}
-		id="{popupId}-button"
-		aria-label="Open filter menu for column {id}"
-	>
-		<Fa icon={faFilter} size="sm" />
-	</button>
+	<div class="relative inline-block z-50">
+		<button
+			class:variant-filled-primary={active}
+			class="btn w-max p-2"
+			type="button"
+			aria-label="Open filter menu for column {id}"
+			on:click={() => (showFilter = !showFilter)}
+		>
+			<Fa icon={faFilter} size="sm" />
+		</button>
 
-	<div data-popup={`${popupId}`} id={popupId} class="z-50">
-		<div class="card p-3 grid gap-2 shadow-lg w-max bg-base-100">
-			<button
+		{#if showFilter}
+			<div class="absolute left-0 mt-1 z-50">
+				<div class="card p-3 grid gap-2 shadow-lg w-max bg-base-100">
+					<button
 				class="btn variant-filled-primary btn-sm"
 				type="button"
 				aria-label="Clear Filters"
@@ -249,8 +241,9 @@
 					clearFilters();
 					addFilter(options[type][0].value, undefined);
 					active = false;
+					showFilter = false;
 				}}>Clear Filters</button
-			>
+				>
 
 			<label for="" class="label normal-case text-sm">Show rows with value that</label>
 			<div class="grid gap-2 overflow-auto">
@@ -338,8 +331,13 @@
 				class="btn variant-filled-primary btn-sm"
 				type="button"
 				aria-label="Apply filters"
-				on:click|preventDefault={applyFilters}>Apply</button
+				on:click|preventDefault={() => {
+					applyFilters();
+					showFilter = false;
+				}}>Apply</button
 			>
-		</div>
+				</div>
+			</div>
+		{/if}
 	</div>
 </form>
