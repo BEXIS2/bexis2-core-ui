@@ -19,6 +19,7 @@
 	import { breadcrumbStore,notificationStore } from '$store/pageStores';
 	import { errorStore,csrfTokenStore } from '$store/apiStores';
 
+
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
 // icons
@@ -28,9 +29,12 @@ import type { helpItemType, helpStoreType } from '$models/Models';
 	import Docs from './Docs.svelte';
 	import GoToTop from './GoToTop.svelte';
 	import { getAntiForgeryToken } from './PageCaller';
+	import { get } from 'svelte/store';
+	import { getApplicationName } from './breadcrumb/BreadcrumbDataCaller';
 
 
 	export let title = '';
+	let applicationName = '';
 	export let note = '';
 	export let links: linkType[] = [];
 
@@ -55,8 +59,31 @@ import type { helpItemType, helpStoreType } from '$models/Models';
 		console.log('page');
 		breadcrumbStore.clean();
 		breadcrumbStore.addItem({ label: title, link: window.location.pathname });
-		const data = await getAntiForgeryToken();
-		csrfTokenStore.set(data.csrfToken); 		
+
+		var token = get(csrfTokenStore);
+		
+		console.log("🚀 ~ token:", token)
+	
+		if(!token || token.length===0){
+
+  // check if csrf token exist as hidden field
+		const tokenContainer = document.getElementsByName('__RequestVerificationToken')[0]
+		if(tokenContainer)
+		{
+			const csrfToken = tokenContainer?.value;
+			csrfTokenStore.set(csrfToken);
+		}
+  else
+		{
+			const data = await getAntiForgeryToken();
+			csrfTokenStore.set(data.csrfToken);
+
+		}
+
+		applicationName = await getApplicationName();
+		//alert(title);
+
+		}
 	});
 
 
@@ -86,7 +113,7 @@ import type { helpItemType, helpStoreType } from '$models/Models';
 				{/if}
 
 				<div class="grid grid-cols-2">
-					<Breadcrumb bind:title />
+					<Breadcrumb bind:title bind:applicationName />
 					<Docs {links} {note} />
 				</div>
 			</svelte:fragment>

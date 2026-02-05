@@ -1,4 +1,20 @@
 # bexis-core-ui
+## 0.4.64
+- Page
+  - if application name position
+
+## 0.4.63
+- Page
+  - check if hidden field exist
+
+## 0.4.62
+- Page
+  - change call order
+  
+## 0.4.61
+- Page
+  - only get token if csrfTokenStore is empty
+
 ## 0.4.59
 - Table
   - remove static title "table"

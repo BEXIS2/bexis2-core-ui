@@ -2,12 +2,15 @@
 	import { breadcrumbStore } from '$store/pageStores';
 	import type { breadcrumbItemType } from '$models/Page';
 	import { browser } from '$app/environment';
-	import { onMount } from 'svelte';
-	import {getApplicationName} from './BreadcrumbDataCaller';
+
 
 	export let title;
 
 	$: update(title);
+
+	export let applicationName:	string;
+	$:	applicationName = "";
+
 
 	function update(t) {
 		if (browser) {
@@ -22,15 +25,12 @@
 		list = value?.items;
 	});
 
-	let applicationName = "BEXIS2";
-
-	onMount(async () => {
-		applicationName = await getApplicationName();
-	});
 
 </script>
 
+
 <div class="px-5 py-2">
+
 	<ol class="breadcrumb -p50">
 		<!--default home-->
 		<li class="crumb"><a class="anchor" href={'/'}>{applicationName}</a></li>
@@ -46,4 +46,7 @@
 			{/if}
 		{/each}
 	</ol>
+
 </div>
+
+
