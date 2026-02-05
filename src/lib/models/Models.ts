@@ -1,5 +1,5 @@
 import type { SvelteComponent } from 'svelte';
-import type { ColumnFilterFn } from 'svelte-headless-table/lib/plugins';
+import type { ColumnFilterFn } from '@humanspeak/svelte-headless-table/plugins';
 import type { Writable } from 'svelte/store';
 
 import type {
@@ -44,6 +44,8 @@ export interface fileUploaderType {
 	maxSize: number;
 }
 
+export type fileUploaderModel = fileUploaderType;
+
 export interface asciiFileReaderInfoType extends fileReaderInfoType {
 	cells: boolean[];
 	seperator: textSeperatorType;
@@ -84,7 +86,7 @@ export interface ColumnInstructions {
 	toStringFn?: (any) => string; // value by default
 	toSortableValueFn?: (any) => string | number; // value by default
 	toFilterableValueFn?: (any) => string | number | Date; // value by default
-	renderComponent?: typeof SvelteComponent; // null by default
+	renderComponent?: any; // loosen type for compatibility with Svelte 5 components
 }
 
 // Table column type
@@ -95,7 +97,7 @@ export interface Column {
 	disableFiltering?: boolean; // false by default
 	disableSorting?: boolean; // false by default
 	colFilterFn?: ColumnFilterFn;
-	colFilterComponent?: typeof SvelteComponent;
+	colFilterComponent?: any;
 	minWidth?: number; // auto by default
 	fixedWidth?: number; // auto by default
 }
@@ -127,7 +129,7 @@ export interface TableConfig<T> {
 	exportable?: boolean; // false by default
 	pageSizes?: number[]; // [5, 10, 20, 50, 100] by default
 	defaultPageSize?: number; // 10 by default
-	optionsComponent?: typeof SvelteComponent;
+	optionsComponent?: any;
 
 	server?: ServerConfig;
 }

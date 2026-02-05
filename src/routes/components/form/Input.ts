@@ -1,4 +1,4 @@
-interface inputType {
+export interface InputExampleType {
 	id: string;
 	label: string;
 	feedback: string[];
@@ -6,5 +6,3 @@ interface inputType {
 	valid: boolean;
 	required: boolean;
 }
-
-export default inputType;

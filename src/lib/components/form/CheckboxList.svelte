@@ -8,7 +8,7 @@
 	export let key;
 
 	let required = false;
-	let feedback: [];
+	let feedback: string[] = [];
 </script>
 
 <InputContainer label={title} {feedback} {required}>

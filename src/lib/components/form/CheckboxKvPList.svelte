@@ -10,7 +10,7 @@
 	export let help = false;
 
 	let required = false;
-	let feedback: [];
+	let feedback: string[] = [];
 </script>
 
 <InputContainer {id} label={title} {feedback} {required} {help}>

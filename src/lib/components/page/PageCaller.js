@@ -24,5 +24,7 @@ export const getAntiForgeryToken = async () => {
 		return response.data;
 	} catch (error) {
 		console.error(error);
+		// In docs/demo mode there may be no backend; return a safe fallback
+		return { csrfToken: '' };
 	}
 };

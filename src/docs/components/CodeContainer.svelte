@@ -95,28 +95,44 @@
 			<div class={codeClass}>
 				<TabGroup>
 					{#if svelte}
-						<Tab bind:group={tabSet} name="html" value={0}>Svelte</Tab>
+						<Tab active={tabSet === 0} value={0} label="Svelte" on:select={(e) => (tabSet = e.detail)}>
+							Svelte
+						</Tab>
 					{/if}
 					{#if typescript}
-						<Tab bind:group={tabSet} name="typescript" value={1}>Typescript</Tab>
+						<Tab active={tabSet === 1} value={1} label="Typescript" on:select={(e) => (tabSet = e.detail)}>
+							Typescript
+						</Tab>
 					{/if}
 					{#if csharp}
-						<Tab bind:group={tabSet} name="csharp" value={2}>CSharp</Tab>
+						<Tab active={tabSet === 2} value={2} label="CSharp" on:select={(e) => (tabSet = e.detail)}>
+							CSharp
+						</Tab>
 					{/if}
 					{#if model}
-						<Tab bind:group={tabSet} name="model" value={3}>Model</Tab>
+						<Tab active={tabSet === 3} value={3} label="Model" on:select={(e) => (tabSet = e.detail)}>
+							Model
+						</Tab>
 					{/if}
 					{#if xml}
-						<Tab bind:group={tabSet} name="xml" value={4}>Xml</Tab>
+						<Tab active={tabSet === 4} value={4} label="Xml" on:select={(e) => (tabSet = e.detail)}>
+							Xml
+						</Tab>
 					{/if}
 					{#if javascript}
-						<Tab bind:group={tabSet} name="javascript" value={5}>Javascript</Tab>
+						<Tab active={tabSet === 5} value={5} label="Javascript" on:select={(e) => (tabSet = e.detail)}>
+							Javascript
+						</Tab>
 					{/if}
 					{#if json}
-						<Tab bind:group={tabSet} name="json" value={6}>Json</Tab>
+						<Tab active={tabSet === 6} value={6} label="Json" on:select={(e) => (tabSet = e.detail)}>
+							Json
+						</Tab>
 					{/if}
 					{#if data}
-						<Tab bind:group={tabSet} name="javascript" value={7}>Data</Tab>
+						<Tab active={tabSet === 7} value={7} label="Data" on:select={(e) => (tabSet = e.detail)}>
+							Data
+						</Tab>
 					{/if}
 
 					<!-- Tab Panels --->
@@ -139,7 +155,7 @@
 							<CodeBlock language="javascript" code={data} />
 						{/if}
 					</svelte:fragment>
-				</TabGroup>
+					</TabGroup>
 			</div>
 		</div>
 	</div>

@@ -12,10 +12,9 @@
 	export let complexTarget = false;
 	export let help = false;
 
-	$: selected = null;
+	let selected = null;
 
 	$: updatedSelectedValue(target);
-	$: updatedTarget(selected);
 
 	function updatedSelectedValue(selection) {
 		if (selection != null) {
@@ -27,7 +26,8 @@
 		}
 	}
 
-	function updatedTarget(id) {
+	function handleChange(event) {
+		const id = selected;
 		if (complexTarget) {
 			target = source.find((opt) => opt.id === id);
 		} else {
@@ -43,8 +43,7 @@
 		class:input-success={valid}
 		class:input-error={invalid}
 		bind:value={selected}
-		on:change
-		on:select
+		on:change={handleChange}
 	>
 		<option value={null}>-- Please select --</option>
 		{#each source as e}

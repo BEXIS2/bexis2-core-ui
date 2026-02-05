@@ -23,12 +23,20 @@
 		drawerStore.close();
 	}
 	function setNavCategory(c: string): void {
-		storeCategory.set(c);
-		// prettier-ignore
-		switch($storeCategory) {
-			case('general'): filteredMenuNavLinks = menuNavLinks.filter((linkSet: any) => linkSet.id === 'general'); break;
-			case('theme'): filteredMenuNavLinks = menuNavLinks.filter((linkSet: any) => linkSet.id === 'theme'); break;
-			case('components'): filteredMenuNavLinks = menuNavLinks.filter((linkSet: any) => linkSet.id === 'components'); break;
+		// Update the filtered navigation list based on the provided category
+		switch (c) {
+			case 'general':
+				filteredMenuNavLinks = menuNavLinks.filter((linkSet: any) => linkSet.id === 'general');
+				break;
+			case 'theme':
+				filteredMenuNavLinks = menuNavLinks.filter((linkSet: any) => linkSet.id === 'theme');
+				break;
+			case 'components':
+				filteredMenuNavLinks = menuNavLinks.filter((linkSet: any) => linkSet.id === 'components');
+				break;
+			default:
+				filteredMenuNavLinks = menuNavLinks;
+				break;
 		}
 	}
 	// Lifecycle
@@ -36,7 +44,7 @@
 		let pathMatch: string = p.url.pathname.split('/')[1];
 		if (!pathMatch) return;
 		if (['components', 'actions'].includes(pathMatch)) pathMatch = 'svelte';
-		setNavCategory(pathMatch);
+		storeCategory.set(pathMatch);
 	});
 	storeCategory.subscribe((c: string) => setNavCategory(c));
 	// Reactive

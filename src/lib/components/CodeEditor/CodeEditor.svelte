@@ -45,12 +45,19 @@
 		response: (r: boolean) => (r ? (value = initialValue) : null)
 	};
 
-	const extensions: Extension[] =
-		language === 'js'
-			? [linter(esLint(new Linter())), lintGutter()]
-			: language === 'json'
-			? [linter(jsonParseLinter()), lintGutter()]
-			: [];
+	let extensions: Extension[] = [];
+
+	try {
+		if (language === 'js') {
+			const jsLinter = new Linter();
+			extensions = [linter(esLint(jsLinter)), lintGutter()];
+		} else if (language === 'json') {
+			extensions = [linter(jsonParseLinter()), lintGutter()];
+		}
+	} catch (error) {
+		console.error('CodeEditor: failed to initialize linting extensions', error);
+		extensions = [];
+	}
 
 	const isValidJSON = (str: string) => {
 		try {

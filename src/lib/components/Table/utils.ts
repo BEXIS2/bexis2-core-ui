@@ -1,5 +1,4 @@
 import dateFormat from 'dateformat';
-import { SvelteComponent } from 'svelte';
 import type { Writable } from 'svelte/store';
 
 import { Send, Receive } from '$models/Models';
@@ -333,7 +332,9 @@ export const convertServerColumns = (
 export const getMaxCellHeightInRow = (
 	tableRef: HTMLTableElement,
 	resizable: 'columns' | 'rows' | 'none' | 'both',
-	optionsComponent: typeof SvelteComponent | undefined,
+	// optionsComponent is only used as a boolean flag; avoid depending on SvelteComponent type
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	optionsComponent: any,
 	rowHeights: Writable<{ [key: number]: { max: number; min: number } }>,
 	tableId: string,
 	rowHeight: number | null

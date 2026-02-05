@@ -8,7 +8,7 @@
 
 	export let menuBar: menuItemType[];
 
-	let comboboxValue: string;
+	let comboboxValue: string | undefined = undefined;
 	
 </script>
 

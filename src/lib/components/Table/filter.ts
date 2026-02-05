@@ -1,5 +1,4 @@
-import type { ColumnFilterFn } from 'svelte-headless-table/lib/plugins';
-import type { TableFilterFn } from 'svelte-headless-table/lib/plugins/addTableFilter';
+import type { ColumnFilterFn, TableFilterFn } from '@humanspeak/svelte-headless-table/plugins';
 
 import { FilterOptionsEnum } from '$models/Enums';
 

@@ -1,19 +1,18 @@
 /** @type {import('tailwindcss').Config} */
 
 // @ts-check
-import { join } from 'path';
+const path = require('path');
 
 // 1. Import the Skeleton plugin
-import { skeleton } from '@skeletonlabs/tw-plugin';
+const { skeleton } = require('@skeletonlabs/tw-plugin');
 
 // add theme
-import { bexis2theme } from './src/lib/themes/theme-bexis2';
+const { bexis2theme } = require('./src/lib/themes/theme-bexis2');
 
 module.exports = {
 	darkMode: 'class',
 	content: [
-		'./src/**/*.{html,js,svelte,ts}',
-		require('path').join(require.resolve('@skeletonlabs/skeleton'), '../**/*.{html,js,svelte,ts}')
+		'./src/**/*.{html,js,svelte,ts}'
 	],
 	theme: {
 		extend: {}

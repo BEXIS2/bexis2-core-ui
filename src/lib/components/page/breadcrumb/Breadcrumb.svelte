@@ -5,12 +5,9 @@
 
 
 	export let title;
-
 	$: update(title);
 
-	export let applicationName:	string;
-	$:	applicationName = "";
-
+	export let applicationName: string = '';
 
 	function update(t) {
 		if (browser) {
@@ -19,11 +16,10 @@
 	}
 
 	let list: breadcrumbItemType[] = [];
-	$: list;
-
-	$: breadcrumbStore.subscribe((value) => {
-		list = value?.items;
-	});
+	$: {
+		const value = $breadcrumbStore;
+		list = value?.items ?? [];
+	}
 
 
 </script>

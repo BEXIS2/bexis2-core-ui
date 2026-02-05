@@ -7,11 +7,12 @@
 
 	const toastStore = getToastStore();
 
-	let btnStyle: string;
+	const defaultBtnStyle = 'btn-icon btn-icon-sm variant-filled-surface shadow-md';
+	let btnStyle: string = defaultBtnStyle;
 	$: btnStyle =
-		$notificationStore === undefined || $notificationStore.btnStyle === undefined
-			? notificationStore.getBtnStyle()
-			: $notificationStore.btnStyle;
+		$notificationStore && $notificationStore.btnStyle
+			? $notificationStore.btnStyle
+			: defaultBtnStyle;
 
 	$: $notificationStore, triggerToast();
 

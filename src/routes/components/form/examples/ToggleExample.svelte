@@ -5,5 +5,5 @@
 	let label = 'toggle till the end of time';
 </script>
 
-<SlideToggle name={label} bind:checked={value} on:change>{label}</SlideToggle>
+<SlideToggle name={label} bind:checked={value} label={label} on:change>{label}</SlideToggle>
 <div class="pt-3"><b>Value:</b> {value}</div>

@@ -4,7 +4,7 @@
 
 	import Fa from 'svelte-fa';
 	import { faCompress, faDownload, faXmark } from '@fortawesome/free-solid-svg-icons';
-	import { createTable, Subscribe, Render, createRender } from 'svelte-headless-table';
+	import { createTable, Subscribe, Render, createRender } from '@humanspeak/svelte-headless-table';
 	import {
 		addSortBy,
 		addPagination,
@@ -13,10 +13,10 @@
 		addTableFilter,
 		addDataExport,
 		addHiddenColumns
-	} from 'svelte-headless-table/plugins';
+	} from '@humanspeak/svelte-headless-table/plugins';
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
+	import type { PaginationConfig } from '@humanspeak/svelte-headless-table/plugins';
 	import { SlideToggle, storePopup } from '@skeletonlabs/skeleton';
-	import type { PaginationConfig } from 'svelte-headless-table/lib/plugins/addPagination';
 
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
@@ -168,7 +168,12 @@
 					// Render the cell with the provided component, or use the toStringFn if provided, or just use the value
 					cell: ({ value, row, column }) => {
 						return renderComponent
-							? createRender(renderComponent, { value, row, column, dispatchFn: actionDispatcher })
+							? createRender(renderComponent as any, {
+									value,
+									row,
+									column,
+									dispatchFn: actionDispatcher
+							  })
 							: toStringFn
 							? toStringFn(value)
 							: value;
@@ -192,10 +197,10 @@
 											? colFilterFn({ filterValue, value: val })
 											: columnFilter({ filterValue, value: val });
 									},
-									render: ({ filterValue, values, id }) => {
+										render: ({ filterValue, values, id }) => {
 										filterValue.set($filters[key]);
-										return serverSide
-											? createRender(TableFilterServer, {
+												return serverSide
+													? createRender(TableFilterServer as any, {
 													id,
 													tableId,
 													values,
@@ -204,8 +209,8 @@
 													toFilterableValueFn,
 													filters,
 													toStringFn
-											  })
-											: createRender(colFilterComponent ?? TableFilter, {
+													  })
+												: createRender((colFilterComponent as any) ?? (TableFilter as any), {
 													filterValue,
 													id,
 													tableId,
@@ -242,16 +247,16 @@
 						colFilter: {
 							fn: columnFilter,
 							render: ({ filterValue, values, id }) => {
-								return serverSide
-									? createRender(TableFilterServer, {
+											return serverSide
+												? createRender(TableFilterServer as any, {
 											id,
 											tableId,
 											values,
 											updateTable: updateTableWithParams,
 											pageIndex,
 											filters
-									  })
-									: createRender(TableFilter, {
+												  })
+											: createRender(TableFilter as any, {
 											filterValue,
 											id,
 											tableId,
@@ -279,7 +284,7 @@
 					}
 				},
 				cell: ({ row }, _) => {
-					return createRender(optionsComponent!, {
+					return createRender(optionsComponent as any, {
 						row: row.isData() ? row.original : null,
 						dispatchFn: actionDispatcher
 					});
@@ -492,9 +497,6 @@
 							checked={fitToScreen}
 							id="{tableId}-toggle"
 							title={fitToScreen ? 'Fit table data to screen' : `Don't fit table data to screen`}
-							aria-label={fitToScreen
-								? 'Fit table data to screen'
-								: `Don't fit table data to screen`}
 							on:change={() => (fitToScreen = !fitToScreen)}>Fit to screen</SlideToggle
 						>
 					{/if}
@@ -573,23 +575,23 @@
 													`}
 												>
 													<div class="flex justify-between items-center">
-														<div class="flex gap-1 whitespace-pre-wrap">
+																																					<div class="flex gap-1 whitespace-pre-wrap">
 															<!-- Adding sorting config and styling -->
-															<span
-																role="button"
+																																													<span
+																																															role="button"
 																tabindex="0"
 																class:underline={props.sort.order}
 																class:normal-case={cell.id !== cell.label}
-																class:cursor-pointer={!props.sort.disabled}
+																																																					class:cursor-pointer={!props.sort.disabled}
 																on:click={props.sort.toggle}
-																on:keydown={props.sort.toggle}
-																title={props.sort.disabled ? undefined : (props.sort.order === 'asc'
-																	? `Sort by ${cell.label} column in descending order`
+																																																	on:keydown={props.sort.toggle}
+																																																	title={props.sort.disabled ? undefined : (props.sort.order === 'asc'
+																																																					? `Sort by ${cell.label} column in descending order`
 																	: props.sort.order === 'desc'
 																	? `Remove sorting by ${cell.label} column`
-																	: `Sort by ${cell.label} column in ascending order`)}
+																																																					: `Sort by ${cell.label} column in ascending order`)}
 															>
-																{cell.render().replaceAll("%%%", '.')}
+																																														{String(cell.render()).replaceAll("%%%", '.')}
 															</span>
 															<div class="w-2">
 																{#if props.sort.order === 'asc'}

@@ -142,7 +142,8 @@
 			formData.append('files', '123');
 			// Looping over all files and add it to FormData object
 			for (var i = 0; i < files.accepted.length; i++) {
-				formData.append(files.accepted[i].name, files.accepted[i]);
+				const file = files.accepted[i] as File;
+				formData.append(file.name, file);
 			}
 
 			const response = await Api.post(url, formData);
@@ -153,7 +154,7 @@
 				let message = files.accepted.length + ' is/are uploaded';
 
 				let fileList: string[] = [];
-				files.accepted.forEach((f) => fileList.push(f.name));
+				files.accepted.forEach((f) => fileList.push((f as File).name));
 
 				dispatch('success', { text: message, files: fileList });
 

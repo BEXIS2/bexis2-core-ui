@@ -235,7 +235,7 @@
 		id="{popupId}-button"
 		aria-label="Open filter menu for column {id}"
 	>
-		<Fa icon={faFilter} size="12" />
+		<Fa icon={faFilter} size="sm" />
 	</button>
 
 	<div data-popup={`${popupId}`} id={popupId} class="z-50">

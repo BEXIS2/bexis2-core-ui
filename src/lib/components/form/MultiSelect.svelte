@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import InputContainer from './InputContainer.svelte';
 
 	import Select from 'svelte-select';
@@ -25,10 +25,8 @@
 	export let disabled = false;
 
 	let isLoaded = false;
-
-	$: value = null;
+	let value: any = null;
 	$: updateTarget(value);
-	$: target, setValue(target);
 
 	let groupBy;
 	$: groupBy;
@@ -92,11 +90,9 @@
 	}
 
 	onMount(async () => {
-		//console.log("OnMount", target)
-		if (complexSource && complexTarget) {
-			// after on mount a setValue is needed when data is complex
-			setValue(target);
-		}
+		// Initialize the internal Select value once from the external target
+		// to avoid a reactive loop between value and target.
+		setValue(target);
 	});
 
 	function setValue(t) {
@@ -104,11 +100,11 @@
 
 		//a) source is complex model is simple
 		if (complexSource && !complexTarget && isMulti) {
-			let items = [];
+			let items: any[] = [];
 			// event.detail will be null unless isMulti is true and user has removed a single item
 			for (let i in t) {
-				let t = target[i];
-				items.push(source.find((item) => item[itemId] === t));
+				const targetId = target[i];
+				items.push(source.find((item) => item[itemId] === targetId));
 			}
 
 			isLoaded = true;

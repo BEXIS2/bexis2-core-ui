@@ -64,31 +64,33 @@ import type { helpItemType, helpStoreType } from '$models/Models';
 		
 		console.log("🚀 ~ token:", token)
 	
-		if(!token || token.length===0){
-
-  // check if csrf token exist as hidden field
-		const tokenContainer = document.getElementsByName('__RequestVerificationToken')[0]
-		if(tokenContainer)
-		{
-			const csrfToken = tokenContainer?.value;
-			csrfTokenStore.set(csrfToken);
-		}
-  else
-		{
-			const data = await getAntiForgeryToken();
-			csrfTokenStore.set(data.csrfToken);
-
-		}
+		if (!token || token.length === 0) {
+			// check if csrf token exist as hidden field
+			const tokenContainer =
+				document.getElementsByName('__RequestVerificationToken')[0] as HTMLInputElement | undefined;
+			if (tokenContainer) {
+				const csrfToken = tokenContainer.value;
+				csrfTokenStore.set(csrfToken);
+			} else
+			{
+				try {
+					const data = await getAntiForgeryToken();
+					if (data && typeof data.csrfToken === 'string') {
+						csrfTokenStore.set(data.csrfToken);
+					}
+				} catch (error) {
+					console.error('Failed to fetch anti-forgery token', error);
+				}
+			}
 
 		applicationName = await getApplicationName();
 		//alert(title);
 
 		}
-	});
+});
 
-
-	csrfTokenStore.subscribe(value => {
-		if(value.length>0){
+	csrfTokenStore.subscribe((value) => {
+		if (value.length > 0) {
 			aftIsReady = true;
 		}
 	});

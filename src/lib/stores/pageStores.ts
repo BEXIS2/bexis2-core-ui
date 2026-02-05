@@ -11,65 +11,55 @@ import { BreadcrumbModel } from '$models/Page';
 import { writable } from 'svelte/store';
 
 function createHelpStore() {
-	// set Store Type
-	const { subscribe, set, update } = writable<helpStoreType>();
-
-	const h: helpItemType[] = [];
-	let v: helpStoreType;
-
-	set({ itemId: undefined, helpItems: h });
+	// initialize store with an empty help list
+	const initial: helpStoreType = { itemId: undefined, helpItems: [] };
+	const { subscribe, set, update } = writable<helpStoreType>(initial);
 
 	return {
-		//pass Store default functions
+		// pass Store default functions
 		subscribe,
 		set,
 		update,
-		//set the list of help items to show
+		// set the list of help items to show
 		setHelpItemList: (helpItems: helpItemType[]) => {
-			helpStore.set({ itemId: undefined, helpItems: helpItems });
+			set({ itemId: undefined, helpItems });
 		},
-		//set the ID of the help item and display it
+		// set the ID of the help item and display it
 		setItemId: (itemId: string) => {
-			helpStore.subscribe((value) => {
-				value = value === undefined ? { itemId: undefined, helpItems: h } : value;
-				value.helpItems = value.helpItems === undefined ? h : value.helpItems;
-				v = { itemId: itemId, helpItems: value.helpItems };
+			update((value) => {
+				const helpItems = value?.helpItems ?? [];
+				return { itemId, helpItems };
 			});
-			update((u) => (u = v));
 		},
-		//reset the ID of the help item and hide it
+		// reset the ID of the help item and hide it
 		resetItemId: () => {
-			helpStore.subscribe((value) => {
-				value = value === undefined ? { itemId: undefined, helpItems: h } : value;
-				value.helpItems = value.helpItems === undefined ? h : value.helpItems;
-				v = { itemId: undefined, helpItems: value.helpItems };
+			update((value) => {
+				const helpItems = value?.helpItems ?? [];
+				return { itemId: undefined, helpItems };
 			});
-			update((u) => (u = v));
 		},
-		//set the ID of the help item and display it
+		// set the ID of the help item and display it
 		show: (itemId: string) => {
 			helpStore.setItemId(itemId);
 		},
-		//set a help item and display it
+		// set a help item and display it
 		showHelpItem: (helpItem: helpItemType) => {
-			helpItem.id = helpItem.id === undefined ? 'default' : helpItem.id;
-			helpStore.set({ itemId: helpItem.id, helpItems: [helpItem] });
+			const id = helpItem.id ?? 'default';
+			set({ itemId: id, helpItems: [{ ...helpItem, id }] });
 		},
-		//reset the ID of the help item and hide it
+		// reset the ID of the help item and hide it
 		hide: () => {
 			helpStore.resetItemId();
 		},
-		//reset the ID of the help item and hide it
+		// toggle the active help item id (used to show/hide help)
 		toggle: (itemId: string) => {
-			helpStore.subscribe((value) => {
-				value = value === undefined ? { itemId: undefined, helpItems: h } : value;
-				value.helpItems = value.helpItems === undefined ? h : value.helpItems;
-				v = { itemId: itemId, helpItems: value.helpItems };
+			update((value) => {
+				const helpItems = value?.helpItems ?? [];
+				return { itemId, helpItems };
 			});
-			update((u) => (u = v));
 		},
 		reset: () => {
-			helpStore.set({ itemId: undefined, helpItems: h });
+			set(initial);
 		},
 		clear: () => {
 			helpStore.reset();
@@ -85,9 +75,7 @@ export const menuStore = writable<MenuModel>();
 
 function createBreadcrumbStore() {
 	// set Store Type
-	const { subscribe, set, update } = writable<BreadcrumbModel>();
-
-	set(new BreadcrumbModel());
+	const { subscribe, set, update } = writable<BreadcrumbModel>(new BreadcrumbModel());
 
 	return {
 		//pass Store default functions
@@ -97,38 +85,25 @@ function createBreadcrumbStore() {
 
 		//set the ID of the help item and display it
 		addItem: (item: breadcrumbItemType) => {
-			let b: BreadcrumbModel;
-			breadcrumbStore.subscribe((value) => {
-				value = value === undefined ? new BreadcrumbModel() : value;
-				// value.items = (value.items === undefined) ? b:value.items
-				if (!value.items.find((i) => i.label === item.label)) {
-					value.items = [...value.items, item];
+			update((value) => {
+				const current = value ?? new BreadcrumbModel();
+				if (!current.items.find((i) => i.label === item.label)) {
+					current.items = [...current.items, item];
 				}
-
-				b = value;
+				return current;
 			});
-
-			update((s) => (s = b));
 		},
 
 		updateItem: (item: breadcrumbItemType) => {
-			let b: BreadcrumbModel;
-			breadcrumbStore.subscribe((value) => {
-				value = value === undefined ? new BreadcrumbModel() : value;
-
-				let v = value.items.find((i) => i.link === item.link);
-				//console.log(value.items, v);
-
-				if (v) {
-					const i = value.items.indexOf(v);
-					value.items[i] = item;
-					v = item;
+			update((value) => {
+				const current = value ?? new BreadcrumbModel();
+				const existing = current.items.find((i) => i.link === item.link);
+				if (existing) {
+					const index = current.items.indexOf(existing);
+					current.items[index] = item;
 				}
-
-				b = value;
+				return current;
 			});
-
-			update((s) => (s = b));
 		},
 
 		clean: () => {
@@ -152,15 +127,15 @@ function createNotificationStore() {
 		subscribe,
 		set,
 		update,
-		// set notificationStroe, notificationType, message and button style
+		// set notification store, notificationType, message and button style
 		setNotification: (notificationItem: notificationItemType) => {
-			notificationItem.notificationType =
+			const type =
 				notificationItem.notificationType === undefined
 					? notificationType.surface
 					: notificationItem.notificationType;
 			let btnStyle: string;
 
-			switch (notificationItem.notificationType) {
+			switch (type) {
 				case notificationType.success:
 					btnStyle = 'btn-icon btn-icon-sm variant-filled-success shadow-md';
 					break;
@@ -171,17 +146,15 @@ function createNotificationStore() {
 					btnStyle = 'btn-icon btn-icon-sm variant-filled-error shadow-md';
 					break;
 				case notificationType.surface:
+				default:
 					btnStyle = 'btn-icon btn-icon-sm variant-filled-surface shadow-md';
 					break;
 			}
 
-			notificationStore.set({
-				notificationType: notificationItem.notificationType,
+			set({
+				notificationType: type,
 				message: notificationItem.message,
-				btnStyle: btnStyle
-			});
-			notificationStore.subscribe((value) => {
-				('');
+				btnStyle
 			});
 		},
 
@@ -195,19 +168,20 @@ function createNotificationStore() {
 			// if the store is changing, the notification componend will be updated
 		},
 
-		// gets the dissmiss Button style
+		// gets the dismiss Button style
 		getBtnStyle: () => {
-			let btnStyle: string = '';
-			notificationStore.subscribe((value) => {
-				do {
-					if (value === undefined || value.btnStyle === undefined) {
-						notificationStore.setNotification({ message: '' });
-					} else {
-						btnStyle = value.btnStyle;
-					}
-				} while (btnStyle === '');
+			let current: notificationStoreType | undefined;
+			const unsubscribe = subscribe((value) => {
+				current = value;
 			});
-			return btnStyle;
+			unsubscribe();
+
+			if (current && current.btnStyle) {
+				return current.btnStyle;
+			}
+
+			// fallback to the default surface style used by the UI
+			return 'btn-icon btn-icon-sm variant-filled-surface shadow-md';
 		}
 	};
 }

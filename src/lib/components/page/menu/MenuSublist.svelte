@@ -4,6 +4,7 @@
 	import { goTo } from '../../../services/BaseCaller';
 
 	export let items: menuItemType[];
+	export let id: string | undefined = undefined;
 
 	let lastModule = '';
 	let first = true;
@@ -23,46 +24,38 @@
 		}
 	}
 
-	function clickFn(item)
-	{
-		if(item.Title =="Log Off")
-		{
-					logOffFn();
+	function clickFn(item) {
+		if (item.Title === 'Log Off') {
+			logOffFn();
 			return;
-		}
-		else{
-				goTo(item.Url, item.Internal, item.Target);	
+		} else {
+			goTo(item.Url, item.Internal, item.Target);
 		}
 	}
 
-	
 	async function logOffFn() {
+		// Prepare the body content for the POST request
+		const token = (window as any).antiForgeryToken as string | undefined;
+		const bodyContent = `__RequestVerificationToken=${token ?? ''}`;
 
-		 console.log('logoff');
-				// Prepare the body content for the POST request
-			
-
-			let bodyContent = '__RequestVerificationToken='+ window.antiForgeryToken;
-
-				try {
-									const response = await fetch('/Account/logoff', {
-													method: 'POST',
-													credentials: 'include', // Include cookies for authentication
-													headers: {
-																	'Content-Type': 'application/x-www-form-urlencoded'
-													},
-													body:bodyContent
-									});
-									if (response.ok) {
-													// Redirect to login page after logout
-													window.location.href = '/Account/Login'; 
-									} else {
-													console.error('Logout failed');
-									}
-					} catch (error) {
-									console.error('Error during logout:', error);
-					}
+		try {
+			const response = await fetch('/Account/logoff', {
+				method: 'POST',
+				credentials: 'include',
+				headers: {
+					'Content-Type': 'application/x-www-form-urlencoded'
+				},
+				body: bodyContent
+			});
+			if (response.ok) {
+				window.location.href = '/Account/Login';
+			} else {
+				console.error('Logout failed');
 			}
+		} catch (error) {
+			console.error('Error during logout:', error);
+		}
+	}
 
 
 </script>
@@ -76,7 +69,6 @@
 			bind:group={item.Title}
 			name="medium"
 			value={item.Title}
-	
 		>
 		<a  href={item.Url} target="{item.Target}" on:click|preventDefault={()=>clickFn(item)}>{item.Title}</a>
 

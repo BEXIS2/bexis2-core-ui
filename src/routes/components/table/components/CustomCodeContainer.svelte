@@ -28,7 +28,14 @@
 		<div class="flex-1">
 			<TabGroup>
 				{#each tabs as tab, index}
-					<Tab bind:group={tabSet} name={`tab${index}`} value={index}>{tab.name}</Tab>
+					<Tab
+						active={tabSet === index}
+						value={index}
+						label={tab.name}
+						on:select={(e) => (tabSet = e.detail)}
+					>
+						{tab.name}
+					</Tab>
 				{/each}
 				<svelte:fragment slot="panel">
 					{#each tabs as tab, index}

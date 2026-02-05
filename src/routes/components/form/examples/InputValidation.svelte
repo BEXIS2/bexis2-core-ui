@@ -18,15 +18,15 @@
 	// load form result object
 	let res = suite.get();
 
-	// reset validation result when page is releoaded
+	// reset validation result when page is reloaded
 	suite.reset();
 
-	// use to actived save if form is valid
+	// use to activate save if form is valid
 	$: disabled = !res.isValid();
 
 	onMount(async () => {
-		// init siute with form data object
-		res = suite(formData);
+		// init suite with form data object
+		res = suite(formData, undefined);
 	});
 
 	suite.reset();

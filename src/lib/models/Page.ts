@@ -22,6 +22,15 @@ export class MenuModel {
 	AccountBar: menuItemType[];
 	Settings: menuItemType[];
 	Extended: menuItemType[];
+
+	constructor() {
+		this.Logo = { Mime: '', Name: '', Data: '', Height: 0 };
+		this.LaunchBar = [];
+		this.MenuBar = [];
+		this.AccountBar = [];
+		this.Settings = [];
+		this.Extended = [];
+	}
 }
 
 export interface menuItemType {

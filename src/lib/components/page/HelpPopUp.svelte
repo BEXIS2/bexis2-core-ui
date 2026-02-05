@@ -13,17 +13,20 @@
 
 	export let active: boolean = false;
 
-	let hs: helpStoreType;
-	$: helpStore.subscribe((value) => {
-		hs = value;
-	});
-	let helpItem: helpItemType = { id: undefined, name: '', description: '' };
-	$: helpItem =
-		active === true
-			? hs.itemId == ''
-				? { id: undefined, name: '', description: '' }
-				: hs.helpItems.find((h) => h.id === hs.itemId)!
-			: { id: undefined, name: '', description: '' };
+	const emptyHelpItem: helpItemType = { id: undefined, name: '', description: '' };
+	let helpItem: helpItemType = emptyHelpItem;
+	$: {
+		if (!active) {
+			helpItem = emptyHelpItem;
+		} else {
+			const hs: helpStoreType | undefined = $helpStore;
+			if (!hs || !hs.itemId) {
+				helpItem = emptyHelpItem;
+			} else {
+				helpItem = hs.helpItems?.find((h) => h.id === hs.itemId) ?? emptyHelpItem;
+			}
+		}
+	}
 
 	const helpClick: PopupSettings = {
 		event: 'click',
