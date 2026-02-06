@@ -24,3 +24,32 @@ body {
 .list-item .item.hover:not(.active):not(.list-group-title) {
 	@apply dark:!text-black;
 }
+
+
+@config "../tailwind.config.cjs";
+@import "tailwindcss";
+@plugin "@tailwindcss/forms";
+@plugin "@tailwindcss/typography";
+
+/*place global styles here */
+html,
+body {
+	@apply h-full bg-white;
+}
+
+[type='text']:focus {
+	--tw-ring-color: #00000;
+}
+
+.svelte-select,
+.svelte-select-list {
+	@apply dark:!bg-zinc-700 border dark:!border-zinc-500;
+}
+
+.multi-item {
+	@apply dark:!bg-zinc-500 dark:!outline-zinc-400;
+}
+
+.list-item .item.hover:not(.active):not(.list-group-title) {
+	@apply dark:!text-black;
+}
