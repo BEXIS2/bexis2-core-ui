@@ -103,7 +103,7 @@
 					</ul>
 				</nav>
 				<!-- Divider -->
-				{#if i + 1 < filteredMenuNavLinks.length}<hr class="!my-6 opacity-50" />{/if}
+				{#if i + 1 < filteredMenuNavLinks.length}<hr class="my-6! opacity-50" />{/if}
 			{/if}
 		{/each}
 	</section>

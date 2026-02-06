@@ -27,7 +27,7 @@ import type{ CssClasses } from '@skeletonlabs/skeleton';
 	export let rounded: CssClasses = 'rounded-token';
 
 // Classes
-const cTransition = `transition-all duration-[200ms]`;
+const cTransition = `transition-all duration-200`;
 const cTrack = 'cursor-pointer';
 const cThumb = 'aspect-square scale-[0.8] flex justify-center items-center';
 const cIcon = 'w-[70%] aspect-square';
@@ -35,7 +35,7 @@ const cIcon = 'w-[70%] aspect-square';
 // State
 $: trackBg = mode === true ? bgLight : bgDark;
 $: thumbBg = mode === true ? bgDark : bgLight;
-$: thumbPosition = mode === true ? 'translate-x-[100%]' : '';
+$: thumbPosition = mode === true ? 'translate-x-full' : '';
 $: iconFill = mode === true ? fillLight : fillDark;
 
 $: classesTrack = `${cTrack} ${cTransition} ${width} ${height} ${ring} ${rounded} ${trackBg} ${$$props.class ?? ''}`;

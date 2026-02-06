@@ -554,7 +554,7 @@
 										<Subscribe attrs={cell.attrs()} props={cell.props()} let:props let:attrs>
 											<th
 												scope="col"
-												class="!p-2"
+												class="p-2!"
 												{...attrs}
 												style={`
 													width: ${cell.isData() ? 'auto' : '0'};
@@ -671,7 +671,7 @@
 			</div>
 		</div>
 	{:else}
-		<div class="p-10 w-full h-full flex justify-center items-center bg-neutral-200 rounded">
+		<div class="p-10 w-full h-full flex justify-center items-center bg-neutral-200 rounded-sm">
 			<p>No data available</p>
 		</div>
 	{/if}

@@ -52,7 +52,7 @@
 		<p class="text-xl pl-10">
 			Fixed width in pixels for the column. By default, the column will be as wide as the content.
 			Setting this will override the <code
-				class="!text-xl bg-tertiary-300 dark:bg-tertiary-700/50 rounded-md p-0.5 text-primary-500">resizable</code
+				class="text-xl! bg-tertiary-300 dark:bg-tertiary-700/50 rounded-md p-0.5 text-primary-500">resizable</code
 			> property for the column.
 		</p>
 	</div>

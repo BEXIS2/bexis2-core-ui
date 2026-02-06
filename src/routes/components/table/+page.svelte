@@ -15,7 +15,7 @@
 	use:tocCrawler={{ mode: 'generate', scrollTarget: '#page-content' }}
 >
 	<div class="grid gap-5">
-		<h1 class="font-bold !text-6xl">Table</h1>
+		<h1 class="font-bold text-6xl!">Table</h1>
 		<h2 class="h2">Props</h2>
 		<TableProps />
 		<h2 class="h2">Types</h2>

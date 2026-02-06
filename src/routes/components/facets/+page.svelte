@@ -7,7 +7,7 @@
 
 <div class="grid gap-20 p-10 dark:bg-surface-800">
 	<div class="grid gap-5">
-		<h1 class="font-bold !text-6xl">Facets</h1>
+		<h1 class="font-bold text-6xl!">Facets</h1>
 		<h2 class="h2">Props</h2>
 		<FacetsProps />
 	</div>

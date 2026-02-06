@@ -53,7 +53,7 @@
 
 		<p class="text-xl pl-10">
 			Control whether the facets are open or closed. <code
-				class="!text-xl bg-red-100 dark:bg-red-400/30 rounded-md p-0.5 text-red-500">false</code
+				class="text-xl! bg-red-100 dark:bg-red-400/30 rounded-md p-0.5 text-red-500">false</code
 			> by default.
 		</p>
 	</div>
@@ -66,10 +66,10 @@
 
 		<p class="text-xl pl-10">
 			Control whether all the facet options are displayed in UI. <code
-				class="!text-xl bg-red-100 dark:bg-red-400/30 rounded-md p-0.5 text-red-500">false</code
+				class="text-xl! bg-red-100 dark:bg-red-400/30 rounded-md p-0.5 text-red-500">false</code
 			>
 			by default. If set to
-			<code class="!text-xl bg-red-100 dark:bg-red-400/30 rounded-md p-0.5 text-red-500">false</code
+			<code class="text-xl! bg-red-100 dark:bg-red-400/30 rounded-md p-0.5 text-red-500">false</code
 			> and the number of options is greater than 5, the remaining options will be displayed in a modal.
 		</p>
 	</div>
@@ -82,7 +82,7 @@
 
 		<p class="text-xl pl-10">
 			Control whether the facet groups can be selected. <code
-				class="!text-xl bg-red-100 dark:bg-red-400/30 rounded-md p-0.5 text-red-500">false</code
+				class="text-xl! bg-red-100 dark:bg-red-400/30 rounded-md p-0.5 text-red-500">false</code
 			> by default.
 		</p>
 	</div>

@@ -7,8 +7,8 @@ export const simpleTableHTML = `
 	<table class="table table-compact bg-tertiary-200">
 		<thead>
 			<tr class="bg-primary-300">
-				<th class="!p-2">Group</th>
-				<th class="!p-2">Description</th>
+				<th class="p-2!">Group</th>
+				<th class="p-2!">Description</th>
 			</tr>
 		</thead>
 		<tbody>

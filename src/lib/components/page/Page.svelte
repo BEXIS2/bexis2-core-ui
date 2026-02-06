@@ -128,7 +128,7 @@ import type { helpItemType, helpStoreType } from '$models/Models';
 
 	<div class="flex flex-initial space-x-5">
 		{#if $$slots.left}
-			<div class="p-5 flex-shrink-0 w-96 w-min-96 border-y border-solid border-surface-500">
+			<div class="p-5 shrink-0 w-96 w-min-96 border-y border-solid border-surface-500">
 				<slot name="left" />
 			</div>
 		{/if}
@@ -148,7 +148,7 @@ import type { helpItemType, helpStoreType } from '$models/Models';
 		{/if}
 
 		{#if $$slots.right}
-			<div class=" p-5 fixed flex-shrink-0 w-96 border-y border-solid border-surface-500">
+			<div class=" p-5 fixed shrink-0 w-96 border-y border-solid border-surface-500">
 				<slot name="right" />
 			</div>
 		{/if}

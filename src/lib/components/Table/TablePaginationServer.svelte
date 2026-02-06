@@ -39,7 +39,7 @@
 		<div class="relative inline-block z-40">
 			<button
 				aria-label="Open menu to select number of items to display per page"
-				class="btn variant-filled-primary w-20 !px-3 !py-1.5 justify-between"
+				class="btn variant-filled-primary w-20 px-3! py-1.5! justify-between"
 				type="button"
 				on:click={() => (showPageSizeDropdown = !showPageSizeDropdown)}
 			>
@@ -75,7 +75,7 @@
 			select="hidden"
 			active="!variant-filled-secondary !text-on-secondary-token"
 			controlVariant="!text-on-primary-token"
-			buttonClasses="!rounded-none !px-3 !py-1.5 fill-current bg-primary-500 hover:!bg-primary-600 !text-on-primary-token disabled:grayscale disabled:!opacity-30"
+			buttonClasses="rounded-none! px-3! py-1.5! fill-current bg-primary-500 hover:!bg-primary-600 !text-on-primary-token disabled:grayscale disabled:opacity-30!"
 			regionControl="btn-group"
 			maxNumerals={1}
 			showNumerals

@@ -55,7 +55,7 @@ export const MultiSelectEvents = [
 		description: 'fires when select > input on:focus'
 	},
 	{
-		name: 'blur',
+		name: 'blur-sm',
 		description: 'fires when select > input on:blur'
 	},
 	{

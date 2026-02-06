@@ -30,7 +30,7 @@
 {#if settings}
 	<div class="fixed inset-0 flex items-center justify-center bg-black/40 z-50" on:click={close}>
 		<div
-			class="bg-white dark:bg-surface-700 rounded shadow-lg max-w-lg w-full p-4"
+			class="bg-white dark:bg-surface-700 rounded-sm shadow-lg max-w-lg w-full p-4"
 			on:click|stopPropagation
 		>
 			{#if settings.title}

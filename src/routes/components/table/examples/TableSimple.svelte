@@ -18,8 +18,8 @@
 			<table class="table table-compact bg-tertiary-500/30 dark:bg-tertiary-900/10">
 				<thead>
 					<tr class="bg-primary-300 dark:bg-primary-500">
-						<th class="!p-2">Group</th>
-						<th class="!p-2">Description</th>
+						<th class="p-2!">Group</th>
+						<th class="p-2!">Description</th>
 					</tr>
 				</thead>
 				<tbody>
