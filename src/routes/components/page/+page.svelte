@@ -55,8 +55,8 @@
 	footer={true}
 >
 	<svelte:fragment slot="left">
-		<button class="btn variant-filled-error" on:click={updateTitle}>change title </button>
-		<button class="btn variant-filled-error" on:click={getQuery}>get query </button>
+		<button class="btn preset-filled-error-500" on:click={updateTitle}>change title </button>
+		<button class="btn preset-filled-error-500" on:click={getQuery}>get query </button>
 		<div class="w-screen">
 
 		</div>

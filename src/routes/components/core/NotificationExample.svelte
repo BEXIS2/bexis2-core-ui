@@ -10,7 +10,7 @@
 	<!-- Default -->
 	<button
 		type="button"
-		class="btn variant-filled-surface h-9 shadow-md"
+		class="btn preset-filled-surface-500 h-9 shadow-md"
 		title="Default"
 		id="default"
 		on:click={() =>
@@ -21,7 +21,7 @@
 	<!-- Success -->
 	<button
 		type="button"
-		class="btn variant-filled-success h-9 shadow-md"
+		class="btn preset-filled-success-500 h-9 shadow-md"
 		title="Success"
 		id="success"
 		on:click={() =>
@@ -33,7 +33,7 @@
 	<!-- Warning -->
 	<button
 		type="button"
-		class="btn variant-filled-warning h-9 shadow-md"
+		class="btn preset-filled-warning-500 h-9 shadow-md"
 		title="Warning"
 		id="warning"
 		on:click={() =>
@@ -45,7 +45,7 @@
 	<!-- Error -->
 	<button
 		type="button"
-		class="btn variant-filled-error h-9 shadow-md"
+		class="btn preset-filled-error-500 h-9 shadow-md"
 		title="Error"
 		id="error"
 		on:click={() =>
@@ -59,7 +59,7 @@
 	<!-- notfication with HTML message -->
 	<button
 		type="button"
-		class="btn variant-filled-surface h-9 shadow-md"
+		class="btn preset-filled-surface-500 h-9 shadow-md"
 		title="Default"
 		id="default"
 		on:click={() => notificationStore.showNotification({ message: HTMLMessage })}

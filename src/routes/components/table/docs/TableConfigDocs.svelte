@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { CodeBlock, type PopupSettings, popup } from '@skeletonlabs/skeleton';
+	import { type PopupSettings } from '@skeletonlabs/skeleton-svelte';
 	import { tableConfigTypeCode } from '../data/codeBlocks';
 
 	const popupClickTableConfig: PopupSettings = {
@@ -14,7 +14,7 @@
 		<h3 class="font-semibold relative w-max h3">
 			{`TableConfig <T>`}
 		</h3>
-		<button class="btn variant-ghost-primary w-min" use:popup={popupClickTableConfig}
+		<button class="btn preset-tonal-primary border border-primary-500 w-min" use:popup={popupClickTableConfig}
 			>Show type details</button
 		>
 		<div class="italic div">Underlined attributes are <strong>required</strong>.</div>

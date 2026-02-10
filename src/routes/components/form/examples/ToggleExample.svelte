@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { SlideToggle } from '@skeletonlabs/skeleton';
+	import { Switch } from '@skeletonlabs/skeleton-svelte';
 
 	let value: boolean = false;
 	let label = 'toggle till the end of time';
 </script>
 
-<SlideToggle name={label} bind:checked={value} label={label} on:change>{label}</SlideToggle>
+<Switch name={label} bind:checked={value} label={label} on:change>{label}</Switch>
 <div class="pt-3"><b>Value:</b> {value}</div>

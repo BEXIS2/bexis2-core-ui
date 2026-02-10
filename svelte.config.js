@@ -22,9 +22,9 @@ const config = {
 		alias: {
 			$docs: path.resolve('./src/docs'),
 			$store: './src/lib/stores',
+		 $state: './src/lib/states',
 			$models: path.resolve('./src/lib/models'),
-			$services: path.resolve('./src/lib/services'),
-			'@skeletonlabs/skeleton': path.resolve('./src/lib/shims/skeleton')
+			$services: path.resolve('./src/lib/services')
 		},
 		prerender: {
 			handleHttpError: ({ status, path, referrer, referenceType }) => {

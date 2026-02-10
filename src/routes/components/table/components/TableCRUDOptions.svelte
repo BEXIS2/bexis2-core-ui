@@ -12,22 +12,22 @@
 	const buttons = [
 		{
 			icon: faPlus,
-			color: 'variant-filled-primary',
+			color: 'preset-filled-primary-500',
 			type: 'CREATE'
 		},
 		{
 			icon: faEye,
-			color: 'variant-filled-secondary',
+			color: 'preset-filled-secondary-500',
 			type: 'READ'
 		},
 		{
 			icon: faPen,
-			color: 'variant-filled-warning',
+			color: 'preset-filled-warning-500',
 			type: 'UPDATE'
 		},
 		{
 			icon: faTrash,
-			color: 'variant-filled-error',
+			color: 'preset-filled-error-500',
 			type: 'DELETE'
 		}
 	];

@@ -5,7 +5,7 @@
 	import { pageContentLayoutType, notificationType } from '$lib/models/Enums';
 
 	// ui components
-	import { AppShell, AppBar } from '@skeletonlabs/skeleton';
+	import { AppBar } from '@skeletonlabs/skeleton-svelte';
 	import Menu from './menu/Menu.svelte';
 	import Footer from './Footer.svelte';
 	import Header from './Header.svelte';
@@ -15,7 +15,6 @@
 
 	//popup
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
-	import { storePopup } from '@skeletonlabs/skeleton';
 	import { breadcrumbStore,notificationStore } from '$store/pageStores';
 	import { errorStore,csrfTokenStore } from '$store/apiStores';
 

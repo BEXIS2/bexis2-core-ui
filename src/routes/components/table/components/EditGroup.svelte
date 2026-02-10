@@ -13,7 +13,7 @@
 		bind:value={group.description}
 	/>
 	<div class="flex gap-2 justify-end">
-		<button class="btn variant-filled-error">Cancel</button>
-		<button class="btn variant-filled-success">Done</button>
+		<button class="btn preset-filled-error-500">Cancel</button>
+		<button class="btn preset-filled-success-500">Done</button>
 	</div>
 </div>

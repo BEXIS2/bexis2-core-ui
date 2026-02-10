@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import { getModalStore, Modal, TreeView, TreeViewItem } from '@skeletonlabs/skeleton';
 	import type { Writable } from 'svelte/store';
 
 	import ShowMore from './ShowMore.svelte';

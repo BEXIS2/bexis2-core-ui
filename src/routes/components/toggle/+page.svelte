@@ -2,7 +2,7 @@
 
 	import Page from '$lib/components/page/Page.svelte';
 	import Toggle from '$lib/components/toggle/Toggle.svelte';
-	import { SlideToggle } from '@skeletonlabs/skeleton';
+	import { Switch } from '@skeletonlabs/skeleton-svelte';
 
 	let target;
 	$: target;
@@ -15,8 +15,8 @@
 
 <Toggle />
 
-<SlideToggle name="slide" bind:checked={value} label={label}>
+<Switch name="slide" bind:checked={value} label={label}>
 
-</SlideToggle>
+</Switch>
 
 </Page>

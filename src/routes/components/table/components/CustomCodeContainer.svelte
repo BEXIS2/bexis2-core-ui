@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { CodeBlock, Tab, TabGroup } from '@skeletonlabs/skeleton';
+	import { Tab, Tabs } from '@skeletonlabs/skeleton-svelte';
 
 	type CodeTab = {
 		name: string;
@@ -26,7 +26,7 @@
 		</div>
 
 		<div class="flex-1">
-			<TabGroup>
+			<Tabs>
 				{#each tabs as tab, index}
 					<Tab
 						active={tabSet === index}
@@ -44,7 +44,7 @@
 						{/if}
 					{/each}
 				</svelte:fragment>
-			</TabGroup>
+			</Tabs>
 		</div>
 	</div>
 </div>

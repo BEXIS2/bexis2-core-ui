@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { getModalStore } from '@skeletonlabs/skeleton';
-	const modalStore = getModalStore();
+		const modalStore = getModalStore();
 
 	import TableCrud from '../components/TableCRUDOptions.svelte';
 	import AddUser from '../components/AddUser.svelte';

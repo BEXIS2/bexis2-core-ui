@@ -1,7 +1,5 @@
 <script lang="ts">
-	import { popup } from '@skeletonlabs/skeleton';
-
-	import { AccordionItem, type PopupSettings } from '@skeletonlabs/skeleton';
+		import { type PopupSettings, Accordion } from '@skeletonlabs/skeleton-svelte';
 	import type { menuItemType } from '$models/Page';
 	import Fa from 'svelte-fa';
 	import { faCog } from '@fortawesome/free-solid-svg-icons';
@@ -22,14 +20,14 @@
 
 {#if menuBar && menuBar.length > 0}
 	<div class="sm:hidden">
-		<AccordionItem padding="p-2">
+		<Accordion.Item padding="p-2">
 			<svelte:fragment slot="summary"
 				><button class="flex items-center gap-x-1 text-sm text-surface-800 w-5 h-full">
 					<span class="capitalize"><Fa icon={faCog} /></span>
 				</button></svelte:fragment
 			>
 			<svelte:fragment slot="content"><MenuSublist items={menuBar} /></svelte:fragment>
-		</AccordionItem>
+		</Accordion.Item>
 	</div>
 	<div class="hidden sm:block place-self-center" use:popup={popupCombobox}>
 		<button class="flex items-center gap-x-1">

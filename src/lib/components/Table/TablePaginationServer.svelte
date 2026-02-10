@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Fa from 'svelte-fa';
 	import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
-	import { ListBox, ListBoxItem, Paginator } from '@skeletonlabs/skeleton';
+	import { Pagination } from '@skeletonlabs/skeleton-svelte';
 
 	export let itemCount;
 	export let pageConfig;
@@ -39,7 +39,7 @@
 		<div class="relative inline-block z-40">
 			<button
 				aria-label="Open menu to select number of items to display per page"
-				class="btn variant-filled-primary w-20 px-3! py-1.5! justify-between"
+				class="btn preset-filled-primary-500 w-20 px-3! py-1.5! justify-between"
 				type="button"
 				on:click={() => (showPageSizeDropdown = !showPageSizeDropdown)}
 			>
@@ -63,25 +63,25 @@
 							</ListBoxItem>
 						{/each}
 					</ListBox>
-					<div class="arrow bg-surface-100-800-token" />
+					<div class="arrow bg-surface-100-900" />
 				</div>
 			{/if}
 		</div>
 	</div>
 	<div class="flex justify-center">
-		<Paginator
+		<Pagination
 			on:page={(page) => {$pageIndex = page.detail; updateTable(); }}
 			settings={paginationSettings}
 			select="hidden"
-			active="!variant-filled-secondary !text-on-secondary-token"
-			controlVariant="!text-on-primary-token"
-			buttonClasses="rounded-none! px-3! py-1.5! fill-current bg-primary-500 hover:!bg-primary-600 !text-on-primary-token disabled:grayscale disabled:opacity-30!"
-			regionControl="btn-group"
+			active="!preset-filled-secondary-500 !text-secondary-contrast-500"
+			controlVariant="!text-primary-contrast-500"
+			buttonClasses="rounded-none! px-3! py-1.5! fill-current bg-primary-500 hover:!bg-primary-600 !text-primary-contrast-500 disabled:grayscale disabled:opacity-30!"
+			regionControl=""
 			maxNumerals={1}
 			showNumerals
 		/>
 	</div>
-	<div class="flex justify-end items-center text-on-primary-token">
+	<div class="flex justify-end items-center text-primary-contrast-500">
 		<span class="text-xs text-gray-500">{indexInformation}</span>
 	</div>
 </div>

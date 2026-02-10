@@ -137,17 +137,17 @@ function createNotificationStore() {
 
 			switch (type) {
 				case notificationType.success:
-					btnStyle = 'btn-icon btn-icon-sm variant-filled-success shadow-md';
+					btnStyle = 'btn-icon btn-icon-sm preset-filled-success-500 shadow-md';
 					break;
 				case notificationType.warning:
-					btnStyle = 'btn-icon btn-icon-sm variant-filled-warning shadow-md';
+					btnStyle = 'btn-icon btn-icon-sm preset-filled-warning-500 shadow-md';
 					break;
 				case notificationType.error:
-					btnStyle = 'btn-icon btn-icon-sm variant-filled-error shadow-md';
+					btnStyle = 'btn-icon btn-icon-sm preset-filled-error-500 shadow-md';
 					break;
 				case notificationType.surface:
 				default:
-					btnStyle = 'btn-icon btn-icon-sm variant-filled-surface shadow-md';
+					btnStyle = 'btn-icon btn-icon-sm preset-filled-surface-500 shadow-md';
 					break;
 			}
 
@@ -181,7 +181,7 @@ function createNotificationStore() {
 			}
 
 			// fallback to the default surface style used by the UI
-			return 'btn-icon btn-icon-sm variant-filled-surface shadow-md';
+			return 'btn-icon btn-icon-sm preset-filled-surface-500 shadow-md';
 		}
 	};
 }

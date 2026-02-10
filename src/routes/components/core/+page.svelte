@@ -60,7 +60,7 @@
 					component can be customized by <b>color, size and position.</b>
 				</p>
 				<Alert
-					cssClass="variant-filled-warning"
+					cssClass="preset-filled-warning-500"
 					message="For coloring the spinner you can use all tailwind text color"
 					deleteBtn={false}
 				/>

@@ -6,19 +6,19 @@
 </script>
 
 <div class="grid grid-cols-1 gap-2">
-	<Alert title="Errors" message="validation faild" cssClass="variant-filled-error">
+	<Alert title="Errors" message="validation faild" cssClass="preset-filled-error-500">
 		<b>test</b>
 	</Alert>
 
-	<Alert title="Warning" message="validation faild" cssClass="variant-filled-warning">
+	<Alert title="Warning" message="validation faild" cssClass="preset-filled-warning-500">
 		<b>test</b>
 	</Alert>
 
-	<Alert message="validation success" cssClass="variant-filled-success">
+	<Alert message="validation success" cssClass="preset-filled-success-500">
 		<b>test</b>
 	</Alert>
 
-	<Alert cssClass="variant-ringed-success">
+	<Alert cssClass="preset-outlined-success-500">
 		<h3 class="h3">Alert with a complex message</h3>
 		<p>inside the Alert messsage everthing goes to the slot in the message block</p>
 		<ul class="list-disc pl-5">
@@ -31,7 +31,7 @@
 	<Alert
 		title="Alert with extra button"
 		message="in the slot actions you can create your own container with different acions"
-		cssClass="variant-ringed-success"
+		cssClass="preset-outlined-success-500"
 	>
 		<div class="flex gap-2" slot="actions">
 			<button class="btn hover:text-primary-100" on:click={() => alert('edit')}>

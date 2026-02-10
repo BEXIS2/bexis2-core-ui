@@ -5,8 +5,7 @@
 	import { faQuestion } from '@fortawesome/free-solid-svg-icons';
 
 	//popup
-	import { popup } from '@skeletonlabs/skeleton';
-	import type { PopupSettings } from '@skeletonlabs/skeleton';
+	import type { PopupSettings } from '@skeletonlabs/skeleton-svelte';
 	//import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
 	//import { storePopup } from '@skeletonlabs/skeleton';
 	import delay from 'delay';
@@ -49,7 +48,7 @@
 	<button
 		id="helpButton"
 		title="Open help window"
-		class="btn variant-filled-warning fixed bottom-5 right-5 shadow-md"
+		class="btn preset-filled-warning-500 fixed bottom-5 right-5 shadow-md"
 		use:popup={helpClick}><Fa icon={faQuestion} /></button
 	>
 
@@ -71,6 +70,6 @@
 				<p>Hover over the Element, you like to know more about.</p>
 			</div>
 		{/if}
-		<div class="arrow variant-filled-primary" />
+		<div class="arrow preset-filled-primary-500" />
 	</div>
 {/if}

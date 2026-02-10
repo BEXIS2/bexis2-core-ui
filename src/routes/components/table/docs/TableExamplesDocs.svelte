@@ -1,7 +1,5 @@
 <script lang="ts">
-	import { Modal } from '@skeletonlabs/skeleton';
-
-	import TableCrud from '../examples/TableCRUD.svelte';
+		import TableCrud from '../examples/TableCRUD.svelte';
 	import TableUsersNoRoles from '../examples/TableUsersNoRoles.svelte';
 	import TableUsers from '../examples/TableUsers.svelte';
 	import TableDate from '../examples/TableDate.svelte';

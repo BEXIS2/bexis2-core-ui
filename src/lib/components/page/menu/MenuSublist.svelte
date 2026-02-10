@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { ListBox, ListBoxItem, TreeViewItem } from '@skeletonlabs/skeleton';
-	import type { menuItemType } from '../../../models/Page';
+		import type { menuItemType } from '../../../models/Page';
 	import { goTo } from '../../../services/BaseCaller';
 
 	export let items: menuItemType[];

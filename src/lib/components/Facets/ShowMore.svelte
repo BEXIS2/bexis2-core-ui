@@ -56,12 +56,12 @@
 			<!-- Footer -->
 			<div class="flex w-full justify-between gap-5">
 				<div class="flex gap-3">
-					<button class="btn btn-sm variant-filled-tertiary" on:click={selectNone}>None</button>
-					<button class="btn btn-sm variant-filled-tertiary" on:click={selectAll}>All</button>
+					<button class="btn btn-sm preset-filled-tertiary-500" on:click={selectNone}>None</button>
+					<button class="btn btn-sm preset-filled-tertiary-500" on:click={selectAll}>All</button>
 				</div>
 				<div class="flex gap-3">
-					<button class="btn btn-sm variant-filled-primary" on:click={onApply}>Apply</button>
-					<button class="btn btn-sm variant-filled-secondary" on:click={onCancel}>Cancel</button>
+					<button class="btn btn-sm preset-filled-primary-500" on:click={onApply}>Apply</button>
+					<button class="btn btn-sm preset-filled-secondary-500" on:click={onCancel}>Cancel</button>
 				</div>
 			</div>
 		</div>

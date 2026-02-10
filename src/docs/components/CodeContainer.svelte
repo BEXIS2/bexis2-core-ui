@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { CodeBlock, Tab, TabGroup } from '@skeletonlabs/skeleton';
+	import { Tab, Tabs } from '@skeletonlabs/skeleton-svelte';
 
 	import { writable } from 'svelte/store';
 	import Table from '$lib/components/Table/Table.svelte';
@@ -65,7 +65,7 @@
 	{#if external.length > 0}
 		<div class="py-5">
 			{#each external as link}
-				<a class="chip variant-ringed" href={link.url}>{link.label}</a>
+				<a class="chip preset-outlined" href={link.url}>{link.label}</a>
 			{/each}
 		</div>
 	{/if}
@@ -93,7 +93,7 @@
 			{/if}
 
 			<div class={codeClass}>
-				<TabGroup>
+				<Tabs>
 					{#if svelte}
 						<Tab active={tabSet === 0} value={0} label="Svelte" on:select={(e) => (tabSet = e.detail)}>
 							Svelte
@@ -155,7 +155,7 @@
 							<CodeBlock language="javascript" code={data} />
 						{/if}
 					</svelte:fragment>
-					</TabGroup>
+					</Tabs>
 			</div>
 		</div>
 	</div>

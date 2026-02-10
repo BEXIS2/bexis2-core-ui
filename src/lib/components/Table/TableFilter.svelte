@@ -223,7 +223,7 @@
 
 <div class="relative inline-block z-50">
 	<button
-		class:variant-filled-primary={active}
+		class:preset-filled-primary-500={active}
 		class="btn w-max p-2"
 		type="button"
 		aria-label="Open filter menu for {id} column"
@@ -236,7 +236,7 @@
 		<div class="absolute left-0 mt-1 z-50">
 			<div class="card p-3 grid gap-2 shadow-lg w-max bg-base-100">
 				<button
-				class="btn variant-filled-primary btn-sm"
+				class="btn preset-filled-primary-500 btn-sm"
 				type="button"
 				aria-label="Clear Filters"
 				on:click|preventDefault={() => {
@@ -275,7 +275,7 @@
 								<div
 									role="button"
 									tabindex="0"
-									class="btn variant-filled-warning btn-sm h-full"
+									class="btn preset-filled-warning-500 btn-sm h-full"
 									aria-label="Remove filter"
 									on:click|preventDefault={() => removeFilter(dropdown.option)}
 									on:keydown|preventDefault={() => removeFilter(dropdown.option)}
@@ -311,7 +311,7 @@
 
 			{#if remainingFilters.length}
 				<div
-					class="btn variant-filled-secondary btn-sm cursor-pointer"
+					class="btn preset-filled-secondary-500 btn-sm cursor-pointer"
 					role="button"
 					tabindex="0"
 					on:click|stopPropagation={() => {
@@ -326,7 +326,7 @@
 				</div>
 			{/if}
 			<button
-				class="btn variant-filled-primary btn-sm"
+				class="btn preset-filled-primary-500 btn-sm"
 				type="button"
 				aria-label="Apply filters"
 				on:click|preventDefault={() => {

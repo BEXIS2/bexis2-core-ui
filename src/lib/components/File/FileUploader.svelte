@@ -21,7 +21,7 @@
 	export let version = 1;
 
 	import { onMount } from 'svelte';
-	import { ProgressBar } from '@skeletonlabs/skeleton';
+	import { Progress } from '@skeletonlabs/skeleton-svelte';
 
 	// export let description="";
 	// export let status=0;
@@ -190,7 +190,7 @@
 				</p>
 			</Dropzone>
 			{#if isUploading}
-					<ProgressBar  value={undefined}/>
+					<Progress  value={undefined}/>
 			{/if}
 		</div>
 

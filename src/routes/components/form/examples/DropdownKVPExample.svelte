@@ -1,8 +1,5 @@
 <script lang="ts">
 	import DropdownKvP from '$lib/components/form/DropdownKvP.svelte';
-
-	import { CodeBlock } from '@skeletonlabs/skeleton';
-
 	$: target = { id: 2, text: 'gbif' };
 	$: simpleTarget = 2;
 

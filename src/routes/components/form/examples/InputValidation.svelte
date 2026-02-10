@@ -3,9 +3,6 @@
 	import Fa from 'svelte-fa';
 	import { faSave, faTrashAlt } from '@fortawesome/free-regular-svg-icons/index';
 	import { onMount } from 'svelte';
-
-	import { CodeBlock } from '@skeletonlabs/skeleton';
-
 	import TextInput from '$lib/components/form/TextInput.svelte';
 	import TextArea from '$lib/components/form/TextArea.svelte';
 

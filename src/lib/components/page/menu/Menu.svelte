@@ -8,7 +8,7 @@
 	import SettingsBar from './SettingsBar.svelte';
 	import Fa from 'svelte-fa';
 	import { faBars } from '@fortawesome/free-solid-svg-icons';
-	import { Accordion } from '@skeletonlabs/skeleton';
+	import { Accordion } from '@skeletonlabs/skeleton-svelte';
 
 	onMount(async () => {
 		let m = await getMenuItems();
@@ -36,7 +36,7 @@
 				{/if}
 			</div>
 			<button
-				class="w-min h-min variant-ghost-surface aspect-square p-3 rounded-lg sm:hidden justify-end btn"
+				class="w-min h-min preset-tonal-surface border border-surface-500 aspect-square p-3 rounded-lg sm:hidden justify-end btn"
 				on:click|preventDefault={() => (hamburger = !hamburger)}
 			>
 				<Fa icon={faBars} />

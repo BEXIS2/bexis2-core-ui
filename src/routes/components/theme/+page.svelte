@@ -66,25 +66,25 @@
 		<h3 class="h3">Filled</h3>
 		<div class="grid grid-cols-7 gap-4">
 			{#each colorNames as colorName}
-				<button class="btn variant-filled-{colorName}">{colorName}</button>
+				<button class="btn preset-filled-{colorName}">{colorName}</button>
 			{/each}
 		</div>
 		<h3 class="h3">Ringed</h3>
 		<div class="grid grid-cols-7 gap-4">
 			{#each colorNames as colorName}
-				<button class="btn variant-ringed-{colorName}">{colorName}</button>
+				<button class="btn preset-outlined-{colorName}">{colorName}</button>
 			{/each}
 		</div>
 		<h3 class="h3">Soft</h3>
 		<div class="grid grid-cols-7 gap-4">
 			{#each colorNames as colorName}
-				<button class="btn variant-soft-{colorName}">{colorName}</button>
+				<button class="btn preset-tonal-{colorName}">{colorName}</button>
 			{/each}
 		</div>
 		<h3 class="h3">Ghost</h3>
 		<div class="grid grid-cols-7 gap-4">
 			{#each colorNames as colorName}
-				<button class="btn variant-ghost-{colorName}">{colorName}</button>
+				<button class="btn preset-tonal border border-surface-500-{colorName}">{colorName}</button>
 			{/each}
 		</div>
 	</div>
@@ -94,25 +94,25 @@
 		<h3 class="h3">Filled</h3>
 		<div class="grid grid-cols-3 gap-4">
 			{#each colorNames as colorName}
-				<Alert message={colorName} cssClass="variant-filled-{colorName}" />
+				<Alert message={colorName} cssClass="preset-filled-{colorName}" />
 			{/each}
 		</div>
 		<h3 class="h3">Ringed</h3>
 		<div class="grid grid-cols-3 gap-4">
 			{#each colorNames as colorName}
-				<Alert message={colorName} cssClass="variant-ringed-{colorName}" />
+				<Alert message={colorName} cssClass="preset-outlined-{colorName}" />
 			{/each}
 		</div>
 		<h3 class="h3">Soft</h3>
 		<div class="grid grid-cols-3 gap-4">
 			{#each colorNames as colorName}
-				<Alert message={colorName} cssClass="variant-soft-{colorName}" />
+				<Alert message={colorName} cssClass="preset-tonal-{colorName}" />
 			{/each}
 		</div>
 		<h3 class="h3">Ghost</h3>
 		<div class="grid grid-cols-3 gap-4">
 			{#each colorNames as colorName}
-				<Alert message={colorName} cssClass="variant-ghost-{colorName}" />
+				<Alert message={colorName} cssClass="preset-tonal border border-surface-500-{colorName}" />
 			{/each}
 		</div>
 	</div>

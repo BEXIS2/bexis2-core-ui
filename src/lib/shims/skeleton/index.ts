@@ -5,7 +5,7 @@ import CodeBlock from './CodeBlock.svelte';
 import Tab from './Tab.svelte';
 import TabGroup from './TabGroup.svelte';
 import Toast from './Toast.svelte';
-import Modal from './Modal.svelte';
+import Dialog from './Modal.svelte';
 import ListBox from './ListBox.svelte';
 import ListBoxItem from './ListBoxItem.svelte';
 import Paginator from './Paginator.svelte';
@@ -29,7 +29,7 @@ export {
 	Tab,
 	TabGroup,
 	Toast,
-	Modal,
+	Dialog,
 	ListBox,
 	ListBoxItem,
 	Paginator,

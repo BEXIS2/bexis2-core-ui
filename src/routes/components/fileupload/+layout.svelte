@@ -1,7 +1,6 @@
 <script lang="ts">
-	import { AppShell } from '@skeletonlabs/skeleton';
-</script>
+	</script>
 
-<AppShell slotSidebarLeft="flex-none bg-surface-50-900-token lg:w-auto relative">
+<AppShell slotSidebarLeft="flex-none bg-surface-50-950 lg:w-auto relative">
 	<div class="dark:bg-surface-800"><slot /></div>
 </AppShell>

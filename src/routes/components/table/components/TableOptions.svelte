@@ -8,6 +8,6 @@
 	};
 </script>
 
-<button class="btn btn-sm variant-filled-secondary" on:click|preventDefault={eventDispatchFn}>
+<button class="btn btn-sm preset-filled-secondary-500" on:click|preventDefault={eventDispatchFn}>
 	Odd or even
 </button>

@@ -3,7 +3,7 @@
 	export let slotSidebarLeft: string | undefined = undefined;
 </script>
 
-<div class="min-h-screen flex flex-row bg-surface-50-900-token">
+<div class="min-h-screen flex flex-row bg-surface-50-950">
 	{#if slotSidebarLeft}
 		<aside class={slotSidebarLeft}>
 			<slot name="sidebarLeft" />

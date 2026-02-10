@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { Accordion, AccordionItem, popup } from '@skeletonlabs/skeleton';
+	import { Accordion } from '@skeletonlabs/skeleton-svelte';
 
 	//uicomponents
 	import MenuSublist from './MenuSublist.svelte';
 
 	//types
-	import type { PopupSettings } from '@skeletonlabs/skeleton';
+	import type { PopupSettings } from '@skeletonlabs/skeleton-svelte';
 	import type { menuItemType } from '../../../models/Page';
 
 	import { goTo } from '../../../services/BaseCaller';
@@ -35,7 +35,7 @@
 	</div>
 {:else}
 	<div class="sm:hidden block">
-		<AccordionItem padding="p-2">
+		<Accordion.Item padding="p-2">
 			<svelte:fragment slot="summary"
 				><button class="flex items-center gap-x-1">
 					<span class="capitalize text-lg hover:text-secondary-500">{menubarItem.Title}</span>
@@ -44,7 +44,7 @@
 			<svelte:fragment slot="content"
 				><MenuSublist {id} items={menubarItem.Items} /></svelte:fragment
 			>
-			</AccordionItem
+			</Accordion.Item
 		>
 	</div>
 	<div class="hidden sm:block place-self-center" use:popup={popupCombobox}>

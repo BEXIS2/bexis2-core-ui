@@ -3,7 +3,7 @@
 
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import type{ CssClasses } from '@skeletonlabs/skeleton';
+import type{ CssClasses } from '@skeletonlabs/skeleton-svelte';
 
 // Props
 	/** Customize the `title` attribute for the component.  */
@@ -24,7 +24,7 @@ import type{ CssClasses } from '@skeletonlabs/skeleton';
 	/** Provide classes to set ring styles. */
 	export let ring: CssClasses = 'ring-[1px] ring-surface-500/30';
 	/** Provide classes to set border radius styles. */
-	export let rounded: CssClasses = 'rounded-token';
+	export let rounded: CssClasses = 'rounded-base';
 
 // Classes
 const cTransition = `transition-all duration-200`;

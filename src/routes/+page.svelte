@@ -3,7 +3,7 @@
 	import MultiSelect from '$lib/components/form/MultiSelect.svelte';
 	import { CountrieNames } from '../routes/components/form/examples/exampleData';
 
-	import { SlideToggle } from '@skeletonlabs/skeleton';
+	import { Switch } from '@skeletonlabs/skeleton-svelte';
 
 	let target;
 	$: target;

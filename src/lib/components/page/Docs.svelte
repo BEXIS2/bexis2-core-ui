@@ -8,10 +8,8 @@
 	export let links: linkType[] = [];
 
 	// popup for note
-	import { popup } from '@skeletonlabs/skeleton';
-	import type { PopupSettings } from '@skeletonlabs/skeleton';
+	import type { PopupSettings } from '@skeletonlabs/skeleton-svelte';
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
-	import { storePopup } from '@skeletonlabs/skeleton';
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
 	export let note: string;
@@ -26,12 +24,12 @@
 
 <div class="text-right p-2">
 	{#if note}
-		<span class="chip variant-soft hover:variant-filled" use:popup={noteSettings}>
+		<span class="chip preset-tonal hover:preset-filled" use:popup={noteSettings}>
 			<span><Fa icon={faQuestion} /></span>
 		</span>
 
 		<div
-			class="card p-4 variant-filled-primary w-60 z-50 text-left shadow-md"
+			class="card p-4 preset-filled-primary-500 w-60 z-50 text-left shadow-md"
 			data-popup="noteTarget"
 		>
 			{note}
@@ -39,7 +37,7 @@
 	{/if}
 
 	{#each links as link}
-		<span role="button" tabindex="0" title={link.label} class="chip variant-soft hover:variant-filled" on:click={() => goTo(link.url, false)} on:keypress={() => goTo(link.url, false)}>
+		<span role="button" tabindex="0" title={link.label} class="chip preset-tonal hover:preset-filled" on:click={() => goTo(link.url, false)} on:keypress={() => goTo(link.url, false)}>
 			<span>
 				{#if link.label.toLowerCase()=='manual'}
 					<Fa icon={faBook} />

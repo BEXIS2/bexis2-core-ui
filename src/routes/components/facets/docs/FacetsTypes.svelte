@@ -1,7 +1,5 @@
 <script lang="ts">
-	import { CodeBlock } from '@skeletonlabs/skeleton';
-	import { popup } from '@skeletonlabs/skeleton';
-	import type { PopupSettings } from '@skeletonlabs/skeleton';
+			import type { PopupSettings } from '@skeletonlabs/skeleton-svelte';
 
 	import { facetGroupType, facetOptionType } from '../data/codeBlocks';
 
@@ -22,7 +20,7 @@
 	<div class="grid gap-5">
 		<div class="grid gap-2">
 			<h3 class="font-semibold items-center w-max h3">FacetGroup</h3>
-			<button class="btn variant-ghost-primary w-min" use:popup={popupClickFacetGroup}>
+			<button class="btn preset-tonal-primary border border-primary-500 w-min" use:popup={popupClickFacetGroup}>
 				Show type details</button
 			>
 			<div data-popup="popupClickFacetGroup">
@@ -46,7 +44,7 @@
 	<div class="grid gap-5">
 		<div class="grid gap-2">
 			<h3 class="font-semibold items-center w-max h3">FacetOption</h3>
-			<button class="btn variant-ghost-primary w-min" use:popup={popupClickFacetOption}>
+			<button class="btn preset-tonal-primary border border-primary-500 w-min" use:popup={popupClickFacetOption}>
 				Show type details</button
 			>
 			<div data-popup="popupClickFacetOption">

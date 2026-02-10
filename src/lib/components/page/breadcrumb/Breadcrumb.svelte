@@ -30,13 +30,13 @@
 	<ol class="breadcrumb -p50">
 		<!--default home-->
 		<li class="crumb"><a class="anchor" href={'/'}>{applicationName}</a></li>
-		<li class="crumb-separator" aria-hidden>&rsaquo;</li>
+		<li class="crumb-separator" aria-hidden>›</li>
 
 		{#each list as crumb, i}
 			<!-- If crumb index is less than the breadcrumb length minus 1 -->
 			{#if i < list.length - 1}
 				<li class="crumb"><a class="anchor" href={crumb.link}>{crumb.label}</a></li>
-				<li class="crumb-separator" aria-hidden>&rsaquo;</li>
+				<li class="crumb-separator" aria-hidden>›</li>
 			{:else}
 				<li class="crumb">{crumb.label}</li>
 			{/if}

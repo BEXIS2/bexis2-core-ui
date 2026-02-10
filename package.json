@@ -21,8 +21,8 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.58.1",
+    "@skeletonlabs/skeleton": "^4.0.0",
     "@skeletonlabs/skeleton-svelte": "^4.11.0",
-    "@skeletonlabs/tw-plugin": "^0.4.1",
     "@sveltejs/adapter-auto": "^7.0.0",
     "@sveltejs/adapter-static": "^3.0.10",
     "@sveltejs/package": "^2.5.7",
@@ -68,7 +68,7 @@
     "@fortawesome/free-regular-svg-icons": "^7.1.0",
     "@fortawesome/free-solid-svg-icons": "^7.1.0",
     "@humanspeak/svelte-headless-table": "6.0.4",
-    "@skeletonlabs/skeleton": "^2.11.0",
+    "@skeletonlabs/skeleton-svelte": "^4.0.0",
     "@sveltejs/kit": "^2.50.2",
     "@sveltejs/vite-plugin-svelte": "^6.2.4",
     "@tailwindcss/vite": "^4.1.18",

@@ -53,14 +53,14 @@
 				{#if settings.type === 'confirm'}
 					<button
 						type="button"
-						class="btn variant-filled-secondary"
+						class="btn preset-filled-secondary-500"
 						on:click={() => handleConfirm(false)}
 					>
 						Cancel
 					</button>
 					<button
 						type="button"
-						class="btn variant-filled-primary"
+						class="btn preset-filled-primary-500"
 						on:click={() => handleConfirm(true)}
 					>
 						OK
@@ -68,7 +68,7 @@
 				{:else}
 					<button
 						type="button"
-						class="btn variant-filled-primary"
+						class="btn preset-filled-primary-500"
 						on:click={close}
 					>
 						Close

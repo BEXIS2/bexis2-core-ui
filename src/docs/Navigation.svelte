@@ -1,11 +1,6 @@
 <script lang="ts">
 	import {
-		AppRail,
-		AppRailTile,
-		LightSwitch,
-		setInitialClassState,
-		getDrawerStore
-	} from '@skeletonlabs/skeleton';
+		Navigation } from '@skeletonlabs/skeleton-svelte';
 	const drawerStore = getDrawerStore();
 	import { writable, type Writable } from 'svelte/store';
 	import { page } from '$app/stores';
@@ -49,16 +44,16 @@
 	storeCategory.subscribe((c: string) => setNavCategory(c));
 	// Reactive
 	$: classesActive = (href: string) =>
-		$storeCurrentUrl?.includes(href) ? 'bg-primary-active-token' : '';
+		$storeCurrentUrl?.includes(href) ? 'preset-filled-primary-500' : '';
 
 	// Fix for theme switcher
 	setInitialClassState();
 </script>
 
 <div
-	class="grid grid-cols-[auto_1fr] h-full bg-surface-50-900-token border-r border-surface-500/30 hidden lg:grid w-[360px] overflow-hidden"
+	class="grid grid-cols-[auto_1fr] h-full bg-surface-50-950 border-r border-surface-500/30 hidden lg:grid w-[360px] overflow-hidden"
 >
-	<AppRail
+	<Navigation
 		selected={storeCategory}
 		background="bg-transparent"
 		border="border-r border-surface-500/30"
@@ -68,19 +63,19 @@
 			><div class="flex justify-center py-2">
 				<LightSwitch />
 			</div>
-			<AppRailTile label="General" title="General" value={'general'} on:click={onListItemClick}
-				><i class="fa-solid fa-screwdriver-wrench text-2xl" /></AppRailTile
+			<Navigation.Tile label="General" title="General" value={'general'} on:click={onListItemClick}
+				><i class="fa-solid fa-screwdriver-wrench text-2xl" /></Navigation.Tile
 			>
-			<AppRailTile label="Theme" title="Theme" value={'theme'} on:click={onListItemClick}
-				><i class="fa-solid fa-code-compare text-2xl" /></AppRailTile
+			<Navigation.Tile label="Theme" title="Theme" value={'theme'} on:click={onListItemClick}
+				><i class="fa-solid fa-code-compare text-2xl" /></Navigation.Tile
 			>
-			<AppRailTile label="Components" title="Components" value={'components'} on:click={onListItemClick}
-				><i class="fa-solid fa-list-check text-2xl" /></AppRailTile
+			<Navigation.Tile label="Components" title="Components" value={'components'} on:click={onListItemClick}
+				><i class="fa-solid fa-list-check text-2xl" /></Navigation.Tile
 			>
 		</svelte:fragment>
 
 		<svelte:fragment slot="trail" />
-	</AppRail>
+	</Navigation>
 
 	<section class="p-4 pb-20 space-y-4 overflow-y-auto">
 		{#each filteredMenuNavLinks as { id, title, list }, i}
@@ -96,7 +91,7 @@
 							<li>
 								<a {href} class={classesActive(href)} data-sveltekit-preload-data="hover" on:click={onListItemClick} on:keypress>
 									<span class="flex-auto">{@html label}</span>
-									{#if badge}<span class="badge variant-filled-secondary">{badge}</span>{/if}
+									{#if badge}<span class="badge preset-filled-secondary-500">{badge}</span>{/if}
 								</a>
 							</li>
 						{/each}

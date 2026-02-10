@@ -2,9 +2,6 @@
 	import CheckboxKVPList from '../../../../lib/components/form/CheckboxKvPList.svelte';
 
 	import { Datastructures } from './exampleData';
-
-	import { CodeBlock } from '@skeletonlabs/skeleton';
-
 	$: target = [1];
 
 	function onChangeHandler() {

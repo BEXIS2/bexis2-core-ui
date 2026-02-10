@@ -1,13 +1,14 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { Toast, getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
+	// import { type ToastSettings, ToastProvider } from '@skeletonlabs/skeleton-svelte';
 	import { notificationStore } from '$store/pageStores';
 	import type { notificationStoreType } from '$models/Models';
 	import { notificationType } from '$models/Enums';
+	import { getToastStore } from '@skeletonlabs/skeleton/stores';
 
 	const toastStore = getToastStore();
 
-	const defaultBtnStyle = 'btn-icon btn-icon-sm variant-filled-surface shadow-md';
+	const defaultBtnStyle = 'btn-icon btn-icon-sm preset-filled-surface-500 shadow-md';
 	let btnStyle: string = defaultBtnStyle;
 	$: btnStyle =
 		$notificationStore && $notificationStore.btnStyle
@@ -46,18 +47,18 @@
 					break;
 			}
 
-			const notificationToast: ToastSettings = {
-				classes: classes,
-				message: $notificationStore.message,
-				timeout: timeout,
-				callback: () => {
-					toastStore.clear();
-				}
-			};
+		// 	const notificationToast: ToastSettings = {
+		// 		classes: classes,
+		// 		message: $notificationStore.message,
+		// 		timeout: timeout,
+		// 		callback: () => {
+		// 			toastStore.clear();
+		// 		}
+		// 	};
 
-			toastStore.trigger(notificationToast);
+		// 	toastStore.trigger(notificationToast);
 		}
 	}
 </script>
 
-<Toast position="t" buttonDismiss={btnStyle} />
+<!-- <ToastProvider position="t" buttonDismiss={btnStyle} /> -->

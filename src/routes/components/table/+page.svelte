@@ -7,7 +7,6 @@
 	import ColumnInstructionsDocs from './docs/ColumnInstructionsDocs.svelte';
 	import TableExamplesDocs from './docs/TableExamplesDocs.svelte';
 	import ActionDispatchersDocs from './docs/ActionDispatchersDocs.svelte';
-	import { tocCrawler } from '@skeletonlabs/skeleton';
 </script>
 
 <div

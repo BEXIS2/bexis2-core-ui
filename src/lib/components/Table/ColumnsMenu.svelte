@@ -1,8 +1,7 @@
 <script lang="ts">
 	import Fa from 'svelte-fa';
 	import { faEye } from '@fortawesome/free-solid-svg-icons';
-	import { popup } from '@skeletonlabs/skeleton';
-	import type { PopupSettings } from '@skeletonlabs/skeleton';
+	import type { PopupSettings } from '@skeletonlabs/skeleton-svelte';
 
 	export let columns: { id: string; label: string; visible: boolean }[] = [];
 	export let tableId: string;
@@ -26,7 +25,7 @@
 
 <button
 	type="button"
-	class="btn btn-sm variant-filled-primary rounded-full order-last gap-2"
+	class="btn btn-sm preset-filled-primary-500 rounded-full order-last gap-2"
 	aria-label="Open menu to hide/show columns"
 	use:popup={popupCombobox}><Fa icon={faEye} /> Columns</button
 >

@@ -16,7 +16,7 @@
 	} from '@humanspeak/svelte-headless-table/plugins';
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
 	import type { PaginationConfig } from '@humanspeak/svelte-headless-table/plugins';
-	import { SlideToggle, storePopup } from '@skeletonlabs/skeleton';
+	import { Switch } from '@skeletonlabs/skeleton-svelte';
 
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
@@ -465,7 +465,7 @@
 						type="submit"
 						title="Search"
 						id="{tableId}-searchSubmit"
-						class="btn variant-filled-primary"
+						class="btn preset-filled-primary-500"
 						aria-label="Search"
 						on:click|preventDefault={() => {
 							if (serverSide && !sendModel) {
@@ -489,7 +489,7 @@
 				<div>
 					<!-- Enable the fitToScreen toggle if toggle === true -->
 					{#if toggle}
-						<SlideToggle
+						<Switch
 							name="slider-label"
 							label="Fit to screen"
 							active="bg-primary-500"
@@ -497,7 +497,7 @@
 							checked={fitToScreen}
 							id="{tableId}-toggle"
 							title={fitToScreen ? 'Fit table data to screen' : `Don't fit table data to screen`}
-							on:change={() => (fitToScreen = !fitToScreen)}>Fit to screen</SlideToggle
+							on:change={() => (fitToScreen = !fitToScreen)}>Fit to screen</Switch
 						>
 					{/if}
 				</div>
@@ -506,7 +506,7 @@
 					{#if resizable !== 'none'}
 						<button
 							type="button"
-							class="btn btn-sm variant-filled-primary rounded-full order-last flex gap-2 items-center"
+							class="btn btn-sm preset-filled-primary-500 rounded-full order-last flex gap-2 items-center"
 							aria-label="Reset sizing of columns and rows"
 							on:click|preventDefault={() =>
 								utils.resetResize($headerRows, $pageRows, tableId, columns, resizable)}
@@ -517,7 +517,7 @@
 					{#if exportable}
 						<button
 							type="button"
-							class="btn btn-sm variant-filled-primary rounded-full order-last flex items-center gap-2"
+							class="btn btn-sm preset-filled-primary-500 rounded-full order-last flex items-center gap-2"
 							aria-label="Export table data as CSV"
 							on:click|preventDefault={() =>
 								utils.exportAsCsv(tableId, utils.jsonToCsv($exportedData))}

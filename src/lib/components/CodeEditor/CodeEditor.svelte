@@ -9,12 +9,11 @@
 	import { lintGutter, linter } from '@codemirror/lint';
 	import { json, jsonParseLinter } from '@codemirror/lang-json';
 	import { oneDark } from '@codemirror/theme-one-dark';
-	import { Modal, getModalStore } from '@skeletonlabs/skeleton';
 	const modalStore = getModalStore();
 	import { faMoon, faSave, faSun } from '@fortawesome/free-regular-svg-icons';
 	import { faArrowRotateLeft, faXmark } from '@fortawesome/free-solid-svg-icons';
 	import type { ThemeSpec } from 'svelte-codemirror-editor';
-	import type { ModalSettings } from '@skeletonlabs/skeleton';
+	import type { ModalSettings } from '@skeletonlabs/skeleton-svelte';
 	import type { Extension } from '@codemirror/state';
 
 	export let id: string;
@@ -106,7 +105,7 @@
 	<div class="flex justify-between gap-2 items-center mt-3" id="{id}-footer">
 		<div class="flex gap-2">
 			<button
-				class="btn variant-filled-warning"
+				class="btn preset-filled-warning-500"
 				title="Reset"
 				id="{id}-reset"
 				on:click|preventDefault={() => modalStore.trigger(modal)}
@@ -132,13 +131,13 @@
 		{#if actions}
 			<div class="flex gap-2">
 				<button
-					class="btn variant-filled-warning"
+					class="btn preset-filled-warning-500"
 					title="Cancel"
 					id="{id}-cancel"
 					on:click|preventDefault={() => dispatch('cancel')}><Fa icon={faXmark} /></button
 				>
 				<button
-					class="btn variant-filled-primary"
+					class="btn preset-filled-primary-500"
 					title="Save"
 					id="{id}-save"
 					disabled={!isValid}

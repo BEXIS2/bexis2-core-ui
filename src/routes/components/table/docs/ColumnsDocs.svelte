@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { CodeBlock, type PopupSettings, popup } from '@skeletonlabs/skeleton';
+	import { type PopupSettings } from '@skeletonlabs/skeleton-svelte';
 	import { columnsTypeCode } from '../data/codeBlocks';
 
 	const popupClickColumns: PopupSettings = {
@@ -12,7 +12,7 @@
 <div class="grid gap-5">
 	<div class="grid gap-2" id="columns">
 		<h3 class="font-semibold items-center w-max h3">Columns</h3>
-		<button class="btn variant-ghost-primary w-min" use:popup={popupClickColumns}>
+		<button class="btn preset-tonal-primary border border-primary-500 w-min" use:popup={popupClickColumns}>
 			Show type details</button
 		>
 		<div data-popup="popupClickColumns">

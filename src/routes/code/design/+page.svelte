@@ -2,8 +2,6 @@
 	import Page from '$lib/components/page/Page.svelte';
 	import Fa from 'svelte-fa';
 	import * as icons from '@fortawesome/free-solid-svg-icons';
-
-	import { CodeBlock } from '@skeletonlabs/skeleton';
 	import Spinner from '$lib/components/page/Spinner.svelte';
 	import { TablePlaceholder } from '$lib';
 </script>
@@ -26,9 +24,9 @@
 					<td>Confirm</td>
 					<td>Button / Chip / Badge</td>
 					<td>
-						<button class="btn variant-filled-primary"><Fa icon={icons.faCheck} /></button>
-						<button class="chip variant-filled-primary"><Fa icon={icons.faCheck} /></button>
-						<button class="badge variant-filled-primary"><Fa icon={icons.faCheck} /></button>
+						<button class="btn preset-filled-primary-500"><Fa icon={icons.faCheck} /></button>
+						<button class="chip preset-filled-primary-500"><Fa icon={icons.faCheck} /></button>
+						<button class="badge preset-filled-primary-500"><Fa icon={icons.faCheck} /></button>
 					</td>
 					<td>
 						<CodeBlock
@@ -41,9 +39,9 @@
 					<td>Cancel</td>
 					<td>Button / Chip / Badge</td>
 					<td>
-						<button class="btn variant-filled-warning"><Fa icon={icons.faXmark} /></button>
-						<button class="chip variant-filled-warning"><Fa icon={icons.faXmark} /></button>
-						<button class="badge variant-filled-warning"><Fa icon={icons.faXmark} /></button>
+						<button class="btn preset-filled-warning-500"><Fa icon={icons.faXmark} /></button>
+						<button class="chip preset-filled-warning-500"><Fa icon={icons.faXmark} /></button>
+						<button class="badge preset-filled-warning-500"><Fa icon={icons.faXmark} /></button>
 					</td>
 					<td>
 						<CodeBlock
@@ -56,9 +54,9 @@
 					<td>Save</td>
 					<td>Button / Chip / Badge</td>
 					<td>
-						<button class="btn variant-filled-primary"><Fa icon={icons.faSave} /></button>
-						<button class="chip variant-filled-primary"><Fa icon={icons.faSave} /></button>
-						<button class="badge variant-filled-primary"><Fa icon={icons.faSave} /></button>
+						<button class="btn preset-filled-primary-500"><Fa icon={icons.faSave} /></button>
+						<button class="chip preset-filled-primary-500"><Fa icon={icons.faSave} /></button>
+						<button class="badge preset-filled-primary-500"><Fa icon={icons.faSave} /></button>
 					</td>
 					<td>
 						<CodeBlock
@@ -71,9 +69,9 @@
 					<td>Delete</td>
 					<td>Button / Chip / Badge</td>
 					<td>
-						<button class="btn variant-filled-error"><Fa icon={icons.faTrash} /></button>
-						<button class="chip variant-filled-error"><Fa icon={icons.faTrash} /></button>
-						<button class="badge variant-filled-error"><Fa icon={icons.faTrash} /></button>
+						<button class="btn preset-filled-error-500"><Fa icon={icons.faTrash} /></button>
+						<button class="chip preset-filled-error-500"><Fa icon={icons.faTrash} /></button>
+						<button class="badge preset-filled-error-500"><Fa icon={icons.faTrash} /></button>
 					</td>
 					<td>
 						<CodeBlock
@@ -86,9 +84,9 @@
 					<td>Edit</td>
 					<td>Button / Chip / Badge</td>
 					<td>
-						<button class="btn variant-filled-primary"><Fa icon={icons.faPen} /></button>
-						<button class="chip variant-filled-primary"><Fa icon={icons.faPen} /></button>
-						<button class="badge variant-filled-primary"><Fa icon={icons.faPen} /></button>
+						<button class="btn preset-filled-primary-500"><Fa icon={icons.faPen} /></button>
+						<button class="chip preset-filled-primary-500"><Fa icon={icons.faPen} /></button>
+						<button class="badge preset-filled-primary-500"><Fa icon={icons.faPen} /></button>
 					</td>
 					<td>
 						<CodeBlock
@@ -101,9 +99,9 @@
 					<td>Create</td>
 					<td>Button / Chip / Badge</td>
 					<td>
-						<button class="btn variant-filled-primary"><Fa icon={icons.faPlus} /></button>
-						<button class="chip variant-filled-primary"><Fa icon={icons.faPlus} /></button>
-						<button class="badge variant-filled-primary"><Fa icon={icons.faPlus} /></button>
+						<button class="btn preset-filled-primary-500"><Fa icon={icons.faPlus} /></button>
+						<button class="chip preset-filled-primary-500"><Fa icon={icons.faPlus} /></button>
+						<button class="badge preset-filled-primary-500"><Fa icon={icons.faPlus} /></button>
 					</td>
 					<td>
 						<CodeBlock
@@ -116,9 +114,9 @@
 					<td>Show</td>
 					<td>Button / Chip / Badge</td>
 					<td>
-						<button class="btn variant-filled-secondary"><Fa icon={icons.faEye} /></button>
-						<button class="chip variant-filled-secondary"><Fa icon={icons.faEye} /></button>
-						<button class="badge variant-filled-secondary"><Fa icon={icons.faEye} /></button>
+						<button class="btn preset-filled-secondary-500"><Fa icon={icons.faEye} /></button>
+						<button class="chip preset-filled-secondary-500"><Fa icon={icons.faEye} /></button>
+						<button class="badge preset-filled-secondary-500"><Fa icon={icons.faEye} /></button>
 					</td>
 					<td>
 						<CodeBlock
@@ -131,10 +129,10 @@
 					<td>Disabled</td>
 					<td>Button</td>
 					<td>
-						<button class="btn variant-filled-secondary" disabled><Fa icon={icons.faPen} /></button>
-						<button class="chip variant-filled-secondary" disabled><Fa icon={icons.faPen} /></button
+						<button class="btn preset-filled-secondary-500" disabled><Fa icon={icons.faPen} /></button>
+						<button class="chip preset-filled-secondary-500" disabled><Fa icon={icons.faPen} /></button
 						>
-						<button class="badge variant-filled-secondary" disabled
+						<button class="badge preset-filled-secondary-500" disabled
 							><Fa icon={icons.faPen} /></button
 						>
 					</td>

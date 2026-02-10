@@ -1,8 +1,5 @@
 <script lang="ts">
 	import MultiSelect from '$lib/components/form/MultiSelect.svelte';
-
-	import { CodeBlock } from '@skeletonlabs/skeleton';
-
 	let target = ['Canada', 'Armenia'];
 	$: target;
 
