@@ -4,6 +4,7 @@
 	import { CodeBlock } from '@skeletonlabs/skeleton';
 
 	let target = 'Canada';
+	let targetN = '';
 	let targetB = { code: '', name: '' };
 	let targetC = {};
 	$: target;
@@ -21,6 +22,16 @@
 		bind:target
 		isMulti={false}
 	/>
+
+	<MultiSelect
+	id="title"
+	title="Target is a single value"
+	source={CountrieNames}
+	bind:target = {targetN}
+	searchable={false}
+	clearable={false}
+	isMulti={false}
+/>
 
 	<CodeBlock language="ts" code={JSON.stringify(target, undefined, 2)} />
 </div>

@@ -23,10 +23,11 @@
 	export let help = false;
 	export let clearable = true;
 	export let disabled = false;
+	export let searchable = true;
 
 	let isLoaded = false;
 
-	$: value = null;
+	$: value = '';
 	$: updateTarget(value);
 	$: target, setValue(target);
 
@@ -141,10 +142,28 @@
 		if (!isMulti) {
 			//console.log("onmount",complexSource,complexTarget,value,target)
 			if (!complexSource && !complexTarget) {
-				value = {
-					value: t,
-					label: t
-				};
+
+
+				if(groupBy) { // if groupby is set, the value needs to be set as object with label and value, otherwise the select component does not recognize the value
+						value = {
+								value: t,
+								label: t
+							};
+					}
+					else //	if there is no groupby, the value can be set as simple value, otherwise the select component does not recognize the value
+					{
+							if(t === null || t === undefined || t === '') {
+									value = ''
+								}
+								else
+								{
+									value = {
+										value: t,
+										label: t
+									};
+								}
+					}
+				
 			}
 
 			if (complexSource && complexTarget) {
@@ -291,10 +310,12 @@
 		multiple={isMulti}
 		bind:value
 		{placeholder}
+
 		hasError={invalid}
 		{loading}
 		{clearable}
 		{disabled}
+		{searchable}
 		filter={filterFn}
 		on:change
 		on:input

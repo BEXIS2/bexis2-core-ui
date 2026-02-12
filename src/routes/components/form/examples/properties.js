@@ -20,6 +20,14 @@ export const MultiSelectProperties = [
 		description: 'Selected elements'
 	},
 	{
+		name: 'clearable',
+		description: 'default true, x mark	to clear the selection'
+	},
+	{
+		name: 'searchable',
+		description: 'default true, search in input is activated'
+	},
+	{
 		name: 'itemId',
 		description: 'For complex object a unique identifier is needed'
 	},

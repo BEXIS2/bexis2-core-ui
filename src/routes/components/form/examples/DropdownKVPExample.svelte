@@ -6,7 +6,7 @@
 	$: target = { id: 2, text: 'gbif' };
 	$: simpleTarget = 2;
 
-	import { Metadatastructures } from './exampleData';
+	import { Metadatastructures,CountrieNames } from './exampleData';
 
 	function onChangeHandler() {
 		console.log(target);
@@ -36,4 +36,5 @@
 	/>
 
 	<CodeBlock language="ts" code={JSON.stringify(target, undefined, 2)} />
+
 </div>

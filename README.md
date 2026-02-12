@@ -1,4 +1,11 @@
 # bexis-core-ui
+## 0.4.60
+- dropdown
+  - add dropdown with simple list and value
+- multiselect
+  - add option to disable search
+  - fix placeholder does not work
+
 ## 0.4.59
 - Table
   - remove static title "table"
