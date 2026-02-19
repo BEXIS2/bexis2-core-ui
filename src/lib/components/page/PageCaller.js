@@ -6,6 +6,8 @@ export const getFooter = async () => {
 		return response.data;
 	} catch (error) {
 		console.error(error);
+		// Fallback footer content for docs/demo mode when backend is unavailable
+		return '<div class="px-5 py-3 text-center text-sm text-surface-500">BEXIS2 Core UI</div>';
 	}
 };
 
@@ -15,6 +17,8 @@ export const getHeader = async () => {
 		return response.data;
 	} catch (error) {
 		console.error(error);
+		// Fallback header content for docs/demo mode when backend is unavailable
+		return '<div class="px-5 py-3 text-xl font-semibold">BEXIS2 Core UI Documentation</div>';
 	}
 };
 

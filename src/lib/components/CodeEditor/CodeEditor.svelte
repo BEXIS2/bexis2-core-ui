@@ -9,11 +9,10 @@
 	import { lintGutter, linter } from '@codemirror/lint';
 	import { json, jsonParseLinter } from '@codemirror/lang-json';
 	import { oneDark } from '@codemirror/theme-one-dark';
-	const modalStore = getModalStore();
+	import { getModalStore, type ModalSettings, Dialog as Modal } from '$lib/shims/skeleton';
 	import { faMoon, faSave, faSun } from '@fortawesome/free-regular-svg-icons';
 	import { faArrowRotateLeft, faXmark } from '@fortawesome/free-solid-svg-icons';
 	import type { ThemeSpec } from 'svelte-codemirror-editor';
-	import type { ModalSettings } from '@skeletonlabs/skeleton-svelte';
 	import type { Extension } from '@codemirror/state';
 
 	export let id: string;
@@ -36,7 +35,7 @@
 	};
 
 	const dispatch = createEventDispatcher();
-
+	const modalStore = getModalStore();
 	const modal: ModalSettings = {
 		type: 'confirm',
 		title: 'Reset',

@@ -1,7 +1,9 @@
 <script lang="ts">
 	import Fa from 'svelte-fa';
 	import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
-	import { Pagination } from '@skeletonlabs/skeleton-svelte';
+	import Paginator from '$lib/shims/skeleton/Paginator.svelte';
+	import ListBox from '$lib/shims/skeleton/ListBox.svelte';
+	import ListBoxItem from '$lib/shims/skeleton/ListBoxItem.svelte';
 
 	export let itemCount;
 	export let pageConfig;
@@ -65,7 +67,7 @@
 		</div>
 	</div>
 	<div class="flex justify-center">
-		<Pagination
+		<Paginator
 			on:page={(page) => ($pageIndex = page.detail)}
 			settings={paginationSettings}
 			select="hidden"

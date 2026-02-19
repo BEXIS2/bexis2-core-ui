@@ -1,64 +1,76 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	// import { type ToastSettings, ToastProvider } from '@skeletonlabs/skeleton-svelte';
+	import { Toast, createToaster } from '@skeletonlabs/skeleton-svelte';
 	import { notificationStore } from '$store/pageStores';
 	import type { notificationStoreType } from '$models/Models';
 	import { notificationType } from '$models/Enums';
-	import { getToastStore } from '@skeletonlabs/skeleton/stores';
 
-	const toastStore = getToastStore();
+	const toaster = createToaster({
+		placement: 'top',
+	});
 
-	const defaultBtnStyle = 'btn-icon btn-icon-sm preset-filled-surface-500 shadow-md';
-	let btnStyle: string = defaultBtnStyle;
+	const defaultBtnStyle = "btn-icon btn-icon-sm shadow-md";
+
+	/*let btnStyle: string = defaultBtnStyle;
 	$: btnStyle =
 		$notificationStore && $notificationStore.btnStyle
 			? $notificationStore.btnStyle
-			: defaultBtnStyle;
+			: defaultBtnStyle;*/
 
 	$: $notificationStore, triggerToast();
 
-	onMount(() => {
-		toastStore.clear();
-	});
-
 	function triggerToast() {
-		toastStore.clear();
+		const current: notificationStoreType | undefined = $notificationStore;
+		if (!current || !current.message) return;
 
-		const timeout = 30000;
+		const timeout = 4000;
+		let type: 'success' | 'warning' | 'error' | 'info';
 		let classes = '';
 
-		if ($notificationStore.message != undefined && $notificationStore.message != '') {
-			switch ($notificationStore.notificationType) {
-				case notificationType.success:
-					classes =
-						'bg-success-300 border-solid border-2 border-success-500 shadow-md text-surface-900';
-					break;
-				case notificationType.warning:
-					classes =
-						'bg-warning-300 border-solid border-2 border-warning-500 shadow-md text-surface-900';
-					break;
-				case notificationType.error:
-					classes =
-						'bg-error-300 border-solid border-2 border-error-500 shadow-md text-surface-900';
-					break;
-				case notificationType.surface:
-					classes =
-						'bg-surface-300 border-solid border-2 border-surface-500 shadow-md text-surface-900';
-					break;
-			}
-
-		// 	const notificationToast: ToastSettings = {
-		// 		classes: classes,
-		// 		message: $notificationStore.message,
-		// 		timeout: timeout,
-		// 		callback: () => {
-		// 			toastStore.clear();
-		// 		}
-		// 	};
-
-		// 	toastStore.trigger(notificationToast);
+		switch (current.notificationType) {
+			case notificationType.success:
+				type = 'success';
+				classes =
+					'bg-success-300 border-solid border-2 border-success-500 shadow-md text-surface-900';
+				break;
+			case notificationType.warning:
+				type = 'warning';
+				classes =
+					'bg-warning-300 border-solid border-2 border-warning-500 shadow-md text-surface-900';
+				break;
+			case notificationType.error:
+				type = 'error';
+				classes =
+					'bg-error-300 border-solid border-2 border-error-500 shadow-md text-surface-900';
+				break;
+			case notificationType.surface:
+			default:
+				type = 'info';
+				classes =
+					'bg-surface-300 border-solid border-2 border-surface-500 shadow-md text-surface-900';
+				break;
 		}
+
+		toaster[type]({
+			title: '',
+			description: current.message,
+			duration: timeout,
+			classes
+		});
 	}
 </script>
 
-<!-- <ToastProvider position="t" buttonDismiss={btnStyle} /> -->
+<Toast.Group {toaster}>
+	{#snippet children(toast)}
+		<Toast {toast} class={toast.classes}>
+			<Toast.Message>
+				{#if toast.title}
+					<Toast.Title>{toast.title}</Toast.Title>
+				{/if}
+				<Toast.Description>
+					{@html toast.description}
+				</Toast.Description>
+			</Toast.Message>
+			<Toast.CloseTrigger  />
+		</Toast>
+	{/snippet}
+</Toast.Group>

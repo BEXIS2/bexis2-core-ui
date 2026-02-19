@@ -1,5 +1,6 @@
 <script lang="ts">
-		import TableCrud from '../examples/TableCRUD.svelte';
+	import { Dialog as Modal } from '$lib/shims/skeleton';
+	import TableCrud from '../examples/TableCRUD.svelte';
 	import TableUsersNoRoles from '../examples/TableUsersNoRoles.svelte';
 	import TableUsers from '../examples/TableUsers.svelte';
 	import TableDate from '../examples/TableDate.svelte';

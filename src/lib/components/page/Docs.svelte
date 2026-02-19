@@ -8,7 +8,7 @@
 	export let links: linkType[] = [];
 
 	// popup for note
-	import type { PopupSettings } from '@skeletonlabs/skeleton-svelte';
+	import { popup, type PopupSettings, storePopup } from '$lib/shims/skeleton/popup';
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 

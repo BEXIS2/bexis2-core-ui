@@ -5,9 +5,7 @@
 	import { faQuestion } from '@fortawesome/free-solid-svg-icons';
 
 	//popup
-	import type { PopupSettings } from '@skeletonlabs/skeleton-svelte';
-	//import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
-	//import { storePopup } from '@skeletonlabs/skeleton';
+	import { popup, type PopupSettings } from '$lib/shims/skeleton/popup';
 	import delay from 'delay';
 
 	export let active: boolean = false;

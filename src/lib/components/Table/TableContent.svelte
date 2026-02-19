@@ -15,6 +15,7 @@
 		addHiddenColumns
 	} from '@humanspeak/svelte-headless-table/plugins';
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
+	import { storePopup } from '$lib/shims/skeleton/popup';
 	import type { PaginationConfig } from '@humanspeak/svelte-headless-table/plugins';
 	import { Switch } from '@skeletonlabs/skeleton-svelte';
 

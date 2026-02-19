@@ -4,6 +4,13 @@ import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
+	// Svelte compiler options
+	compilerOptions: {
+		// Preserve Svelte 4-style component API (backwards compatibility)
+		compatibility: {
+			componentApi: 4
+		}
+	},
 	// Consult https://kit.svelte.dev/docs/integrations#preprocessors
 	// for more information about preprocessors
 	preprocess: vitePreprocess(),
@@ -43,7 +50,8 @@ const config = {
 				}
 				console.warn(`${status} ${path}${referrer ? ` (${referenceType} from ${referrer})` : ''}`);
 			}
-		}
+		},
+		
 	}
 };
 

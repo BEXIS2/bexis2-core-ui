@@ -1,5 +1,6 @@
 <script lang="ts">
 	import CheckboxKVPList from '../../../../lib/components/form/CheckboxKvPList.svelte';
+	import { CodeBlock } from '$lib/shims/skeleton';
 
 	import { Datastructures } from './exampleData';
 	$: target = [1];

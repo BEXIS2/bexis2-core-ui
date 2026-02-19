@@ -1,14 +1,28 @@
 <script lang="ts">
 	import { SegmentedControl } from '@skeletonlabs/skeleton-svelte';
 
-	let value: number = 0;
+	let value = $state<string | null>('music');
 </script>
 
-<!-- svelte-ignore a11y-label-has-associated-control -->
-<label class="text-sm">best of</label>
-<SegmentedControl>
-	<Segment.Item bind:group={value} name="justify" title="music" label="music" value={0}>(music)</Segment.Item>
-	<Segment.Item bind:group={value} name="justify" title="movies" label="movies" value={1}>(movies)</Segment.Item>
-	<Segment.Item bind:group={value} name="justify" title="series" label="series" value={2}>(series)</Segment.Item>
-</SegmentedControl>
+<div class="flex flex-col items-center gap-4">
+	<SegmentedControl {value} onValueChange={(details) => (value = details.value)}>
+		<SegmentedControl.Label>Browse</SegmentedControl.Label>
+		<SegmentedControl.Control>
+			<SegmentedControl.Indicator />
+			<SegmentedControl.Item value="music">
+				<SegmentedControl.ItemText>Music</SegmentedControl.ItemText>
+				<SegmentedControl.ItemHiddenInput />
+			</SegmentedControl.Item>
+			<SegmentedControl.Item value="images">
+				<SegmentedControl.ItemText>Images</SegmentedControl.ItemText>
+				<SegmentedControl.ItemHiddenInput />
+			</SegmentedControl.Item>
+			<SegmentedControl.Item value="videos">
+				<SegmentedControl.ItemText>Videos</SegmentedControl.ItemText>
+				<SegmentedControl.ItemHiddenInput />
+			</SegmentedControl.Item>
+		</SegmentedControl.Control>
+	</SegmentedControl>
+</div>
+
 <div class="pt-3"><b>Value:</b> {value}</div>

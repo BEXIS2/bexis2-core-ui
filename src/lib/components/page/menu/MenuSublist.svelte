@@ -1,5 +1,5 @@
 <script lang="ts">
-		import type { menuItemType } from '../../../models/Page';
+	import type { menuItemType } from '../../../models/Page';
 	import { goTo } from '../../../services/BaseCaller';
 
 	export let items: menuItemType[];
@@ -59,19 +59,18 @@
 
 </script>
 
-<ListBox class="sm:bg-white sm:border overflow-y-auto max-h-[500px]">
+
+<div class="sm:bg-white sm:border sm:border-surface-200 sm:rounded-md overflow-y-auto max-h-[500px] min-w-[12rem]">
 	{#each items as item}
-		{#if isNewModule(item.Module)}<hr class="text-surface-800" />{/if}
+		{#if isNewModule(item.Module)}<hr class="my-1 border-surface-200" />{/if}
 
-		<ListBoxItem
-			class="text-md sm:text-sm text-surface-800 py-1 hover:text-secondary-500 bg-transparent hover:bg-surface-200"
-			bind:group={item.Title}
-			name="medium"
-			value={item.Title}
+		<div
+			class="listbox-item text-md sm:text-sm text-surface-800 px-3 py-1 hover:text-secondary-500 bg-transparent hover:bg-surface-200 cursor-pointer whitespace-nowrap"
 		>
-		<a  href={item.Url} target="{item.Target}" on:click|preventDefault={()=>clickFn(item)}>{item.Title}</a>
-
-		</ListBoxItem>
+			<a href={item.Url} target="{item.Target}" on:click|preventDefault={() => clickFn(item)}>
+				{item.Title}
+			</a>
+		</div>
 
 	{/each}
-</ListBox>
+</div>

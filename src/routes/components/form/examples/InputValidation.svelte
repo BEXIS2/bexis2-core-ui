@@ -5,6 +5,7 @@
 	import { onMount } from 'svelte';
 	import TextInput from '$lib/components/form/TextInput.svelte';
 	import TextArea from '$lib/components/form/TextArea.svelte';
+	import { CodeBlock } from '$lib/shims/skeleton';
 
 	// test form data
 	$: formData = { name: '', description: '' };

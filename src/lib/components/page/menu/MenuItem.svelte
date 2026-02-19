@@ -4,8 +4,8 @@
 	//uicomponents
 	import MenuSublist from './MenuSublist.svelte';
 
-	//types
-	import type { PopupSettings } from '@skeletonlabs/skeleton-svelte';
+	//types and popup action shim
+	import { popup, type PopupSettings } from '$lib/shims/skeleton/popup';
 	import type { menuItemType } from '../../../models/Page';
 
 	import { goTo } from '../../../services/BaseCaller';
@@ -52,7 +52,10 @@
 			<span class="capitalize text-lg whitespace-nowrap hover:text-secondary-500">{menubarItem.Title}▾</span>
 		</button>
 
-		<div class="z-50 w-max" data-popup={id}>
+		<div
+			class="z-50 w-max mt-1 rounded-md border border-surface-300 bg-surface-50 shadow-lg dark:bg-surface-800 dark:border-surface-600"
+			data-popup={id}
+		>
 			<MenuSublist {id} items={menubarItem.Items} />
 		</div>
 	</div>

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import MultiSelect from '$lib/components/form/MultiSelect.svelte';
+	import { CodeBlock } from '$lib/shims/skeleton';
 	$: target = [];
 	$: selectedtarget = ['AF'];
 	$: selectedComplextarget = [{ name: 'Dominican Republic', code: 'DO' }];

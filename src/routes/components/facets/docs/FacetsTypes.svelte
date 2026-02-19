@@ -1,5 +1,6 @@
 <script lang="ts">
-			import type { PopupSettings } from '@skeletonlabs/skeleton-svelte';
+	import type { PopupSettings } from '$lib/shims/skeleton/popup';
+	import { CodeBlock, popup } from '$lib/shims/skeleton';
 
 	import { facetGroupType, facetOptionType } from '../data/codeBlocks';
 

@@ -5,7 +5,6 @@
 	import { pageContentLayoutType, notificationType } from '$lib/models/Enums';
 
 	// ui components
-	import { AppBar } from '@skeletonlabs/skeleton-svelte';
 	import Menu from './menu/Menu.svelte';
 	import Footer from './Footer.svelte';
 	import Header from './Header.svelte';
@@ -15,6 +14,7 @@
 
 	//popup
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
+	import { storePopup } from '$lib/shims/skeleton/popup';
 	import { breadcrumbStore,notificationStore } from '$store/pageStores';
 	import { errorStore,csrfTokenStore } from '$store/apiStores';
 
@@ -43,8 +43,6 @@ import type { helpItemType, helpStoreType } from '$models/Models';
 	export let help: boolean = false;
 	export let contentLayoutType: pageContentLayoutType = pageContentLayoutType.center;
 	export let fixLeft: boolean = true;
-
-	let aftIsReady = false;
 
 	errorStore.subscribe((error:errorType) => {
 			console.log("🚀 ~ errorStore.subscribe ~ value:", error.error)
@@ -82,16 +80,10 @@ import type { helpItemType, helpStoreType } from '$models/Models';
 				}
 			}
 
+		}
+
 		applicationName = await getApplicationName();
 		//alert(title);
-
-		}
-});
-
-	csrfTokenStore.subscribe((value) => {
-		if (value.length > 0) {
-			aftIsReady = true;
-		}
 	});
 
 
@@ -103,27 +95,22 @@ import type { helpItemType, helpStoreType } from '$models/Models';
 </script>
 
 <div class="app" bind:this={app}>
-<AppShell>
-	<!--header-->
-	<svelte:fragment slot="header">
-		<AppBar padding="0" spacing="space-y-0" background="white">
-			<svelte:fragment slot="headline">
-				<Header />
-				{#if true}
-					<Menu />
-				{/if}
+  <!-- Header -->
+	<header class="border-b border-solid border-surface-500 bg-surface-50">
+		<div class="px-5 py-3 space-y-2">
+			<Header />
+			{#if menu}
+				<Menu />
+			{/if}
 
-				<div class="grid grid-cols-2">
-					<Breadcrumb bind:title bind:applicationName />
-					<Docs {links} {note} />
-				</div>
-			</svelte:fragment>
-		</AppBar>
-	</svelte:fragment>
+			<div class="grid grid-cols-2 items-center">
+				<Breadcrumb bind:title bind:applicationName />
+				<Docs {links} {note} />
+			</div>
+		</div>
+	</header>
 
 	<slot name="description" />
-
-	{#if aftIsReady}
 
 	<div class="flex flex-initial space-x-5">
 		{#if $$slots.left}
@@ -153,20 +140,14 @@ import type { helpItemType, helpStoreType } from '$models/Models';
 		{/if}
 	</div>
 
-	{/if}
-
-	<GoToTop/>
+	<GoToTop />
 	<HelpPopUp active={help} />
 	<Notification />
 
-	
-	<svelte:fragment slot="footer">
-		{#if footer}
+	{#if footer}
+		<footer>
 			<Footer />
-		{/if}
-
-	</svelte:fragment>
-
-</AppShell>
+		</footer>
+	{/if}
 </div>
 

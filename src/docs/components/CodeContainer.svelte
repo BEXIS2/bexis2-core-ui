@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { Tab, Tabs } from '@skeletonlabs/skeleton-svelte';
+	import { Tabs } from '@skeletonlabs/skeleton-svelte';
+	import { CodeBlock } from '$lib/shims/skeleton';
 
 	import { writable } from 'svelte/store';
 	import Table from '$lib/components/Table/Table.svelte';
@@ -24,7 +25,7 @@
 	export let typescript = '';
 	export let data = '';
 	export let codeOnly = false;
-	export let activetab = 0;
+export let activetab = 0;
 
 	export let external: link[] = [];
 	export let properties: prop[] = [];
@@ -46,10 +47,12 @@
 		data: eventsStore
 	};
 
-	let codeClass = 'w-1/2';
-	if (codeOnly) {
-		codeClass = 'w-full';
-	}
+let codeClass = 'w-1/2';
+if (codeOnly) {
+	codeClass = 'w-full';
+}
+
+let tabsValue = `${activetab}`;
 </script>
 
 <div>
@@ -93,69 +96,75 @@
 			{/if}
 
 			<div class={codeClass}>
-				<Tabs>
+				<Tabs {tabsValue} onValueChange={(details) => (tabsValue = details.value)}>
+					<Tabs.List>
+						{#if svelte}
+							<Tabs.Trigger value="0">Svelte</Tabs.Trigger>
+						{/if}
+						{#if typescript}
+							<Tabs.Trigger value="1">Typescript</Tabs.Trigger>
+						{/if}
+						{#if csharp}
+							<Tabs.Trigger value="2">CSharp</Tabs.Trigger>
+						{/if}
+						{#if model}
+							<Tabs.Trigger value="3">Model</Tabs.Trigger>
+						{/if}
+						{#if xml}
+							<Tabs.Trigger value="4">Xml</Tabs.Trigger>
+						{/if}
+						{#if javascript}
+							<Tabs.Trigger value="5">Javascript</Tabs.Trigger>
+						{/if}
+						{#if json}
+							<Tabs.Trigger value="6">Json</Tabs.Trigger>
+						{/if}
+						{#if data}
+							<Tabs.Trigger value="7">Data</Tabs.Trigger>
+						{/if}
+					</Tabs.List>
+
 					{#if svelte}
-						<Tab active={tabSet === 0} value={0} label="Svelte" on:select={(e) => (tabSet = e.detail)}>
-							Svelte
-						</Tab>
+						<Tabs.Content value="0">
+							<CodeBlock language="html" code={svelte} />
+						</Tabs.Content>
 					{/if}
 					{#if typescript}
-						<Tab active={tabSet === 1} value={1} label="Typescript" on:select={(e) => (tabSet = e.detail)}>
-							Typescript
-						</Tab>
+						<Tabs.Content value="1">
+							<CodeBlock language="typescript" code={typescript} />
+						</Tabs.Content>
 					{/if}
 					{#if csharp}
-						<Tab active={tabSet === 2} value={2} label="CSharp" on:select={(e) => (tabSet = e.detail)}>
-							CSharp
-						</Tab>
+						<Tabs.Content value="2">
+							<CodeBlock language="csharp" code={csharp} />
+						</Tabs.Content>
 					{/if}
 					{#if model}
-						<Tab active={tabSet === 3} value={3} label="Model" on:select={(e) => (tabSet = e.detail)}>
-							Model
-						</Tab>
+						<Tabs.Content value="3">
+							<CodeBlock language="csharp" code={model} />
+						</Tabs.Content>
 					{/if}
 					{#if xml}
-						<Tab active={tabSet === 4} value={4} label="Xml" on:select={(e) => (tabSet = e.detail)}>
-							Xml
-						</Tab>
+						<Tabs.Content value="4">
+							<CodeBlock language="xml" code={xml} />
+						</Tabs.Content>
 					{/if}
 					{#if javascript}
-						<Tab active={tabSet === 5} value={5} label="Javascript" on:select={(e) => (tabSet = e.detail)}>
-							Javascript
-						</Tab>
+						<Tabs.Content value="5">
+							<CodeBlock language="javascript" code={javascript} />
+						</Tabs.Content>
 					{/if}
 					{#if json}
-						<Tab active={tabSet === 6} value={6} label="Json" on:select={(e) => (tabSet = e.detail)}>
-							Json
-						</Tab>
+						<Tabs.Content value="6">
+							<CodeBlock language="json" code={json} />
+						</Tabs.Content>
 					{/if}
 					{#if data}
-						<Tab active={tabSet === 7} value={7} label="Data" on:select={(e) => (tabSet = e.detail)}>
-							Data
-						</Tab>
-					{/if}
-
-					<!-- Tab Panels --->
-					<svelte:fragment slot="panel">
-						{#if tabSet === 0}
-							<CodeBlock language="html" code={svelte} />
-						{:else if tabSet === 1}
-							<CodeBlock language="typescript" code={typescript} />
-						{:else if tabSet === 2}
-							<CodeBlock language="csharp" code={csharp} />
-						{:else if tabSet === 3}
-							<CodeBlock language="csharp" code={model} />
-						{:else if tabSet === 4}
-							<CodeBlock language="xml" code={xml} />
-						{:else if tabSet === 5}
-							<CodeBlock language="javascript" code={javascript} />
-						{:else if tabSet === 6}
-							<CodeBlock language="json" code={json} />
-						{:else if tabSet === 7}
+						<Tabs.Content value="7">
 							<CodeBlock language="javascript" code={data} />
-						{/if}
-					</svelte:fragment>
-					</Tabs>
+						</Tabs.Content>
+					{/if}
+				</Tabs>
 			</div>
 		</div>
 	</div>

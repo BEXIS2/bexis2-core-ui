@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Fa from 'svelte-fa';
 	import { faEye } from '@fortawesome/free-solid-svg-icons';
-	import type { PopupSettings } from '@skeletonlabs/skeleton-svelte';
+	import { popup, type PopupSettings } from '$lib/shims/skeleton/popup';
 
 	export let columns: { id: string; label: string; visible: boolean }[] = [];
 	export let tableId: string;

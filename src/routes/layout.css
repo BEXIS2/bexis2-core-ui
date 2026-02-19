@@ -1,3 +1,15 @@
 @import 'tailwindcss';
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
+
+/* Skeleton core + Svelte bindings */
+@import '@skeletonlabs/skeleton';
+@import '@skeletonlabs/skeleton-svelte';
+
+/* Custom BEXIS2 theme */
+@import '../lib/css/themes/theme-bexis2.css';
+
+/* Legacy global styles (Tailwind @apply, etc.) */
+@import '../lib/css/core.ui.postcss'; 
 
 

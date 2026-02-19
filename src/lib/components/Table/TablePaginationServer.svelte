@@ -1,7 +1,9 @@
 <script lang="ts">
 	import Fa from 'svelte-fa';
 	import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
-	import { Pagination } from '@skeletonlabs/skeleton-svelte';
+	import { Listbox } from '@skeletonlabs/skeleton-svelte';
+	import { collection } from '@zag-js/listbox';
+	import Paginator from '$lib/shims/skeleton/Paginator.svelte';
 
 	export let itemCount;
 	export let pageConfig;
@@ -29,6 +31,13 @@
 		page: $pageIndex,
 		amounts: pageSizes
 	};
+
+	$: sizeItems = (pageSizes ?? []).map((size) => ({ id: String(size), label: String(size), value: String(size) }));
+	$: sizeCollection = collection({
+		items: sizeItems,
+		itemToString: (item) => item.label
+	});
+
 	$: $pageCount, $pageIndex, $pageSize, itemCount, (indexInformation = getIndexInfomationString());
 
 </script>
@@ -48,29 +57,38 @@
 			</button>
 			{#if showPageSizeDropdown}
 				<div class="absolute left-0 mt-1 card w-20 shadow-xl py-2 z-50">
-					<ListBox rounded="rounded-none">
-						{#each pageSizes as size}
-							<ListBoxItem
-								name="medium"
-								value={size}
-								on:click={() => {
-									$pageSize = size;
-									showPageSizeDropdown = false;
-									updateTable();
-								}}
-							>
-								{size}
-							</ListBoxItem>
-						{/each}
-					</ListBox>
+					<Listbox
+						collection={sizeCollection}
+						selectionMode="single"
+						value={[$pageSize.toString()]}
+						onValueChange={(details) => {
+							const selected = details.items[0];
+							if (selected) {
+								$pageSize = Number(selected.value ?? selected.id ?? selected.label);
+							}
+							showPageSizeDropdown = false;
+							updateTable();
+						}}
+					>
+						<Listbox.Content class="listbox rounded-none">
+							{#each sizeItems as item}
+								<Listbox.Item item={item}>
+									<Listbox.ItemText>{item.label}</Listbox.ItemText>
+								</Listbox.Item>
+							{/each}
+						</Listbox.Content>
+					</Listbox>
 					<div class="arrow bg-surface-100-900" />
 				</div>
 			{/if}
 		</div>
 	</div>
 	<div class="flex justify-center">
-		<Pagination
-			on:page={(page) => {$pageIndex = page.detail; updateTable(); }}
+		<Paginator
+			on:page={(page) => {
+				$pageIndex = page.detail;
+				updateTable();
+			}}
 			settings={paginationSettings}
 			select="hidden"
 			active="!preset-filled-secondary-500 !text-secondary-contrast-500"

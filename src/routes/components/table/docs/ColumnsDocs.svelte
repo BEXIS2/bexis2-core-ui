@@ -1,6 +1,7 @@
 <script lang="ts">
-	import { type PopupSettings } from '@skeletonlabs/skeleton-svelte';
+	import { type PopupSettings } from '$lib/shims/skeleton/popup';
 	import { columnsTypeCode } from '../data/codeBlocks';
+	import { CodeBlock } from '$lib/shims/skeleton';
 
 	const popupClickColumns: PopupSettings = {
 		event: 'click',

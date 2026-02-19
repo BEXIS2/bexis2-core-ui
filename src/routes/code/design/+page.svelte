@@ -4,6 +4,7 @@
 	import * as icons from '@fortawesome/free-solid-svg-icons';
 	import Spinner from '$lib/components/page/Spinner.svelte';
 	import { TablePlaceholder } from '$lib';
+	import { CodeBlock } from '$lib/shims/skeleton';
 </script>
 
 <Page title="Design Convertions">

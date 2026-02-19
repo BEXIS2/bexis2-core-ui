@@ -1,6 +1,7 @@
+
 <script lang="ts">
-	import {
-		Navigation } from '@skeletonlabs/skeleton-svelte';
+	import { Navigation } from '@skeletonlabs/skeleton-svelte';
+	import { getDrawerStore, setInitialClassState, LightSwitch } from '$lib/shims/skeleton';
 	const drawerStore = getDrawerStore();
 	import { writable, type Writable } from 'svelte/store';
 	import { page } from '$app/stores';

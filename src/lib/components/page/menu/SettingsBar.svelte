@@ -1,5 +1,6 @@
 <script lang="ts">
-		import { type PopupSettings, Accordion } from '@skeletonlabs/skeleton-svelte';
+	import { Accordion } from '@skeletonlabs/skeleton-svelte';
+	import { popup, type PopupSettings } from '$lib/shims/skeleton/popup';
 	import type { menuItemType } from '$models/Page';
 	import Fa from 'svelte-fa';
 	import { faCog } from '@fortawesome/free-solid-svg-icons';

@@ -21,39 +21,39 @@
 <div class="bg-error-50 bg-error-100 bg-error-200 bg-error-300 bg-error-400 bg-error-500 bg-error-600 bg-error-700 bg-error-800 bg-error-900 hidden">test</div>
 <div class="bg-surface-50 bg-surface-100 bg-surface-200 bg-surface-300 bg-surface-400 bg-surface-500 bg-surface-600 bg-surface-700 bg-surface-800 bg-surface-900 hidden">test</div>
 <div class="variant-soft-secondary">secondary</div>
-<div class="btn variant-ringed-primary "></div>
-<div class="btn variant-ringed-secondary "></div>
-<div class="btn variant-ringed-tertiary "></div>
-<div class="btn variant-ringed-success "></div>
-<div class="btn variant-ringed-warning "></div>
-<div class="btn variant-ringed-error "></div>
-<div class="btn variant-ringed-surface "></div>
-<div class="btn variant-soft-primary "></div>
-<div class="btn variant-soft-secondary "></div>
-<div class="btn variant-soft-tertiary "></div>
-<div class="btn variant-soft-success "></div>
-<div class="btn variant-soft-warning "></div>
-<div class="btn variant-soft-error "></div>
-<div class="btn variant-soft-surface "></div>
-<div class="btn variant-ghost-primary "></div>
-<div class="btn variant-ghost-secondary "></div>
-<div class="btn variant-ghost-tertiary "></div>
-<div class="btn variant-ghost-success "></div>
-<div class="btn variant-ghost-warning "></div>
-<div class="btn variant-ghost-error "></div>
-<div class="btn variant-ghost-surface "></div>-->
+<div class="btn preset-outlined-primary-500 "></div>
+<div class="btn preset-outlined-secondary-500 "></div>
+<div class="btn preset-outlined-tertiary-500 "></div>
+<div class="btn preset-outlined-success-500 "></div>
+<div class="btn preset-outlined-warning-500 "></div>
+<div class="btn preset-outlined-error-500 "></div>
+<div class="btn preset-outlined-surface-500 "></div>
+<div class="btn preset-tonal-primary-500 "></div>
+<div class="btn preset-tonal-secondary-500 "></div>
+<div class="btn preset-tonal-tertiary-500 "></div>
+<div class="btn preset-tonal-success-500 "></div>
+<div class="btn preset-tonal-warning-500 "></div>
+<div class="btn preset-tonal-error-500 "></div>
+<div class="btn preset-tonal-surface-500 "></div>
+<div class="btn preset-ghost-primary-500 "></div>
+<div class="btn preset-ghost-secondary-500 "></div>
+<div class="btn preset-ghost-tertiary-500 "></div>
+<div class="btn preset-ghost-success-500 "></div>
+<div class="btn preset-ghost-warning-500 "></div>
+<div class="btn preset-ghost-error-500 "></div>
+<div class="btn preset-ghost-surface-500 "></div>-->
 
 				<div class="py-2">
 					<h3>{colorName}</h3>
-					<div class="grid grid-cols-11 gap-0">
-						{#each colorStrength as cs}
-							<div class="grid grid-rows-[1fr_40px] text-center">
-								<div class="text-surface-700 dark:text-surface-300 text-sm">{cs}</div>
-								<div class="bg-black/5 dark:bg-white/5">
-									<div class="h-full flex justify-center items-center bg-{colorName}-{cs}" />
+						<div class="grid grid-cols-11 gap-0">
+							{#each colorStrength as cs}
+								<div class="grid grid-rows-[1fr_40px] text-center">
+									<div class="text-surface-700 dark:text-surface-300 text-sm">{cs}</div>
+									<div class="bg-black/5 dark:bg-white/5">
+										<div class="h-full flex justify-center items-center bg-{colorName}-{cs}" />
+									</div>
 								</div>
-							</div>
-						{/each}
+							{/each}
 					</div>
 				</div>
 			{/each}
@@ -66,25 +66,86 @@
 		<h3 class="h3">Filled</h3>
 		<div class="grid grid-cols-7 gap-4">
 			{#each colorNames as colorName}
-				<button class="btn preset-filled-{colorName}">{colorName}</button>
+				<button class="btn preset-filled-{colorName}-500">{colorName}</button>
 			{/each}
 		</div>
 		<h3 class="h3">Ringed</h3>
 		<div class="grid grid-cols-7 gap-4">
 			{#each colorNames as colorName}
-				<button class="btn preset-outlined-{colorName}">{colorName}</button>
+				<button
+					class="btn preset-outlined"
+					class:border-primary-500={colorName === 'primary'}
+					class:border-secondary-500={colorName === 'secondary'}
+					class:border-tertiary-500={colorName === 'tertiary'}
+					class:border-success-500={colorName === 'success'}
+					class:border-warning-500={colorName === 'warning'}
+					class:border-error-500={colorName === 'error'}
+					class:border-surface-500={colorName === 'surface'}
+					class:text-primary-700={colorName === 'primary'}
+					class:text-secondary-700={colorName === 'secondary'}
+					class:text-tertiary-700={colorName === 'tertiary'}
+					class:text-success-700={colorName === 'success'}
+					class:text-warning-700={colorName === 'warning'}
+					class:text-error-700={colorName === 'error'}
+					class:text-surface-700={colorName === 'surface'}
+				>
+					{colorName}
+				</button>
 			{/each}
 		</div>
 		<h3 class="h3">Soft</h3>
 		<div class="grid grid-cols-7 gap-4">
 			{#each colorNames as colorName}
-				<button class="btn preset-tonal-{colorName}">{colorName}</button>
+				<button
+					class="btn preset-tonal"
+					class:bg-primary-50={colorName === 'primary'}
+					class:bg-secondary-50={colorName === 'secondary'}
+					class:bg-tertiary-50={colorName === 'tertiary'}
+					class:bg-success-50={colorName === 'success'}
+					class:bg-warning-50={colorName === 'warning'}
+					class:bg-error-50={colorName === 'error'}
+					class:bg-surface-50={colorName === 'surface'}
+					class:text-primary-800={colorName === 'primary'}
+					class:text-secondary-800={colorName === 'secondary'}
+					class:text-tertiary-800={colorName === 'tertiary'}
+					class:text-success-800={colorName === 'success'}
+					class:text-warning-800={colorName === 'warning'}
+					class:text-error-800={colorName === 'error'}
+					class:text-surface-800={colorName === 'surface'}
+				>
+					{colorName}
+				</button>
 			{/each}
 		</div>
 		<h3 class="h3">Ghost</h3>
 		<div class="grid grid-cols-7 gap-4">
 			{#each colorNames as colorName}
-				<button class="btn preset-tonal border border-surface-500-{colorName}">{colorName}</button>
+				<button
+					class="btn bg-transparent border border-transparent"
+					class:text-primary-700={colorName === 'primary'}
+					class:text-secondary-700={colorName === 'secondary'}
+					class:text-tertiary-700={colorName === 'tertiary'}
+					class:text-success-700={colorName === 'success'}
+					class:text-warning-700={colorName === 'warning'}
+					class:text-error-700={colorName === 'error'}
+					class:text-surface-700={colorName === 'surface'}
+					class:hover\:border-primary-500={colorName === 'primary'}
+					class:hover\:border-secondary-500={colorName === 'secondary'}
+					class:hover\:border-tertiary-500={colorName === 'tertiary'}
+					class:hover\:border-success-500={colorName === 'success'}
+					class:hover\:border-warning-500={colorName === 'warning'}
+					class:hover\:border-error-500={colorName === 'error'}
+					class:hover\:border-surface-500={colorName === 'surface'}
+					class:hover\:bg-primary-50={colorName === 'primary'}
+					class:hover\:bg-secondary-50={colorName === 'secondary'}
+					class:hover\:bg-tertiary-50={colorName === 'tertiary'}
+					class:hover\:bg-success-50={colorName === 'success'}
+					class:hover\:bg-warning-50={colorName === 'warning'}
+					class:hover\:bg-error-50={colorName === 'error'}
+					class:hover\:bg-surface-50={colorName === 'surface'}
+				>
+					{colorName}
+				</button>
 			{/each}
 		</div>
 	</div>
@@ -94,25 +155,58 @@
 		<h3 class="h3">Filled</h3>
 		<div class="grid grid-cols-3 gap-4">
 			{#each colorNames as colorName}
-				<Alert message={colorName} cssClass="preset-filled-{colorName}" />
+				<Alert message={colorName} cssClass="preset-filled-{colorName}-500" />
 			{/each}
 		</div>
 		<h3 class="h3">Ringed</h3>
 		<div class="grid grid-cols-3 gap-4">
 			{#each colorNames as colorName}
-				<Alert message={colorName} cssClass="preset-outlined-{colorName}" />
+				<Alert
+					message={colorName}
+					cssClass={`preset-outlined
+						${colorName === 'primary' ? 'border-primary-500 text-primary-700' : ''}
+						${colorName === 'secondary' ? 'border-secondary-500 text-secondary-700' : ''}
+						${colorName === 'tertiary' ? 'border-tertiary-500 text-tertiary-700' : ''}
+						${colorName === 'success' ? 'border-success-500 text-success-700' : ''}
+						${colorName === 'warning' ? 'border-warning-500 text-warning-700' : ''}
+						${colorName === 'error' ? 'border-error-500 text-error-700' : ''}
+						${colorName === 'surface' ? 'border-surface-500 text-surface-700' : ''}
+					`}
+				/>
 			{/each}
 		</div>
 		<h3 class="h3">Soft</h3>
 		<div class="grid grid-cols-3 gap-4">
 			{#each colorNames as colorName}
-				<Alert message={colorName} cssClass="preset-tonal-{colorName}" />
+				<Alert
+					message={colorName}
+					cssClass={`preset-tonal
+						${colorName === 'primary' ? 'bg-primary-50 text-primary-800' : ''}
+						${colorName === 'secondary' ? 'bg-secondary-50 text-secondary-800' : ''}
+						${colorName === 'tertiary' ? 'bg-tertiary-50 text-tertiary-800' : ''}
+						${colorName === 'success' ? 'bg-success-50 text-success-800' : ''}
+						${colorName === 'warning' ? 'bg-warning-50 text-warning-800' : ''}
+						${colorName === 'error' ? 'bg-error-50 text-error-800' : ''}
+						${colorName === 'surface' ? 'bg-surface-50 text-surface-800' : ''}
+					`}
+				/>
 			{/each}
 		</div>
 		<h3 class="h3">Ghost</h3>
 		<div class="grid grid-cols-3 gap-4">
 			{#each colorNames as colorName}
-				<Alert message={colorName} cssClass="preset-tonal border border-surface-500-{colorName}" />
+				<Alert
+					message={colorName}
+					cssClass={`bg-transparent border border-transparent
+						${colorName === 'primary' ? 'text-primary-700 hover:border-primary-500 hover:bg-primary-50' : ''}
+						${colorName === 'secondary' ? 'text-secondary-700 hover:border-secondary-500 hover:bg-secondary-50' : ''}
+						${colorName === 'tertiary' ? 'text-tertiary-700 hover:border-tertiary-500 hover:bg-tertiary-50' : ''}
+						${colorName === 'success' ? 'text-success-700 hover:border-success-500 hover:bg-success-50' : ''}
+						${colorName === 'warning' ? 'text-warning-700 hover:border-warning-500 hover:bg-warning-50' : ''}
+						${colorName === 'error' ? 'text-error-700 hover:border-error-500 hover:bg-error-50' : ''}
+						${colorName === 'surface' ? 'text-surface-700 hover:border-surface-500 hover:bg-surface-50' : ''}
+					`}
+				/>
 			{/each}
 		</div>
 	</div>

@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { Tab, Tabs } from '@skeletonlabs/skeleton-svelte';
+	import { Tabs } from '@skeletonlabs/skeleton-svelte';
+	import { CodeBlock } from '$lib/shims/skeleton';
 
 	type CodeTab = {
 		name: string;
@@ -10,7 +11,7 @@
 	export let title: string;
 	export let tabs: CodeTab[] = [];
 
-	let tabSet: number = 0;
+	let tabsValue = '0';
 </script>
 
 <div class="">
@@ -26,24 +27,17 @@
 		</div>
 
 		<div class="flex-1">
-			<Tabs>
-				{#each tabs as tab, index}
-					<Tab
-						active={tabSet === index}
-						value={index}
-						label={tab.name}
-						on:select={(e) => (tabSet = e.detail)}
-					>
-						{tab.name}
-					</Tab>
-				{/each}
-				<svelte:fragment slot="panel">
+			<Tabs {tabsValue} onValueChange={(details) => (tabsValue = details.value)}>
+				<Tabs.List>
 					{#each tabs as tab, index}
-						{#if tabSet === index}
-							<CodeBlock language={tab.language} code={tab.code} />
-						{/if}
+						<Tabs.Trigger value={String(index)}>{tab.name}</Tabs.Trigger>
 					{/each}
-				</svelte:fragment>
+				</Tabs.List>
+				{#each tabs as tab, index}
+					<Tabs.Content value={String(index)}>
+						<CodeBlock language={tab.language} code={tab.code} />
+					</Tabs.Content>
+				{/each}
 			</Tabs>
 		</div>
 	</div>

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import CodeContainer from '$docs/components/CodeContainer.svelte';
+	import { CodeBlock } from '$lib/shims/skeleton';
 	const c = "import { NameOfUIComp, NameOfUIComp2 } from 'bexis2/bexis2-core-ui' ";
 	const t = "import type { NameOfType, NameOfType2 } from 'bexis2/bexis2-core-ui' ";
 	let y;

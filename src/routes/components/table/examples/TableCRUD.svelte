@@ -1,5 +1,7 @@
 <script lang="ts">
-		const modalStore = getModalStore();
+	import { getModalStore } from '$lib/shims/skeleton';
+
+	const modalStore = getModalStore();
 
 	import TableCrud from '../components/TableCRUDOptions.svelte';
 	import AddUser from '../components/AddUser.svelte';

@@ -1,9 +1,11 @@
 <script lang="ts">
-		let closed = true;
+	import { TableOfContents } from '$lib/shims/skeleton';
+
+	let closed = true;
 </script>
 
-<AppShell slotSidebarLeft="flex-none bg-surface-50-950 lg:w-auto relative">
-	<svelte:fragment slot="sidebarRight">
+<div class="w-full">
+	<div class="">
 		<div
 			class="fixed right-0 top-0 overflow-y-auto h-full overflow-x-hidden"
 			class:w-10={closed}
@@ -22,6 +24,6 @@
 				<TableOfContents active="text-primary-500 font-bold" />
 			</div>
 		</div>
-	</svelte:fragment>
+	</div>
 	<slot id="pageSlot" />
-</AppShell>
+</div>
