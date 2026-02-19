@@ -24,6 +24,7 @@
 	export let clearable = true;
 	export let disabled = false;
 	export let searchable = true;
+	export let description = '';
 
 	let isLoaded = false;
 
@@ -298,9 +299,10 @@
 		dispatch('clear', e)
 
 	}
+	
 </script>
 
-<InputContainer {id} label={title} {feedback} {required} {help}>
+<InputContainer {id} label={title} {feedback} {required} {help} {description}>
 	<Select
 		{id}
 		items={source}

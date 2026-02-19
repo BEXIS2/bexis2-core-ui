@@ -1,5 +1,13 @@
 # bexis-core-ui
-## 0.4.60
+## 0.4.68
+- form
+  - add description to input container, only visible if description added to the component
+
+## 0.4.67
+- dropdown
+  - export dropdown 
+
+## 0.4.66
 - dropdown
   - add dropdown with simple list and value
 - multiselect

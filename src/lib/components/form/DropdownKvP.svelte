@@ -11,6 +11,7 @@
 	export let required = false;
 	export let complexTarget = false;
 	export let help = false;
+	export	let description = '';
 
 	$: selected = null;
 
@@ -36,7 +37,7 @@
 	}
 </script>
 
-<InputContainer {id} label={title} {feedback} {required} {help}>
+<InputContainer {id} label={title} {feedback} {required} {help} {description}>
 	<select
 		{id}
 		class="select variant-form-material dark:bg-zinc-700 bg-zinc-50 placeholder:text-gray-400"

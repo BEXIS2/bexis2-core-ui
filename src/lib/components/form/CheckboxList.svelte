@@ -7,11 +7,11 @@
 	export let description = '';
 	export let key;
 
-	let required = false;
-	let feedback: [];
+	export let required = false;
+	export let feedback: [];
 </script>
 
-<InputContainer label={title} {feedback} {required}>
+<InputContainer label={title} {feedback} {required} {description}>
 	{#each source as item}
 		<label class="flex items-center space-x-2" for={item}>
 			<input class="checkbox" type="checkbox" bind:group={target} value={item} id={item}/>

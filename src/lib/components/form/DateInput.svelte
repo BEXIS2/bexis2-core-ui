@@ -10,9 +10,10 @@
 	export let feedback: string[] = [''];
 	export let help = false;
 	export let disabled: boolean = false;
+	export let description	: string = '';
 </script>
 
-<InputContainer {id} {label} {feedback} {required} {help}>
+<InputContainer {id} {label} {feedback} {required} {help} {description}>
 	<input
 		{id}
 		class="input variant-form-material bg-zinc-50 dark:bg-zinc-700 placeholder:text-gray-400"

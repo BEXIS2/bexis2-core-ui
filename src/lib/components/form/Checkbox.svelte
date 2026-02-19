@@ -9,9 +9,10 @@
 	export let invalid: boolean;
 	export let required: boolean;
 	export let feedback: [];
+	export	let description: string = '';
 </script>
 
-<InputContainer {label} {feedback} {required}>
+<InputContainer {label} {feedback} {required} {description}>
 	<input
 		{id}
 		class="input variant-form-material bg-zinc-50 dark:bg-zinc-50"

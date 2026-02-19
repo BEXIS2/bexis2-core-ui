@@ -12,9 +12,10 @@
 	export let placeholder: string = '';
 	export let help: boolean = false;
 	export let disabled: boolean = false;
+	export let description	: string = '';
 </script>
 
-<InputContainer {id} {label} {feedback} {required} {help}>
+<InputContainer {id} {label} {feedback} {required} {help} 	{description}>
 	<textarea
 		{id}
 		class="textarea variant-form-material dark:bg-zinc-700 bg-zinc-50 placeholder:text-gray-400"

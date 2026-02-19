@@ -19,6 +19,7 @@ import CheckboxKVPList from './components/form/CheckboxKvPList.svelte';
 import CheckboxList from './components/form/CheckboxList.svelte';
 import DateInput from './components/form/DateInput.svelte';
 import DropdownKVP from './components/form/DropdownKvP.svelte';
+import Dropdown from './components/form/Dropdown.svelte';
 import MultiSelect from './components/form/MultiSelect.svelte';
 import NumberInput from './components/form/NumberInput.svelte';
 import TextInput from './components/form/TextInput.svelte';
@@ -53,6 +54,7 @@ export {
 	CheckboxList,
 	DateInput,
 	DropdownKVP,
+	Dropdown,
 	MultiSelect,
 	NumberInput,
 	TextArea,

@@ -10,10 +10,11 @@
 	export let help = false;
 
 	let required = false;
-	let feedback: [];
+	export let feedback: [];
+
 </script>
 
-<InputContainer {id} label={title} {feedback} {required} {help}>
+<InputContainer {id} label={title} {feedback} {required} {help} {description}>
 	{#each source as item}
 		<label class="flex items-center space-x-2" for={item.key}>
 			<input
