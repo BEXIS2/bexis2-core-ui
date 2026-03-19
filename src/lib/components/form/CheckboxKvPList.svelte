@@ -8,6 +8,7 @@
 	export let description = '';
 	export let key;
 	export let help = false;
+	export let vertical = false;
 
 	let required = false;
 	export let feedback: [];
@@ -15,6 +16,7 @@
 </script>
 
 <InputContainer {id} label={title} {feedback} {required} {help} {description}>
+<div	class="flex gap-2" class:flex-col={vertical} >
 	{#each source as item}
 		<label class="flex items-center space-x-2" for={item.key}>
 			<input
@@ -28,4 +30,5 @@
 			<p>{item.value}</p>
 		</label>
 	{/each}
+</div>
 </InputContainer>

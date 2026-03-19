@@ -1,6 +1,6 @@
 {
   "name": "@bexis2/bexis2-core-ui",
-  "version": "0.4.68",
+  "version": "0.4.74",
   "private": false,
   "description": "Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).",
   "keywords": [
@@ -50,6 +50,7 @@
     "format": "prettier --plugin-search-dir . --write .",
     "check outdated": "npm outdated",
     "upgrade all": "ncu --upgrade",
+    "0.npm login": "npm login",
     "1.npm - update package infos": "npm init --scope bexis2",
     "2.npm - package": "svelte-package",
     "3.npm - publish": "npm publish --access public"

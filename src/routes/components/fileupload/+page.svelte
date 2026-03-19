@@ -13,6 +13,6 @@
 
 </script>
 <div>
-	<FileUploader data={config}/>
+	<FileUploader data={config} submit='rpm/dataStructure/upload'/>
 
 </div>

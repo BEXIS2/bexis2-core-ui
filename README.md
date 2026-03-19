@@ -1,4 +1,16 @@
 # bexis-core-ui
+## 0.4.73
+- NumberInput
+  - fix issue destroying layout with number.MinValue
+
+## 0.4.71
+- NumberInput
+  - add min and max
+  
+## 0.4.70
+- CheckboxKVPList
+  - add vertical flag for orientation 
+
 ## 0.4.68
 - form
   - add description to input container, only visible if description added to the component

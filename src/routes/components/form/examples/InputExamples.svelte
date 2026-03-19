@@ -22,6 +22,17 @@
 	/>
 </div>
 <div class="pb-10">
+<span	class="text-sm text-gray-500">NumberInput with min and max values. Try to enter a number smaller than -5 or bigger than 5.</span>
+	<NumberInput
+		id="numberOf"
+		label="NumberOf"
+		required={true}
+		placeholder="add a random number here"
+		min={-5}
+		max={5}
+	/>
+
+
 	<NumberInput
 		id="numberOf"
 		label="NumberOf"
