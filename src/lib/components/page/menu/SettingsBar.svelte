@@ -24,7 +24,7 @@
 	<div class="sm:hidden">
 		<AccordionItem padding="p-2">
 			<svelte:fragment slot="summary"
-				><button class="flex items-center gap-x-1 text-sm text-surface-800 w-5 h-full">
+				><button id="settings" class="flex items-center gap-x-1 text-sm text-surface-800 w-5 h-full">
 					<span class="capitalize"><Fa icon={faCog} /></span>
 				</button></svelte:fragment
 			>
@@ -32,7 +32,7 @@
 		</AccordionItem>
 	</div>
 	<div class="hidden sm:block place-self-center" use:popup={popupCombobox}>
-		<button class="flex items-center gap-x-1">
+		<button id="menu-settings" class="flex items-center gap-x-1">
 			<div class="hidden sm:block" />
 			<span class="capitalize"><Fa icon={faCog} /></span>
 		</button>

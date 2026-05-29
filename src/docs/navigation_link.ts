@@ -44,6 +44,13 @@ export const menuNavLinks: any = [
 		title: 'Backend',
 		list: [{ href: base + '/backend/hooks', label: 'Hooks', keywords: '' }]
 	}
+	,
+	{
+		id: 'services',
+		title: 'Services',
+		list: [{ href: base + '/services', label: 'Services', keywords: '' }]
+	}
+
 
 	// Tailwind ---
 ];

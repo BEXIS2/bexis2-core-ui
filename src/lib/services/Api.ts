@@ -6,7 +6,7 @@ import type { errorType } from '$models/Models';
 console.log('setup axios');
 
 // implement a method to execute all the request from here.
-const apiRequest = (method, url, request) => {
+const apiRequest = (method, url, request, customHeaders = {}, customConfig = {}) => {
 	// Create a instance of axios to use the same base url.
 	const axiosAPI = axios.create({
 		baseURL: host
@@ -15,7 +15,8 @@ const apiRequest = (method, url, request) => {
 	const requestVerificationToken = csrfToken;
 	const headers = {
 		authorization: 'Basic ' + btoa(username + ':' + password),
-		'__RequestVerificationToken': requestVerificationToken
+		'__RequestVerificationToken': requestVerificationToken,
+		...customHeaders
 	};
 
 
@@ -24,7 +25,8 @@ const apiRequest = (method, url, request) => {
 		method,
 		url,
 		data: request,
-		headers
+		headers,
+		...customConfig
 	})
 		.then((res) => {
 			//console.log("res-test",res);
@@ -50,19 +52,19 @@ const apiRequest = (method, url, request) => {
 };
 
 // function to execute the http get request
-const get = (url, request = '') => apiRequest('get', url, request);
+const get = (url, request = '', headers ={}, config ={}) => apiRequest('get', url, request, headers, config);
 
 // function to execute the http delete request
-const deleteRequest = (url, request) => apiRequest('delete', url, request);
+const deleteRequest = (url, request, headers ={}, config ={}) => apiRequest('delete', url, request, headers, config);
 
 // function to execute the http post request
-const post = (url, request) => apiRequest('post', url, request);
+const post = (url, request, headers ={}, config ={}) => apiRequest('post', url, request, headers, config);
 
 // function to execute the http put request
-const put = (url, request) => apiRequest('put', url, request);
+const put = (url, request, headers ={}, config ={}) => apiRequest('put', url, request, headers, config);
 
 // function to execute the http path request
-const patch = (url, request) => apiRequest('patch', url, request);
+const patch = (url, request, headers ={}, config ={}) => apiRequest('patch', url, request, headers, config);
 
 // expose your method to other services or actions
 export const Api = {

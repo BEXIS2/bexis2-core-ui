@@ -74,11 +74,12 @@
 		<ListBoxItem
 			class="text-md sm:text-sm text-surface-800 py-1 hover:text-secondary-500 bg-transparent hover:bg-surface-200"
 			bind:group={item.Title}
+
 			name="medium"
 			value={item.Title}
 	
 		>
-		<a  href={item.Url} target="{item.Target}" on:click|preventDefault={()=>clickFn(item)}>{item.Title}</a>
+		<a id={"menu-"+item.Title.replaceAll(' ', '-')}  href={item.Url} target="{item.Target}" on:click|preventDefault={()=>clickFn(item)}>{item.Title}</a>
 
 		</ListBoxItem>
 

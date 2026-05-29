@@ -148,7 +148,9 @@
 			const response = await Api.post(url, formData);
 
 			if (response.status == 200) {
-				dispatch('submited');
+				dispatch('submited',{
+					status:200,
+					data:response.data});
 
 				let message = files.accepted.length + ' is/are uploaded';
 
@@ -158,6 +160,13 @@
 				dispatch('success', { text: message, files: fileList });
 
 				files.accepted = [];
+			}
+			else
+			{
+					dispatch('submiterror', {
+					status:response.status,
+					data:response.data});
+					console.log('Error uploading file(s)', response);
 			}
 		}
 

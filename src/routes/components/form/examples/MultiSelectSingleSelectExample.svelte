@@ -7,9 +7,11 @@
 	let targetN = '';
 	let targetB = { code: '', name: '' };
 	let targetC = {};
+		let targetD = [];
 	$: target;
 	$: targetB;
 	$: targetC;
+	$: targetD;
 
 	import { CountrieNames, Countries, MetadatastructuresGrouped } from './exampleData';
 </script>
@@ -50,6 +52,22 @@
 	/>
 
 	<CodeBlock language="ts" code={JSON.stringify(targetB, undefined, 2)} />
+</div>
+
+<div class="grid gap-10 pt-5">
+	<MultiSelect
+		id="title"
+		title="Source  & target is complex and return a array of complex value"
+		source={Countries}
+		bind:target={targetD}
+		itemId="code"
+		itemLabel="name"
+		complexSource={true}
+		complexTarget={true}
+		isMulti={true}
+	/>
+
+	<CodeBlock language="ts" code={JSON.stringify(targetD, undefined, 2)} />
 </div>
 
 <div class="grid gap-10 pt-5">

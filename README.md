@@ -1,4 +1,21 @@
 # bexis-core-ui
+## 0.4.81
+- Multiselect
+  - check if groupItem is set or not, if true add groupby to output
+  
+## 0.4.78
+- Fileuploader
+  - after submited add the responce to the event
+
+## 0.4.76
+- API
+  - Extending the API with custom headers and configuration
+  
+
+## 0.4.75
+- Menu
+  - add ids
+
 ## 0.4.73
 - NumberInput
   - fix issue destroying layout with number.MinValue

@@ -120,13 +120,17 @@
 				value = items;
 			}
 			//console.log(value);
-			groupBy = (item) => item[itemGroup];
+			if (itemGroup) {
+				groupBy = (item) => item[itemGroup];
+			}
 		}
 
 		if (complexSource && complexTarget && isMulti) {
 			value = t;
 			isLoaded = true;
-			groupBy = (item) => item[itemGroup];
+			if (itemGroup) {
+				groupBy = (item) => item[itemGroup];
+			}
 		}
 
 		//b) simple liust and simple model
