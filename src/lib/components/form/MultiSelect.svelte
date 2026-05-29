@@ -11,7 +11,7 @@
 	export let title;
 	export let itemId = 'value';
 	export let itemLabel = 'label';
-	export let itemGroup = 'group';
+	export let itemGroup = '';
 	export let isMulti = true;
 	export let complexSource = false;
 	export let complexTarget = false;
@@ -60,6 +60,7 @@
 			}
 		}
 
+		// source	and target are simple but multiple selection is allowed, then the target needs to be set as array of values
 		if (!complexSource && !complexTarget && isLoaded && isMulti) {
 			target = [];
 
@@ -68,6 +69,7 @@
 			}
 		}
 
+		//source and target are complex and multiple selection is allowed, then the target needs to be set as array of objects
 		if (complexSource && complexTarget && isLoaded && isMulti) {
 			//console.log("both complex",selection);
 			target = selection;
@@ -117,7 +119,7 @@
 			if (items.length > 0) {
 				value = items;
 			}
-			////console.log(value);
+			//console.log(value);
 			groupBy = (item) => item[itemGroup];
 		}
 
@@ -169,7 +171,7 @@
 
 			if (complexSource && complexTarget) {
 				value = t;
-				groupBy = (item) => item[itemGroup];
+				//groupBy = (item) => item[itemGroup];
 			}
 
 			if (complexSource && !complexTarget) {
