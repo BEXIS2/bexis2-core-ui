@@ -14,6 +14,7 @@
 	export let updateTable;
 	export let pageIndex;
 	export let toStringFn: undefined | ((value: any) => string) = undefined;
+	export let data;
 
 	// If the filter is applied and the displayed values are filtered
 	let active = false;
@@ -200,6 +201,7 @@
 		$filters[id] = {};
 
 		$pageIndex = 0;
+		$data = [];
 		updateTable().then(() => {
 			active = false;
 		});
@@ -207,6 +209,7 @@
 
 	const applyFilters = () => {
 		$pageIndex = 0;
+		$data = [];
 		updateTable().then(() => {
 			active = true;
 		});

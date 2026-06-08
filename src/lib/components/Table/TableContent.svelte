@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { afterUpdate, createEventDispatcher, onDestroy } from 'svelte';
+	import { afterUpdate, createEventDispatcher, onDestroy, onMount } from 'svelte';
 	import { readable, writable } from 'svelte/store';
 
 	import Fa from 'svelte-fa';
@@ -80,7 +80,7 @@
 	const serverItemCount = serverSide
 		? readable<Number>(0, (set) => {
 				serverItems!.subscribe((val) => set(val));
-		  })
+			})
 		: undefined;
 
 	// Initializing the table
@@ -170,8 +170,8 @@
 						return renderComponent
 							? createRender(renderComponent, { value, row, column, dispatchFn: actionDispatcher })
 							: toStringFn
-							? toStringFn(value)
-							: value;
+								? toStringFn(value)
+								: value;
 					},
 					plugins: {
 						// Sorting config
@@ -203,8 +203,9 @@
 													pageIndex,
 													toFilterableValueFn,
 													filters,
-													toStringFn
-											  })
+													toStringFn,
+													data
+												})
 											: createRender(colFilterComponent ?? TableFilter, {
 													filterValue,
 													id,
@@ -214,9 +215,9 @@
 													filters,
 													toStringFn,
 													pageIndex
-											  });
+												});
 									}
-							  }
+								}
 							: undefined,
 						tableFilter: {
 							// Search filter config
@@ -249,8 +250,9 @@
 											values,
 											updateTable: updateTableWithParams,
 											pageIndex,
-											filters
-									  })
+											filters,
+											data
+										})
 									: createRender(TableFilter, {
 											filterValue,
 											id,
@@ -258,7 +260,7 @@
 											values,
 											filters,
 											pageIndex
-									  });
+										});
 							}
 						}
 					}
@@ -302,8 +304,9 @@
 	// Column visibility configuration
 	const { hiddenColumnIds } = pluginStates.hideColumns;
 
+	let prevSort: { column: string; direction: 'asc' | 'desc' }[] | undefined = undefined;
 	const sortServer = (order: 'asc' | 'desc' | undefined, id: string) => {
-
+		// console.log('Sorting server with', { order, id, sendModel, prevSort });
 		if (!sendModel) throw new Error('Server-side configuration is missing');
 		// Set parameter for sorting
 		if (order === undefined) {
@@ -312,14 +315,37 @@
 			sendModel.order = [{ column: id, direction: order }];
 		}
 
-		// Reset pagination
-		$pageIndex = 0;
-
-		updateTableWithParams();
+		if (JSON.stringify(sendModel.order) !== JSON.stringify(prevSort) && prevSort !== undefined) {
+			// Reset pagination
+			$pageIndex = 0;
+			// console.log('Sorting server with', { order, id, sendModel, prevSort });
+			$data = [];
+			updateTableWithParams();
+		}
+		if (order === undefined) {
+			prevSort = [];
+		} else {
+			prevSort = sendModel.order;
+		}
 	};
 
 	// Function to update the table with the provided parameters for easily passing to other components
 	const updateTableWithParams = async () => {
+		// console.trace('Checking who called updateTableWithParams:');
+		// console.log('Updating table with params', {
+		// 	pageSize: $pageSize,
+		// 	pageIndex: $pageIndex,
+		// 	filters: $filters,
+		// 	sendModel
+		// });
+
+		if ($data.length > 0 && serverSide) {
+			console.log('Table is not empty');
+			//	$data = [];
+			return;
+		}
+
+		// throw new Error("Stack trace inspection");
 		isFetching = true;
 		const result = await utils.updateTable(
 			$pageSize,
@@ -407,7 +433,11 @@
 	});
 
 	$: sortKeys = pluginStates.sort.sortKeys;
-	$: serverSide && updateTableWithParams();
+	onMount(() => {
+		if (serverSide) {
+			updateTableWithParams();
+		}
+	});
 	$: serverSide && sortServer($sortKeys[0]?.order, $sortKeys[0]?.id);
 	$: $hiddenColumnIds = shownColumns.filter((col) => !col.visible).map((col) => col.id);
 </script>
@@ -583,13 +613,15 @@
 																class:cursor-pointer={!props.sort.disabled}
 																on:click={props.sort.toggle}
 																on:keydown={props.sort.toggle}
-																title={props.sort.disabled ? undefined : (props.sort.order === 'asc'
-																	? `Sort by ${cell.label} column in descending order`
-																	: props.sort.order === 'desc'
-																	? `Remove sorting by ${cell.label} column`
-																	: `Sort by ${cell.label} column in ascending order`)}
+																title={props.sort.disabled
+																	? undefined
+																	: props.sort.order === 'asc'
+																		? `Sort by ${cell.label} column in descending order`
+																		: props.sort.order === 'desc'
+																			? `Remove sorting by ${cell.label} column`
+																			: `Sort by ${cell.label} column in ascending order`}
 															>
-																{cell.render().replaceAll("%%%", '.')}
+																{cell.render().replaceAll('%%%', '.')}
 															</span>
 															<div class="w-2">
 																{#if props.sort.order === 'asc'}
@@ -644,7 +676,7 @@
 																		utils.minWidth(cell.id, columns)
 																			? utils.minWidth(cell.id, columns)
 																			: $colWidths[index]
-																  }px;`
+																	}px;`
 																: ''}
 														>
 															<Render of={cell.render()} />
@@ -687,6 +719,7 @@
 				itemCount={$serverItemCount}
 				updateTable={updateTableWithParams}
 				id={tableId}
+				{data}
 			/>
 		{:else}
 			<TablePagination

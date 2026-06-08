@@ -9,6 +9,7 @@
 	export let pageSizes;
 	export let id;
 	export let updateTable; // Function to update table
+	export let data;
 
 	let indexInformation = '';
 
@@ -32,6 +33,11 @@
 			  )} of ${Math.min($pageCount * $pageSize, itemCount)}`;
 	};
 
+	function updateTableServer() {
+		$data = [];
+		updateTable();
+	}
+
 	$: paginationSettings = {
 		size: itemCount,
 		limit: $pageSize,
@@ -41,7 +47,7 @@
 	$: $pageSize = pageSizeDropdownValue;
 	$: $pageCount, $pageIndex, $pageSize, itemCount, (indexInformation = getIndexInfomationString());
 
-	updateTable();
+	// updateTable();
 
 </script>
 
@@ -62,7 +68,7 @@
 					<ListBoxItem
 						bind:group={pageSizeDropdownValue}
 						name="medium" value={size}
-						on:click={() => { $pageSize = size; updateTable(); }}
+						on:click={() => { $pageSize = size;  updateTableServer(); }}
 						>{size}</ListBoxItem
 					>
 				{/each}
@@ -72,7 +78,7 @@
 	</div>
 	<div class="flex justify-center">
 		<Paginator
-			on:page={(page) => {$pageIndex = page.detail; updateTable(); }}
+			on:page={(page) => {$pageIndex = page.detail; updateTableServer(); }}
 			settings={paginationSettings}
 			select="hidden"
 			active="!variant-filled-secondary !text-on-secondary-token"
