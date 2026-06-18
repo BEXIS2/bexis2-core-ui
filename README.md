@@ -1,4 +1,12 @@
 # bexis-core-ui
+## 0.4.83
+- InputContainer
+  - error message position and basic styling of input fields
+
+## 0.4.82
+- Table
+  - ServerSide communication, reduce calls
+
 ## 0.4.81
 - Multiselect
   - check if groupItem is set or not, if true add groupby to output

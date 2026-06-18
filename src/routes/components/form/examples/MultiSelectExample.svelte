@@ -33,7 +33,7 @@
 		items={items}
 
 		label="water"
-		bind:value={singletarge}
+		bind:value={singletarget}
 		clearFilterTextOnBlur={false}
 	/>
 

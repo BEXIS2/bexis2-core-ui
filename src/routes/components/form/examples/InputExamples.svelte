@@ -18,7 +18,9 @@
 		id="description"
 		label="Description"
 		required={true}
+		description="This is a description for the description field. It can be toggled by clicking the question mark icon next to the label."
 		placeholder="more details here, please"
+		feedback={['This field is required']}
 	/>
 </div>
 <div class="pb-10">
