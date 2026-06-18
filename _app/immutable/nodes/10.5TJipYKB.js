@@ -1,4 +1,4 @@
-import{s as A,d as l,i as r,c as _,m as C,g as k,h as x,j as g,n as M,l as P}from"../chunks/CodFKIIS.js";import{S as T,i as B,d as b,t as v,a as S,m as w,c as H,b as E}from"../chunks/Dt0XgmXC.js";import{P as U}from"../chunks/Cse4wLZ0.js";import{T as R,C as D}from"../chunks/CWbVT27O.js";import{w as z}from"../chunks/DqNh3UH4.js";const V=`using BExIS.Security.Entities.Authorization;
+import{s as A,d as l,i as r,c as _,m as C,g as k,h as x,j as g,n as M,l as P}from"../chunks/CodFKIIS.js";import{S as T,i as B,d as b,t as v,a as S,m as w,c as H,b as E}from"../chunks/Dt0XgmXC.js";import{P as U}from"../chunks/DwapJOCM.js";import{T as R,C as D}from"../chunks/CWbVT27O.js";import{w as z}from"../chunks/DqNh3UH4.js";const V=`using BExIS.Security.Entities.Authorization;
 using BExIS.UI.Hooks;
 
 namespace BExIS.Modules.Dcm.UI.Hooks
