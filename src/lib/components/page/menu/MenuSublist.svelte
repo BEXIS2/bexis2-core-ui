@@ -79,7 +79,7 @@
 			value={item.Title}
 	
 		>
-		<a id={"menu-"+item.Title.replaceAll(' ', '-')}  href={item.Url} target="{item.Target}" on:click|preventDefault={()=>clickFn(item)}>{item.Title}</a>
+		<a id={"menu-"+item.Title.replaceAll(' ', '-')}  href={item.Url} target="{item.Target}" class="w-full block" on:click|preventDefault={()=>clickFn(item)}>{item.Title}</a>
 
 		</ListBoxItem>
 
