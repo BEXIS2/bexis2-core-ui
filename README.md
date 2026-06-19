@@ -1,4 +1,17 @@
 # bexis-core-ui
+## 0.4.85
+- Menu
+  - add increase / decrease font size
+  - add toogle dark mode in dev mode
+- Input
+  - decrease input padding
+  - remove layout shift by adding a fixed space for the error message
+
+## 0.4.84
+- MultiSelect
+  - fix itemGroup was not working
+
+
 ## 0.4.83
 - InputContainer
   - error message position and basic styling of input fields
