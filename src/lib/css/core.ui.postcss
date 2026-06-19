@@ -1,7 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind variants;
+
 /*place global styles here */
 html,
 body {
-	@apply h-full;
+	@apply h-full bg-white;
+}
+
+[type='text']:focus {
+	--tw-ring-color: #00000;
 }
 
 h1 {
@@ -12,11 +21,16 @@ h2 {
 	@apply text-primary-500;
 }
 
-
-:root {
-	--background: rgb(var(--color-surface-200));
+.svelte-select,
+.svelte-select-list {
+	@apply dark:!bg-zinc-700 border dark:!border-zinc-500;
 }
 
-[type='text']:focus {
-	--tw-ring-color: #00000;
+.multi-item {
+	@apply dark:!bg-zinc-500 dark:!outline-zinc-400;
 }
+
+.list-item .item.hover:not(.active):not(.list-group-title) {
+	@apply dark:!text-black;
+}
+

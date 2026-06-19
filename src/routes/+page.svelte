@@ -1,9 +1,5 @@
 <script lang="ts">
 	import Page from '$lib/components/page/Page.svelte';
-	import MultiSelect from '$lib/components/form/MultiSelect.svelte';
-	import { CountrieNames } from '../routes/components/form/examples/exampleData';
-
-	import { SlideToggle } from '@skeletonlabs/skeleton';
 
 	let target;
 	$: target;

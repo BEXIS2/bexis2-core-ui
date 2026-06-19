@@ -6,9 +6,22 @@
 </script>
 
 <div class="p-5">
-	<h1>Bexis 2 Color Theme</h1>
+	<h1 class="h1">Bexis 2 Color Theme</h1>
+
+<div class="card p-5 my-10">
+
+<h1	class="h1">H1 Header</h1>
+<h2	class="h2">H2 Header</h2>
+<h3	class="h3">H3 Header</h3>
+<h4	class="h4">H4 Header</h4>
+<h5	class="h5">H5 Header</h5>
+<p	class="p">This is a paragraph. Lorem ipsum dolor sit amet, consectetur adipiscing elit	</p>
+
+</div>
+
 
 	<h2 class="h2">Color overview</h2>
+
 	<div class="card p-5 my-10">
 		{#if colorStrength && colorNames}
 			{#each colorNames as colorName}

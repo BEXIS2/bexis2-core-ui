@@ -12,7 +12,7 @@
 	import '$lib/css/themes/theme-bexis2.css';
 
 	// Most of your app wide CSS should be put in this file
-	import '../app.postcss';
+	import '$lib/css/core.ui.postcss';
 
 	// Config for the syntax highlighting
 	import { storeHighlightJs } from '@skeletonlabs/skeleton';
