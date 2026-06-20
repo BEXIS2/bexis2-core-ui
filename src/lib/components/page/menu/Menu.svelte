@@ -16,20 +16,27 @@
 		menuStore.set(m);
 
 		console.log('🚀 ~ onMount ~ menuStore:', $menuStore);
+		// set the font size to the value stored in local storage
+		const storedFontSize = localStorage.getItem('fontSize');
+		if (storedFontSize) {
+			document.documentElement.style.fontSize = storedFontSize;
+		}
 	});
 
 	let hamburger = true;
 	const theme = writable('light');
 
-	// function to increase the current font size by 1 step
+	// function to increase the current font size by 1 step; set in local storage so it is remembered on page reload
 	function increaseFontSize() {
 		const currentFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
 		document.documentElement.style.fontSize = currentFontSize + 1 + 'px';
+		localStorage.setItem('fontSize', document.documentElement.style.fontSize);
 	}
 	// function to decrease the current font size by 1 step
 	function decreaseFontSize() {
 		const currentFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
 		document.documentElement.style.fontSize = currentFontSize - 1 + 'px';
+		localStorage.setItem('fontSize', document.documentElement.style.fontSize);
 	}
 
 	// function to toggle dark mode
