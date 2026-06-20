@@ -1,4 +1,11 @@
 # bexis-core-ui
+## 0.4.86
+- Menu
+  - set size to local storage
+- input
+  - expose show description
+
+
 ## 0.4.85
 - Menu
   - add increase / decrease font size
