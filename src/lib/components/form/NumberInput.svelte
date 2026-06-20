@@ -15,8 +15,9 @@
 	export let help: boolean = false;
 	export let disabled: boolean = false;
 	export let description	: string = '';
+	export let showDescription: boolean = false;
 	export let min	: number | undefined = undefined;
-	export	let max	: number | undefined = undefined;
+	export let max	: number | undefined = undefined;
 
 	// Diese Zeile wird jedes Mal ausgeführt, wenn sich "menge" ändert
   $: if (max!=undefined && (parseInt(value) > max)) {
@@ -30,7 +31,7 @@
 
 </script>
 
-<InputContainer {id} {label} {feedback} {required} {help} 	{description}>
+<InputContainer {id} {label} {feedback} {required} {help} {description} {showDescription}>
 	<input
 		{id}
 		class="input variant-form-material dark:bg-zinc-700 bg-zinc-50 placeholder:text-gray-400"
@@ -44,6 +45,5 @@
 		on:change
 		{placeholder}
 		{disabled}
-		
 	/>
 </InputContainer>

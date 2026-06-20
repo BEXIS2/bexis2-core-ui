@@ -1,8 +1,12 @@
 # bexis-core-ui
+## 0.4.87
+- Input
+  - add show description to all form components
+
 ## 0.4.86
 - Menu
   - set size to local storage
-- input
+- Input
   - expose show description
 
 

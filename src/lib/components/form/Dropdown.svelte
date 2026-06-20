@@ -10,7 +10,8 @@
 	export let feedback = [''];
 	export let required = false;
 	export let help = false;
-	export	let description = '';
+	export let description = '';
+	export let showDescription = false;
 
 	$: selected = null;
 
@@ -28,7 +29,7 @@
 	}
 </script>
 
-<InputContainer {id} label={title} {feedback} {required} {help} {description}>
+<InputContainer {id} label={title} {feedback} {required} {help} {description} {showDescription}>
 	<select
 		{id}
 		class="select variant-form-material dark:bg-zinc-700 bg-zinc-50 placeholder:text-gray-400"
