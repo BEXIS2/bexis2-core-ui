@@ -9,8 +9,7 @@
 	export let feedback: string[];
 	export let help: boolean = false;
 	export let description : string = '';
-
-let showDescription: boolean = false;
+	export let showDescription: boolean = false;
 
 	function onMouseOver() {
 		if (help) {
