@@ -25,6 +25,7 @@
 	export let disabled = false;
 	export let searchable = true;
 	export let description = '';
+	export let showDescription = false;
 
 	let isLoaded = false;
 
@@ -308,7 +309,7 @@
 	
 </script>
 
-<InputContainer {id} label={title} {feedback} {required} {help} {description}>
+<InputContainer {id} label={title} {feedback} {required} {help} {description} {showDescription}>
 	<Select
 		{id}
 		items={source}

@@ -1,8 +1,34 @@
 # bexis-core-ui
+<<<<<<< HEAD
+=======
+## 0.4.87
+- Input
+  - add show description to all form components
+
+## 0.4.86
+- Menu
+  - set size to local storage
+- Input
+  - expose show description
+
+
+## 0.4.85
+- Menu
+  - add increase / decrease font size
+  - add toogle dark mode in dev mode
+- Input
+  - decrease input padding
+  - remove layout shift by adding a fixed space for the error message
+
+>>>>>>> 5f76491732e46bb1502c77fad36a6910ffb9b6a8
 ## 0.4.84
 - MultiSelect
   - fix itemGroup was not working
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 5f76491732e46bb1502c77fad36a6910ffb9b6a8
 ## 0.4.83
 - InputContainer
   - error message position and basic styling of input fields

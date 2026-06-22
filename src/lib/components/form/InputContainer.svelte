@@ -9,8 +9,7 @@
 	export let feedback: string[];
 	export let help: boolean = false;
 	export let description : string = '';
-
-let showDescription: boolean = false;
+	export let showDescription: boolean = false;
 
 	function onMouseOver() {
 		if (help) {
@@ -44,7 +43,7 @@ let showDescription: boolean = false;
 		<div	class="card text-sm text-gray-500 p-2 mb-2">{@html description}</div>
 	{/if}
 	<slot />
-	<div class="">
+	<div class="min-h-5">
 	<span class="text-xs text-error-600 ">
 	{#if feedback}
 			<ul>

@@ -12,9 +12,10 @@
 	export let help: boolean = false;
 	export let disabled: boolean = false;
 	export let description	: string = '';
+	export let showDescription: boolean = false;
 </script>
 
-<InputContainer {id} {label} {feedback} {required} {help} 	{description}>
+<InputContainer {id} {label} {feedback} {required} {help} {description} {showDescription}>
 	<input
 		{id}
 		class="input variant-form-material dark:bg-zinc-700 bg-zinc-50 placeholder:text-gray-400"
