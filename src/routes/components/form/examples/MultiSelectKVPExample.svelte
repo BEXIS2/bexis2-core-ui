@@ -10,7 +10,7 @@
 	$: targetGroup = [];
 
 	import { Countries, MetadatastructuresGrouped } from './exampleData';
-	import Select from 'svelte-select/Select.svelte';
+
 </script>
 
 <div class="grid gap-10">
@@ -50,6 +50,7 @@
 		bind:target={targetGroup}
 		itemId="id"
 		itemLabel="text"
+	
 		complexSource={true}
 		complexTarget={true}
 	/>

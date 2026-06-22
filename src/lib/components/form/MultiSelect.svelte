@@ -33,7 +33,7 @@
 	$: target, setValue(target);
 
 	let groupBy;
-	$: groupBy;
+	$: groupBy = itemGroup ? (item) => item[itemGroup] : undefined; 
 
 	const dispatch = createEventDispatcher();
 
@@ -120,17 +120,17 @@
 				value = items;
 			}
 			//console.log(value);
-			if (itemGroup) {
-				groupBy = (item) => item[itemGroup];
-			}
+			// if (itemGroup) {
+			// 	groupBy = (item) => item[itemGroup];
+			// }
 		}
 
 		if (complexSource && complexTarget && isMulti) {
 			value = t;
 			isLoaded = true;
-			if (itemGroup) {
-				groupBy = (item) => item[itemGroup];
-			}
+			// if (itemGroup) {
+			// 	groupBy = (item) => item[itemGroup];
+			// }
 		}
 
 		//b) simple liust and simple model

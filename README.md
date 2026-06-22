@@ -1,4 +1,8 @@
 # bexis-core-ui
+## 0.4.84
+- MultiSelect
+  - fix itemGroup was not working
+
 ## 0.4.83
 - InputContainer
   - error message position and basic styling of input fields
