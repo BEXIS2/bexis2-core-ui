@@ -20,6 +20,8 @@
 		const storedFontSize = localStorage.getItem('fontSize');
 		if (storedFontSize) {
 			document.documentElement.style.fontSize = storedFontSize;
+			// set CSS variable --font-size to the new font size
+			document.documentElement.style.setProperty('--font-size', storedFontSize);
 		}
 	});
 
@@ -30,12 +32,16 @@
 	function increaseFontSize() {
 		const currentFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
 		document.documentElement.style.fontSize = currentFontSize + 1 + 'px';
+		// set CSS variable --font-size to the new font size
+		document.documentElement.style.setProperty('--font-size', document.documentElement.style.fontSize);
 		localStorage.setItem('fontSize', document.documentElement.style.fontSize);
 	}
 	// function to decrease the current font size by 1 step
 	function decreaseFontSize() {
 		const currentFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
 		document.documentElement.style.fontSize = currentFontSize - 1 + 'px';
+		// set CSS variable --font-size to the new font size
+		document.documentElement.style.setProperty('--font-size', document.documentElement.style.fontSize);
 		localStorage.setItem('fontSize', document.documentElement.style.fontSize);
 	}
 
