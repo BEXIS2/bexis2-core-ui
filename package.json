@@ -1,6 +1,6 @@
 {
   "name": "@bexis2/bexis2-core-ui",
-  "version": "0.4.87",
+  "version": "0.4.89",
   "private": false,
   "description": "Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).",
   "keywords": [
@@ -81,6 +81,7 @@
     "svelte-fa": "^4.0.2",
     "svelte-file-dropzone": "^2.0.7",
     "svelte-headless-table": "^0.18.2",
+    "svelty-picker": "^5.2.12",
     "svelte-select": "5.8.3",
     "vest": "^5.4.0"
   },

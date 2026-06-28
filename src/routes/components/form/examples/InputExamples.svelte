@@ -3,6 +3,7 @@
 	import TextArea from '$lib/components/form/TextArea.svelte';
 	import NumberInput from '$lib/components/form/NumberInput.svelte';
 	import DateInput from '$lib/components/form/DateInput.svelte';
+	import Date from '$lib/components/form/DatePickerInput.svelte';
 
 	import type { inputType } from '$lib/models/Models';
 
@@ -24,7 +25,9 @@
 	/>
 </div>
 <div class="pb-10">
-<span	class="text-sm text-gray-500">NumberInput with min and max values. Try to enter a number smaller than -5 or bigger than 5.</span>
+	<span class="text-sm text-gray-500"
+		>NumberInput with min and max values. Try to enter a number smaller than -5 or bigger than 5.</span
+	>
 	<NumberInput
 		id="numberOf"
 		label="NumberOf"
@@ -33,7 +36,6 @@
 		min={-5}
 		max={5}
 	/>
-
 
 	<NumberInput
 		id="numberOf"
@@ -44,4 +46,27 @@
 </div>
 <div class="pb-10">
 	<DateInput id="date" label="Creation date" required={true} />
+</div>
+<div>
+	<Date id="date" label="Creation date" required={true} />
+</div>
+<div>
+	<Date
+		id="date"
+		label="Creation time"
+		required={true}
+		mode="time"
+		format="hh:ii"
+		displayFormat="hh:ii"
+	/>
+</div>
+<div>
+	<Date
+		id="date"
+		label="Creation date and time"
+		required={true}
+		mode="datetime"
+		format="yyyy-mm-dd hh:ii"
+		displayFormat="yyyy-mm-dd hh:ii"
+	/>
 </div>
