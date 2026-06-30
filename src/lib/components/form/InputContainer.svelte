@@ -11,7 +11,7 @@
 	export let help: boolean = false;
 	export let description : string = '';
 	export let showDescription: boolean = false;
-	export let showIcon: boolean = true;
+	export let showIcon: boolean = false;
 
 	const dispatch = createEventDispatcher();
 

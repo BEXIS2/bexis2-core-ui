@@ -14,6 +14,7 @@
 	export let disabled: boolean = false;
 	export let description: string = '';
 	export let showDescription: boolean = false;
+	export let showIcon: boolean = false;
 	export let mode: 'date' | 'time' | 'datetime' = 'date';
 	export let initialDate: string = '';
 	export let format: string = 'yyyy-mm-dd';
@@ -37,7 +38,7 @@
 	}
 </script>
 
-<InputContainer {id} {label} {feedback} {required} {help} {description} {showDescription}>
+<InputContainer {id} {label} {feedback} {required} {help} {description} {showDescription} {showIcon} on:showDescription on:hideDescription>
 	<SveltyPicker
 		{mode}
 		name={label}
