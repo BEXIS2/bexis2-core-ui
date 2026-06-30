@@ -90,8 +90,7 @@
 				<Accordion>
 					<div class="sm:flex w-full justify-between">
 						<!-- <div class="sm:flex items-center sm:gap-5 px-1 text-lg justify-start gap-2 py-0"> -->
-						<MenuBar menuBar={$menuStore.MenuBar} />
-						<MenuBar menuBar={$menuStore.Extended} />
+						
 						<!-- </div> -->
 						<!-- <div class="sm:flex items-center sm:gap-5 px-1 text-lg justify-end gap-2"> -->
 						<div class="grid w-full sm:flex gap-2 justify-auto sm:justify-end">
@@ -162,6 +161,8 @@
 									{/if}
 								{/if}
 							</button>
+								<MenuBar menuBar={$menuStore.MenuBar} />
+								<MenuBar menuBar={$menuStore.Extended} />
 								<SettingsBar menuBar={$menuStore.Settings} />
 								<!-- </div> -->
 							
