@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { createEventDispatcher } from 'svelte';
 	import { helpStore } from '$store/pageStores';
 	import Fa from 'svelte-fa';
 	import { faQuestion } from '@fortawesome/free-solid-svg-icons';
@@ -10,14 +11,30 @@
 	export let help: boolean = false;
 	export let description : string = '';
 	export let showDescription: boolean = false;
+	export let showIcon: boolean = true;
+
+	const dispatch = createEventDispatcher();
 
 	function onMouseOver() {
 		if (help) {
 			helpStore.show(id);
 		}
+		if (description.length > 0) {
+			// dispatch an event to show the description
+			dispatch('showDescription', { id, description });
+		}
+
 	}
 
-	function onMouseOut() {}
+	function onMouseOut() {
+		if (help) {
+			helpStore.hide(id);
+		}
+		if (description.length > 0) {
+			// dispatch an event to hide the description
+			dispatch('hideDescription', { id });
+		}
+	}
 </script>
 
 <div
@@ -33,7 +50,7 @@
 			>{label}
 			{#if required} <span class="text-xs text-red-600">*</span> {/if}
 		</span>
-		{#if description}
+		{#if description && showIcon}
 				<button class="badge " on:click={()=>showDescription = !showDescription}><Fa icon={faQuestion} /></button>
 		{/if}
 	</label>

@@ -309,7 +309,7 @@
 	
 </script>
 
-<InputContainer {id} label={title} {feedback} {required} {help} {description} {showDescription}>
+<InputContainer {id} label={title} {feedback} {required} {help} {description} {showDescription} on:showDescription on:hideDescription>
 	<Select
 		{id}
 		items={source}
