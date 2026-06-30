@@ -1,6 +1,11 @@
 # bexis-core-ui
-<<<<<<< HEAD
-=======
+
+## 0.4.90
+- Input
+  - Add DataPickerInput based on Svelty Picker
+  - reorder font size in menu (less layout shift with old header)
+  - trigger description event on mouse over / out
+
 ## 0.4.87
 - Input
   - add show description to all form components
@@ -20,15 +25,10 @@
   - decrease input padding
   - remove layout shift by adding a fixed space for the error message
 
->>>>>>> 5f76491732e46bb1502c77fad36a6910ffb9b6a8
 ## 0.4.84
 - MultiSelect
   - fix itemGroup was not working
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 5f76491732e46bb1502c77fad36a6910ffb9b6a8
 ## 0.4.83
 - InputContainer
   - error message position and basic styling of input fields
