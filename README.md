@@ -1,7 +1,7 @@
 # bexis-core-ui
 
 
-## 0.4.91
+## 0.4.92
 - Input
   - Add DataPickerInput based on Svelty Picker
   - reorder font size in menu (less layout shift with old header)
