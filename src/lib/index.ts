@@ -26,6 +26,8 @@ import NumberInput from './components/form/NumberInput.svelte';
 import TextInput from './components/form/TextInput.svelte';
 import TextArea from './components/form/TextArea.svelte';
 
+import InputContainer from './components/form/InputContainer.svelte';
+
 
 //table
 import Table from './components/Table/Table.svelte';
@@ -61,7 +63,8 @@ export {
 	MultiSelect,
 	NumberInput,
 	TextArea,
-	TextInput
+	TextInput,
+	InputContainer
 };
 
 //File

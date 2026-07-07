@@ -1,5 +1,9 @@
 # bexis-core-ui
 
+## 0.4.94
+- Input
+  - Add InputContainer to export for custom components
+
 
 ## 0.4.93
 - Input
