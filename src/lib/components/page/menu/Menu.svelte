@@ -20,6 +20,8 @@
 		const storedFontSize = localStorage.getItem('fontSize');
 		if (storedFontSize) {
 			document.documentElement.style.fontSize = storedFontSize;
+			// set CSS variable --font-size to the new font size
+			document.documentElement.style.setProperty('--font-size', storedFontSize);
 		}
 	});
 
@@ -30,12 +32,22 @@
 	function increaseFontSize() {
 		const currentFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
 		document.documentElement.style.fontSize = currentFontSize + 1 + 'px';
+		// set CSS variable --font-size to the new font size
+		document.documentElement.style.setProperty(
+			'--font-size',
+			document.documentElement.style.fontSize
+		);
 		localStorage.setItem('fontSize', document.documentElement.style.fontSize);
 	}
 	// function to decrease the current font size by 1 step
 	function decreaseFontSize() {
 		const currentFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
 		document.documentElement.style.fontSize = currentFontSize - 1 + 'px';
+		// set CSS variable --font-size to the new font size
+		document.documentElement.style.setProperty(
+			'--font-size',
+			document.documentElement.style.fontSize
+		);
 		localStorage.setItem('fontSize', document.documentElement.style.fontSize);
 	}
 
@@ -89,30 +101,30 @@
 						<!-- </div> -->
 						<!-- <div class="sm:flex items-center sm:gap-5 px-1 text-lg justify-end gap-2"> -->
 						<div class="grid w-full sm:flex gap-2 justify-auto sm:justify-end">
-							<MenuAccountBar menuBar={$menuStore.AccountBar} />
-							<MenuBar menuBar={$menuStore.LaunchBar} />
 							<!-- Add change font size buttons -->
 							<button
 								class="btn btn-ghost pl-1 pr-1"
 								on:click={decreaseFontSize}
 								title="Decrease font size"
 							>
-								<span class="capitalize text-lg whitespace-nowrap hover:text-secondary-500">A-</span>
+								<span class="capitalize text-lg whitespace-nowrap hover:text-secondary-500">A-</span
+								>
 							</button>
 							<button
 								class="btn btn-ghost pl-1 pr-1"
 								on:click={increaseFontSize}
 								title="Increase font size"
 							>
-								<span class="capitalize text-lg whitespace-nowrap hover:text-secondary-500">A+</span>
+								<span class="capitalize text-lg whitespace-nowrap hover:text-secondary-500">A+</span
+								>
 							</button>
 
-							<button
-								class="btn btn-ghost pl-1 pr-1"
-								on:click={toggleDarkMode}
-								title="Toggle dark mode"
-							>	
-								{#if showMode}
+							{#if showMode}
+								<button
+									class="btn btn-ghost pl-1 pr-1"
+									on:click={toggleDarkMode}
+									title="Toggle dark mode"
+								>
 									{#if $theme === 'dark'}
 										<!-- sun icon (white via currentColor) -->
 										<svg
@@ -154,11 +166,11 @@
 											<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" fill="currentColor" />
 										</svg>
 									{/if}
-								{/if}
-							</button>
-								<SettingsBar menuBar={$menuStore.Settings} />
-								<!-- </div> -->
-							
+								</button>
+							{/if}
+							<MenuAccountBar menuBar={$menuStore.AccountBar} />
+							<MenuBar menuBar={$menuStore.LaunchBar} />
+							<SettingsBar menuBar={$menuStore.Settings} />
 						</div>
 					</div>
 				</Accordion>

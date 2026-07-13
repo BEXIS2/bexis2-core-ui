@@ -13,7 +13,7 @@
 	export let help = false;
 	export	let description = '';
 	export let showDescription = false;
-
+	export let showIcon = false;
 	$: selected = null;
 
 	$: updatedSelectedValue(target);
@@ -38,7 +38,7 @@
 	}
 </script>
 
-<InputContainer {id} label={title} {feedback} {required} {help} {description} {showDescription}>
+<InputContainer {id} label={title} {feedback} {required} {help} {description} {showDescription} {showIcon} on:showDescription on:hideDescription>
 	<select
 		{id}
 		class="select variant-form-material dark:bg-zinc-700 bg-zinc-50 placeholder:text-gray-400"

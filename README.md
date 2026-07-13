@@ -1,5 +1,17 @@
 # bexis-core-ui
-## 0.4.87/88
+
+## 0.4.94
+- Input
+  - Add InputContainer to export for custom components
+
+
+## 0.4.93
+- Input
+  - Add DataPickerInput based on Svelty Picker
+  - reorder font size in menu (less layout shift with old header)
+  - trigger description event on mouse over / out
+
+## 0.4.87
 - Input
   - add show description to all form components
 

@@ -16,6 +16,7 @@
 	export let disabled: boolean = false;
 	export let description	: string = '';
 	export let showDescription: boolean = false;
+	export let showIcon: boolean = false;
 	export let min	: number | undefined = undefined;
 	export let max	: number | undefined = undefined;
 
@@ -31,7 +32,7 @@
 
 </script>
 
-<InputContainer {id} {label} {feedback} {required} {help} {description} {showDescription}>
+<InputContainer {id} {label} {feedback} {required} {help} {description} {showDescription} {showIcon} on:showDescription on:hideDescription>
 	<input
 		{id}
 		class="input variant-form-material dark:bg-zinc-700 bg-zinc-50 placeholder:text-gray-400"
