@@ -21,6 +21,7 @@ const apiRequest = (method, url, request, customHeaders = {}, customConfig = {})
 
 
 	//using the axios instance to perform the request that received from each http method
+
 	return axiosAPI({
 		method,
 		url,
@@ -35,9 +36,11 @@ const apiRequest = (method, url, request, customHeaders = {}, customConfig = {})
 
 		})
 		.catch((er) => {
-		//console.log("🚀 ~ apiRequest ~ err:", er)
+		console.log("🚀 ~ apiRequest ~ err:", er)
 			const err = er.response;
 			
+   
+
 			let error:errorType = {
 							status: err.status,
 							statusText: err.statusText,
@@ -46,8 +49,9 @@ const apiRequest = (method, url, request, customHeaders = {}, customConfig = {})
 			}
 
 			errorStore.set(error);
-
-			return Promise.reject(err);
+			console.log("🚀 ~ apiRequest ~ error:", error)
+			
+			return Promise.reject(new Error(error.error));
 		});
 };
 
