@@ -1,4 +1,9 @@
 # bexis-core-ui
+## 0.4.95
+- Input
+  - Add focus in/out for element
+  - format date picker
+
 
 ## 0.4.94
 - Input
