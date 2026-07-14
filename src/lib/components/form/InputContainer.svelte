@@ -15,7 +15,7 @@
 
 	const dispatch = createEventDispatcher();
 
-	function onMouseOver() {
+	export function onMouseOver() {
 		if (help) {
 			helpStore.show(id);
 		}
@@ -26,7 +26,7 @@
 
 	}
 
-	function onMouseOut() {
+	export function onMouseOut() {
 		if (help) {
 			helpStore.hide(id);
 		}
@@ -44,6 +44,9 @@
 	on:focus={onMouseOver}
 	on:mouseout={onMouseOut}
 	on:blur={onMouseOut}
+	on:focusin={onMouseOver}  
+    on:focusout={onMouseOut}
+
 >
 	<label class="label w-full flex" for="{id}">
 		<span class="grow"
