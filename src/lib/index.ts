@@ -75,7 +75,7 @@ export { Spinner, Page, Alert, Menu, ErrorMessage };
 
 //Api
 export { Api } from './services/Api.js';
-export { host, username, password, setApiConfig } from './stores/apiStores.js';
+export { host, username, password,errorStore, setApiConfig } from './stores/apiStores.js';
 
 //Type
 export type {

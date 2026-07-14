@@ -17,6 +17,8 @@
 	import { HelpExampleData } from './data/help';
 	import { onMount } from 'svelte';
 	import { Api } from '$lib';
+	import Spinner from '$lib/components/page/Spinner.svelte';
+	import ErrorMessage from '$lib/components/page/ErrorMessage.svelte';
 	
 
 	let helpItems: helpItemType[] = HelpExampleData.helpItems;
@@ -42,8 +44,14 @@
 	}
 
 	onMount(async()=>{
-		var res = await Api.get("test/errortest");
+		// var res = await Api.get("test/errortest");
 	})
+
+ async function onLoad() {
+		var res = await Api.get("test/errortest");
+		
+	}
+
 </script>
 
 <Page
@@ -67,4 +75,17 @@
 		dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor
 		sit amet. 
 	</div>
+
+	{#await onLoad()}
+		<Spinner />
+	{:then}
+		<div class="w-screen">
+			<h1>onload finished</h1>
+		</div>
+	
+		{:catch error}
+			<ErrorMessage {error} />
+	{/await}
+
+
 </Page>
