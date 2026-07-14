@@ -227,15 +227,30 @@ export const updateTable = async (
 		throw new Error('Failed to fetch data');
 	}
 
-	const response: Receive = await fetchData.json();
+	// 1. Get the raw text of the response instead of parsing it automatically
+const rawText = await fetchData.text();
+
+// 2. Parse it with a reviver function that targets large integers
+const response: Receive = JSON.parse(rawText, (key, value, context) => {
+  // If the parser thinks it's a number, but we have the raw source text
+  if (context && context.source && typeof value === 'number') {
+    // Check if the number exceeds JavaScript's safe integer limit
+    if (!Number.isSafeInteger(value)) {
+      // Return it natively as a JavaScript BigInt (e.g., 9223372036854775806n)
+      return BigInt(context.source);
+    }
+  }
+  return value;
+});
+// console.log('Server response', response);
 
 	// Format server columns to the client columns
 	if (response.columns !== undefined) {
-		console.log('Server columns', response.columns);
+		//console.log('Server columns', response.columns);
 		columns = convertServerColumns(response.columns, columns);
 
 		const clientCols = response.columns.reduce((acc, col) => {
-			console.log(col.key, col.column);
+			// console.log(col.key, col.column);
 			// replace the . with empty string
 			//const key = col.key.replaceAll('.' ,'');
 			///console.log(key, col.column);
@@ -326,7 +341,7 @@ export const convertServerColumns = (
 			};
 		}
 	});
-	console.log('Columns config', columnsConfig);
+	// console.log('Columns config', columnsConfig);
 	return columnsConfig;
 };
 // Calculates the maximum height of the cells in each row

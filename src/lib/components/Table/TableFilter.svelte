@@ -28,7 +28,7 @@
 
 	// Check the type of the column
 	$values.forEach((item) => {
-		if (item) {
+		if (item !== null && item !== undefined) {
 			type = typeof (toFilterableValueFn ? toFilterableValueFn(item) : item);
 
 			if (type === 'object') {
@@ -119,6 +119,16 @@
 				value: FilterOptionsEnum.no,
 				label: 'Is not on'
 			}
+		],
+		boolean: [
+			{
+				value: FilterOptionsEnum.e,
+				label: 'Is equal to'
+			},
+			{
+				value: FilterOptionsEnum.ne,
+				label: 'Is not equal to'
+			}
 		]
 	};
 
@@ -156,13 +166,13 @@
 
 	const optionChangeHandler = (e, index) => {
 		delete $filters[id][dropdowns[index].option];
+		const val = dropdowns[index].value;
 		$filters[id] = {
 			...$filters[id],
 			[e.target.value]:
-				// type === 'number'
-				// ?
-				getMissingValue(dropdowns[index].value as string)
-			// : dropdowns[index].value
+				type === 'boolean'
+					? (val === '' || val === undefined ? undefined : getMissingValue(val as string) === 'true' || getMissingValue(val as string) === true)
+					: getMissingValue(val as string)
 		};
 		$filters = $filters;
 
@@ -184,9 +194,9 @@
 			[id]: {
 				...$filters[id],
 				[dropdowns[index].option]:
-					// type === 'number' ?
-					getMissingValue(e.target.value)
-				//  : dropdowns[index].value
+					type === 'boolean'
+						? (e.target.value === '' ? undefined : getMissingValue(e.target.value) === 'true' || getMissingValue(e.target.value) === true)
+						: getMissingValue(e.target.value)
 			}
 		};
 	};
@@ -304,6 +314,17 @@
 								bind:value={dropdown.value}
 								aria-label="Filter value"
 							/>
+						{:else if type === 'boolean'}
+							<select
+								class="select border border-primary-500 text-sm p-1"
+								on:change={(e) => valueChangeHandler(e, index)}
+								bind:value={dropdown.value}
+								aria-label="Filter value"
+							>
+								<option value="" disabled selected>Select value...</option>
+								<option value="true">True</option>
+								<option value="false">False</option>
+							</select>
 						{:else}
 							<input
 								type="date"

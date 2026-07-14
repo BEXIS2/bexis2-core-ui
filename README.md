@@ -1,4 +1,11 @@
 # bexis-core-ui
+
+## 0.4.96
+- ServerSideTable
+  - Add support for boolean
+  - Fix missing value handling
+
+
 ## 0.4.95
 - Input
   - Add focus in/out for element

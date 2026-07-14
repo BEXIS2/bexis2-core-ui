@@ -78,19 +78,35 @@ const applyFilter = (filterValue, value, filterFn) => {
 	}));
 
 	filters.forEach((filter) => {
-		result = result && (filter.value ? filterFn(filter.option, filter.value, value) : true);
+		result = result && (filter.value !== undefined && filter.value !== '' && filter.value !== null ? filterFn(filter.option, filter.value, value) : true);
 	});
 
 	return result;
 };
 
+const booleanFilter = (filterOption, filterValue, value) => {
+	const filterBool = typeof filterValue === 'string' ? filterValue === 'true' : !!filterValue;
+	const valBool = !!value;
+
+	switch (filterOption) {
+		case FilterOptionsEnum.e:
+			return valBool === filterBool;
+		case FilterOptionsEnum.ne:
+			return valBool !== filterBool;
+		default:
+			return false;
+	}
+};
+
 export const columnFilter: ColumnFilterFn = ({ filterValue, value }) => {
 	if (typeof value === 'object' && value instanceof Date) {
 		return applyFilter(filterValue, value, dateFilter);
-	} else if (typeof value === 'number') {
+	} else if (typeof value === 'number' || typeof value === 'bigint') {
 		return applyFilter(filterValue, value, numberFilter);
 	} else if (typeof value === 'string') {
 		return applyFilter(filterValue, value, textFilter);
+	} else if (typeof value === 'boolean') {
+		return applyFilter(filterValue, value, booleanFilter);
 	}
 
 	return false;

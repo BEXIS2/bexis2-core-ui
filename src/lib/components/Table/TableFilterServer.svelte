@@ -28,8 +28,11 @@
 
 	// Check the type of the column
 	$values.forEach((item) => {
-		if (item) {
-			type = typeof (toFilterableValueFn ? toFilterableValueFn(item) : item);
+		if (item !== null && item !== undefined) {
+			const rawType = typeof (toFilterableValueFn ? toFilterableValueFn(item) : item);
+
+			// Treat bigint exactly as 'number' for layout options
+			type = rawType === 'bigint' ? 'number' : rawType;
 
 			if (type === 'object') {
 				if ((toFilterableValueFn ? toFilterableValueFn(item) : item) instanceof Date) {
@@ -119,6 +122,16 @@
 			// 	value: FilterOptionsEnum.no,
 			// 	label: 'Is not on'
 			// }
+		],
+		boolean: [
+			{
+				value: FilterOptionsEnum.e,
+				label: 'Is equal to'
+			},
+			{
+				value: FilterOptionsEnum.ne,
+				label: 'Is not equal to'
+			}
 		]
 	};
 
@@ -134,7 +147,9 @@
 	const stringValues = $values.map((item) => (toStringFn ? toStringFn(item) : item));
 
 	const missingValues = stringValues.reduce((acc, item, index) => {
-		acc[typeof item === 'string' ? item.toLowerCase() : item] = $values[index];
+		// Convert everything (including BigInt values) to string first
+		const strRepresentation = String(item).toLowerCase();
+		acc[strRepresentation] = $values[index];
 		return acc;
 	}, {});
 
@@ -146,9 +161,15 @@
 
 	const optionChangeHandler = (e, index) => {
 		delete $filters[id][dropdowns[index].option];
+		const val = dropdowns[index].value;
 		$filters[id] = {
 			...$filters[id],
-			[e.target.value]: getMissingValue(dropdowns[index].value as string)
+			[e.target.value]:
+				type === 'boolean'
+					? val === '' || val === undefined
+						? undefined
+						: getMissingValue(val as string) === 'true' || getMissingValue(val as string) === true
+					: getMissingValue(dropdowns[index].value as string)
 		};
 		$filters = $filters;
 
@@ -169,10 +190,34 @@
 			...$filters,
 			[id]: {
 				...$filters[id],
-				[dropdowns[index].option]:
-					type === 'number'
-						? parseFloat(getMissingValue(e.target.value)) || undefined
-						: getMissingValue(e.target.value)
+				[dropdowns[index].option]: (() => {
+					const rawVal = getMissingValue(e.target.value);
+
+					if (rawVal === '' || rawVal === undefined || rawVal === null) {
+						return undefined;
+					}
+
+					if (type === 'number') {
+						const cleanStr = String(rawVal).trim();
+						// If it's a 16+ digit integer, parse as BigInt to keep precision
+						const isBigInt = /^\d+$/.test(cleanStr) && cleanStr.length >= 16;
+
+						if (isBigInt) {
+							try {
+								return BigInt(cleanStr);
+							} catch {
+								return cleanStr;
+							}
+						}
+						return parseFloat(cleanStr) || undefined;
+					}
+
+					if (type === 'boolean') {
+						return rawVal === 'true' || rawVal === true;
+					}
+
+					return rawVal;
+				})()
 			}
 		};
 	};
@@ -284,7 +329,7 @@
 									on:click|preventDefault={() => removeFilter(dropdown.option)}
 									on:keydown|preventDefault={() => removeFilter(dropdown.option)}
 									aria-label="Remove filter"
-									>
+								>
 									<Fa icon={faXmark} />
 								</div>
 							{/if}
@@ -305,6 +350,17 @@
 								bind:value={dropdown.value}
 								aria-label="Filter value"
 							/>
+						{:else if type === 'boolean'}
+							<select
+								class="select border border-primary-500 text-sm p-1"
+								on:change={(e) => valueChangeHandler(e, index)}
+								bind:value={dropdown.value}
+								aria-label="Filter value"
+							>
+								<option value="" disabled selected>Select value...</option>
+								<option value="true">True</option>
+								<option value="false">False</option>
+							</select>
 						{:else}
 							<input
 								type="date"
