@@ -274,12 +274,12 @@ const response: Receive = JSON.parse(rawText, (key, value, context) => {
 		});
 		dispatch('fetch', columns);
 		data.set(tmpArr);
-		console.log('Server data', tmpArr);
+		// console.log('Server data', tmpArr);
 		return data;
 	}
 
 	serverItems?.set(response.count);
-	console.log('Server data updated');
+	// console.log('Server data updated');
 
 
 	// log the columns object
