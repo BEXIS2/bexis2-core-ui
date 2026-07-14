@@ -3,7 +3,6 @@
 
 	import { CodeBlock } from '@skeletonlabs/skeleton';
 
-
 	$: simpleTarget = undefined;
 
 	import { CountrieNames } from './exampleData';
@@ -24,5 +23,4 @@
 	/>
 
 	<CodeBlock language="ts" code={JSON.stringify(simpleTarget, undefined, 2)} />
-
 </div>

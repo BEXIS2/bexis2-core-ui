@@ -30,7 +30,7 @@
 			: `Displaying items ${$pageIndex * $pageSize + 1} - ${Math.min(
 					($pageIndex + 1) * $pageSize,
 					itemCount
-			  )} of ${Math.min($pageCount * $pageSize, itemCount)}`;
+				)} of ${Math.min($pageCount * $pageSize, itemCount)}`;
 	};
 
 	function updateTableServer() {
@@ -45,10 +45,13 @@
 		amounts: pageSizes
 	};
 	$: $pageSize = pageSizeDropdownValue;
-	$: $pageCount, $pageIndex, $pageSize, itemCount, (indexInformation = getIndexInfomationString());
+	$: ($pageCount,
+		$pageIndex,
+		$pageSize,
+		itemCount,
+		(indexInformation = getIndexInfomationString()));
 
 	// updateTable();
-
 </script>
 
 <div class="grid grid-cols-3 w-full items-stretch gap-10">
@@ -67,9 +70,12 @@
 				{#each pageSizes as size}
 					<ListBoxItem
 						bind:group={pageSizeDropdownValue}
-						name="medium" value={size}
-						on:click={() => { $pageSize = size;  updateTableServer(); }}
-						>{size}</ListBoxItem
+						name="medium"
+						value={size}
+						on:click={() => {
+							$pageSize = size;
+							updateTableServer();
+						}}>{size}</ListBoxItem
 					>
 				{/each}
 			</ListBox>
@@ -78,7 +84,10 @@
 	</div>
 	<div class="flex justify-center">
 		<Paginator
-			on:page={(page) => {$pageIndex = page.detail; updateTableServer(); }}
+			on:page={(page) => {
+				$pageIndex = page.detail;
+				updateTableServer();
+			}}
 			settings={paginationSettings}
 			select="hidden"
 			active="!variant-filled-secondary !text-on-secondary-token"

@@ -15,10 +15,9 @@ const apiRequest = (method, url, request, customHeaders = {}, customConfig = {})
 	const requestVerificationToken = csrfToken;
 	const headers = {
 		authorization: 'Basic ' + btoa(username + ':' + password),
-		'__RequestVerificationToken': requestVerificationToken,
+		__RequestVerificationToken: requestVerificationToken,
 		...customHeaders
 	};
-
 
 	//using the axios instance to perform the request that received from each http method
 
@@ -31,44 +30,46 @@ const apiRequest = (method, url, request, customHeaders = {}, customConfig = {})
 	})
 		.then((res) => {
 			//console.log("res-test",res);
-			
-			return Promise.resolve(res);
 
+			return Promise.resolve(res);
 		})
 		.catch((er) => {
-		console.log("🚀 ~ apiRequest ~ err:", er)
+			console.log('🚀 ~ apiRequest ~ err:', er);
 			const err = er.response;
-			
-   
 
-			let error:errorType = {
-							status: err.status,
-							statusText: err.statusText,
-							error: err.data.error,
-							stackTrace: err.data.stackTrace,
-			}
+			let error: errorType = {
+				status: err.status,
+				statusText: err.statusText,
+				error: err.data.error,
+				stackTrace: err.data.stackTrace
+			};
 
 			errorStore.set(error);
-			console.log("🚀 ~ apiRequest ~ error:", error)
-			
+			console.log('🚀 ~ apiRequest ~ error:', error);
+
 			return Promise.reject(new Error(error.error));
 		});
 };
 
 // function to execute the http get request
-const get = (url, request = '', headers ={}, config ={}) => apiRequest('get', url, request, headers, config);
+const get = (url, request = '', headers = {}, config = {}) =>
+	apiRequest('get', url, request, headers, config);
 
 // function to execute the http delete request
-const deleteRequest = (url, request, headers ={}, config ={}) => apiRequest('delete', url, request, headers, config);
+const deleteRequest = (url, request, headers = {}, config = {}) =>
+	apiRequest('delete', url, request, headers, config);
 
 // function to execute the http post request
-const post = (url, request, headers ={}, config ={}) => apiRequest('post', url, request, headers, config);
+const post = (url, request, headers = {}, config = {}) =>
+	apiRequest('post', url, request, headers, config);
 
 // function to execute the http put request
-const put = (url, request, headers ={}, config ={}) => apiRequest('put', url, request, headers, config);
+const put = (url, request, headers = {}, config = {}) =>
+	apiRequest('put', url, request, headers, config);
 
 // function to execute the http path request
-const patch = (url, request, headers ={}, config ={}) => apiRequest('patch', url, request, headers, config);
+const patch = (url, request, headers = {}, config = {}) =>
+	apiRequest('patch', url, request, headers, config);
 
 // expose your method to other services or actions
 export const Api = {

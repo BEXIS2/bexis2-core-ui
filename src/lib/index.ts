@@ -28,7 +28,6 @@ import TextArea from './components/form/TextArea.svelte';
 
 import InputContainer from './components/form/InputContainer.svelte';
 
-
 //table
 import Table from './components/Table/Table.svelte';
 import TableFilter from './components/Table/TableFilter.svelte';
@@ -75,7 +74,7 @@ export { Spinner, Page, Alert, Menu, ErrorMessage };
 
 //Api
 export { Api } from './services/Api.js';
-export { host, username, password,errorStore, setApiConfig } from './stores/apiStores.js';
+export { host, username, password, errorStore, setApiConfig } from './stores/apiStores.js';
 
 //Type
 export type {

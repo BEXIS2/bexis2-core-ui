@@ -11,7 +11,7 @@
 	export let required = false;
 	export let complexTarget = false;
 	export let help = false;
-	export	let description = '';
+	export let description = '';
 	export let showDescription = false;
 	export let showIcon = false;
 	$: selected = null;
@@ -38,7 +38,18 @@
 	}
 </script>
 
-<InputContainer {id} label={title} {feedback} {required} {help} {description} {showDescription} {showIcon} on:showDescription on:hideDescription>
+<InputContainer
+	{id}
+	label={title}
+	{feedback}
+	{required}
+	{help}
+	{description}
+	{showDescription}
+	{showIcon}
+	on:showDescription
+	on:hideDescription
+>
 	<select
 		{id}
 		class="select variant-form-material dark:bg-zinc-700 bg-zinc-50 placeholder:text-gray-400"

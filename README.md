@@ -1,40 +1,43 @@
 # bexis-core-ui
 
 ## 0.4.96
+
 - ServerSideTable
   - Add support for boolean
   - Fix missing value handling
 
-
 ## 0.4.95
+
 - Input
   - Add focus in/out for element
   - format date picker
 
-
 ## 0.4.94
+
 - Input
   - Add InputContainer to export for custom components
 
-
 ## 0.4.93
+
 - Input
   - Add DataPickerInput based on Svelty Picker
   - reorder font size in menu (less layout shift with old header)
   - trigger description event on mouse over / out
 
 ## 0.4.87
+
 - Input
   - add show description to all form components
 
 ## 0.4.86
+
 - Menu
   - set size to local storage
 - Input
   - expose show description
 
-
 ## 0.4.85
+
 - Menu
   - add increase / decrease font size
   - add toogle dark mode in dev mode
@@ -43,55 +46,67 @@
   - remove layout shift by adding a fixed space for the error message
 
 ## 0.4.84
+
 - MultiSelect
   - fix itemGroup was not working
 
 ## 0.4.83
+
 - InputContainer
   - error message position and basic styling of input fields
 
 ## 0.4.82
+
 - Table
   - ServerSide communication, reduce calls
 
 ## 0.4.81
+
 - Multiselect
   - check if groupItem is set or not, if true add groupby to output
-  
+
 ## 0.4.78
+
 - Fileuploader
   - after submited add the responce to the event
 
 ## 0.4.76
+
 - API
   - Extending the API with custom headers and configuration
-  
 
 ## 0.4.75
+
 - Menu
   - add ids
 
 ## 0.4.73
+
 - NumberInput
   - fix issue destroying layout with number.MinValue
 
 ## 0.4.71
+
 - NumberInput
   - add min and max
-  
+
 ## 0.4.70
+
 - CheckboxKVPList
-  - add vertical flag for orientation 
+  - add vertical flag for orientation
 
 ## 0.4.68
+
 - form
   - add description to input container, only visible if description added to the component
 
 ## 0.4.67
+
 - dropdown
-  - export dropdown 
+  - export dropdown
 
 ## 0.4.66
+
 - dropdown
   - add dropdown with simple list and value
 - multiselect
@@ -99,6 +114,7 @@
   - fix placeholder does not work
 
 ## 0.4.59
+
 - Table
   - remove static title "table"
   - shorten upload text
@@ -106,107 +122,133 @@
   - remove title about sorting, if not possible
 
 ## 0.4.49 -> 0.4.53
+
 - Api
-  - remove __RequestVerificationToken from header
+  - remove \_\_RequestVerificationToken from header
   - change post request to 'application/x-www-form-urlencoded'
-  - add __RequestVerificationToken to data
-  
+  - add \_\_RequestVerificationToken to data
+
 ## 0.4.48
+
 - Api
-  - add __RequestVerificationToken if exist
+  - add \_\_RequestVerificationToken if exist
 
 ## 0.4.47
+
 - Menu
   - change hover over menu items
-  
+
 ## 0.4.46
+
 - Menu
   - Add hover to menu
   - Fix Missing nowrap in menu
 
 ## 0.4.45
+
 - Menu
   - hide gear if settings array has no entry
 
 ## 0.4.44
+
 - Page
   - replace manual link with icon
+
 ## 0.4.43
+
 - Table
   - fix header names with dots breaks the table
 
 ## 0.4.42
+
 ## 0.4.41
+
 - Multiselect
   - remove console.logs
 - Table
   - fix filter error by exact match with complex object
 
 ## 0.4.40
+
 - Multiselect
   - add clear event, when selection is deselected
 
 ## 0.4.39
+
 - page
   - add option to hide Footer on Page
 
 ## 0.4.38
+
 - table
   - Fix server side OrderBy
 
 ## 0.4.37
+
 - table
   - Fix server side Pagination
 
 ## 0.4.36
+
 - table
   - Fix server side Pagination
 
 ## 0.4.35
 
 - enlarge help and up to start button
-  
+
 ## 0.4.33
+
 - Menu
-  - remove alert ("log off") 
+  - remove alert ("log off")
 
 ## 0.4.32
+
 - Menu
   - fix log off, add click event o a
 
 ## 0.4.31
+
 - Table
   - Adds variants for pagination buttons
 
 ## 0.4.30
+
 - Table:
   - Fixes issue with rounded corners on pagination button under the table
   - Updates colors scheme for disabled buttons
 
 ## 0.4.29
+
 - table
   - Fixes the appearance issues related to Table paginator.
-  - 
+  -
+
 ## 0.4.28
+
 - Fixes issue with options component not displaying items correctly
 - New pagination component
 - Removes the option for selecting page index string type of "pages" or "items". "items" will be the default and only option to show pagination info now.
-  
+
 ## 0.4.27
+
 - Fixes the issue with updating the number of displayed items correctly.
 - Makes "items" the default type for displaying pagination info.
 
 ## 0.4.26
+
 - menu
   - change submenu buttons to a link and add link menuitems to support right click menu
-  
+
 ## 0.4.25
+
 - menu
   - add internal & target to menuItemType to support handle menuEntries open in same or other window
 
 ## 0.4.24
+
 - Table
-  - Adds option for enabling/disabling show/hide column menu in table.  
+  - Adds option for enabling/disabling show/hide column menu in table.
   - Adds option to show number of items displayed instead of number of pages.
   - Fixes an issue where "0" values return empty string.
 
@@ -214,6 +256,7 @@
   - Fixes an issue with truncation of text in Facet headers and options.
 
 ## 0.4.23
+
 - Table
   - fix resizing issues after page size or page index changes
   - Add Select All and Deselect All in columns menu
@@ -221,17 +264,20 @@
   - Export as JSON to fix special characters and encoding issues
 
 ## 0.4.22
+
 - Facets
   - Replace column class function with more efficient solution
   - Sort options in ShowMore alphabetically
-Table
+    Table
   - Add titles for components for better accessibility
   - Remove z-index from pagination buttons
 
 ## 0.4.21
+
 - change footer position in page component
 
 ## 0.4.20
+
 - Add aria-label to Table and other components
 - Facets
   - Add aria-label to Facets component
@@ -239,24 +285,29 @@ Table
 - Search
   - Add aria-label to Search component
 - Table: add column
+
 ## 0.4.19
 
 ## 0.4.18
+
 - Updates indicator text for current page and possible number of pages in a Table
 - Fixes client-side search on Table
 - Adds "No rows available" text in Table if search or filter returns no rows.
 
 ## 0.4.16
+
 - Facets
   - Replaces groups array with a writable store to re-render component on data manipulation.
   - Adds selected attribute to the type so that Facets can be initialized with some selected values.
 
 ## 0.4.15
+
 - Update Facets with new params and add onChange action
   - Changes structure of Facets data
   - Adds on:change action
 
 ## 0.4.14
+
 - Table
   - fixes rendering issues with Table filters and different components
 
@@ -264,18 +315,22 @@ Table
   - Exports Facets component
 
 ## 0.4.13
+
 - menu
   - fix code isses
 
 ## 0.4.11
+
 - Table
   - fix lib issue
 
 ## 0.4.11
+
 - Menu
   - fix log off
 
 ## 0.4.10
+
 - Table:
   - Fixes issue with sticky Tables not rendering the filters correctly.
   - Fixes issues related to date picker in Tables with date filters.
@@ -288,36 +343,44 @@ Table
   - Adds Facets component.
 
 ## 0.4.8
+
 - page
   - add notification if api call to backend faild
 
 ## 0.4.7
+
 - menu
   - remove capitalization from menu item
 
 ## 0.4.6
+
 - table
   - Adds config for enabling and disabling Search field on Table.
   - Adds action dispatcher as prop for the renderComponent.
   - Adds unique IDs for Search reset and submit buttons.
 
 ## 0.4.5
+
 - table
   - adds searching for missing values in the filters #744
   - missing values for every data type
   - display patterns for date/time/datetime types
 
 ## 0.4.4
+
 - update libs
   - remove eslint-plugin-svelte3
   - update svelte, sveltekit, typescript, tailwind ...
 
 ## 0.4.3
+
 - table
   - Enable searching on server-side
 
 ## 0.4.2
+
 ## 0.4.1
+
 - table
   - Server-side searching
   - Case-insensitive filtering of missing values
@@ -325,13 +388,16 @@ Table
   - Handle missing values regardless of the data type
 
 ## 0.4.0
--  update dependency libaries
-   -  svelte
-   -  sveltekit
-   -  vite
+
+- update dependency libaries
+  - svelte
+  - sveltekit
+  - vite
 
 ## 0.3.13
+
 ## 0.3.12
+
 - table
   - Server-side data fetching
   - Server-side filtering
@@ -341,9 +407,11 @@ Table
   - New pagination component
 
 ## 0.3.11
+
 - add on:change passthrough to TextInput, TextArea, DateInput, NumberInput, CheckBox
 
 ## 0.3.10
+
 - multi select
   - update svelte-select libary
   - refactor filterFn (new order - > exact, start, includes)

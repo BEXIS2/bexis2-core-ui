@@ -40,15 +40,13 @@
 			<h2 class="text-xl font-semibold">{group.displayName}</h2>
 
 			<!-- Items -->
-			<div class="gap-x-10 space-y-2 py-6 px-[2px] max-h-[500px] columns-[192px] overflow-auto min-h">
+			<div
+				class="gap-x-10 space-y-2 py-6 px-[2px] max-h-[500px] columns-[192px] overflow-auto min-h"
+			>
 				{#each Object.keys(selected) as key}
 					<label class="flex gap-3 items-center">
 						<input type="checkbox" class="checkbox" bind:checked={selected[key].selected} />
-						<span
-							title={selected[key].displayName}
-							class=""
-							>{selected[key].displayName}</span
-						>
+						<span title={selected[key].displayName} class="">{selected[key].displayName}</span>
 					</label>
 				{/each}
 			</div>

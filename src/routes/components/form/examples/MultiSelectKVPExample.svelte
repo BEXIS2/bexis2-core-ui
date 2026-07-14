@@ -10,7 +10,6 @@
 	$: targetGroup = [];
 
 	import { Countries, MetadatastructuresGrouped } from './exampleData';
-
 </script>
 
 <div class="grid gap-10">
@@ -50,7 +49,6 @@
 		bind:target={targetGroup}
 		itemId="id"
 		itemLabel="text"
-	
 		complexSource={true}
 		complexTarget={true}
 	/>

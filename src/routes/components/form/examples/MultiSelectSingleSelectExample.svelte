@@ -7,7 +7,7 @@
 	let targetN = '';
 	let targetB = { code: '', name: '' };
 	let targetC = {};
-		let targetD = [];
+	let targetD = [];
 	$: target;
 	$: targetB;
 	$: targetC;
@@ -26,14 +26,14 @@
 	/>
 
 	<MultiSelect
-	id="title"
-	title="Target is a single value"
-	source={CountrieNames}
-	bind:target = {targetN}
-	searchable={false}
-	clearable={false}
-	isMulti={false}
-/>
+		id="title"
+		title="Target is a single value"
+		source={CountrieNames}
+		bind:target={targetN}
+		searchable={false}
+		clearable={false}
+		isMulti={false}
+	/>
 
 	<CodeBlock language="ts" code={JSON.stringify(target, undefined, 2)} />
 </div>

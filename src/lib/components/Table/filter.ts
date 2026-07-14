@@ -4,29 +4,29 @@ import type { TableFilterFn } from 'svelte-headless-table/lib/plugins/addTableFi
 import { FilterOptionsEnum } from '$models/Enums';
 
 const textFilter = (filterOption, filterValue, value) => {
-    // check if filterValue is a object or string
-    let filterStr = String(filterValue);
-    if (typeof filterValue === 'object' && filterValue !== null) {
-        filterStr = filterValue.text;
-    }
-    const valueStr = String(value);
+	// check if filterValue is a object or string
+	let filterStr = String(filterValue);
+	if (typeof filterValue === 'object' && filterValue !== null) {
+		filterStr = filterValue.text;
+	}
+	const valueStr = String(value);
 
-    switch (filterOption) {
-        case FilterOptionsEnum.e:
-            return valueStr.toLowerCase() === filterStr.toLowerCase();
-        case FilterOptionsEnum.ne:
-            return valueStr.toLowerCase() !== filterStr.toLowerCase();
-        case FilterOptionsEnum.sw:
-            return valueStr.toLowerCase().startsWith(filterStr.toLowerCase());
-        case FilterOptionsEnum.ew:
-            return valueStr.toLowerCase().endsWith(filterStr.toLowerCase());
-        case FilterOptionsEnum.c:
-            return valueStr.toLowerCase().includes(filterStr.toLowerCase());
-        case FilterOptionsEnum.nc:
-            return !valueStr.toLowerCase().includes(filterStr.toLowerCase());
-        default:
-            return false;
-    }
+	switch (filterOption) {
+		case FilterOptionsEnum.e:
+			return valueStr.toLowerCase() === filterStr.toLowerCase();
+		case FilterOptionsEnum.ne:
+			return valueStr.toLowerCase() !== filterStr.toLowerCase();
+		case FilterOptionsEnum.sw:
+			return valueStr.toLowerCase().startsWith(filterStr.toLowerCase());
+		case FilterOptionsEnum.ew:
+			return valueStr.toLowerCase().endsWith(filterStr.toLowerCase());
+		case FilterOptionsEnum.c:
+			return valueStr.toLowerCase().includes(filterStr.toLowerCase());
+		case FilterOptionsEnum.nc:
+			return !valueStr.toLowerCase().includes(filterStr.toLowerCase());
+		default:
+			return false;
+	}
 };
 
 const numberFilter = (filterOption, filterValue, value) => {
@@ -78,7 +78,11 @@ const applyFilter = (filterValue, value, filterFn) => {
 	}));
 
 	filters.forEach((filter) => {
-		result = result && (filter.value !== undefined && filter.value !== '' && filter.value !== null ? filterFn(filter.option, filter.value, value) : true);
+		result =
+			result &&
+			(filter.value !== undefined && filter.value !== '' && filter.value !== null
+				? filterFn(filter.option, filter.value, value)
+				: true);
 	});
 
 	return result;

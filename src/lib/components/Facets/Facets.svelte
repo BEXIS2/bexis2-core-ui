@@ -178,8 +178,8 @@
 	});
 
 	$: displayedGroups = structuredClone($groups);
-	$: selectedItems, mapSelected('items'), sortOptions();
-	$: selectedGroups, mapSelected('groups');
+	$: (selectedItems, mapSelected('items'), sortOptions());
+	$: (selectedGroups, mapSelected('groups'));
 </script>
 
 <TreeView selection={groupSelection} multiple={groupSelection} padding="p-1" hover="">

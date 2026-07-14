@@ -39,33 +39,55 @@
 	}
 </script>
 
-<InputContainer {id} {label} {feedback} {required} {help} {description} {showDescription} {showIcon} on:showDescription on:hideDescription>
-<!-- 1. Wrap everything in a relative container so the icon positions against this boundary -->
-<div class="relative w-full">
-    
-    <SveltyPicker
-        {mode}
-        name={label}
-        {format}
-        {displayFormat}
-        {initialDate}
-        bind:value
-        on:input
-        on:change
-        {disabled}
-        {placeholder}
-        manualInput={true}
-        
-        inputClasses="input variant-form-material bg-zinc-50 dark:bg-zinc-700 placeholder:text-gray-400 pr-10 {valid ? 'input-success' : ''} {invalid ? 'input-error' : ''}"
-    />
-	{#if mode === 'time'}
-		<Fa icon={faClock} class="absolute inset-y-2 right-0 flex items-center pr-3 pointer-events-none text-gray-400 dark:text-gray-300" />
-	{:else if mode === 'date' }
-		<Fa icon={faCalendar} class="absolute inset-y-2 right-0 flex items-center pr-3 pointer-events-none text-gray-400 dark:text-gray-300" />
-	{:else if mode === 'datetime'}
-		<Fa icon={faCalendar} class="absolute inset-y-2 right-5 flex items-center pr-3 pointer-events-none text-gray-400 dark:text-gray-300" />
-		<Fa icon={faClock} class="absolute inset-y-2 right-0 flex items-center pr-3 pointer-events-none text-gray-400 dark:text-gray-300" />
-	{/if}
-</div>
-	
+<InputContainer
+	{id}
+	{label}
+	{feedback}
+	{required}
+	{help}
+	{description}
+	{showDescription}
+	{showIcon}
+	on:showDescription
+	on:hideDescription
+>
+	<!-- 1. Wrap everything in a relative container so the icon positions against this boundary -->
+	<div class="relative w-full">
+		<SveltyPicker
+			{mode}
+			name={label}
+			{format}
+			{displayFormat}
+			{initialDate}
+			bind:value
+			on:input
+			on:change
+			{disabled}
+			{placeholder}
+			manualInput={true}
+			inputClasses="input variant-form-material bg-zinc-50 dark:bg-zinc-700 placeholder:text-gray-400 pr-10 {valid
+				? 'input-success'
+				: ''} {invalid ? 'input-error' : ''}"
+		/>
+		{#if mode === 'time'}
+			<Fa
+				icon={faClock}
+				class="absolute inset-y-2 right-0 flex items-center pr-3 pointer-events-none text-gray-400 dark:text-gray-300"
+			/>
+		{:else if mode === 'date'}
+			<Fa
+				icon={faCalendar}
+				class="absolute inset-y-2 right-0 flex items-center pr-3 pointer-events-none text-gray-400 dark:text-gray-300"
+			/>
+		{:else if mode === 'datetime'}
+			<Fa
+				icon={faCalendar}
+				class="absolute inset-y-2 right-5 flex items-center pr-3 pointer-events-none text-gray-400 dark:text-gray-300"
+			/>
+			<Fa
+				icon={faClock}
+				class="absolute inset-y-2 right-0 flex items-center pr-3 pointer-events-none text-gray-400 dark:text-gray-300"
+			/>
+		{/if}
+	</div>
 </InputContainer>

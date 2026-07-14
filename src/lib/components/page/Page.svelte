@@ -16,19 +16,17 @@
 	//popup
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
 	import { storePopup } from '@skeletonlabs/skeleton';
-	import { breadcrumbStore,notificationStore } from '$store/pageStores';
-	import { errorStore,csrfTokenStore } from '$store/apiStores';
+	import { breadcrumbStore, notificationStore } from '$store/pageStores';
+	import { errorStore, csrfTokenStore } from '$store/apiStores';
 
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
-// icons
-import type { helpItemType, helpStoreType } from '$models/Models';
-
+	// icons
+	import type { helpItemType, helpStoreType } from '$models/Models';
 
 	import Docs from './Docs.svelte';
 	import GoToTop from './GoToTop.svelte';
 	import { getAntiForgeryToken } from './PageCaller';
-
 
 	export let title = '';
 	export let note = '';
@@ -43,102 +41,93 @@ import type { helpItemType, helpStoreType } from '$models/Models';
 
 	let aftIsReady = false;
 
-	errorStore.subscribe((error:errorType) => {
-			console.log("🚀 ~ errorStore.subscribe ~ value:", error.error)
-			notificationStore.showNotification({
-				notificationType: notificationType.error,
-				message: error.error
-			})
-		})
+	errorStore.subscribe((error: errorType) => {
+		console.log('🚀 ~ errorStore.subscribe ~ value:', error.error);
+		notificationStore.showNotification({
+			notificationType: notificationType.error,
+			message: error.error
+		});
+	});
 
 	onMount(async () => {
 		console.log('page');
 		breadcrumbStore.clean();
 		breadcrumbStore.addItem({ label: title, link: window.location.pathname });
 		const data = await getAntiForgeryToken();
-		csrfTokenStore.set(data.csrfToken); 		
+		csrfTokenStore.set(data.csrfToken);
 	});
 
-
-	csrfTokenStore.subscribe(value => {
-		if(value.length>0){
+	csrfTokenStore.subscribe((value) => {
+		if (value.length > 0) {
 			aftIsReady = true;
 		}
 	});
 
-
- let app;
+	let app;
 	function scrollToTop() {
 		app.scrollIntoView();
 	}
-
 </script>
 
 <div class="app" bind:this={app}>
-<AppShell>
-	<!--header-->
-	<svelte:fragment slot="header">
-		<AppBar padding="0" spacing="space-y-0" background="white">
-			<svelte:fragment slot="headline">
-				<Header />
-				{#if true}
-					<Menu />
+	<AppShell>
+		<!--header-->
+		<svelte:fragment slot="header">
+			<AppBar padding="0" spacing="space-y-0" background="white">
+				<svelte:fragment slot="headline">
+					<Header />
+					{#if true}
+						<Menu />
+					{/if}
+
+					<div class="grid grid-cols-2">
+						<Breadcrumb bind:title />
+						<Docs {links} {note} />
+					</div>
+				</svelte:fragment>
+			</AppBar>
+		</svelte:fragment>
+
+		<slot name="description" />
+
+		{#if aftIsReady}
+			<div class="flex flex-initial space-x-5">
+				{#if $$slots.left}
+					<div class="p-5 flex-shrink-0 w-96 w-min-96 border-y border-solid border-surface-500">
+						<slot name="left" />
+					</div>
 				{/if}
 
-				<div class="grid grid-cols-2">
-					<Breadcrumb bind:title />
-					<Docs {links} {note} />
-				</div>
-			</svelte:fragment>
-		</AppBar>
-	</svelte:fragment>
+				{#if contentLayoutType === pageContentLayoutType.center}
+					<div class="flex justify-center w-screen">
+						<div class="w-full max-w-7xl p-5 space-y-5 border-y border-solid border-surface-500">
+							<slot />
+						</div>
+					</div>
+				{/if}
 
-	<slot name="description" />
+				{#if contentLayoutType === pageContentLayoutType.full}
+					<div class="p-5 space-y-5 border-y border-solid border-surface-500 w-screen">
+						<slot />
+					</div>
+				{/if}
 
-	{#if aftIsReady}
-
-	<div class="flex flex-initial space-x-5">
-		{#if $$slots.left}
-			<div class="p-5 flex-shrink-0 w-96 w-min-96 border-y border-solid border-surface-500">
-				<slot name="left" />
+				{#if $$slots.right}
+					<div class=" p-5 fixed flex-shrink-0 w-96 border-y border-solid border-surface-500">
+						<slot name="right" />
+					</div>
+				{/if}
 			</div>
 		{/if}
 
-		{#if contentLayoutType === pageContentLayoutType.center}
-			<div class="flex justify-center w-screen">
-				<div class="w-full max-w-7xl p-5 space-y-5 border-y border-solid border-surface-500">
-					<slot />
-				</div>
-			</div>
-		{/if}
+		<GoToTop />
+		<HelpPopUp active={help} />
+		<Notification />
 
-		{#if contentLayoutType === pageContentLayoutType.full}
-			<div class="p-5 space-y-5 border-y border-solid border-surface-500 w-screen">
-				<slot />
-			</div>
-		{/if}
-
-		{#if $$slots.right}
-			<div class=" p-5 fixed flex-shrink-0 w-96 border-y border-solid border-surface-500">
-				<slot name="right" />
-			</div>
-		{/if}
-	</div>
-
-	{/if}
-
-	<GoToTop/>
-	<HelpPopUp active={help} />
-	<Notification />
-
-	
-	<svelte:fragment slot="footer">
-		{#if footer}
-			<Footer />
-		{/if}
-
-	</svelte:fragment>
-
-</AppShell>
+		<svelte:fragment slot="footer">
+			{#if footer}
+				<Footer />
+			{/if}
+		</svelte:fragment>
+	</AppShell>
 </div>
-

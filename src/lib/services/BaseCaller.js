@@ -3,7 +3,7 @@
 import { host } from '$store/apiStores';
 
 // go to a internal action
-export const goTo = async (url, intern = true, target="_self") => {
+export const goTo = async (url, intern = true, target = '_self') => {
 	if (intern == true) {
 		// go to inside bexis2
 		if (window != null && host != null && url != null) {

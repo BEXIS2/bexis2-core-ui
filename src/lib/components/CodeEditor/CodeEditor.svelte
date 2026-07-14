@@ -49,8 +49,8 @@
 		language === 'js'
 			? [linter(esLint(new Linter())), lintGutter()]
 			: language === 'json'
-			? [linter(jsonParseLinter()), lintGutter()]
-			: [];
+				? [linter(jsonParseLinter()), lintGutter()]
+				: [];
 
 	const isValidJSON = (str: string) => {
 		try {
@@ -86,8 +86,8 @@
 				lang={language === 'html'
 					? html({ selfClosingTags: true })
 					: language === 'js'
-					? javascript()
-					: json()}
+						? javascript()
+						: json()}
 				theme={dark ? oneDark : null}
 				class="flex w-full"
 				{styles}

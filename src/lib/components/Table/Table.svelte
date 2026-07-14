@@ -9,11 +9,11 @@
 
 	$: if ($data.length > 0) fetched = true;
 
-	if (typeof BigInt !== "undefined" && !BigInt.prototype.toJSON) {
-  BigInt.prototype.toJSON = function () {
-    return this.toString();
-  };
-}
+	if (typeof BigInt !== 'undefined' && !BigInt.prototype.toJSON) {
+		BigInt.prototype.toJSON = function () {
+			return this.toString();
+		};
+	}
 </script>
 
 {#key fetched}

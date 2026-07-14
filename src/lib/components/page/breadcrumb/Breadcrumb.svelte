@@ -3,7 +3,7 @@
 	import type { breadcrumbItemType } from '$models/Page';
 	import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
-	import {getApplicationName} from './BreadcrumbDataCaller';
+	import { getApplicationName } from './BreadcrumbDataCaller';
 
 	export let title;
 
@@ -22,12 +22,11 @@
 		list = value?.items;
 	});
 
-	let applicationName = "BEXIS2";
+	let applicationName = 'BEXIS2';
 
 	onMount(async () => {
 		applicationName = await getApplicationName();
 	});
-
 </script>
 
 <div class="px-5 py-2">

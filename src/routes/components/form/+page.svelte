@@ -25,10 +25,9 @@
 	import DropdownKvpExample from './examples/DropdownKVPExample.svelte';
 	import DropdownKVPExampleRaw from './examples/DropdownKVPExample.svelte?raw';
 
-// example 4.1 - simple dropdown
+	// example 4.1 - simple dropdown
 	import DropdownExample from './examples/DropdownExample.svelte';
 	import DropdownExampleRaw from './examples/DropdownExample.svelte?raw';
-
 
 	// example 5 - checkboxlist
 	import CheckboxKVPExample from './examples/CheckboxKVPExample.svelte';
@@ -104,18 +103,16 @@
 
 		<h2 class="h2">Selections</h2>
 
-<!-- Dropdown Simple-->
+		<!-- Dropdown Simple-->
 
-<CodeContainer
-title={'Dropdown'}
-svelte={DropdownExampleRaw}
-data={JSON.stringify(CountrieNames, undefined, 2)}
->
-<div slot="info">
-	This example shows a dropdown with a list of simple values.
-</div>
-<DropdownExample />
-</CodeContainer>
+		<CodeContainer
+			title={'Dropdown'}
+			svelte={DropdownExampleRaw}
+			data={JSON.stringify(CountrieNames, undefined, 2)}
+		>
+			<div slot="info">This example shows a dropdown with a list of simple values.</div>
+			<DropdownExample />
+		</CodeContainer>
 
 		<!-- Dropdown KVP Example -->
 
@@ -247,8 +244,8 @@ data={JSON.stringify(CountrieNames, undefined, 2)}
 		>
 			<div slot="info">
 				In this example, a small form is shown. <br />
-				Validation rules are set on the input fields and the selected input field is validated again
-				after each input. The defined rules are stored in a separate javascript file for a better overview.<br
+				Validation rules are set on the input fields and the selected input field is validated again after
+				each input. The defined rules are stored in a separate javascript file for a better overview.<br
 				/>
 			</div>
 			<InputValidation />

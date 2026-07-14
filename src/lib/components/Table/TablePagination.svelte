@@ -28,7 +28,7 @@
 			: `Displaying items ${$pageIndex * $pageSize + 1} - ${Math.min(
 					($pageIndex + 1) * $pageSize,
 					itemCount
-			  )} of ${Math.min($pageCount * $pageSize, itemCount)}`;
+				)} of ${Math.min($pageCount * $pageSize, itemCount)}`;
 	};
 
 	$: paginationSettings = {
@@ -38,7 +38,11 @@
 		amounts: pageSizes
 	};
 	$: $pageSize = pageSizeDropdownValue;
-	$: $pageCount, $pageIndex, $pageSize, itemCount, (indexInformation = getIndexInfomationString());
+	$: ($pageCount,
+		$pageIndex,
+		$pageSize,
+		itemCount,
+		(indexInformation = getIndexInfomationString()));
 </script>
 
 <div class="grid grid-cols-3 w-full items-stretch gap-10">

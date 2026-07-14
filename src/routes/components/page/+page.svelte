@@ -19,7 +19,6 @@
 	import { Api } from '$lib';
 	import Spinner from '$lib/components/page/Spinner.svelte';
 	import ErrorMessage from '$lib/components/page/ErrorMessage.svelte';
-	
 
 	let helpItems: helpItemType[] = HelpExampleData.helpItems;
 	helpStore.setHelpItemList(helpItems);
@@ -39,19 +38,17 @@
 
 	async function getQuery() {
 		await Api.post('/ddm/PublicSearch/Query', {
-						searchType: 'new'
-					});
+			searchType: 'new'
+		});
 	}
 
-	onMount(async()=>{
+	onMount(async () => {
 		// var res = await Api.get("test/errortest");
-	})
+	});
 
- async function onLoad() {
-		var res = await Api.get("test/errortest");
-		
+	async function onLoad() {
+		var res = await Api.get('test/errortest');
 	}
-
 </script>
 
 <Page
@@ -65,15 +62,13 @@
 	<svelte:fragment slot="left">
 		<button class="btn variant-filled-error" on:click={updateTitle}>change title </button>
 		<button class="btn variant-filled-error" on:click={getQuery}>get query </button>
-		<div class="w-screen">
-
-		</div>
+		<div class="w-screen"></div>
 	</svelte:fragment>
 	<div>
 		Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
 		ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo
 		dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor
-		sit amet. 
+		sit amet.
 	</div>
 
 	{#await onLoad()}
@@ -82,10 +77,7 @@
 		<div class="w-screen">
 			<h1>onload finished</h1>
 		</div>
-	
-		{:catch error}
-			<ErrorMessage {error} />
+	{:catch error}
+		<ErrorMessage {error} />
 	{/await}
-
-
 </Page>

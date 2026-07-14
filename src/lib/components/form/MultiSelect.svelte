@@ -32,10 +32,10 @@
 
 	$: value = '';
 	$: updateTarget(value);
-	$: target, setValue(target);
+	$: (target, setValue(target));
 
 	let groupBy;
-	$: groupBy = itemGroup ? (item) => item[itemGroup] : undefined; 
+	$: groupBy = itemGroup ? (item) => item[itemGroup] : undefined;
 
 	const dispatch = createEventDispatcher();
 
@@ -46,8 +46,6 @@
 
 			return;
 		}
-
-		
 
 		//console.log('update');
 		//different cases
@@ -151,28 +149,23 @@
 		if (!isMulti) {
 			//console.log("onmount",complexSource,complexTarget,value,target)
 			if (!complexSource && !complexTarget) {
-
-
-				if(groupBy) { // if groupby is set, the value needs to be set as object with label and value, otherwise the select component does not recognize the value
+				if (groupBy) {
+					// if groupby is set, the value needs to be set as object with label and value, otherwise the select component does not recognize the value
+					value = {
+						value: t,
+						label: t
+					};
+				} else //	if there is no groupby, the value can be set as simple value, otherwise the select component does not recognize the value
+				{
+					if (t === null || t === undefined || t === '') {
+						value = '';
+					} else {
 						value = {
-								value: t,
-								label: t
-							};
+							value: t,
+							label: t
+						};
 					}
-					else //	if there is no groupby, the value can be set as simple value, otherwise the select component does not recognize the value
-					{
-							if(t === null || t === undefined || t === '') {
-									value = ''
-								}
-								else
-								{
-									value = {
-										value: t,
-										label: t
-									};
-								}
-					}
-				
+				}
 			}
 
 			if (complexSource && complexTarget) {
@@ -304,13 +297,22 @@
 			target = '';
 		}
 
-		dispatch('clear', e)
-
+		dispatch('clear', e);
 	}
-	
 </script>
 
-<InputContainer {id} label={title} {feedback} {required} {help} {description} {showDescription} {showIcon} on:showDescription on:hideDescription>
+<InputContainer
+	{id}
+	label={title}
+	{feedback}
+	{required}
+	{help}
+	{description}
+	{showDescription}
+	{showIcon}
+	on:showDescription
+	on:hideDescription
+>
 	<Select
 		{id}
 		items={source}
@@ -320,7 +322,6 @@
 		multiple={isMulti}
 		bind:value
 		{placeholder}
-
 		hasError={invalid}
 		{loading}
 		{clearable}

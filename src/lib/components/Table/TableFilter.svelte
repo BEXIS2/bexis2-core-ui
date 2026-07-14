@@ -171,7 +171,9 @@
 			...$filters[id],
 			[e.target.value]:
 				type === 'boolean'
-					? (val === '' || val === undefined ? undefined : getMissingValue(val as string) === 'true' || getMissingValue(val as string) === true)
+					? val === '' || val === undefined
+						? undefined
+						: getMissingValue(val as string) === 'true' || getMissingValue(val as string) === true
 					: getMissingValue(val as string)
 		};
 		$filters = $filters;
@@ -195,7 +197,10 @@
 				...$filters[id],
 				[dropdowns[index].option]:
 					type === 'boolean'
-						? (e.target.value === '' ? undefined : getMissingValue(e.target.value) === 'true' || getMissingValue(e.target.value) === true)
+						? e.target.value === ''
+							? undefined
+							: getMissingValue(e.target.value) === 'true' ||
+								getMissingValue(e.target.value) === true
 						: getMissingValue(e.target.value)
 			}
 		};

@@ -9,7 +9,7 @@
 	export let invalid: boolean;
 	export let required: boolean;
 	export let feedback: [];
-	export	let description: string = '';
+	export let description: string = '';
 </script>
 
 <InputContainer {label} {feedback} {required} {description}>

@@ -23,48 +23,40 @@
 		}
 	}
 
-	function clickFn(item)
-	{
-		if(item.Title =="Log Off")
-		{
-					logOffFn();
+	function clickFn(item) {
+		if (item.Title == 'Log Off') {
+			logOffFn();
 			return;
-		}
-		else{
-				goTo(item.Url, item.Internal, item.Target);	
+		} else {
+			goTo(item.Url, item.Internal, item.Target);
 		}
 	}
 
-	
 	async function logOffFn() {
+		console.log('logoff');
+		// Prepare the body content for the POST request
 
-		 console.log('logoff');
-				// Prepare the body content for the POST request
-			
+		let bodyContent = '__RequestVerificationToken=' + window.antiForgeryToken;
 
-			let bodyContent = '__RequestVerificationToken='+ window.antiForgeryToken;
-
-				try {
-									const response = await fetch('/Account/logoff', {
-													method: 'POST',
-													credentials: 'include', // Include cookies for authentication
-													headers: {
-																	'Content-Type': 'application/x-www-form-urlencoded'
-													},
-													body:bodyContent
-									});
-									if (response.ok) {
-													// Redirect to login page after logout
-													window.location.href = '/Account/Login'; 
-									} else {
-													console.error('Logout failed');
-									}
-					} catch (error) {
-									console.error('Error during logout:', error);
-					}
+		try {
+			const response = await fetch('/Account/logoff', {
+				method: 'POST',
+				credentials: 'include', // Include cookies for authentication
+				headers: {
+					'Content-Type': 'application/x-www-form-urlencoded'
+				},
+				body: bodyContent
+			});
+			if (response.ok) {
+				// Redirect to login page after logout
+				window.location.href = '/Account/Login';
+			} else {
+				console.error('Logout failed');
 			}
-
-
+		} catch (error) {
+			console.error('Error during logout:', error);
+		}
+	}
 </script>
 
 <ListBox class="sm:bg-white sm:border overflow-y-auto max-h-[500px]">
@@ -74,14 +66,16 @@
 		<ListBoxItem
 			class="text-md sm:text-sm text-surface-800 py-1 hover:text-secondary-500 bg-transparent hover:bg-surface-200"
 			bind:group={item.Title}
-
 			name="medium"
 			value={item.Title}
-	
 		>
-		<a id={"menu-"+item.Title.replaceAll(' ', '-')}  href={item.Url} target="{item.Target}" class="w-full block" on:click|preventDefault={()=>clickFn(item)}>{item.Title}</a>
-
+			<a
+				id={'menu-' + item.Title.replaceAll(' ', '-')}
+				href={item.Url}
+				target={item.Target}
+				class="w-full block"
+				on:click|preventDefault={() => clickFn(item)}>{item.Title}</a
+			>
 		</ListBoxItem>
-
 	{/each}
 </ListBox>

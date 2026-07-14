@@ -13,7 +13,7 @@
 			? notificationStore.getBtnStyle()
 			: $notificationStore.btnStyle;
 
-	$: $notificationStore, triggerToast();
+	$: ($notificationStore, triggerToast());
 
 	onMount(() => {
 		toastStore.clear();

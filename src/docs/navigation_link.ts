@@ -36,21 +36,19 @@ export const menuNavLinks: any = [
 			{ href: base + '/components/codeEditor', label: 'Code Editor', keywords: '' },
 			{ href: base + '/components/fileupload', label: 'File Upload', keywords: '' },
 			{ href: base + '/components/facets', label: 'Facets', keywords: '' }
-      // { href: base + '/components/toggle', label: 'Toggle', keywords: '' }
+			// { href: base + '/components/toggle', label: 'Toggle', keywords: '' }
 		]
 	},
 	{
 		id: 'backend',
 		title: 'Backend',
 		list: [{ href: base + '/backend/hooks', label: 'Hooks', keywords: '' }]
-	}
-	,
+	},
 	{
 		id: 'services',
 		title: 'Services',
 		list: [{ href: base + '/services', label: 'Services', keywords: '' }]
 	}
-
 
 	// Tailwind ---
 ];
