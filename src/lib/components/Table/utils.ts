@@ -340,6 +340,8 @@ export const getMaxCellHeightInRow = (
 ) => {
 	if (!tableRef || resizable === 'columns' || resizable === 'none') return;
 
+	const measuredHeights: { [key: number]: { max: number; min: number } } = {};
+
 	tableRef.querySelectorAll('tbody tr').forEach((row, index) => {
 		const cells = row.querySelectorAll('td');
 
@@ -357,17 +359,23 @@ export const getMaxCellHeightInRow = (
 			}
 		});
 
-		rowHeights.update((rh) => {
-			const id = +row.id.split(`${tableId}-row-`)[1];
-			return {
-				...rh,
-				[id]: {
-					max: maxHeight - 24,
-					min: Math.max(minHeight - 24, rowHeight ?? 20)
-				}
+		const id = +row.id.split(`${tableId}-row-`)[1];
+		if (Number.isFinite(id)) {
+			measuredHeights[id] = {
+				max: maxHeight - 24,
+				min: Math.max(minHeight - 24, rowHeight ?? 20)
 			};
-		});
+		}
 	});
+
+	if (Object.keys(measuredHeights).length === 0) {
+		return;
+	}
+
+	rowHeights.update((rh) => ({
+		...rh,
+		...measuredHeights
+	}));
 };
 // Calculates the minimum width of the cells in each column
 export const getMinCellWidthInColumn = (
