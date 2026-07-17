@@ -7,33 +7,52 @@
 
 
     let loaded: boolean = false;
-    var synthRows: ResultRow[] = [];
+    let building: boolean = false;
+    let synthRows: ResultRow[] = [];
+    type BigTableConfig = TableConfig<ResultRow> & {
+        clientDb?: boolean;
+        clientDbSeedData?: ResultRow[];
+        __initialServerCount?: number;
+    };
 
-    function synthLotsOfData() {
-		
-		for (let i = 0; i < 20000; i++) {
-			synthRows.push({
-				inputID: i,
-				status: "accepted",
-				inputRank: "testRank",
-				inputName: "Peter",
-				matchType: "variant",
-				id: i*2,
-				rank: "testResultRank",
-				label: "Professor Johannsen Dieterson Schmidt",
-				scientificName: "Im a very sci-fi name",
-				authorship: "Author of the year",
-			})
-		}
+    async function synthLotsOfData() {
+        building = true;
+        loaded = false;
+        const total = 20000;
+        const rows: ResultRow[] = Array.from({ length: total }, (_, i) => ({
+            inputID: i,
+            status: 'accepted',
+            inputRank: 'testRank',
+            inputName: 'Peter',
+            matchType: 'variant',
+            id: i * 2,
+            rank: 'testResultRank',
+            label: 'Professor Johannsen Dieterson Schmidt',
+            scientificName: 'Im a very sci-fi name',
+            authorship: 'Author of the year',
+            active: true
+        }));
 
-		testStore.set(synthRows);
+        synthRows = rows;
+        // Keep Svelte headless table light: only first page in the store.
+        testStore.set(rows.slice(0, 50));
+        testConfig = {
+            ...testConfig,
+            clientDbSeedData: rows,
+            __initialServerCount: rows.length
+        };
         loaded = true;
+        building = false;
 	}
 
   
-    const testConfig: TableConfig<ResultRow> = {						
+    let testConfig: BigTableConfig = {						
 		id: 'resultRows',						
 		data: testStore,
+        // Enable client-side DB mode to keep Svelte memory low for large tables
+        clientDb: true,
+        clientDbSeedData: [],
+		__initialServerCount: 0,
 		resizable: "columns",
 		height: 700,
 		fitToScreen: false,
@@ -43,45 +62,38 @@
 		columns: {							
 			inputID: {								
 				header: 'inputID',
-                disableFiltering: true,
-                disableSorting: true
+                
 			},
             status: {
-                disableFiltering: true,
-                disableSorting: true
+                
             },
             inputRank: {
-                disableFiltering: true,
-                disableSorting: true
+              
             },
             inputName: {
-                disableFiltering: true,
-                disableSorting: true
+               
             },
             matchType: {
-                disableFiltering: true,
-                disableSorting: true
+               
             },
             id: {
-                disableFiltering: true,
-                disableSorting: true
+                
             },
             rank: {
-                disableFiltering: true,
-                disableSorting: true
+                
             },
             label: {
-                disableFiltering: true,
-                disableSorting: true
+                
             },
             scientificName: {
-                disableFiltering: true,
-                disableSorting: true
+               
             },
             authorship: {
-                disableFiltering: true,
-                disableSorting: true
+                
             },
+            active: {
+                
+            }
 		},
 	};
 
@@ -89,7 +101,9 @@
 
 
 </script>
-<button class="btn variant-filled-success" on:click={synthLotsOfData} >test</button>
+<button class="btn variant-filled-success" on:click={synthLotsOfData} disabled={building}>
+    {building ? 'building data...' : 'test'}
+</button>
 
 <!-- <table>
     {#each $testStore as row}

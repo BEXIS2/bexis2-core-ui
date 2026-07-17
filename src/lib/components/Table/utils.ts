@@ -237,6 +237,21 @@ export const updateTable = async (
 		}
 		return value;
 	});
+
+	const rawCount = (response as any).count;
+	const hasRawCount =
+		rawCount !== undefined && rawCount !== null && String(rawCount).trim().length > 0;
+	const parsedServerCount = hasRawCount
+		? typeof rawCount === 'number'
+			? rawCount
+			: Number(String(rawCount).replace(/[^0-9.-]/g, ''))
+		: Number.NaN;
+	const hasServerCount = hasRawCount && Number.isFinite(parsedServerCount) && parsedServerCount >= 0;
+	const normalizedCount = hasServerCount
+		? parsedServerCount
+		: Array.isArray(response.data)
+			? response.data.length
+			: 0;
 	// console.log('Server response', response);
 
 	// Format server columns to the client columns
@@ -267,18 +282,20 @@ export const updateTable = async (
 			});
 			tmpArr.push(tmp);
 		});
-		dispatch('fetch', columns);
+		dispatch('fetch', {
+			columns,
+			count: hasServerCount ? parsedServerCount : tmpArr.length
+		});
+		serverItems?.set(hasServerCount ? parsedServerCount : tmpArr.length);
 		data.set(tmpArr);
 		// console.log('Server data', tmpArr);
 		return data;
 	}
 
-	serverItems?.set(response.count);
-	// console.log('Server data updated');
-
-	// log the columns object
-	console.log(response);
-	return response;
+	serverItems?.set(normalizedCount);
+	// If backend does not provide column metadata, still render returned rows.
+	data.set(response.data ?? []);
+	return data;
 };
 // Function to convert server data to client data
 export const convertServerColumns = (

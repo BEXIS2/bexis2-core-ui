@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { afterUpdate, createEventDispatcher, onDestroy, onMount } from 'svelte';
-	import { readable, writable } from 'svelte/store';
+	import { writable } from 'svelte/store';
 
 	import Fa from 'svelte-fa';
 	import { faCompress, faDownload, faXmark } from '@fortawesome/free-solid-svg-icons';
@@ -16,7 +16,6 @@
 	} from 'svelte-headless-table/plugins';
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
 	import { SlideToggle, storePopup } from '@skeletonlabs/skeleton';
-	import type { PaginationConfig } from 'svelte-headless-table/lib/plugins/addPagination';
 
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
@@ -26,6 +25,7 @@
 	import TablePagination from './TablePagination.svelte';
 	import TablePaginationServer from './TablePaginationServer.svelte';
 	import ColumnsMenu from './ColumnsMenu.svelte';
+	import ClientDB from './clientDB.js';
 	import * as utils from './utils';
 	import { columnFilter, searchFilter } from './filter';
 	import { Send } from '$models/Models';
@@ -53,19 +53,30 @@
 		server
 	} = config;
 
+	// `clientDb` is optional and may not be part of the `TableConfig` type
+	const clientDb = (config as any).clientDb ?? false;
+	const clientDbSeedData = (config as any).clientDbSeedData ?? [];
+	const initialServerCount = Number((config as any).__initialServerCount ?? 0);
+
 	let searchValue = '';
 	let isFetching = false;
 	let tableRef: HTMLTableElement;
+	let serverItemCountValue = Number.isFinite(initialServerCount) ? initialServerCount : 0;
 
-	const serverSide = server !== undefined;
+	const serverSide = server !== undefined || clientDb;
+	let _clientDbInstance: any = null;
+	let clientDbEnabled = clientDb;
+	let clientDbReady = false;
+	let clientDbInitSource: any[] = [];
+	let clientDbSeedSize = 0;
 	const { sendModel = new Send() } = server ?? {};
 
 	const filters = writable<{
 		[key: string]: { [key in FilterOptionsEnum]?: number | string | Date };
 	}>({});
 
-	// Creatign a type to access keys of the objects in the data store
-	type AccessorType = keyof (typeof $data)[number];
+	// Accessor keys are handled as string keys to avoid heavy type coupling to full dataset shape
+	type AccessorType = string;
 
 	// Creating a dispatcher to dispatch actions to the parent component
 	const dispatch = createEventDispatcher();
@@ -76,12 +87,8 @@
 	const colWidths = writable<number[]>([]);
 
 	// Server-side variables
-	const serverItems = serverSide ? writable<number>(0) : undefined;
-	const serverItemCount = serverSide
-		? readable<Number>(0, (set) => {
-				serverItems!.subscribe((val) => set(val));
-			})
-		: undefined;
+	const serverItems = serverSide ? writable<number>(Number.isFinite(initialServerCount) ? initialServerCount : 0) : undefined;
+	const serverItemCount = serverItems;
 
 	// Initializing the table
 	const table = createTable(data, {
@@ -99,21 +106,29 @@
 			initialPageSize: defaultPageSize,
 			serverSide,
 			serverItemCount
-		} as PaginationConfig),
+		} as any),
 		expand: addExpandedRows(),
 		export: addDataExport({ format: 'json' })
 	});
 
-	// A variable to hold all the keys
+	// Build column keys without scanning all rows when column config is already provided.
 	const allCols: { [key: string]: any } = {};
-	// Iterating over each item to get all the possible keys
-	$data.forEach((item) => {
-		Object.keys(item).forEach((key) => {
-			if (!allCols[key]) {
-				allCols[key] = {};
+	if (columns && Object.keys(columns).length > 0) {
+		Object.keys(columns).forEach((key) => {
+			if (optionsComponent !== undefined && key === 'optionsColumn') {
+				return;
 			}
+			allCols[key] = {};
 		});
-	});
+	} else {
+		$data.forEach((item) => {
+			Object.keys(item).forEach((key) => {
+				if (!allCols[key]) {
+					allCols[key] = {};
+				}
+			});
+		});
+	}
 
 	Object.keys(allCols).forEach((key) => {
 		$filters = { ...$filters, [key]: {} };
@@ -269,11 +284,23 @@
 		})
 	];
 
+	const getUniqueOptionsColumnId = () => {
+		const used = new Set<string>(unexcludedColumns.map((col) => String(col)));
+		let id = 'optionsColumn';
+		let i = 1;
+		while (used.has(id)) {
+			id = `optionsColumn_${i}`;
+			i += 1;
+		}
+		return id;
+	};
+
 	// If optionsComponent is provided, add a column for it at the end
 	if (optionsComponent !== undefined) {
+		const optionsColumnId = getUniqueOptionsColumnId();
 		tableColumns.push(
 			table.display({
-				id: 'optionsColumn',
+				id: optionsColumnId,
 				header: '',
 				plugins: {
 					export: {
@@ -304,7 +331,7 @@
 	// Column visibility configuration
 	const { hiddenColumnIds } = pluginStates.hideColumns;
 
-	let prevSort: { column: string; direction: 'asc' | 'desc' }[] | undefined = undefined;
+	let prevSort: { column: string; direction: 'asc' | 'desc' }[] = [];
 	const sortServer = (order: 'asc' | 'desc' | undefined, id: string) => {
 		// console.log('Sorting server with', { order, id, sendModel, prevSort });
 		if (!sendModel) throw new Error('Server-side configuration is missing');
@@ -315,18 +342,14 @@
 			sendModel.order = [{ column: id, direction: order }];
 		}
 
-		if (JSON.stringify(sendModel.order) !== JSON.stringify(prevSort) && prevSort !== undefined) {
+		if (JSON.stringify(sendModel.order) !== JSON.stringify(prevSort)) {
 			// Reset pagination
 			$pageIndex = 0;
 			// console.log('Sorting server with', { order, id, sendModel, prevSort });
 			$data = [];
 			updateTableWithParams();
 		}
-		if (order === undefined) {
-			prevSort = [];
-		} else {
-			prevSort = sendModel.order;
-		}
+		prevSort = sendModel.order ? [...sendModel.order] : [];
 	};
 
 	// Function to update the table with the provided parameters for easily passing to other components
@@ -339,13 +362,147 @@
 		// 	sendModel
 		// });
 
-		if ($data.length > 0 && serverSide) {
+		// If we're using a client-side DB (worker + IndexedDB), route queries there
+		if (clientDbEnabled) {
+			isFetching = true;
+			const filtersNormalized = utils.normalizeFilters($filters);
+			const q = sendModel?.q || '';
+			const offset = $pageSize * $pageIndex;
+			const limit = $pageSize;
+
+			if (!_clientDbInstance) {
+				_clientDbInstance = new ClientDB(tableId);
+			}
+
+			if (!clientDbReady) {
+				// Fallback while DB is still importing: apply local search/filter/sort for responsiveness.
+				const source = clientDbInitSource.length > 0 ? clientDbInitSource : $data;
+
+				const getValue = (row, column) => {
+					const dot = String(column || '').replaceAll('%%%', '.');
+					return row[dot] ?? row[column] ?? row[dot.replaceAll('.', '%%%')];
+				};
+
+				const localMatches = (row) => {
+					if (q && q.length > 0) {
+						const ql = String(q).toLowerCase();
+						let found = false;
+						for (const k in row) {
+							const v = row[k];
+							if (v == null) continue;
+							if (String(v).toLowerCase().includes(ql)) {
+								found = true;
+								break;
+							}
+						}
+						if (!found) return false;
+					}
+
+					for (const f of filtersNormalized) {
+						const actual = getValue(row, f.column);
+						const val = f.value;
+						if (val == null) continue;
+
+						const aStr = String(actual ?? '').toLowerCase();
+						const vStr = String(val ?? '').toLowerCase();
+						const aNum = Number(actual);
+						const vNum = Number(val);
+						const aDate = new Date(actual as any).getTime();
+						const vDate = new Date(val as any).getTime();
+
+						switch (f.filterBy) {
+							case 'c':
+								if (!aStr.includes(vStr)) return false;
+								break;
+							case 'nc':
+								if (aStr.includes(vStr)) return false;
+								break;
+							case 'sw':
+								if (!aStr.startsWith(vStr)) return false;
+								break;
+							case 'ew':
+								if (!aStr.endsWith(vStr)) return false;
+								break;
+							case 'e':
+								if (actual != val) return false;
+								break;
+							case 'ne':
+								if (actual == val) return false;
+								break;
+							case 'gt':
+								if (Number.isNaN(aNum) || Number.isNaN(vNum) || !(aNum > vNum)) return false;
+								break;
+							case 'lt':
+								if (Number.isNaN(aNum) || Number.isNaN(vNum) || !(aNum < vNum)) return false;
+								break;
+							case 'gte':
+								if (Number.isNaN(aNum) || Number.isNaN(vNum) || !(aNum >= vNum)) return false;
+								break;
+							case 'lte':
+								if (Number.isNaN(aNum) || Number.isNaN(vNum) || !(aNum <= vNum)) return false;
+								break;
+							case 'o':
+								if (Number.isNaN(aDate) || Number.isNaN(vDate) || aDate !== vDate) return false;
+								break;
+							case 'sf':
+							case 'a':
+								if (Number.isNaN(aDate) || Number.isNaN(vDate) || !(aDate >= vDate)) return false;
+								break;
+							case 'u':
+							case 'b':
+								if (Number.isNaN(aDate) || Number.isNaN(vDate) || !(aDate <= vDate)) return false;
+								break;
+							case 'no':
+								if (Number.isNaN(aDate) || Number.isNaN(vDate) || aDate === vDate) return false;
+								break;
+						}
+					}
+
+					return true;
+				};
+
+				const filtered = source.filter(localMatches);
+				const order = sendModel?.order || [];
+				if (order.length > 0) {
+					const { column, direction } = order[0];
+					const dir = direction === 'desc' ? -1 : 1;
+					filtered.sort((a, b) => {
+						const av = getValue(a, column);
+						const bv = getValue(b, column);
+						if (av == null && bv == null) return 0;
+						if (av == null) return -1 * dir;
+						if (bv == null) return 1 * dir;
+						if (typeof av === 'number' && typeof bv === 'number') return (av - bv) * dir;
+						return String(av).localeCompare(String(bv)) * dir;
+					});
+				}
+
+				const localRows = filtered.slice(offset, offset + limit);
+				serverItems?.set(filtered.length);
+				data.set(localRows);
+				isFetching = false;
+				return { rows: localRows, total: filtered.length };
+			}
+
+			const res = await _clientDbInstance.query({
+				q,
+				filters: filtersNormalized,
+				order: sendModel?.order || [],
+				offset,
+				limit
+			});
+			const payload = res.payload ? res.payload : res;
+			serverItems?.set(payload.total ?? payload.totalCount ?? 0);
+			data.set(payload.rows ?? []);
+			isFetching = false;
+			return payload;
+		}
+
+		if ($data.length > 0 && serverSide && Number($serverItemCount) > 0) {
 			console.log('Table is not empty');
-			//	$data = [];
 			return;
 		}
 
-		// throw new Error("Stack trace inspection");
 		isFetching = true;
 		const result = await utils.updateTable(
 			$pageSize,
@@ -419,6 +576,9 @@
 		if (resizable !== 'rows' && resizable !== 'both') {
 			return;
 		}
+		if (!$pageRows || $pageRows.length === 0) {
+			return;
+		}
 		// Making sure tableRef is up to date and contains the new rows
 		// If it contains even one element, it means it contains them all
 		const e = tableRef?.querySelector(`#${tableId}-row-${$pageRows[0].id}`);
@@ -430,11 +590,59 @@
 	onDestroy(() => {
 		resizeColumnsObserver.disconnect();
 		resizeRowsObserver.disconnect();
+		if (_clientDbInstance) {
+			try {
+				_clientDbInstance.destroy();
+			} catch (e) {
+				// ignore
+			}
+		}
 	});
 
 	$: sortKeys = pluginStates.sort.sortKeys;
-	onMount(() => {
-		if (serverSide) {
+	$: serverItemCountValue = clientDbEnabled
+		? Number($serverItemCount) > 0
+			? Math.max(
+					Number($serverItemCount),
+					initialServerCount,
+					clientDbSeedSize,
+					clientDbInitSource.length,
+					$data.length
+				)
+			: Math.max(initialServerCount, clientDbSeedSize, clientDbInitSource.length, $data.length)
+		: Number($serverItemCount);
+	onMount(async () => {
+		if (clientDbEnabled) {
+			const seed = Array.isArray(clientDbSeedData) ? clientDbSeedData : [];
+			const hasSeed = seed.length > 0;
+			clientDbSeedSize = seed.length;
+			if (hasSeed || ($data && $data.length > 0)) {
+				// clone source to avoid mutating config-provided arrays
+				clientDbInitSource = hasSeed ? [...seed] : [...$data];
+				const firstPage = clientDbInitSource.slice(0, $pageSize);
+				serverItems?.set(clientDbInitSource.length);
+				data.set(firstPage);
+
+				_clientDbInstance = new ClientDB(tableId);
+				_clientDbInstance
+					.init(clientDbInitSource)
+					.then(async () => {
+						// Only mark ready and release seed after the first DB-backed query succeeds.
+						const result = await updateTableWithParams();
+						clientDbReady = true;
+						clientDbInitSource = [];
+						return result;
+					})
+					.catch(() => {
+						clientDbReady = false;
+					});
+			} else if (!_clientDbInstance) {
+				_clientDbInstance = new ClientDB(tableId);
+			}
+		}
+
+		// Only call server update when a real server config is present
+		if (server !== undefined) {
 			updateTableWithParams();
 		}
 	});
@@ -449,14 +657,19 @@
 			{#if search}
 				<form
 					class="flex gap-2"
-					on:submit|preventDefault={() => {
+					on:submit|preventDefault={async () => {
 						if (serverSide && !sendModel) {
 							throw new Error('Server-side configuration is missing');
 						} else {
 							sendModel.q = searchValue;
 						}
 
+						$pageIndex = 0;
 						$filterValue = searchValue;
+						if (serverSide) {
+							$data = [];
+							await updateTableWithParams();
+						}
 					}}
 				>
 					<div class="relative w-full flex items-center">
@@ -474,15 +687,20 @@
 							id="{tableId}-searchReset"
 							class="absolute right-3 items-center"
 							aria-label="Clear search"
-							on:click|preventDefault={() => {
+							on:click|preventDefault={async () => {
 								if (serverSide && !sendModel) {
 									throw new Error('Server-side configuration is missing');
 								} else {
 									sendModel.q = '';
 								}
 
+								$pageIndex = 0;
 								searchValue = '';
 								$filterValue = '';
+								if (serverSide) {
+									$data = [];
+									await updateTableWithParams();
+								}
 							}}><Fa icon={faXmark} /></button
 						>
 					</div>
@@ -492,14 +710,19 @@
 						id="{tableId}-searchSubmit"
 						class="btn variant-filled-primary"
 						aria-label="Search"
-						on:click|preventDefault={() => {
+						on:click|preventDefault={async () => {
 							if (serverSide && !sendModel) {
 								throw new Error('Server-side configuration is missing');
 							} else {
 								sendModel.q = searchValue;
 							}
 
+							$pageIndex = 0;
 							$filterValue = searchValue;
+							if (serverSide) {
+								$data = [];
+								await updateTableWithParams();
+							}
 						}}>Search</button
 					>
 				</form>
@@ -621,7 +844,7 @@
 																			? `Remove sorting by ${cell.label} column`
 																			: `Sort by ${cell.label} column in ascending order`}
 															>
-																{cell.render().replaceAll('%%%', '.')}
+																{String(cell.render()).replaceAll('%%%', '.')}
 															</span>
 															<div class="w-2">
 																{#if props.sort.order === 'asc'}
@@ -716,7 +939,7 @@
 			<TablePaginationServer
 				pageConfig={pluginStates.page}
 				{pageSizes}
-				itemCount={$serverItemCount}
+				itemCount={serverItemCountValue}
 				updateTable={updateTableWithParams}
 				id={tableId}
 				{data}

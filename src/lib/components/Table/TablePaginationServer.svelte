@@ -11,6 +11,21 @@
 	export let updateTable; // Function to update table
 	export let data;
 
+	const toCount = (value) => {
+		if (typeof value === 'number') return Number.isNaN(value) ? 0 : value;
+		const parsed = Number(String(value ?? '').replace(/[^0-9.-]/g, ''));
+		return Number.isNaN(parsed) ? 0 : parsed;
+	};
+
+	const getEffectiveCount = () => {
+		const count = toCount(itemCount);
+		if (count > 0) return count;
+		// Fallback for edge cases where server count has not propagated yet.
+		return Array.isArray($data) ? $data.length : 0;
+	};
+
+	let effectiveCount = 0;
+
 	let indexInformation = '';
 
 	const { pageIndex, pageCount, pageSize } = pageConfig;
@@ -25,12 +40,13 @@
 	};
 
 	const getIndexInfomationString = () => {
-		return itemCount === 0
+		const count = effectiveCount;
+		return count === 0
 			? 'No items'
 			: `Displaying items ${$pageIndex * $pageSize + 1} - ${Math.min(
 					($pageIndex + 1) * $pageSize,
-					itemCount
-				)} of ${Math.min($pageCount * $pageSize, itemCount)}`;
+					count
+				)} of ${count}`;
 	};
 
 	function updateTableServer() {
@@ -38,8 +54,9 @@
 		updateTable();
 	}
 
+	$: effectiveCount = getEffectiveCount();
 	$: paginationSettings = {
-		size: itemCount,
+		size: effectiveCount,
 		limit: $pageSize,
 		page: $pageIndex,
 		amounts: pageSizes
