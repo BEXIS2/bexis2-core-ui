@@ -12,31 +12,26 @@
 	import { CountrieNames } from './exampleData';
 	import Select from 'svelte-select';
 
-
 	let items = [
-        { value: 'one', label: 'One' },
-        { value: 'two', label: 'Two' },
-        { value: 'three', label: 'Three' },
-    ];
-
+		{ value: 'one', label: 'One' },
+		{ value: 'two', label: 'Two' },
+		{ value: 'three', label: 'Three' }
+	];
 </script>
 
 <div class="grid gap-10">
-	<MultiSelect id="multi_select_example" title="Required input fields" source={CountrieNames} bind:target />
+	<MultiSelect
+		id="multi_select_example"
+		title="Required input fields"
+		source={CountrieNames}
+		bind:target
+	/>
 	<CodeBlock language="ts" code={JSON.stringify(target, undefined, 2)} />
 </div>
 
-<hr/>
+<hr />
 <div class="py-5">
-<Select
+	<Select {items} label="water" bind:value={singletarget} clearFilterTextOnBlur={false} />
 
-		items={items}
-
-		label="water"
-		bind:value={singletarget}
-		clearFilterTextOnBlur={false}
-	/>
-
-	{singletarget["value"]} - {singletarget["label"]}
-
-	</div>
+	{singletarget['value']} - {singletarget['label']}
+</div>

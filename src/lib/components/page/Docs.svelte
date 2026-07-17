@@ -39,9 +39,16 @@
 	{/if}
 
 	{#each links as link}
-		<span role="button" tabindex="0" title={link.label} class="chip variant-soft hover:variant-filled" on:click={() => goTo(link.url, false)} on:keypress={() => goTo(link.url, false)}>
+		<span
+			role="button"
+			tabindex="0"
+			title={link.label}
+			class="chip variant-soft hover:variant-filled"
+			on:click={() => goTo(link.url, false)}
+			on:keypress={() => goTo(link.url, false)}
+		>
 			<span>
-				{#if link.label.toLowerCase()=='manual'}
+				{#if link.label.toLowerCase() == 'manual'}
 					<Fa icon={faBook} />
 				{:else}
 					{link.label}

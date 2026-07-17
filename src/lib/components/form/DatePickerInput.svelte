@@ -1,4 +1,6 @@
 <script lang="ts">
+	import Fa from 'svelte-fa';
+	import { faCalendar, faClock } from '@fortawesome/free-solid-svg-icons';
 	import InputContainer from './InputContainer.svelte';
 	import SveltyPicker from 'svelty-picker';
 
@@ -19,7 +21,6 @@
 	export let initialDate: string = '';
 	export let format: string = 'yyyy-mm-dd';
 	export let displayFormat: string = 'yyyy-mm-dd';
-	export let onChangeHandler: (event: CustomEvent) => void = () => {};
 
 	let width = 'w-32';
 
@@ -38,17 +39,55 @@
 	}
 </script>
 
-<InputContainer {id} {label} {feedback} {required} {help} {description} {showDescription} {showIcon} on:showDescription on:hideDescription>
-	<SveltyPicker
-		{mode}
-		name={label}
-		{format}
-		{displayFormat}
-		{initialDate}
-		bind:value
-		inputClasses="input variant-form-material dark:bg-zinc-700 bg-zinc-50 placeholder:text-gray-400 {width}"
-		on:change={onChangeHandler}
-		{disabled}
-		{placeholder}
-	/>
+<InputContainer
+	{id}
+	{label}
+	{feedback}
+	{required}
+	{help}
+	{description}
+	{showDescription}
+	{showIcon}
+	on:showDescription
+	on:hideDescription
+>
+	<!-- 1. Wrap everything in a relative container so the icon positions against this boundary -->
+	<div class="relative w-full">
+		<SveltyPicker
+			{mode}
+			name={label}
+			{format}
+			{displayFormat}
+			{initialDate}
+			bind:value
+			on:input
+			on:change
+			{disabled}
+			{placeholder}
+			manualInput={true}
+			inputClasses="input variant-form-material bg-zinc-50 dark:bg-zinc-700 placeholder:text-gray-400 pr-10 {valid
+				? 'input-success'
+				: ''} {invalid ? 'input-error' : ''}"
+		/>
+		{#if mode === 'time'}
+			<Fa
+				icon={faClock}
+				class="absolute inset-y-2 right-0 flex items-center pr-3 pointer-events-none text-gray-400 dark:text-gray-300"
+			/>
+		{:else if mode === 'date'}
+			<Fa
+				icon={faCalendar}
+				class="absolute inset-y-2 right-0 flex items-center pr-3 pointer-events-none text-gray-400 dark:text-gray-300"
+			/>
+		{:else if mode === 'datetime'}
+			<Fa
+				icon={faCalendar}
+				class="absolute inset-y-2 right-5 flex items-center pr-3 pointer-events-none text-gray-400 dark:text-gray-300"
+			/>
+			<Fa
+				icon={faClock}
+				class="absolute inset-y-2 right-0 flex items-center pr-3 pointer-events-none text-gray-400 dark:text-gray-300"
+			/>
+		{/if}
+	</div>
 </InputContainer>

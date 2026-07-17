@@ -12,23 +12,22 @@
 
 	let required = false;
 	export let feedback: [];
-
 </script>
 
 <InputContainer {id} label={title} {feedback} {required} {help} {description}>
-<div	class="flex gap-2" class:flex-col={vertical} >
-	{#each source as item}
-		<label class="flex items-center space-x-2" for={item.key}>
-			<input
-				class="checkbox"
-				type="checkbox"
-				bind:group={target}
-				checked={item.key}
-				value={item.key}
-				id={item.key}
-			/>
-			<p>{item.value}</p>
-		</label>
-	{/each}
-</div>
+	<div class="flex gap-2" class:flex-col={vertical}>
+		{#each source as item}
+			<label class="flex items-center space-x-2" for={item.key}>
+				<input
+					class="checkbox"
+					type="checkbox"
+					bind:group={target}
+					checked={item.key}
+					value={item.key}
+					id={item.key}
+				/>
+				<p>{item.value}</p>
+			</label>
+		{/each}
+	</div>
 </InputContainer>

@@ -14,25 +14,34 @@
 	export let placeholder: string = '';
 	export let help: boolean = false;
 	export let disabled: boolean = false;
-	export let description	: string = '';
+	export let description: string = '';
 	export let showDescription: boolean = false;
 	export let showIcon: boolean = false;
-	export let min	: number | undefined = undefined;
-	export let max	: number | undefined = undefined;
+	export let min: number | undefined = undefined;
+	export let max: number | undefined = undefined;
 
 	// Diese Zeile wird jedes Mal ausgeführt, wenn sich "menge" ändert
-  $: if (max!=undefined && (parseInt(value) > max)) {
-    value = max.toString();
-  }
+	$: if (max != undefined && parseInt(value) > max) {
+		value = max.toString();
+	}
 
-		$: if (min!=undefined && (parseInt(value) < min)) {
-    value = min.toString();
-  }
-
-
+	$: if (min != undefined && parseInt(value) < min) {
+		value = min.toString();
+	}
 </script>
 
-<InputContainer {id} {label} {feedback} {required} {help} {description} {showDescription} {showIcon} on:showDescription on:hideDescription>
+<InputContainer
+	{id}
+	{label}
+	{feedback}
+	{required}
+	{help}
+	{description}
+	{showDescription}
+	{showIcon}
+	on:showDescription
+	on:hideDescription
+>
 	<input
 		{id}
 		class="input variant-form-material dark:bg-zinc-700 bg-zinc-50 placeholder:text-gray-400"

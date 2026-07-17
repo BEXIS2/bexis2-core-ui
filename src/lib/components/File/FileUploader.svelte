@@ -35,7 +35,7 @@
 
 	export let data: fileUploaderType | undefined;
 
-	let isUploading:boolean = false;
+	let isUploading: boolean = false;
 
 	$: model = data;
 	$: submitBt = 'submit';
@@ -148,9 +148,10 @@
 			const response = await Api.post(url, formData);
 
 			if (response.status == 200) {
-				dispatch('submited',{
-					status:200,
-					data:response.data});
+				dispatch('submited', {
+					status: 200,
+					data: response.data
+				});
 
 				let message = files.accepted.length + ' is/are uploaded';
 
@@ -160,13 +161,12 @@
 				dispatch('success', { text: message, files: fileList });
 
 				files.accepted = [];
-			}
-			else
-			{
-					dispatch('submiterror', {
-					status:response.status,
-					data:response.data});
-					console.log('Error uploading file(s)', response);
+			} else {
+				dispatch('submiterror', {
+					status: response.status,
+					data: response.data
+				});
+				console.log('Error uploading file(s)', response);
 			}
 		}
 
@@ -192,17 +192,20 @@
 				<p>
 					{#if model.accept}
 						{#each model.accept as ext, i}
-							{ext}{#if i < model.accept.length - 1}, {/if}
+							{ext}{#if i < model.accept.length - 1},
+							{/if}
 						{/each}
 					{/if}
 				</p>
 			</Dropzone>
 			{#if isUploading}
-					<ProgressBar  value={undefined}/>
+				<ProgressBar value={undefined} />
 			{/if}
 		</div>
 
-		<button title="Submit" id={submitBt} color="primary" style="display:none"><Fa icon={faSave} /></button>
+		<button title="Submit" id={submitBt} color="primary" style="display:none"
+			><Fa icon={faSave} /></button
+		>
 	{:else}
 		<!-- while data is not loaded show a loading information -->
 

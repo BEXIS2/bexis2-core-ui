@@ -14,7 +14,7 @@
 	export let comboboxValue;
 
 	let id = Math.floor(Math.random() * 100).toString();
-	let	idLabel = "menu-"+menubarItem.Title.replaceAll(' ', '-');
+	let idLabel = 'menu-' + menubarItem.Title.replaceAll(' ', '-');
 
 	let popupCombobox: PopupSettings = {
 		event: 'click',
@@ -27,10 +27,11 @@
 
 {#if menubarItem.Items.length < 1}
 	<div class="p-2">
-
-		<button id={id+"bt"} class="grid" use:popup={popupCombobox} >
-			<a class="grid" href={menubarItem.Url} target="{menubarItem.Target}">
-				<span class="capitalize whitespace-nowrap text-lg hover:text-secondary-500">{comboboxValue ?? menubarItem.Title}</span>
+		<button id={id + 'bt'} class="grid" use:popup={popupCombobox}>
+			<a class="grid" href={menubarItem.Url} target={menubarItem.Target}>
+				<span class="capitalize whitespace-nowrap text-lg hover:text-secondary-500"
+					>{comboboxValue ?? menubarItem.Title}</span
+				>
 			</a>
 		</button>
 	</div>
@@ -45,12 +46,13 @@
 			<svelte:fragment slot="content"
 				><MenuSublist {id} items={menubarItem.Items} /></svelte:fragment
 			>
-			</AccordionItem
-		>
+		</AccordionItem>
 	</div>
 	<div class="hidden sm:block place-self-center" use:popup={popupCombobox}>
 		<button id={idLabel} class="flex items-center gap-x-1 px-2">
-			<span class="capitalize text-lg whitespace-nowrap hover:text-secondary-500">{menubarItem.Title}▾</span>
+			<span class="capitalize text-lg whitespace-nowrap hover:text-secondary-500"
+				>{menubarItem.Title}▾</span
+			>
 		</button>
 
 		<div class="z-50 w-max" data-popup={id}>

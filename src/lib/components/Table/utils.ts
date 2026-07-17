@@ -41,13 +41,10 @@ export const getResizeStyles = (
 ) => {
 	return `
 	min-height: ${rowHeights && rowHeights[+id] ? `${rowHeights[+id].min}px` : 'auto'};
-	max-height: ${index !== 0 && rowHeights && rowHeights[+id]
-			? `${rowHeights[+id].max}px`
-			: 'auto'
-		};
+	max-height: ${index !== 0 && rowHeights && rowHeights[+id] ? `${rowHeights[+id].max}px` : 'auto'};
 	height: ${rowHeights && rowHeights[+id] ? `${rowHeights[+id].min}px` : 'auto'};
 	`;
-}
+};
 // Function to normalize the filters for back-end
 export const normalizeFilters = (filters: {
 	[key: string]: { [key in FilterOptionsEnum]?: number | string | Date };
@@ -103,14 +100,12 @@ export const jsonToCsv = (data: string): string => {
 	// Create CSV rows
 	const rows = [
 		headers.join(','), // Header row
-		...json.map((row) =>
-			headers.map(header => escapeCsvCell(row[header])).join(',')
-		) // Data rows
+		...json.map((row) => headers.map((header) => escapeCsvCell(row[header])).join(',')) // Data rows
 	];
 
 	// Join rows with newlines
 	return rows.join('\n');
-}
+};
 // Resetting the resized columns and/or rows
 export const resetResize = (
 	headerRows: any,
@@ -162,12 +157,12 @@ export const missingValuesFn = (
 	const foundKey =
 		typeof key === 'number' && key.toString().includes('e')
 			? Object.keys(missingValues).find((item) => {
-				return (item as string).toLowerCase() === key.toString().toLowerCase();
-			})
+					return (item as string).toLowerCase() === key.toString().toLowerCase();
+				})
 			: typeof key === 'string' && parseInt(key).toString().length !== key.length && new Date(key)
 				? Object.keys(missingValues).find(
-					(item) => new Date(item).getTime() === new Date(key).getTime()
-				)
+						(item) => new Date(item).getTime() === new Date(key).getTime()
+					)
 				: key in missingValues
 					? key
 					: undefined;
@@ -180,13 +175,13 @@ export const updateTable = async (
 	pageIndex: number,
 	server: ServerConfig | undefined,
 	filters: {
-		[key: string]: { [key in FilterOptionsEnum]?: number | string | Date }
+		[key: string]: { [key in FilterOptionsEnum]?: number | string | Date };
 	},
 	data: Writable<any[]>,
 	serverItems: Writable<number> | undefined,
 	columns: Columns | undefined,
 	dispatch: any,
-	order: OrderBy[] = [],
+	order: OrderBy[] = []
 ) => {
 	const { baseUrl, entityId, versionId, sendModel = new Send() } = server ?? {};
 
@@ -202,7 +197,7 @@ export const updateTable = async (
 	// remove %%% from the columns object
 	if (sendModel.order) {
 		sendModel.order.forEach((order) => {
-			if (order.column.includes("%%%")) {
+			if (order.column.includes('%%%')) {
 				const newKey = order.column.replaceAll('%%%', '.');
 				order.column = newKey;
 			}
@@ -227,22 +222,37 @@ export const updateTable = async (
 		throw new Error('Failed to fetch data');
 	}
 
-	const response: Receive = await fetchData.json();
+	// 1. Get the raw text of the response instead of parsing it automatically
+	const rawText = await fetchData.text();
+
+	// 2. Parse it with a reviver function that targets large integers
+	const response: Receive = JSON.parse(rawText, (key, value, context) => {
+		// If the parser thinks it's a number, but we have the raw source text
+		if (context && context.source && typeof value === 'number') {
+			// Check if the number exceeds JavaScript's safe integer limit
+			if (!Number.isSafeInteger(value)) {
+				// Return it natively as a JavaScript BigInt (e.g., 9223372036854775806n)
+				return BigInt(context.source);
+			}
+		}
+		return value;
+	});
+	// console.log('Server response', response);
 
 	// Format server columns to the client columns
 	if (response.columns !== undefined) {
-		console.log('Server columns', response.columns);
+		//console.log('Server columns', response.columns);
 		columns = convertServerColumns(response.columns, columns);
 
 		const clientCols = response.columns.reduce((acc, col) => {
-			console.log(col.key, col.column);
+			// console.log(col.key, col.column);
 			// replace the . with empty string
 			//const key = col.key.replaceAll('.' ,'');
 			///console.log(key, col.column);
 			// set the key to the columns object
-			col.column = col.column.replaceAll('.', "%%%");
-			col.key = col.key.replaceAll('.', "%%%");
-			acc[col.key] = col.column
+			col.column = col.column.replaceAll('.', '%%%');
+			col.key = col.key.replaceAll('.', '%%%');
+			acc[col.key] = col.column;
 			//acc[col.column] = col.column;
 
 			return acc;
@@ -253,19 +263,18 @@ export const updateTable = async (
 		response.data.forEach((row, index) => {
 			const tmp: { [key: string]: any } = {};
 			Object.keys(row).forEach((key) => {
-				tmp[clientCols[key.replaceAll('.', "%%%") ]] = row[key]
+				tmp[clientCols[key.replaceAll('.', '%%%')]] = row[key];
 			});
 			tmpArr.push(tmp);
 		});
 		dispatch('fetch', columns);
 		data.set(tmpArr);
-		console.log('Server data', tmpArr);
+		// console.log('Server data', tmpArr);
 		return data;
 	}
 
 	serverItems?.set(response.count);
-	console.log('Server data updated');
-
+	// console.log('Server data updated');
 
 	// log the columns object
 	console.log(response);
@@ -316,17 +325,17 @@ export const convertServerColumns = (
 		}
 
 		if (columns && col.column in columns) {
-			columnsConfig[col.column.replaceAll('.', "%%%")] = {
-				...columns[col.column.replaceAll('.', "%%%")],
+			columnsConfig[col.column.replaceAll('.', '%%%')] = {
+				...columns[col.column.replaceAll('.', '%%%')],
 				instructions
 			};
 		} else {
-			columnsConfig[col.column.replaceAll('.', "%%%") ] = {
+			columnsConfig[col.column.replaceAll('.', '%%%')] = {
 				instructions
 			};
 		}
 	});
-	console.log('Columns config', columnsConfig);
+	// console.log('Columns config', columnsConfig);
 	return columnsConfig;
 };
 // Calculates the maximum height of the cells in each row

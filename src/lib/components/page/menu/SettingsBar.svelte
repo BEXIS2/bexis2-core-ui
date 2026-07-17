@@ -7,7 +7,7 @@
 	import { faCog } from '@fortawesome/free-solid-svg-icons';
 
 	export let menuBar: menuItemType[];
-	console.log("🚀 ~ menuBar:", menuBar)
+	console.log('🚀 ~ menuBar:', menuBar);
 	//uicomponents
 	import MenuSublist from './MenuSublist.svelte';
 
@@ -24,7 +24,10 @@
 	<div class="sm:hidden">
 		<AccordionItem padding="p-2">
 			<svelte:fragment slot="summary"
-				><button id="settings" class="flex items-center gap-x-1 text-sm text-surface-800 w-5 h-full">
+				><button
+					id="settings"
+					class="flex items-center gap-x-1 text-sm text-surface-800 w-5 h-full"
+				>
 					<span class="capitalize"><Fa icon={faCog} /></span>
 				</button></svelte:fragment
 			>
