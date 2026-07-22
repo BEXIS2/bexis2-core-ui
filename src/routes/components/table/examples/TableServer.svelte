@@ -25,7 +25,7 @@
 			server: {
 				// URL for the table to be fetched from
 				baseUrl: 'http://localhost:44345/api/datatable/',
-				entityId: 28, // dataset ID
+				entityId: 29, // dataset ID
 				versionId: -1 // version ID
 			}
 		};
