@@ -111,22 +111,24 @@
 		export: addDataExport({ format: 'json' })
 	});
 
-	// Build column keys without scanning all rows when column config is already provided.
+	// Build column keys from the incoming data model and merge explicit config as extras.
 	const allCols: { [key: string]: any } = {};
+	$data.forEach((item) => {
+		Object.keys(item).forEach((key) => {
+			if (!allCols[key]) {
+				allCols[key] = {};
+			}
+		});
+	});
+
 	if (columns && Object.keys(columns).length > 0) {
 		Object.keys(columns).forEach((key) => {
 			if (optionsComponent !== undefined && key === 'optionsColumn') {
 				return;
 			}
-			allCols[key] = {};
-		});
-	} else {
-		$data.forEach((item) => {
-			Object.keys(item).forEach((key) => {
-				if (!allCols[key]) {
-					allCols[key] = {};
-				}
-			});
+			if (!allCols[key]) {
+				allCols[key] = {};
+			}
 		});
 	}
 

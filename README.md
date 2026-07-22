@@ -1,5 +1,10 @@
 # bexis-core-ui
 
+## 0.4.98
+- Table:
+   - fix column read detection
+
+
 ## 0.4.97
 - Table:
   - handle 20 000+ rows client side
