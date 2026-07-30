@@ -4,8 +4,9 @@
 
     import { testStore } from './data';
     import type { ResultRow } from './data';
-
-
+    import data from './Reference.tsv?raw';
+    
+    
     let loaded: boolean = false;
     let building: boolean = false;
     let synthRows: ResultRow[] = [];
@@ -15,6 +16,47 @@
         __initialServerCount?: number;
     };
 
+    function readDataToJSON() {
+        // read file  behind data/Reference.tsv and convert to JSON
+        const rows: ResultRow[] = data.split('\n').slice(1).map((line, i) => {
+            // ID	alternativeID	sourceID	citation	type	author	title	containerAuthor	containerTitle	issued	volume	issue	page	publisher	publisherPlace	link	remarks
+            const [ID, alternativeID, sourceID, citation, type, author, title, containerAuthor, containerTitle, issued, volume, issue, page, publisher, publisherPlace, link, remarks] = line.split('\t');
+            // if Nan convert to ""
+            return {
+                ID: parseInt(ID) || "",
+                alternativeID: alternativeID || "",
+                sourceID: parseInt(sourceID) || "",
+                citation: citation || "",
+                type: type || "",
+                author: author || "",
+                title: title || "",
+                containerAuthor: containerAuthor || "",
+                containerTitle: containerTitle || "",
+                issued: issued || "",
+                volume: parseInt(volume) || "",
+                issue: parseInt(issue) || "",
+                page: parseInt(page) || "",
+                publisher: publisher || "",
+                publisherPlace: publisherPlace || "",
+                link: link || "",
+                remarks: remarks || ""
+            };
+        });
+        console.log('rows', rows);
+        synthRows = rows;
+         synthRows = rows;
+        // Keep Svelte headless table light: only first page in the store.
+        testStore.set(rows.slice(0, 50));
+        testConfigLifeGate = {
+            ...testConfigLifeGate,
+            clientDbSeedData: rows,
+            __initialServerCount: rows.length
+        };
+        loaded = true;
+        building = false;
+
+    }
+/*
     async function synthLotsOfData() {
         building = true;
         loaded = false;
@@ -44,8 +86,33 @@
         loaded = true;
         building = false;
 	}
-
-  
+*/
+    let testConfigLifeGate: BigTableConfig = {
+        id: 'resultRows',
+        data: testStore,
+        // Enable client-side DB mode to keep Svelte memory low for large tables
+        clientDb: true,
+        clientDbSeedData: [],
+        __initialServerCount: 0,
+        resizable: "columns",
+        height: 700,
+        fitToScreen: false,
+        defaultPageSize: 50,
+        pageSizes: [20, 50, 100],
+        showColumnsMenu: true,
+        columns: {
+           ID: {
+                header: 'ID',
+            },
+            alternativeID: {
+                header: 'alternativeID',
+            },
+            sourceID: {
+                header: 'sourceID',
+            }
+        }
+    };
+  /*
     let testConfig: BigTableConfig = {						
 		id: 'resultRows',						
 		data: testStore,
@@ -96,13 +163,15 @@
             }
 		},
 	};
-
-
+*/
 
 
 </script>
-<button class="btn variant-filled-success" on:click={synthLotsOfData} disabled={building}>
+<!---<button class="btn variant-filled-success" on:click={synthLotsOfData} disabled={building}>
     {building ? 'building data...' : 'test'}
+</button>-->
+<button class="btn variant-filled-success" on:click={readDataToJSON} disabled={building}>
+    {building ? 'building data...' : 'load Reference.tsv'}
 </button>
 
 <!-- <table>
@@ -124,6 +193,6 @@
 
 {#if loaded}
     <div class="flex items-center justify-center">
-        <Table config={testConfig}/>
+        <Table config={testConfigLifeGate}/>
     </div>
 {/if}
