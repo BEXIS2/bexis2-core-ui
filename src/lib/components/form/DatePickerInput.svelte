@@ -6,6 +6,7 @@
 
 	export let id: string = '';
 	export let label: string = '';
+	export let title: string = '';
 	export let value: string = '';
 	export let valid: boolean = false;
 	export let invalid: boolean = false;
@@ -37,6 +38,15 @@
 	if (mode === 'datetime') {
 		width = 'w-64';
 	}
+
+	$: {
+	if ((!label || label.trim() === '') && title && title.trim() !== '') {
+		label = title;
+	} else if ((!title || title.trim() === '') && label && label.trim() !== '') {
+		title = label;
+	}
+}
+
 </script>
 
 <InputContainer

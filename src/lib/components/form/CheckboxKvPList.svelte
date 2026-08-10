@@ -5,20 +5,30 @@
 	export let source;
 	export let target;
 	export let title;
+	export let label
 	export let description = '';
 	export let key;
 	export let help = false;
 	export let vertical = false;
 
+	$: {
+	if ((!label || label.trim() === '') && title && title.trim() !== '') {
+		label = title;
+	} else if ((!title || title.trim() === '') && label && label.trim() !== '') {
+		title = label;
+	}
+}
+
 	let required = false;
 	export let feedback: [];
 </script>
 
-<InputContainer {id} label={title} {feedback} {required} {help} {description}>
+<InputContainer {id} {label} {feedback} {required} {help} {description}>
 	<div class="flex gap-2" class:flex-col={vertical}>
 		{#each source as item}
 			<label class="flex items-center space-x-2" for={item.key}>
 				<input
+				 {title}
 					class="checkbox"
 					type="checkbox"
 					bind:group={target}

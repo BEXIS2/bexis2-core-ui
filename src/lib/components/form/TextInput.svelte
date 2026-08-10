@@ -3,6 +3,7 @@
 
 	export let id: string = '';
 	export let label: string = '';
+	export	let title: string = '';
 	export let value: string = '';
 	export let valid: boolean = false;
 	export let invalid: boolean = false;
@@ -14,6 +15,15 @@
 	export let description: string = '';
 	export let showDescription: boolean = false;
 	export let showIcon: boolean = false;
+
+$: {
+	if ((!label || label.trim() === '') && title && title.trim() !== '') {
+		label = title;
+	} else if ((!title || title.trim() === '') && label && label.trim() !== '') {
+		title = label;
+	}
+}
+
 </script>
 
 <InputContainer
@@ -30,6 +40,7 @@
 >
 	<input
 		{id}
+		{title}
 		class="input variant-form-material dark:bg-zinc-700 bg-zinc-50 placeholder:text-gray-400"
 		type="text"
 		class:input-success={valid}
