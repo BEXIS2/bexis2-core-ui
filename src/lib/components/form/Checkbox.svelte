@@ -3,6 +3,7 @@
 
 	export let id: string = '';
 	export let label: string = '';
+	export let title: string = '';
 	export let checked: boolean = false;
 
 	export let valid: boolean;
@@ -10,11 +11,24 @@
 	export let required: boolean;
 	export let feedback: [];
 	export let description: string = '';
+
+$: {
+	if ((!label || label.trim() === '') && title && title.trim() !== '') {
+		label = title;
+	} else if ((!title || title.trim() === '') && label && label.trim() !== '') {
+		title = label;
+	}
+}
+
+
+
 </script>
+
 
 <InputContainer {label} {feedback} {required} {description}>
 	<input
 		{id}
+		{title}
 		class="input variant-form-material bg-zinc-50 dark:bg-zinc-50"
 		type="checkbox"
 		class:input-success={valid}

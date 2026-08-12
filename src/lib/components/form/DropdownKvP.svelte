@@ -5,6 +5,7 @@
 	export let source;
 	export let target;
 	export let title;
+	export let label;
 	export let valid = false;
 	export let invalid = false;
 	export let feedback = [''];
@@ -36,11 +37,20 @@
 			target = id;
 		}
 	}
+
+	$: {
+	if ((!label || label.trim() === '') && title && title.trim() !== '') {
+		label = title;
+	} else if ((!title || title.trim() === '') && label && label.trim() !== '') {
+		title = label;
+	}
+}
+
 </script>
 
 <InputContainer
 	{id}
-	label={title}
+	{label}
 	{feedback}
 	{required}
 	{help}
@@ -52,6 +62,7 @@
 >
 	<select
 		{id}
+		{title}
 		class="select variant-form-material dark:bg-zinc-700 bg-zinc-50 placeholder:text-gray-400"
 		class:input-success={valid}
 		class:input-error={invalid}

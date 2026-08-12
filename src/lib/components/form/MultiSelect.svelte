@@ -9,6 +9,7 @@
 	export let target;
 	export let id;
 	export let title;
+	export	let label;
 	export let itemId = 'value';
 	export let itemLabel = 'label';
 	export let itemGroup = '';
@@ -29,6 +30,15 @@
 	export let showIcon = false;
 
 	let isLoaded = false;
+
+	$: {
+	if ((!label || label.trim() === '') && title && title.trim() !== '') {
+		label = title;
+	} else if ((!title || title.trim() === '') && label && label.trim() !== '') {
+		title = label;
+	}
+}
+
 
 	$: value = '';
 	$: updateTarget(value);
@@ -303,7 +313,7 @@
 
 <InputContainer
 	{id}
-	label={title}
+	{label}
 	{feedback}
 	{required}
 	{help}
