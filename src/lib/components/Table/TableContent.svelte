@@ -67,6 +67,7 @@
 	let _clientDbInstance: any = null;
 	let clientDbEnabled = clientDb;
 	let clientDbReady = false;
+	let clientDbInitPromise: Promise<any> | null = null;
 	let clientDbInitSource: any[] = [];
 	let clientDbSeedSize = 0;
 	const { sendModel = new Send() } = server ?? {};
@@ -367,6 +368,9 @@
 		// If we're using a client-side DB (worker + IndexedDB), route queries there
 		if (clientDbEnabled) {
 			isFetching = true;
+			if (!clientDbReady && clientDbInitPromise) {
+				await clientDbInitPromise;
+			}
 			const filtersNormalized = utils.normalizeFilters($filters);
 			const q = sendModel?.q || '';
 			const offset = $pageSize * $pageIndex;
@@ -374,116 +378,6 @@
 
 			if (!_clientDbInstance) {
 				_clientDbInstance = new ClientDB(tableId);
-			}
-
-			if (!clientDbReady) {
-				// Fallback while DB is still importing: apply local search/filter/sort for responsiveness.
-				const source = clientDbInitSource.length > 0 ? clientDbInitSource : $data;
-
-				const getValue = (row, column) => {
-					const dot = String(column || '').replaceAll('%%%', '.');
-					return row[dot] ?? row[column] ?? row[dot.replaceAll('.', '%%%')];
-				};
-
-				const localMatches = (row) => {
-					if (q && q.length > 0) {
-						const ql = String(q).toLowerCase();
-						let found = false;
-						for (const k in row) {
-							const v = row[k];
-							if (v == null) continue;
-							if (String(v).toLowerCase().includes(ql)) {
-								found = true;
-								break;
-							}
-						}
-						if (!found) return false;
-					}
-
-					for (const f of filtersNormalized) {
-						const actual = getValue(row, f.column);
-						const val = f.value;
-						if (val == null) continue;
-
-						const aStr = String(actual ?? '').toLowerCase();
-						const vStr = String(val ?? '').toLowerCase();
-						const aNum = Number(actual);
-						const vNum = Number(val);
-						const aDate = new Date(actual as any).getTime();
-						const vDate = new Date(val as any).getTime();
-
-						switch (f.filterBy) {
-							case 'c':
-								if (!aStr.includes(vStr)) return false;
-								break;
-							case 'nc':
-								if (aStr.includes(vStr)) return false;
-								break;
-							case 'sw':
-								if (!aStr.startsWith(vStr)) return false;
-								break;
-							case 'ew':
-								if (!aStr.endsWith(vStr)) return false;
-								break;
-							case 'e':
-								if (actual != val) return false;
-								break;
-							case 'ne':
-								if (actual == val) return false;
-								break;
-							case 'gt':
-								if (Number.isNaN(aNum) || Number.isNaN(vNum) || !(aNum > vNum)) return false;
-								break;
-							case 'lt':
-								if (Number.isNaN(aNum) || Number.isNaN(vNum) || !(aNum < vNum)) return false;
-								break;
-							case 'gte':
-								if (Number.isNaN(aNum) || Number.isNaN(vNum) || !(aNum >= vNum)) return false;
-								break;
-							case 'lte':
-								if (Number.isNaN(aNum) || Number.isNaN(vNum) || !(aNum <= vNum)) return false;
-								break;
-							case 'o':
-								if (Number.isNaN(aDate) || Number.isNaN(vDate) || aDate !== vDate) return false;
-								break;
-							case 'sf':
-							case 'a':
-								if (Number.isNaN(aDate) || Number.isNaN(vDate) || !(aDate >= vDate)) return false;
-								break;
-							case 'u':
-							case 'b':
-								if (Number.isNaN(aDate) || Number.isNaN(vDate) || !(aDate <= vDate)) return false;
-								break;
-							case 'no':
-								if (Number.isNaN(aDate) || Number.isNaN(vDate) || aDate === vDate) return false;
-								break;
-						}
-					}
-
-					return true;
-				};
-
-				const filtered = source.filter(localMatches);
-				const order = sendModel?.order || [];
-				if (order.length > 0) {
-					const { column, direction } = order[0];
-					const dir = direction === 'desc' ? -1 : 1;
-					filtered.sort((a, b) => {
-						const av = getValue(a, column);
-						const bv = getValue(b, column);
-						if (av == null && bv == null) return 0;
-						if (av == null) return -1 * dir;
-						if (bv == null) return 1 * dir;
-						if (typeof av === 'number' && typeof bv === 'number') return (av - bv) * dir;
-						return String(av).localeCompare(String(bv)) * dir;
-					});
-				}
-
-				const localRows = filtered.slice(offset, offset + limit);
-				serverItems?.set(filtered.length);
-				data.set(localRows);
-				isFetching = false;
-				return { rows: localRows, total: filtered.length };
 			}
 
 			const res = await _clientDbInstance.query({
@@ -626,13 +520,13 @@
 				data.set(firstPage);
 
 				_clientDbInstance = new ClientDB(tableId);
-				_clientDbInstance
+				clientDbInitPromise = _clientDbInstance
 					.init(clientDbInitSource)
 					.then(async () => {
-						// Only mark ready and release seed after the first DB-backed query succeeds.
-						const result = await updateTableWithParams();
 						clientDbReady = true;
+						// Release the seed before refreshing so paging and filtering always query IndexedDB.
 						clientDbInitSource = [];
+						const result = await updateTableWithParams();
 						return result;
 					})
 					.catch(() => {

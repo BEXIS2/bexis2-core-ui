@@ -3,7 +3,7 @@ const DB_PREFIX = 'table-db-';
 
 function openDB(name) {
   return new Promise((resolve, reject) => {
-    const req = indexedDB.open(DB_PREFIX + name, 1);
+    const req = indexedDB.open(DB_PREFIX + name);
     req.onupgradeneeded = () => {
       const db = req.result;
       if (!db.objectStoreNames.contains('rows')) {
