@@ -1,7 +1,5 @@
 <script lang="ts">
 	import InputContainer from './InputContainer.svelte';
-	import { helpStore } from '$store/pageStores';
-	import { convertServerColumns } from '../Table/utils';
 
 	export let id: string = '';
 	export let label: string = '';
@@ -20,6 +18,7 @@
 	export let showIcon: boolean = false;
 	export let min: number | undefined = undefined;
 	export let max: number | undefined = undefined;
+	export let integerOnly: boolean = false;
 
 	$: {
 	if ((!label || label.trim() === '') && title && title.trim() !== '') {
@@ -37,6 +36,17 @@
 	$: if (min != undefined && parseInt(value) < min) {
 		value = min.toString();
 	}
+
+	function keyDownFn(event: KeyboardEvent) {
+		if (integerOnly) {
+			// 1. Block decimals explicitly (, and .)
+			if (event.key === '.' || event.key === ',') {
+					event.preventDefault();
+					return;
+			}
+		}
+	}
+
 </script>
 
 <InputContainer
@@ -63,6 +73,7 @@
 		{max}
 		on:input
 		on:change
+		on:keydown={keyDownFn}
 		{placeholder}
 		{disabled}
 	/>

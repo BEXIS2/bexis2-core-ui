@@ -10,4 +10,7 @@ import { SlideToggle } from '@skeletonlabs/skeleton';
 
 <div class="pt-3"><b>Value:</b> {value}</div>
 
+
+
+
 <Checkbox	id="checkbox" bind:checked={value} on:change label={label} />
