@@ -56,6 +56,7 @@
 	// `clientDb` is optional and may not be part of the `TableConfig` type
 	const clientDb = (config as any).clientDb ?? false;
 	const clientDbSeedData = (config as any).clientDbSeedData ?? [];
+	const clientDbRefresh = (config as any).clientDbRefresh ?? null;
 	const initialServerCount = Number((config as any).__initialServerCount ?? 0);
 
 	let searchValue = '';
@@ -529,9 +530,10 @@
 						const result = await updateTableWithParams();
 						return result;
 					})
-					.catch(() => {
-						clientDbReady = false;
-					});
+				.catch((err) => {
+					console.error('ClientDB init failed:', err);
+					clientDbReady = false;
+				});
 			} else if (!_clientDbInstance) {
 				_clientDbInstance = new ClientDB(tableId);
 			}
@@ -544,6 +546,11 @@
 	});
 	$: serverSide && sortServer($sortKeys[0]?.order, $sortKeys[0]?.id);
 	$: $hiddenColumnIds = shownColumns.filter((col) => !col.visible).map((col) => col.id);
+	let lastRefresh = 0;
+	$: if (clientDbEnabled && clientDbRefresh && $clientDbRefresh !== lastRefresh) {
+		lastRefresh = $clientDbRefresh;
+		updateTableWithParams();
+	}
 </script>
 
 <div class="grid gap-2 overflow-auto" class:w-fit={!fitToScreen} class:w-full={fitToScreen}>

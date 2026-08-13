@@ -1,6 +1,8 @@
 <script lang="ts">
 	import Table from '$lib/components/Table/Table.svelte';
+	import { openDB as openClientDB } from '$lib/components/Table/clientDB.js';
 	import type { TableConfig } from '$lib/models/Models';
+	import { writable } from 'svelte/store';
 
 	import { testStore } from './data';
 	import type { ResultRow } from './data';
@@ -9,10 +11,12 @@
 	let loaded: boolean = false;
 	let building: boolean = false;
 	let synthRows: ResultRow[] = [];
+	const refreshTrigger = writable(0);
 	type BigTableConfig = TableConfig<ResultRow> & {
 		clientDb?: boolean;
 		clientDbSeedData?: ResultRow[];
 		__initialServerCount?: number;
+		clientDbRefresh?: typeof refreshTrigger;
 	};
 
 	function readDataToJSON() {
@@ -112,6 +116,7 @@
 		// Enable client-side DB mode to keep Svelte memory low for large tables
 		clientDb: true,
 		clientDbSeedData: [],
+		clientDbRefresh: refreshTrigger,
 		__initialServerCount: 0,
 		resizable: 'columns',
 		height: 700,
@@ -133,92 +138,108 @@
 	};
 
 	// get the row with a certain ID from the indexedDB store and update this row and save in the indexedDB store
-	function updateRowInIndexedDB(record: { __id: number; __r: ResultRow }): Promise<void> {
+	async function updateRowInIndexedDB(record: { __id: number; __r: ResultRow }): Promise<void> {
+		const db = await openClientDB('resultRows');
 		return new Promise((resolve, reject) => {
-			const request = indexedDB.open('table-db-resultRows');
-			request.onsuccess = () => {
-				const db = request.result;
-				const tx = db.transaction('rows', 'readwrite');
-				const store = tx.objectStore('rows');
-				const putReq = store.put(record);
-				putReq.onsuccess = () => {
-					console.log('put() wrote __id:', putReq.result); // should match record.__id
-					resolve();
-				};
-				putReq.onerror = () => {
-					console.error('put() failed:', putReq.error);
-					reject(putReq.error);
-				};
-				db.close();
+			const tx = db.transaction('rows', 'readwrite');
+			const store = tx.objectStore('rows');
+			const putReq = store.put(record);
+			putReq.onsuccess = () => {
+				console.log('put() wrote __id:', putReq.result); // should match record.__id
+				resolve();
 			};
-			request.onerror = () => reject(request.error);
+			putReq.onerror = () => {
+				console.error('put() failed:', putReq.error);
+				reject(putReq.error);
+			};
+			tx.oncomplete = () => db.close();
 		});
 	}
 	// get by the column alternativeID
-	function getRowFromIndexedDB(id: number, columnName: string): Promise<{ __id: number; __r: ResultRow } | undefined> {
-		return new Promise((resolve) => {
-			const request = indexedDB.open('table-db-resultRows');
-			request.onsuccess = () => {
-				const db = request.result;
+	async function getRowFromIndexedDB(
+		id: number,
+		columnName: string
+	): Promise<{ __id: number; __r: ResultRow } | undefined> {
+		try {
+			const db = await openClientDB('resultRows');
+			return await new Promise((resolve) => {
 				const tx = db.transaction('rows', 'readonly');
 				const store = tx.objectStore('rows');
 				const indexName = `__r.by${columnName}`;
+				if (!store.indexNames.contains(indexName)) {
+					console.warn(`Index "${indexName}" does not exist on store "rows"`);
+					resolve(undefined);
+					return;
+				}
 				const getReq = store.index(indexName).getAll(id); // matches keyPath __r.byID
 				getReq.onsuccess = () => resolve(getReq.result[0]); // full record: {__id, __r}
 				getReq.onerror = () => resolve(undefined);
-				db.close();
-			};
-			request.onerror = () => resolve(undefined);
-		});
+				tx.oncomplete = () => db.close();
+			});
+		} catch (e) {
+			console.error('getRowFromIndexedDB failed:', e);
+			return undefined;
+		}
 	}
 
-	function createIndexIfMissing(columnName: string): Promise<void> {
+	async function createIndexIfMissing(columnName: string): Promise<void> {
+		const dbName = 'table-db-resultRows';
+		const indexName = `__r.by${columnName}`;
+
+		const db = await openClientDB('resultRows');
+		const tx = db.transaction('rows', 'readonly');
+		const store = tx.objectStore('rows');
+		const alreadyExists = store.indexNames.contains(indexName);
+		console.log(`Index ${indexName} already exists:`, alreadyExists);
+		db.close();
+
+		if (alreadyExists) {
+			return;
+		}
+
+		const currentVersionRequest = await new Promise<IDBDatabase>((resolve, reject) => {
+			const req = indexedDB.open(dbName);
+			req.onsuccess = () => resolve(req.result);
+			req.onerror = () => reject(req.error);
+		});
+		const currentVersion = currentVersionRequest.version;
+		currentVersionRequest.close();
+
 		return new Promise((resolve, reject) => {
-			const checkRequest = indexedDB.open('table-db-resultRows');
-			checkRequest.onsuccess = () => {
-				const db = checkRequest.result;
-				const currentVersion = db.version;
-				const tx = db.transaction('rows', 'readonly');
-				const store = tx.objectStore('rows');
-				const indexName = `__r.by${columnName}`;
-				const alreadyExists = store.indexNames.contains(indexName);
-				console.log(`Index ${indexName} already exists:`, alreadyExists);
-				db.close();
-
-				if (alreadyExists) {
-					resolve();
-					return;
+			const upgradeRequest = indexedDB.open(dbName, currentVersion + 1);
+			upgradeRequest.onupgradeneeded = (event) => {
+				const upgradeDb = (event.target as IDBOpenDBRequest).result;
+				upgradeDb.onversionchange = () => upgradeDb.close();
+				const upgradeStore = (event.target as IDBOpenDBRequest).transaction!.objectStore('rows');
+				if (!upgradeStore.indexNames.contains(indexName)) {
+					upgradeStore.createIndex(indexName, `__r.${columnName}`); // <-- nested keyPath
+					console.log(`Created index ${indexName} on keyPath __r.${columnName}`);
 				}
-
-				const upgradeRequest = indexedDB.open('table-db-resultRows', currentVersion + 1);
-				upgradeRequest.onupgradeneeded = (event) => {
-					const upgradeStore = (event.target as IDBOpenDBRequest).transaction!.objectStore('rows');
-					if (!upgradeStore.indexNames.contains(indexName)) {
-						upgradeStore.createIndex(indexName, `__r.${columnName}`); // <-- nested keyPath
-						console.log(`Created index ${indexName} on keyPath __r.${columnName}`);
-					}
-				};
-				upgradeRequest.onsuccess = () => {
-					upgradeRequest.result.close();
-					resolve();
-				};
-				upgradeRequest.onerror = () => reject(upgradeRequest.error);
 			};
-			checkRequest.onerror = () => reject(checkRequest.error);
+			upgradeRequest.onsuccess = () => {
+				upgradeRequest.result.close();
+				resolve();
+			};
+			upgradeRequest.onerror = () => reject(upgradeRequest.error);
+			upgradeRequest.onblocked = () =>
+				reject(
+					new Error(
+						`IndexedDB version upgrade blocked for "${dbName}" — close other tabs using this database`
+					)
+				);
 		});
 	}
 
-	function debugStore() {
-		const request = indexedDB.open('table-db-resultRows');
-		request.onsuccess = () => {
-			const db = request.result;
-			const tx = db.transaction('rows', 'readonly');
-			const store = tx.objectStore('rows');
-			store.getAll(1).onsuccess = (e) => {
-				// limit to 1 result — check the browser support, or use openCursor if getAll(count) isn't supported
-				console.log('Sample row:', JSON.stringify((e.target as IDBRequest).result[0], null, 2));
-			};
+	async function debugStore() {
+		const db = await openClientDB('resultRows');
+		const tx = db.transaction('rows', 'readonly');
+		const store = tx.objectStore('rows');
+		const req = store.getAll();
+		req.onsuccess = (e) => {
+			console.log('Sample row:', JSON.stringify((e.target as IDBRequest).result[0], null, 2));
+			db.close();
 		};
+		req.onerror = () => db.close();
 	}
 
 		async function updateRow() {
@@ -251,6 +272,9 @@
 		// re-fetch fresh from DB, not the in-memory object, to prove it actually persisted
 		const verify = await getRowFromIndexedDB(3475613, 'ID');
 		console.log('After update (re-fetched from DB):', verify?.__r.containerAuthor);
+
+		// Trigger table refresh so the updated row is visible immediately
+		refreshTrigger.update((n) => n + 1);
 	}
 	/*
     let testConfig: BigTableConfig = {						
@@ -315,6 +339,9 @@
 </button>
 <button class="btn variant-filled-success" on:click={readDataToJSON} disabled={building}>
 	{building ? 'building data...' : 'load Reference.tsv'}
+</button>
+<button class="btn variant-filled-primary" on:click={() => refreshTrigger.update((n) => n + 1)}>
+	Refresh table
 </button>
 
 

@@ -1,16 +1,46 @@
 // Simple client-side DB wrapper using IndexedDB directly (no worker)
 const DB_PREFIX = 'table-db-';
 
-function openDB(name) {
+export function openDB(name) {
+  const dbName = DB_PREFIX + name;
   return new Promise((resolve, reject) => {
-    const req = indexedDB.open(DB_PREFIX + name);
+    const req = indexedDB.open(dbName);
     req.onupgradeneeded = () => {
       const db = req.result;
       if (!db.objectStoreNames.contains('rows')) {
         db.createObjectStore('rows', { keyPath: '__id', autoIncrement: true });
       }
     };
-    req.onsuccess = () => resolve(req.result);
+    req.onsuccess = () => {
+      const db = req.result;
+
+      db.onversionchange = () => {
+        db.close();
+      };
+
+      if (!db.objectStoreNames.contains('rows')) {
+        const currentVersion = db.version;
+        db.close();
+        const upgradeReq = indexedDB.open(dbName, currentVersion + 1);
+        upgradeReq.onupgradeneeded = () => {
+          const upgradeDb = upgradeReq.result;
+          if (!upgradeDb.objectStoreNames.contains('rows')) {
+            upgradeDb.createObjectStore('rows', { keyPath: '__id', autoIncrement: true });
+          }
+        };
+        upgradeReq.onsuccess = () => {
+          const result = upgradeReq.result;
+          result.onversionchange = () => {
+            result.close();
+          };
+          resolve(result);
+        };
+        upgradeReq.onerror = () => reject(upgradeReq.error);
+        upgradeReq.onblocked = () => reject(new Error(`IndexedDB upgrade blocked for "${dbName}" — close other tabs using this database`));
+      } else {
+        resolve(db);
+      }
+    };
     req.onerror = () => reject(req.error);
   });
 }
@@ -137,8 +167,21 @@ export default class ClientDB {
     this.db = null;
   }
 
+  async _ensureDB() {
+    if (this.db) {
+      return this.db;
+    }
+    this.db = await openDB(this.tableId);
+    const dbInstance = this.db;
+    dbInstance.onversionchange = () => {
+      dbInstance.close();
+      this.db = null;
+    };
+    return this.db;
+  }
+
   async init(rows) {
-    this.db = this.db || (await openDB(this.tableId));
+    await this._ensureDB();
     await clearStore(this.db);
 
     const CHUNK = 1000;
@@ -153,7 +196,7 @@ export default class ClientDB {
   }
 
   async query({ q = '', filters = [], order = [], offset = 0, limit = 100 } = {}) {
-    this.db = this.db || (await openDB(this.tableId));
+    await this._ensureDB();
 
     const tx = this.db.transaction('rows', 'readonly');
     const store = tx.objectStore('rows');
@@ -223,7 +266,7 @@ export default class ClientDB {
   }
 
   async clear() {
-    this.db = this.db || (await openDB(this.tableId));
+    await this._ensureDB();
     await clearStore(this.db);
   }
 
