@@ -1,4 +1,11 @@
 # bexis-core-ui
+## 0.4.101
+- NumericInput
+  - add integerOnly flag to prevent add numbers instead of integers
+
+## 0.4.101
+- Checkbox
+  - fix layout
 
 ## 0.4.100
 - Big Table
