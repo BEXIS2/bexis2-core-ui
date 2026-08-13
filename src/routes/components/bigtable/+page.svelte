@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Table from '$lib/components/Table/Table.svelte';
-	import { openDB as openClientDB } from '$lib/components/Table/clientDB.js';
+	import ClientDB from '$lib/components/Table/clientDB.js';
 	import type { TableConfig } from '$lib/models/Models';
 	import { writable } from 'svelte/store';
 
@@ -137,128 +137,32 @@
 		}
 	};
 
-	// get the row with a certain ID from the indexedDB store and update this row and save in the indexedDB store
-	async function updateRowInIndexedDB(record: { __id: number; __r: ResultRow }): Promise<void> {
-		const db = await openClientDB('resultRows');
-		return new Promise((resolve, reject) => {
-			const tx = db.transaction('rows', 'readwrite');
-			const store = tx.objectStore('rows');
-			const putReq = store.put(record);
-			putReq.onsuccess = () => {
-				console.log('put() wrote __id:', putReq.result); // should match record.__id
-				resolve();
-			};
-			putReq.onerror = () => {
-				console.error('put() failed:', putReq.error);
-				reject(putReq.error);
-			};
-			tx.oncomplete = () => db.close();
-		});
-	}
-	// get by the column alternativeID
-	async function getRowFromIndexedDB(
-		id: number,
-		columnName: string
-	): Promise<{ __id: number; __r: ResultRow } | undefined> {
-		try {
-			const db = await openClientDB('resultRows');
-			return await new Promise((resolve) => {
-				const tx = db.transaction('rows', 'readonly');
-				const store = tx.objectStore('rows');
-				const indexName = `__r.by${columnName}`;
-				if (!store.indexNames.contains(indexName)) {
-					console.warn(`Index "${indexName}" does not exist on store "rows"`);
-					resolve(undefined);
-					return;
-				}
-				const getReq = store.index(indexName).getAll(id); // matches keyPath __r.byID
-				getReq.onsuccess = () => resolve(getReq.result[0]); // full record: {__id, __r}
-				getReq.onerror = () => resolve(undefined);
-				tx.oncomplete = () => db.close();
-			});
-		} catch (e) {
-			console.error('getRowFromIndexedDB failed:', e);
-			return undefined;
+	// Shared ClientDB instance for direct row manipulation
+	let dbInstance: ClientDB | null = null;
+	function getDB(): ClientDB {
+		if (!dbInstance) {
+			dbInstance = new ClientDB('resultRows');
 		}
-	}
-
-	async function createIndexIfMissing(columnName: string): Promise<void> {
-		const dbName = 'table-db-resultRows';
-		const indexName = `__r.by${columnName}`;
-
-		const db = await openClientDB('resultRows');
-		const tx = db.transaction('rows', 'readonly');
-		const store = tx.objectStore('rows');
-		const alreadyExists = store.indexNames.contains(indexName);
-		console.log(`Index ${indexName} already exists:`, alreadyExists);
-		db.close();
-
-		if (alreadyExists) {
-			return;
-		}
-
-		const currentVersionRequest = await new Promise<IDBDatabase>((resolve, reject) => {
-			const req = indexedDB.open(dbName);
-			req.onsuccess = () => resolve(req.result);
-			req.onerror = () => reject(req.error);
-		});
-		const currentVersion = currentVersionRequest.version;
-		currentVersionRequest.close();
-
-		return new Promise((resolve, reject) => {
-			const upgradeRequest = indexedDB.open(dbName, currentVersion + 1);
-			upgradeRequest.onupgradeneeded = (event) => {
-				const upgradeDb = (event.target as IDBOpenDBRequest).result;
-				upgradeDb.onversionchange = () => upgradeDb.close();
-				const upgradeStore = (event.target as IDBOpenDBRequest).transaction!.objectStore('rows');
-				if (!upgradeStore.indexNames.contains(indexName)) {
-					upgradeStore.createIndex(indexName, `__r.${columnName}`); // <-- nested keyPath
-					console.log(`Created index ${indexName} on keyPath __r.${columnName}`);
-				}
-			};
-			upgradeRequest.onsuccess = () => {
-				upgradeRequest.result.close();
-				resolve();
-			};
-			upgradeRequest.onerror = () => reject(upgradeRequest.error);
-			upgradeRequest.onblocked = () =>
-				reject(
-					new Error(
-						`IndexedDB version upgrade blocked for "${dbName}" — close other tabs using this database`
-					)
-				);
-		});
+		return dbInstance;
 	}
 
 	async function debugStore() {
-		const db = await openClientDB('resultRows');
-		const tx = db.transaction('rows', 'readonly');
+		const db = getDB();
+		await db['_ensureDB']();
+		const tx = db.db.transaction('rows', 'readonly');
 		const store = tx.objectStore('rows');
 		const req = store.getAll();
 		req.onsuccess = (e) => {
 			console.log('Sample row:', JSON.stringify((e.target as IDBRequest).result[0], null, 2));
-			db.close();
 		};
-		req.onerror = () => db.close();
 	}
 
-		async function updateRow() {
-		await createIndexIfMissing('ID');
+	async function updateRow() {
+		const db = getDB();
 
-		// Confirm the index actually has entries now
-		/*const request = indexedDB.open('table-db-resultRows');
-  request.onsuccess = () => {
-    const db = request.result;
-    const tx = db.transaction('rows', 'readonly');
-    const store = tx.objectStore('rows');
-    console.log('Indexes on store:', Array.from(store.indexNames));
-    store.index('__r.byID').count().onsuccess = (e) => {
-      console.log('__r.byID count:', (e.target as IDBRequest).result);
-    };
-    db.close();
-  };*/
+		await db.ensureIndex('ID');
 
-		const record = await getRowFromIndexedDB(3475613, 'ID');
+		const record = await db.getByIndex('ID', 3475613);
 		console.log('record:', record);
 
 		if (!record) {
@@ -267,10 +171,10 @@
 		}
 
 		record.__r.containerAuthor = 'Updated Author';
-		await updateRowInIndexedDB(record);
+		await db.put(record);
 
 		// re-fetch fresh from DB, not the in-memory object, to prove it actually persisted
-		const verify = await getRowFromIndexedDB(3475613, 'ID');
+		const verify = await db.getByIndex('ID', 3475613);
 		console.log('After update (re-fetched from DB):', verify?.__r.containerAuthor);
 
 		// Trigger table refresh so the updated row is visible immediately

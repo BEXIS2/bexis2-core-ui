@@ -270,6 +270,73 @@ export default class ClientDB {
     await clearStore(this.db);
   }
 
+  async ensureIndex(columnName) {
+    const indexName = `__r.by${columnName}`;
+    await this._ensureDB();
+
+    const exists = await new Promise((resolve, reject) => {
+      const tx = this.db.transaction('rows', 'readonly');
+      const store = tx.objectStore('rows');
+      resolve(store.indexNames.contains(indexName));
+      tx.onerror = () => reject(tx.error);
+    });
+
+    if (exists) return;
+
+    const dbName = DB_PREFIX + this.tableId;
+    const currentVersion = this.db.version;
+    this.db.close();
+    this.db = null;
+
+    await new Promise((resolve, reject) => {
+      const upgradeReq = indexedDB.open(dbName, currentVersion + 1);
+      upgradeReq.onupgradeneeded = (event) => {
+        const upgradeDb = event.target.result;
+        const store = event.target.transaction.objectStore('rows');
+        if (!store.indexNames.contains(indexName)) {
+          store.createIndex(indexName, `__r.${columnName}`);
+        }
+      };
+      upgradeReq.onsuccess = () => {
+        upgradeReq.result.close();
+        resolve();
+      };
+      upgradeReq.onerror = () => reject(upgradeReq.error);
+      upgradeReq.onblocked = () =>
+        reject(new Error(`IndexedDB upgrade blocked for "${dbName}" — close other tabs using this database`));
+    });
+
+    await this._ensureDB();
+  }
+
+  async getByIndex(columnName, value) {
+    await this._ensureDB();
+    const indexName = `__r.by${columnName}`;
+
+    return new Promise((resolve, reject) => {
+      const tx = this.db.transaction('rows', 'readonly');
+      const store = tx.objectStore('rows');
+      if (!store.indexNames.contains(indexName)) {
+        resolve(undefined);
+        return;
+      }
+      const req = store.index(indexName).getAll(value);
+      req.onsuccess = () => resolve(req.result[0]);
+      req.onerror = () => resolve(undefined);
+    });
+  }
+
+  async put(record) {
+    await this._ensureDB();
+    return new Promise((resolve, reject) => {
+      const tx = this.db.transaction('rows', 'readwrite');
+      const store = tx.objectStore('rows');
+      const req = store.put(record);
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+  }
+
   destroy() {
     if (this.db) {
       this.db.close();

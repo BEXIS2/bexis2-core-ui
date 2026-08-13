@@ -113,6 +113,7 @@ export {
 
 // Table
 export { Table, TableFilter, columnFilter, searchFilter };
+export { default as ClientDB } from './components/Table/clientDB.js';
 
 // Facets
 export { Facets };
