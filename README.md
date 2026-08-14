@@ -1,5 +1,9 @@
 # bexis-core-ui
-## 0.4.101
+## 0.4.103
+- Big Table
+  - fix DB communication 
+
+## 0.4.102
 - NumericInput
   - add integerOnly flag to prevent add numbers instead of integers
 
