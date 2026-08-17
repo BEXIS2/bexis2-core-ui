@@ -1,4 +1,5 @@
 # bexis-core-ui
+<<<<<<< HEAD
 ## 0.4.103
 - Big Table
   - fix DB communication 
@@ -6,28 +7,35 @@
 ## 0.4.102
 - NumericInput
   - add integerOnly flag to prevent add numbers instead of integers
+=======
+>>>>>>> 0090b47b506f0afab7ec7864bd1c6d4d2284da6a
 
 ## 0.4.101
+
+- NumericInput
+  - add integerOnly flag to prevent add numbers instead of integers
 - Checkbox
   - fix layout
 
 ## 0.4.100
+
 - Big Table
   - support DB changes
 
 ## 0.4.99
+
 - Support label and titel in each form component
 
 ## 0.4.98
-- Table:
-   - fix column read detection
 
+- Table:
+  - fix column read detection
 
 ## 0.4.97
+
 - Table:
   - handle 20 000+ rows client side
   - fix item count server side table not shown
-
 
 ## 0.4.96
 

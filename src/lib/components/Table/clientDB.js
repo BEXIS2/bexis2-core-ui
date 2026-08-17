@@ -326,6 +326,21 @@ export default class ClientDB {
     });
   }
 
+  async replace(records) {
+    await this._ensureDB();
+    await new Promise((resolve, reject) => {
+      const tx = this.db.transaction('rows', 'readwrite');
+      const store = tx.objectStore('rows');
+      store.clear();
+      for (let i = 0; i < records.length; i++) {
+        store.add({ __r: records[i] });
+      }
+      tx.oncomplete = () => resolve(undefined);
+      tx.onerror = () => reject(tx.error);
+    });
+    return { tableId: this.tableId, count: records.length };
+  }
+
   async put(record) {
     await this._ensureDB();
     return new Promise((resolve, reject) => {
@@ -334,6 +349,46 @@ export default class ClientDB {
       const req = store.put(record);
       req.onsuccess = () => resolve(req.result);
       req.onerror = () => reject(req.error);
+    });
+  }
+
+  async bulkPut(records) {
+    await this._ensureDB();
+    const keys = [];
+    await new Promise((resolve, reject) => {
+      const tx = this.db.transaction('rows', 'readwrite');
+      const store = tx.objectStore('rows');
+      for (let i = 0; i < records.length; i++) {
+        const req = store.put(records[i]);
+        req.onsuccess = () => keys.push(req.result);
+      }
+      tx.oncomplete = () => resolve(keys);
+      tx.onerror = () => reject(tx.error);
+    });
+    return keys;
+  }
+
+  async delete(key) {
+    await this._ensureDB();
+    return new Promise((resolve, reject) => {
+      const tx = this.db.transaction('rows', 'readwrite');
+      const store = tx.objectStore('rows');
+      const req = store.delete(key);
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+  }
+
+  async bulkDelete(keys) {
+    await this._ensureDB();
+    await new Promise((resolve, reject) => {
+      const tx = this.db.transaction('rows', 'readwrite');
+      const store = tx.objectStore('rows');
+      for (let i = 0; i < keys.length; i++) {
+        store.delete(keys[i]);
+      }
+      tx.oncomplete = () => resolve(undefined);
+      tx.onerror = () => reject(tx.error);
     });
   }
 

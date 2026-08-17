@@ -19,20 +19,14 @@
 		if (help) {
 			helpStore.show(id);
 		}
-		if (description.length > 0) {
-			// dispatch an event to show the description
-			dispatch('showDescription', { id, description });
-		}
+		dispatch('showDescription', { id, description });
 	}
 
 	export function onMouseOut() {
 		if (help) {
 			helpStore.hide(id);
 		}
-		if (description.length > 0) {
-			// dispatch an event to hide the description
-			dispatch('hideDescription', { id });
-		}
+		dispatch('hideDescription', { id });
 	}
 </script>
 
