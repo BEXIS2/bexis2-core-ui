@@ -230,7 +230,9 @@ export const updateTable = async (
 		// If the parser thinks it's a number, but we have the raw source text
 		if (context && context.source && typeof value === 'number') {
 			// Check if the number exceeds JavaScript's safe integer limit
-			if (!Number.isSafeInteger(value)) {
+			// and that the source is actually an integer (not a float or
+			// scientific-notation value like 1.79769313486232E+307)
+			if (!Number.isSafeInteger(value) && /^-?\d+$/.test(context.source)) {
 				// Return it natively as a JavaScript BigInt (e.g., 9223372036854775806n)
 				return BigInt(context.source);
 			}
