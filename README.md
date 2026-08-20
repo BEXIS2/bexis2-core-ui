@@ -1,5 +1,14 @@
 # bexis-core-ui
-<<<<<<< HEAD
+## 0.4.105
+- Server Table
+  - fix missing values for floats are detected as integer (and converted to bigint)
+
+## 0.4.104
+- Description
+  - always return description from input container
+- Big table
+  - add DB put, delete and replace
+
 ## 0.4.103
 - Big Table
   - fix DB communication 
@@ -7,8 +16,6 @@
 ## 0.4.102
 - NumericInput
   - add integerOnly flag to prevent add numbers instead of integers
-=======
->>>>>>> 0090b47b506f0afab7ec7864bd1c6d4d2284da6a
 
 ## 0.4.101
 
