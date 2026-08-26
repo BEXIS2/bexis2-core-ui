@@ -1,4 +1,8 @@
 # bexis-core-ui
+## 0.4.106
+- Table
+  - fix totalCount is not set on server side table
+
 ## 0.4.105
 - Server Table
   - fix missing values for floats are detected as integer (and converted to bigint)

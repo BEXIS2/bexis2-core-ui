@@ -180,6 +180,27 @@
 		// Trigger table refresh so the updated row is visible immediately
 		refreshTrigger.update((n) => n + 1);
 	}
+
+	async function remove100Rows() {
+		const db = getDB();
+		const all = await db.getAll();
+		console.log('[remove100Rows] rows in DB before delete:', all.length);
+		const keysToDelete = all.slice(0, 100).map((r) => r.__r.__id);
+		console.log('[remove100Rows] keys to delete:', keysToDelete.length, keysToDelete.slice(0, 5));
+		await db.bulkDelete(keysToDelete);
+		const countAfter = await db.count();
+		console.log('[remove100Rows] rows in DB after delete:', countAfter);
+
+		// Keep the in-memory copy in sync
+		synthRows = synthRows.slice(keysToDelete.length);
+		testConfigLifeGate = {
+			...testConfigLifeGate,
+			__initialServerCount: synthRows.length,
+			clientDbSeedData: synthRows
+		};
+
+		refreshTrigger.update((n) => n + 1);
+	}
 	/*
     let testConfig: BigTableConfig = {						
 		id: 'resultRows',						
@@ -246,6 +267,9 @@
 </button>
 <button class="btn variant-filled-primary" on:click={() => refreshTrigger.update((n) => n + 1)}>
 	Refresh table
+</button>
+<button class="btn variant-filled-error" on:click={remove100Rows} disabled={building}>
+	Remove 100 rows
 </button>
 
 

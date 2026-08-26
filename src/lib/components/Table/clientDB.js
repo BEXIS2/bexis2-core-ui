@@ -1,16 +1,20 @@
 // Simple client-side DB wrapper using IndexedDB directly (no worker)
-const DB_PREFIX = 'table-db-';
+// const DB_PREFIX = 'table-db-';
+const DB_NAME = 'bexis-table-db'
 
-export function openDB(name) {
-  const dbName = DB_PREFIX + name;
+export function openDbTable(tablename) {
+  // const dbName = DB_PREFIX + name;
+
   return new Promise((resolve, reject) => {
-    const req = indexedDB.open(dbName);
+    const req = indexedDB.open(DB_NAME);
+    
     req.onupgradeneeded = () => {
       const db = req.result;
-      if (!db.objectStoreNames.contains('rows')) {
-        db.createObjectStore('rows', { keyPath: '__id', autoIncrement: true });
+      if (!db.objectStoreNames.contains(tablename)) {
+        db.createObjectStore(tablename, { keyPath: '__r.__id', autoIncrement: true });
       }
     };
+
     req.onsuccess = () => {
       const db = req.result;
 
@@ -18,14 +22,14 @@ export function openDB(name) {
         db.close();
       };
 
-      if (!db.objectStoreNames.contains('rows')) {
+      if (!db.objectStoreNames.contains(tablename)) {
         const currentVersion = db.version;
         db.close();
-        const upgradeReq = indexedDB.open(dbName, currentVersion + 1);
+        const upgradeReq = indexedDB.open(DB_NAME, currentVersion + 1);
         upgradeReq.onupgradeneeded = () => {
           const upgradeDb = upgradeReq.result;
-          if (!upgradeDb.objectStoreNames.contains('rows')) {
-            upgradeDb.createObjectStore('rows', { keyPath: '__id', autoIncrement: true });
+          if (!upgradeDb.objectStoreNames.contains(tablename)) {
+            upgradeDb.createObjectStore(tablename, { keyPath: '__r.__id', autoIncrement: true });
           }
         };
         upgradeReq.onsuccess = () => {
@@ -35,8 +39,8 @@ export function openDB(name) {
           };
           resolve(result);
         };
+        upgradeReq.onblocked = () => reject(new Error(`IndexedDB upgrade blocked for "${DB_NAME}" — close other tabs using this database`));
         upgradeReq.onerror = () => reject(upgradeReq.error);
-        upgradeReq.onblocked = () => reject(new Error(`IndexedDB upgrade blocked for "${dbName}" — close other tabs using this database`));
       } else {
         resolve(db);
       }
@@ -45,20 +49,20 @@ export function openDB(name) {
   });
 }
 
-function clearStore(db) {
+function clearStore(db, tablename) {
   return new Promise((resolve, reject) => {
-    const tx = db.transaction('rows', 'readwrite');
-    const store = tx.objectStore('rows');
-    const req = store.clear();
+    const tx = db.transaction(tablename, 'readwrite');
+    const store = tx.objectStore(tablename);
+    const req = store.clear(tablename);
     req.onsuccess = () => resolve(undefined);
     req.onerror = () => reject(req.error);
   });
 }
 
-function bulkInsert(db, rows) {
+function bulkInsert(db, rows, tablename) {
   return new Promise((resolve, reject) => {
-    const tx = db.transaction('rows', 'readwrite');
-    const store = tx.objectStore('rows');
+    const tx = db.transaction(tablename, 'readwrite');
+    const store = tx.objectStore(tablename);
     for (let i = 0; i < rows.length; i++) {
       store.add({ __r: rows[i] });
     }
@@ -167,27 +171,33 @@ export default class ClientDB {
     this.db = null;
   }
 
-  async _ensureDB() {
+  async _ensureDB(tablename) {
+    // return if instance already exists
     if (this.db) {
       return this.db;
     }
-    this.db = await openDB(this.tableId);
+
+    // new instance
+    this.db = await openDbTable(tablename);
     const dbInstance = this.db;
+
+    // trigger connection close on version change
     dbInstance.onversionchange = () => {
       dbInstance.close();
       this.db = null;
     };
+    
     return this.db;
   }
 
   async init(rows) {
-    await this._ensureDB();
-    await clearStore(this.db);
+    await this._ensureDB(this.tableId);
+    await clearStore(this.db, this.tableId);
 
     const CHUNK = 1000;
     for (let i = 0; i < rows.length; i += CHUNK) {
       const chunk = rows.slice(i, i + CHUNK);
-      await bulkInsert(this.db, chunk);
+      await bulkInsert(this.db, chunk, this.tableId);
       // Yield to keep the UI responsive while importing
       await new Promise((r) => setTimeout(r, 0));
     }
@@ -196,10 +206,10 @@ export default class ClientDB {
   }
 
   async query({ q = '', filters = [], order = [], offset = 0, limit = 100 } = {}) {
-    await this._ensureDB();
+    await this._ensureDB(this.tableId);
 
-    const tx = this.db.transaction('rows', 'readonly');
-    const store = tx.objectStore('rows');
+    const tx = this.db.transaction(this.tableId, 'readonly');
+    const store = tx.objectStore(this.tableId);
     const req = store.openCursor();
 
     const matched = [];
@@ -265,57 +275,57 @@ export default class ClientDB {
     return { tableId: this.tableId, rows, total };
   }
 
-  async clear() {
-    await this._ensureDB();
-    await clearStore(this.db);
+  async clear(tablename) {
+    await this._ensureDB(tablename);
+    await clearStore(this.db, tablename);
   }
 
-  async ensureIndex(columnName) {
-    const indexName = `__r.by${columnName}`;
-    await this._ensureDB();
+  // async ensureIndex(columnName) {
+  //   const indexName = `__r.by${columnName}`;
+  //   await this._ensureDB();
 
-    const exists = await new Promise((resolve, reject) => {
-      const tx = this.db.transaction('rows', 'readonly');
-      const store = tx.objectStore('rows');
-      resolve(store.indexNames.contains(indexName));
-      tx.onerror = () => reject(tx.error);
-    });
+  //   const exists = await new Promise((resolve, reject) => {
+  //     const tx = this.db.transaction(this.tableId, 'readonly');
+  //     const store = tx.objectStore(this.tableId);
+  //     resolve(store.indexNames.contains(indexName));
+  //     tx.onerror = () => reject(tx.error);
+  //   });
 
-    if (exists) return;
+  //   if (exists) return;
 
-    const dbName = DB_PREFIX + this.tableId;
-    const currentVersion = this.db.version;
-    this.db.close();
-    this.db = null;
+  //   const dbName = DB_PREFIX + this.tableId;
+  //   const currentVersion = this.db.version;
+  //   this.db.close();
+  //   this.db = null;
 
-    await new Promise((resolve, reject) => {
-      const upgradeReq = indexedDB.open(dbName, currentVersion + 1);
-      upgradeReq.onupgradeneeded = (event) => {
-        const upgradeDb = event.target.result;
-        const store = event.target.transaction.objectStore('rows');
-        if (!store.indexNames.contains(indexName)) {
-          store.createIndex(indexName, `__r.${columnName}`);
-        }
-      };
-      upgradeReq.onsuccess = () => {
-        upgradeReq.result.close();
-        resolve();
-      };
-      upgradeReq.onerror = () => reject(upgradeReq.error);
-      upgradeReq.onblocked = () =>
-        reject(new Error(`IndexedDB upgrade blocked for "${dbName}" — close other tabs using this database`));
-    });
+  //   await new Promise((resolve, reject) => {
+  //     const upgradeReq = indexedDB.open(dbName, currentVersion + 1);
+  //     upgradeReq.onupgradeneeded = (event) => {
+  //       const upgradeDb = event.target.result;
+  //       const store = event.target.transaction.objectStore(this.tableId);
+  //       if (!store.indexNames.contains(indexName)) {
+  //         store.createIndex(indexName, `__r.${columnName}`);
+  //       }
+  //     };
+  //     upgradeReq.onsuccess = () => {
+  //       upgradeReq.result.close();
+  //       resolve();
+  //     };
+  //     upgradeReq.onerror = () => reject(upgradeReq.error);
+  //     upgradeReq.onblocked = () =>
+  //       reject(new Error(`IndexedDB upgrade blocked for "${dbName}" — close other tabs using this database`));
+  //   });
 
-    await this._ensureDB();
-  }
+  //   await this._ensureDB();
+  // }
 
   async getByIndex(columnName, value) {
-    await this._ensureDB();
+    await this._ensureDB(this.tableId);
     const indexName = `__r.by${columnName}`;
 
     return new Promise((resolve, reject) => {
-      const tx = this.db.transaction('rows', 'readonly');
-      const store = tx.objectStore('rows');
+      const tx = this.db.transaction(this.tableId, 'readonly');
+      const store = tx.objectStore(this.tableId);
       if (!store.indexNames.contains(indexName)) {
         resolve(undefined);
         return;
@@ -326,38 +336,81 @@ export default class ClientDB {
     });
   }
 
+  async get(key) {
+    await this._ensureDB(this.tableId);
+
+    return new Promise((resolve, reject) => {
+      const tx = this.db.transaction(this.tableId, 'readonly');
+      const store = tx.objectStore(this.tableId);
+      const req = store.get(key);
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => resolve(undefined);
+    });
+  }
+
+  async getAll() {
+    await this._ensureDB(this.tableId);
+
+    return new Promise((resolve, reject) => {
+      const tx = this.db.transaction(this.tableId, 'readonly');
+      const store = tx.objectStore(this.tableId);
+      const req = store.getAll();
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => resolve(undefined);
+    });
+  }
+
   async replace(records) {
-    await this._ensureDB();
+    await this._ensureDB(this.tableId);
     await new Promise((resolve, reject) => {
-      const tx = this.db.transaction('rows', 'readwrite');
-      const store = tx.objectStore('rows');
-      store.clear();
-      for (let i = 0; i < records.length; i++) {
-        store.add({ __r: records[i] });
-      }
+      const tx = this.db.transaction(this.tableId, 'readwrite');
+      const store = tx.objectStore(this.tableId);
+      
       tx.oncomplete = () => resolve(undefined);
       tx.onerror = () => reject(tx.error);
+      tx.onabort = () => reject(tx.error || new Error('Transaction aborted'));
+
+      store.clear(this.tableId);
+      const CHUNK = 1000;
+      for (let i = 0; i < records.length; i += CHUNK) {
+        const chunk = records.slice(i, i + CHUNK);
+        
+        for (let i = 0; i < chunk.length; i++) {
+          store.add({ __r: chunk[i] });
+        }
+      }
     });
     return { tableId: this.tableId, count: records.length };
   }
 
   async put(record) {
-    await this._ensureDB();
+    await this._ensureDB(this.tableId);
     return new Promise((resolve, reject) => {
-      const tx = this.db.transaction('rows', 'readwrite');
-      const store = tx.objectStore('rows');
+      const tx = this.db.transaction(this.tableId, 'readwrite');
+      const store = tx.objectStore(this.tableId);
       const req = store.put(record);
       req.onsuccess = () => resolve(req.result);
       req.onerror = () => reject(req.error);
     });
   }
 
+  async put(record, key) {
+    await this._ensureDB(this.tableId);
+    return new Promise((resolve, reject) => {
+      const tx = this.db.transaction(this.tableId, 'readwrite');
+      const store = tx.objectStore(this.tableId);
+      const req = store.put(record, key);
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+  }
+
   async bulkPut(records) {
-    await this._ensureDB();
+    await this._ensureDB(this.tableId);
     const keys = [];
     await new Promise((resolve, reject) => {
-      const tx = this.db.transaction('rows', 'readwrite');
-      const store = tx.objectStore('rows');
+      const tx = this.db.transaction(this.tableId, 'readwrite');
+      const store = tx.objectStore(this.tableId);
       for (let i = 0; i < records.length; i++) {
         const req = store.put(records[i]);
         req.onsuccess = () => keys.push(req.result);
@@ -369,10 +422,10 @@ export default class ClientDB {
   }
 
   async delete(key) {
-    await this._ensureDB();
+    await this._ensureDB(this.tableId);
     return new Promise((resolve, reject) => {
-      const tx = this.db.transaction('rows', 'readwrite');
-      const store = tx.objectStore('rows');
+      const tx = this.db.transaction(this.tableId, 'readwrite');
+      const store = tx.objectStore(this.tableId);
       const req = store.delete(key);
       req.onsuccess = () => resolve(req.result);
       req.onerror = () => reject(req.error);
@@ -380,15 +433,27 @@ export default class ClientDB {
   }
 
   async bulkDelete(keys) {
-    await this._ensureDB();
+    await this._ensureDB(this.tableId);
     await new Promise((resolve, reject) => {
-      const tx = this.db.transaction('rows', 'readwrite');
-      const store = tx.objectStore('rows');
+      const tx = this.db.transaction(this.tableId, 'readwrite');
+      const store = tx.objectStore(this.tableId);
       for (let i = 0; i < keys.length; i++) {
         store.delete(keys[i]);
       }
       tx.oncomplete = () => resolve(undefined);
       tx.onerror = () => reject(tx.error);
+    });
+  }
+
+  async count() {
+    await this._ensureDB(this.tableId);
+    return await new Promise((resolve, reject) => {
+      const tx = this.db.transaction(this.tableId, 'readonly');
+      const store = tx.objectStore(this.tableId);
+      const countRequest = store.count();
+
+      countRequest.onsuccess = () => resolve(countRequest.result);
+      countRequest.onerror = () => resolve(undefined);
     });
   }
 

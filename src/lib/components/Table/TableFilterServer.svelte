@@ -271,7 +271,7 @@
 	// Start by adding the default filter
 	$: addFilter(options[type][0].value, undefined);
 
-	$: console.log($filters);
+	// $: console.log($filters);
 </script>
 
 <form class="">

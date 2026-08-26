@@ -381,22 +381,21 @@
 				_clientDbInstance = new ClientDB(tableId);
 			}
 
-			const res = await _clientDbInstance.query({
-				q,
-				filters: filtersNormalized,
-				order: sendModel?.order || [],
-				offset,
-				limit
-			});
-			const payload = res.payload ? res.payload : res;
-			serverItems?.set(payload.total ?? payload.totalCount ?? 0);
-			data.set(payload.rows ?? []);
-			isFetching = false;
-			return payload;
+		const res = await _clientDbInstance.query({
+			q,
+			filters: filtersNormalized,
+			order: sendModel?.order || [],
+			offset,
+			limit
+		});
+		const payload = res.payload ? res.payload : res;
+		serverItems?.set(payload.total ?? payload.totalCount ?? 0);
+		data.set(payload.rows ?? []);
+		isFetching = false;
+		return payload;
 		}
 
 		if ($data.length > 0 && serverSide && Number($serverItemCount) > 0) {
-			console.log('Table is not empty');
 			return;
 		}
 
@@ -498,16 +497,12 @@
 
 	$: sortKeys = pluginStates.sort.sortKeys;
 	$: serverItemCountValue = clientDbEnabled
-		? Number($serverItemCount) > 0
-			? Math.max(
-					Number($serverItemCount),
-					initialServerCount,
-					clientDbSeedSize,
-					clientDbInitSource.length,
-					$data.length
-				)
+		? clientDbReady && Number($serverItemCount) > 0
+			? Number($serverItemCount)
 			: Math.max(initialServerCount, clientDbSeedSize, clientDbInitSource.length, $data.length)
 		: Number($serverItemCount);
+	// eslint-disable-next-line
+	$: { console.log('[reactive] serverItemCountValue:', serverItemCountValue, 'serverItemCount:', $serverItemCount, 'clientDbReady:', clientDbReady); }
 	onMount(async () => {
 		if (clientDbEnabled) {
 			const seed = Array.isArray(clientDbSeedData) ? clientDbSeedData : [];
