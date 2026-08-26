@@ -183,13 +183,12 @@
 
 	async function remove100Rows() {
 		const db = getDB();
-		const all = await db.getAll();
-		console.log('[remove100Rows] rows in DB before delete:', all.length);
-		const keysToDelete = all.slice(0, 100).map((r) => r.__r.__id);
-		console.log('[remove100Rows] keys to delete:', keysToDelete.length, keysToDelete.slice(0, 5));
+		// Use query() instead of getAll() — getAll() is capped by the browser
+		// and returns only a partial set for large tables
+		const res = await db.query({ offset: 0, limit: 100 });
+		const rows = res.rows ?? [];
+		const keysToDelete = rows.map((r: any) => r.__id);
 		await db.bulkDelete(keysToDelete);
-		const countAfter = await db.count();
-		console.log('[remove100Rows] rows in DB after delete:', countAfter);
 
 		// Keep the in-memory copy in sync
 		synthRows = synthRows.slice(keysToDelete.length);

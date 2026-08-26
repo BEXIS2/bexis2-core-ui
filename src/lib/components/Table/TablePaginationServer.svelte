@@ -54,7 +54,12 @@
 		updateTable();
 	}
 
-	$: effectiveCount = getEffectiveCount();
+	$: effectiveCount = (() => {
+		const count = toCount(itemCount);
+		if (count > 0) return count;
+		// Fallback for edge cases where server count has not propagated yet.
+		return Array.isArray($data) ? $data.length : 0;
+	})();
 	$: paginationSettings = {
 		size: effectiveCount,
 		limit: $pageSize,

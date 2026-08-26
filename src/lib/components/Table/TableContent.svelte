@@ -501,8 +501,6 @@
 			? Number($serverItemCount)
 			: Math.max(initialServerCount, clientDbSeedSize, clientDbInitSource.length, $data.length)
 		: Number($serverItemCount);
-	// eslint-disable-next-line
-	$: { console.log('[reactive] serverItemCountValue:', serverItemCountValue, 'serverItemCount:', $serverItemCount, 'clientDbReady:', clientDbReady); }
 	onMount(async () => {
 		if (clientDbEnabled) {
 			const seed = Array.isArray(clientDbSeedData) ? clientDbSeedData : [];
