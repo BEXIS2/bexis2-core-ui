@@ -1,4 +1,8 @@
 # bexis-core-ui
+## 0.4.107
+- Table
+  - fix totalCount is not set on server side table
+
 ## 0.4.106
 - Table
   - fix totalCount is not set on server side table
